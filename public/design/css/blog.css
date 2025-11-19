@@ -1,0 +1,146 @@
+/* ----------------------------------------
+   Blog Text Styling
+---------------------------------------- */
+.blog-text {
+  font-size: 14px;
+  color: #585858;
+  margin-top: 15px;
+  text-align: justify;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Blog Text Background */
+.blog-text-bg {
+  background-color: #f5f5f5d5;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+/* Blog Section Container */
+.articles {
+  max-width: 1280px;
+  margin: auto;
+}
+
+.blog-section {
+  background-color: #f9f9f9;
+}
+
+/* ----------------------------------------
+   Blog Card Styling
+---------------------------------------- */
+.blog-card {
+  padding: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for cards */
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Blog card image */
+.blog-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Blog card title */
+.blog-card .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Blog card text */
+.blog-card .card-text {
+  font-size: 0.95rem;
+  color: #666;
+  flex-grow: 1;
+}
+
+/* Button alignment inside cards */
+.blog-card .btn {
+  align-self: flex-start;
+}
+
+/* Responsive card image height */
+@media (max-width: 576px) {
+  .blog-card .card-img-top {
+    height: 180px;
+  }
+}
+
+/* ----------------------------------------
+   Button Styles
+---------------------------------------- */
+.btn-readMore {
+  background-color: #2e91be;
+  color: #ececec;
+}
+
+.btn-outline-readMore {
+  color: #2e91be;
+  border-color: #2e91be;
+  background-color: transparent;
+}
+
+.btn-outline-readMore:hover {
+  color: #fff;
+  background-color: #2e91be;
+  border-color: #2e91be;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.5); /* Focus state */
+}
+
+/* ----------------------------------------
+   Parallax Section Styling
+---------------------------------------- */
+.parallax-section {
+  position: relative;
+  background: url('../image/newspaper.png') no-repeat center center fixed;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 40px 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Parallax inner image */
+.parallax-img {
+  position: relative;
+  transition: transform 0.4s ease-in-out;
+}
+
+.parallax-img img {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-out;
+}
+
+/* Hover animation on image */
+.parallax-section:hover .parallax-img {
+  transform: translateY(-30px);
+}
+
+/* Container z-index above background */
+.parallax-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Responsive image height reset */
+@media (max-width: 768px){
+  .parallax-img img {
+    height: auto;
+  }
+}

@@ -1,0 +1,15 @@
+/* ########## Shopping Cart Item Image ########## */
+.img-shopingCart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+.quantity-control-btn{
+    display:flex; 
+    flex-direction:column;
+    align-items:center;
+    gap:0.5rem;
+  
+}

@@ -1,0 +1,149 @@
+#bannerCarousel{
+padding-top:185px;
+}
+.carousel-item{
+  cursor: pointer;
+}
+.carousel-images {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;cursor: pointer;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 65%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color:var(--btnOwl-color);
+  border: none;
+  color: #ffffff;
+}
+.carousel-control-prev{
+right: 2%;
+}
+.carousel-control-next {
+left: 2%;
+}
+
+/* Mobile responsiveness for bgImg-header */
+@media (max-width: 767.98px) {
+  #bannerCarousel{
+    padding-top:98px;
+    padding-left:0 !important;
+    padding-right: 0!important;
+  }
+
+}
+/* ===========================
+   Property Section (Second Row in Banner 1)
+=========================== */
+#PropertiesSection {
+  margin-top: 60px;
+}
+
+#PropertiesSection .property {
+  background: #fff;
+  border-bottom: 3px solid var(--melloBlu-color); 
+  border-top: 1px solid #D7D7D7; 
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#PropertiesSection .property:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-bottom-color: #ff9800; 
+}
+
+#PropertiesSection svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+#PropertiesSection .property:hover svg {
+  transform: scale(1.1);
+}
+
+#PropertiesSection .property__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#PropertiesSection .property__title p {
+  margin: 3px 0 0;
+  color: #666;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@media (max-width: 767px) {
+  #PropertiesSection .property {
+    flex-direction: row;
+    text-align: right;
+    justify-content: flex-start;
+    padding: 16px;
+  }
+
+  #PropertiesSection .property__title {
+    font-size: 15px;
+  }
+
+  #PropertiesSection .property__title p {
+    font-size: 13px;
+  }
+}
+
+/* ===========================
+   End Property Section
+=========================== */
+.carousel-indicators {
+  bottom:0px; 
+}
+.carousel-indicators [data-bs-target] {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #35353583;
+  opacity: 0.5;
+}
+
+.carousel-indicators .active {
+  opacity: 1;
+  background-color: rgba(32, 32, 32, 0.562);
+}
+

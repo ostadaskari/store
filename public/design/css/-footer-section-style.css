@@ -1,0 +1,139 @@
+/* ----------------------------------------------
+   Footer Titles and Links
+---------------------------------------------- */
+.title-footer h6,
+.title-footer a {
+  font-size: 14px;
+  color: rgb(71, 71, 71);
+}
+.title-footer h6 {
+  padding-bottom: 10px;
+}
+
+/* ----------------------------------------------
+   Newsletter Subscription Section
+---------------------------------------------- */
+.Subscription button {
+  font-size: 14px;
+  padding: 15px 30px;
+}
+.Subscription-input {
+  font-size: 14px;
+  padding: 15px;
+}
+.Subscription-input::-webkit-input-placeholder {
+  font-size: 14px;
+}
+
+/* ----------------------------------------------
+   About Us Section
+---------------------------------------------- */
+.about-us h5 {
+  color: var(--main-color);
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+/* ----------------------------------------------
+   Customer Services Section
+---------------------------------------------- */
+
+.customer-services ul li a,
+.customer-services .tell h6 a,
+.customer-services p {
+  color: rgb(233, 233, 233);
+  font-size: 14px;
+}
+.customer-services span {
+  display: inline-block;
+  color: rgb(22, 22, 22);
+  font-size: 20px;
+}
+.customer-services p {
+  display: inline-block;
+  vertical-align: 5px;
+  margin: 0;
+}
+.customer-services .tell a {
+  padding: 0;
+  color:rgb(233, 233, 233);
+  vertical-align: 3px;
+}
+@media (max-width: 768px) {
+  .customer-services{
+  padding: 0;
+}
+}
+/* ----------------------------------------------
+   Custom Dropdown Menu
+---------------------------------------------- */
+.customm-dropdown-menu li {
+  margin: 5px;
+}
+.customm-dropdown-menu li a {
+  color: rgb(233, 233, 233);
+  transition: all 0.5s ease;
+}
+.customm-dropdown-menu li a:hover {
+  transform: translateX(-10px);
+  background-color: unset;
+  color: rgb(233, 233, 233);
+}
+
+/* ----------------------------------------------
+   Footer Layout and Styles
+---------------------------------------------- */
+.m-t {
+  margin-top: -115px;
+  box-shadow: 0 0 1px 1px #efefef;
+}
+.footer-style {
+  background-color: rgb(35, 47, 62);
+  z-index: 1200;
+  padding: 0;
+}
+.footer-style svg {
+  color: var(--icon-color);
+}
+
+/* ----------------------------------------------
+   Footer Border and Newsletter Box
+---------------------------------------------- */
+.borderFooterDiv {
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 15px;
+}
+.newsFooter {
+  width: 94%;
+  margin: auto;
+  margin-bottom: 50px;
+  border-radius: 10px;
+}
+
+/* ----------------------------------------------
+   Copyright Section
+---------------------------------------------- */
+.copyright {
+  width: 100%;
+  background-color:var(--main-color);
+  padding: 5px;
+  text-align: center;
+}
+/* ----------------------------------------------
+   Endamad img
+---------------------------------------------- */
+.img-enamad{
+  width: 40%;
+  border: 2px solid #ccc;
+  border-radius:15px;
+  background-color:rgba(255, 255, 255, 0.986);;
+  margin: 0 2px;
+}
+
+/* ---------------------------------------
+ordersFooter
+------------------------------------------ */
+.ordersFooter li{
+  cursor: pointer;
+}

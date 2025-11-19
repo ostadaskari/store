@@ -1,0 +1,212 @@
+
+/* ----------------------------------------------
+   Search Area
+---------------------------------------------- */
+.search-area {
+  position: relative;
+  text-align: center;
+  z-index: 100;
+  transition: 0.3s ease-in-out;
+}
+.search-area .inputSearch {
+  padding-right: 45px;
+  margin: auto;
+  border: 1px solid var(--whiteSomke-c);
+  outline: none;
+  border-radius: 2px;
+  transition: 0.3s ease-in-out;
+}
+.search-area .search-icon {
+  position: absolute;
+  z-index: 10;
+  right: 3%;
+  top: 30%;
+}
+.search-area h2 {
+  color: var(--black-c);
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.search-area input:focus {
+  border-color: var(--primary-c);
+}
+.search-area input::placeholder,
+.search-area input::-moz-placeholder {
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+/* ----------------------------------------------
+   Product Styles
+---------------------------------------------- */
+.products-area .badge-star {
+  right: 91%;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  position: absolute;
+  transform: translate(50%, -50%);
+}
+/* ----------------------------------------------
+   Product Overlay Hover Effect
+---------------------------------------------- */
+.product-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(73, 73, 73, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 10;
+  height: 60%;
+  width: 90%;
+  margin: 7px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pro:hover .product-overlay {
+  opacity: 1;
+}
+.product-overlay button {
+  z-index: 11;
+}
+/* ----------------------------------------------
+   Sidebar Panels
+---------------------------------------------- */
+.right-side {
+  top:118px;
+  z-index: 10;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+.left-side {
+  background-color: #ffffff;
+}
+
+/* Filter button (Mobile Toggle) */
+.filter-btn {
+  width: 40px;
+  height: 40px;
+  right: 10px;
+  z-index: 999;
+  background-color: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: none;
+}
+.hidden {
+  transform: translateX(100%);
+}
+
+/* ----------------------------------------
+   Add to Cart Button Styles
+---------------------------------------- */
+
+/* Add to Cart button */
+.addtocart {
+  display: block;
+  width: 45px;
+  height: 25px;
+  padding: 3px 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0077e6de;
+  color:#fff;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  transition: transform 0.1s;
+}
+
+/* Hover effect for button */
+.addtocart:hover {
+  background-color: #005eb6de;
+}
+
+/* Responsive Sidebar Behavior */
+@media (max-width: 768px) {
+  .right-side {
+    position: fixed !important;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1200;
+    padding:20px ;
+    background-color: #ffffff;
+  }
+  .right-side.show {
+    transform: translateX(0);
+  }
+  .left-side {
+    margin: 0;
+    width: 100%;
+  }
+  .filter-btn {
+    display: block;
+  }
+}
+/* Responsive: Search Area */
+@media (max-width: 768px) {
+  .search-area input {
+    width: 85%;
+  }
+  .search-area .search-icon {
+    right: 10%;
+    top: 28%;
+  }
+  .products-area .badge-star{
+    right: 94%!important;
+  }
+}
+
+/* ----------------------------------------------
+   Filter Sidebar
+---------------------------------------------- */
+  /* filters */
+  .sidebarFilters{background:var(--card);padding:16px;border-radius:10px;box-shadow: 0 8px 24px rgba(15,23,42,0.06);min-height:420px}
+  .f-title{font-weight:700;margin-bottom:8px}
+  .f-group{margin-bottom:12px}
+  .f-label{font-size:0.87rem;
+    color:var(--muted);
+    margin-bottom:6px;
+    background-color:rgba(160, 182, 192, 0.144);
+    padding: 5px;
+    
+  }
+  .checkbox-list{display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:160px;
+    overflow:auto;
+    padding-right:6px}
+  .checkbox-list label{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px;border-radius:6px;cursor:pointer}
+  .checkbox-list input[type=checkbox]{accent-color:#0b5ed7;transform:scale(1.05)}
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #e6eef7;background:#fff;font-size:0.88rem;cursor:pointer;margin:4px}
+  .chip.active{background:#0b5ed7;color:white;border-color:#0b5ed7}
+  .chip.disabled{opacity:0.42;pointer-events:none}
+  .range-row{display:flex;gap:8px;align-items:center}
+  .range-row input[type=number]{width:120px;padding:8px;border-radius:6px;border:1px solid #e9eef7}
+  .sidebarFilters .btn{padding:8px 12px;border-radius:8px;border:0;background:#0b5ed7;color:white;cursor:pointer}
+  .btn.ghost{background:transparent;color:#0b5ed7;border:1px solid rgba(11,94,215,0.12)}
+  #applyBtn{
+    background:transparent;
+    color:#0b5ed7;
+    border:1px solid rgba(11,94,215,0.12)
+  }
+  .btn.ghost:hover,
+  #applyBtn:hover{
+    background-color:rgba(116, 167, 173, 0.226);
+  }

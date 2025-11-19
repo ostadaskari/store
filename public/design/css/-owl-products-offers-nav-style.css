@@ -1,0 +1,158 @@
+/* === Product Card Container === */
+.owl-products {
+  border: 1px solid #b3b3b3;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.owl-products .owl-stage{
+  background-color:transparent;
+}
+ .owl-carousel .owl-stage-outer{
+  padding:0px;
+  background-color:var(--main-color);
+}
+.brands-slider-section .owl-carousel .owl-stage-outer{
+    background-color:#e4ecef;
+}
+/* === Product Card Body === */
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body .p-card-title {
+  font-size: 12px !important;
+  text-align: center;
+  color: rgb(24, 24, 24);
+}
+
+/* === Product Image Styling === */
+.p-card-img {
+  max-width: 200px;
+  align-self: center;
+  padding: 10px;
+}
+
+/* === Custom Card Styling === */
+.custom-card {
+  border: none;
+  margin-top: 20px;
+  height: 350px;
+}
+
+.custom-card s {
+  font-size: 12px;
+  color: rgb(250, 81, 81);
+  text-decoration-line: line-through;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.custom-card span {
+  padding: 5px;
+  border-radius: 10px;
+  top: 10px;
+  position: absolute;
+}
+
+/* === Owl Carousel Container === */
+.owl-carousel {
+  padding: 0 !important;
+}
+
+.owl-carousel .owl-dots {
+  display: flex;
+}
+
+.owl-carousel .owl-nav {
+  position: absolute;
+  width: 100% !important;
+  top: 40%;
+}
+
+/* === Custom Owl Navigation Controls === */
+.custom-owl-controls {
+  width: 95%;
+  top:38%;
+  margin: auto;
+  z-index: 1;
+}
+.custom-prev,
+.custom-next {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color:var(--btnOwl-color);
+  border: none;
+  color: #ffffff;
+}
+.custom-prev:hover,
+.custom-next:hover {
+  background-color:#1432468a;
+}
+.custom-prev {
+  left: -40px;
+}
+
+.custom-next {
+  right:10%;
+}
+
+.custom-prev svg {
+  position: absolute;
+  top: 23%;
+  left:25%;
+}
+
+.custom-next svg {
+  position: absolute;
+  top: 23%;
+  left:27%;
+}
+
+/* === Margin Top Adjustment for Product Section === */
+.mt-60 {
+  margin-top:60px;
+}
+
+/* === Section Header and Button Styles === */
+.title-header-owl {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.bg-header-owl {
+  padding:5px 10px;
+  width: 10%;
+  position: absolute;
+  display: flex;
+  align-items:center;
+  flex-direction:column;
+  background-color: var(--main-color);
+  z-index: 99;
+  height: 100%;
+  padding-top: 70px;
+}
+
+/* === Responsive Styles === */
+@media (max-width: 768px) {
+  .mt-60 {
+    margin-top: 40px;
+  }
+
+  .custom-owl-controls {
+    display: none;
+  }
+  .bg-header-owl{
+   display: none;
+  }
+
+  .owl-carousel{
+    width: 99%;
+ 
+  }
+}
+

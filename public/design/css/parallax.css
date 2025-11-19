@@ -1,0 +1,94 @@
+
+  /* === Parallax Section 2 === */
+  .parallax-section2 {
+    background-image: url('../image/parallax-img.jpg');
+    min-height:300px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+  
+  /* === Glow on Hover Effect === */
+  .glow-on-hover {
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+  }
+  
+  .glow-on-hover::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background: linear-gradient(
+      45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    background-size: 400%;
+    filter: blur(5px);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    animation: glowing 20s linear infinite;
+    border-radius: 10px;
+  }
+  
+  .glow-on-hover:hover::before {
+    opacity: 1;
+  }
+  
+  .glow-on-hover:active::after {
+    background: transparent;
+  }
+  
+  /* === Glow Animation Keyframes === */
+  @keyframes glowing {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 400% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+  
+  /* === Custom Width Utilities (for Grid Layout) === */
+  .custom-height {
+    flex: 0 0 26.5% !important;
+    max-width: 26.5% !important;
+  }
+  
+  .custom-height-center {
+    flex: 0 0 46% !important;
+    max-width: 46% !important;
+  }
+  
+  /* === Responsive Custom Width for Mobile === */
+  @media (max-width: 768px) {
+    .custom-height,
+    .custom-height-center {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+  }
+  

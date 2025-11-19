@@ -1,0 +1,471 @@
+/* -------------------- Breadcrumb -------------------- */
+.breadcrumb-product-single li {
+  font-size: 12px;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+}
+.pt-110{
+  padding-top: 110px;
+}
+@media (max-width: 768px) {
+  .pt-110{
+    padding-top: 60px;
+  }
+}
+/* -------------------- Product Title -------------------- */
+.h1-product-single {
+  font-size: 15px;
+  color: rgb(44, 44, 44);
+  padding: 10px;
+}
+
+/* -------------------- Star Rating -------------------- */
+.star-product-single,
+.star-User-opinion {
+  color: rgb(248, 248, 47);
+  padding: 10px;
+}
+.star-User-opinion + p {
+  font-size: 10px;
+  padding-top: 20px;
+  color: #838383;
+}
+
+/* -------------------- Offer Price -------------------- */
+.offer-price-product-single {
+  padding-right: 10px;
+  font-size: 12px;
+}
+.offer-price-product-single s {
+  text-decoration: line-through;
+}
+
+/* --------------------- title-partNumber ------------------------ */
+.partNumber{
+  text-align: end;
+  font-size: 18px;
+
+}
+/* -------------------- Product Features List -------------------- */
+.title-mylist-product-single {
+  padding: 10px 10px 0 10px;
+}
+ul.mylist-product-single {
+  padding: 0 30px;
+}
+ul.mylist-product-single li {
+  list-style-type: circle;
+  padding: 2px;
+  font-size: 12px;
+  color: rgb(99, 97, 97);
+}
+@media (min-width: 768px) {
+  ul.mylist-product-single li {
+    padding: 10px 2px;
+    font-size: 14px;
+  }
+
+}
+/* -------------------- Store Name -------------------- */
+.store-product-single {
+  padding: 5px 0px;
+  font-size: 30px;
+  color: #2e91be;
+}
+
+/* -------------------- Guarantee Section -------------------- */
+.guarantee span {
+  font-size: 25px;
+  padding: 5px 0px;
+  color: rgb(248, 218, 45);
+}
+.guarantee h1 {
+  font-size: 12px;
+  color: rgb(44, 44, 44);
+  padding: 10px;
+}
+
+/* -------------------- Sub-Nav Title -------------------- */
+.title-sub-nav-product-single p {
+  font-size: 14px;
+  padding: 10px;
+  color: rgb(44, 44, 44);
+}
+
+/* -------------------- Score & Opinion Section -------------------- */
+.score-product-single p {
+  font-size: 12px;
+  color: rgb(139, 139, 139);
+  padding: 10px;
+}
+.score-product-single p span {
+  color: rgb(115, 158, 34);
+}
+.title-User-opinion {
+  font-size: 16px;
+  padding-top: 35px;
+  padding-bottom: 3px;
+}
+.Score-User-opinion p {
+  padding: 5px;
+  font-size: 12px;
+  margin: 0;
+}
+.text-User-opinion {
+  font-size: 12px;
+  color: #838383;
+}
+
+/* -------------------- Shipping -------------------- */
+.shipping img {
+  width: 50px;
+}
+.shipping p {
+  font-size: 16px;
+  padding: 0 15px;
+  margin: 0;
+}
+.bg-shipping {
+  background-color: #232f3e80;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+}
+
+/* -------------------- Send Section -------------------- */
+.send span {
+  padding-right: 20px;
+  font-size: 18px;
+  color: rgb(102, 101, 101);
+}
+.send h1 {
+  font-size: 14px;
+  padding: 10px;
+  color: rgb(44, 44, 44);
+}
+
+/* -------------------- Borders -------------------- */
+.border-custom {
+  border-top: 2px solid #efefef;
+  border-bottom: 4px solid #efefef;
+}
+.border-text-color {
+  color: #f53e3e;
+  border: 1px solid #f53e3e !important;
+}
+
+/* -------------------- Product Navigation Tabs -------------------- */
+.nav-product {
+  font-size: 12px;
+}
+.title-tab-product-single {
+  padding: 22px;
+  margin: 22px;
+  font-size: 14px;
+}
+.tab-product-single,
+.tabb-product-single {
+  padding-top: 40px;
+}
+.tab-product-single li,
+.tabb-product-single li {
+  font-size: 14px;
+  padding: 12px;
+  color: #696969;
+}
+.tab-product-single li {
+  padding-left: 0;
+  color: #a1a0a0;
+}
+.tabb-product-single li {
+  padding-right: 0;
+  border-bottom: 1px solid #efefef;
+}
+
+/* Tabs appearance */
+.nav-tabs .nav-link {
+  margin-bottom: -1px;
+  background-color: transparent;
+  border: unset;
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+  color: #696969;
+  font-size: 14px;
+  padding: 8px 5px;
+}
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  background-color: aliceblue;
+  border: 1px solid #ccc;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+}
+.bg-aliceblue {
+  background-color: aliceblue;
+}
+
+/* -------------------- Zoom View -------------------- */
+.zoom-main span {
+  border: unset;
+}
+
+/* -------------------- List Group (General) -------------------- */
+.list-group-item {
+  background-color: transparent;
+  border: none;
+}
+
+/* -------------------- Responsive Margin -------------------- */
+@media (max-width: 735px) {
+  .mt-40 {
+    margin-top: 150px;
+  }
+}
+
+/* -------------------- Product Image & Message Section -------------------- */
+.img-send-messege {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  padding: 10px;
+}
+.img-send-messege img {
+  width: 250px;
+}
+
+/* -------------------- Left Side Box -------------------- */
+.bg-leftSideSingle {
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+    background-color: rgb(243 243 243 / 24%);
+    margin-bottom:30px;
+}
+
+
+/* -------------------- Section Titles -------------------- */
+#myTabContent h2 {
+  font-weight: bold;
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+/* -------------------- Action Column (Sticky Buttons) -------------------- */
+.action-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  right: 0;
+  top: 25%;
+  z-index: 100;
+  height: 150px;
+}
+@media (max-width: 768px) {
+  .action-column {
+    top: 0%;
+    height: 30px;
+  }
+  .actionDiv{
+  display: flex;
+  justify-content: space-between;
+  width: 28%;
+}
+}
+.action-item {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 7px 0;
+}
+
+/* -------------------- Share Modal -------------------- */
+.share-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+.share-modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  direction: rtl;
+  position: relative;
+}
+.share-close {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.share-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.share-link {
+  width: 90%;
+  padding: 8px;
+  font-size: 14px;
+  margin: 10px 0;
+  direction: ltr;
+}
+.share-copy-btn {
+  padding: 6px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.share-copy-btn:hover {
+  background: #0056b3;
+}
+.share-copy-msg {
+  display: none;
+  margin-top: 10px;
+  font-size: 13px;
+  color: green;
+}
+
+/* -------------------- Notify Modal -------------------- */
+.notify-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  justify-content: center;
+  align-items: center;
+}
+.notify-modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  direction: rtl;
+  position: relative;
+}
+.notify-close {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.notify-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.notify-input {
+  width: 90%;
+  padding: 8px;
+  font-size: 14px;
+  margin: 10px 0;
+  direction: rtl;
+}
+.notify-submit-btn {
+  padding: 6px 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.notify-submit-btn:hover {
+  background: #218838;
+}
+.notify-confirm-msg {
+  display: none;
+  margin-top: 10px;
+  font-size: 13px;
+  color: green;
+}
+/* dataSheet */
+.dataSheet{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  background-color:rgb(238, 236, 236);
+  padding:8px;
+}
+.dataSheet p{
+  margin: 0;
+  font-size: 12px;
+}
+.dataSheet:hover{
+  color:rgb(0, 68, 255);
+  cursor: pointer;
+}
+/* --------------------- */
+.input-ltr {
+  direction: ltr;
+  text-align: left;
+  
+}
+.input-ltr::placeholder {
+  direction: rtl;
+  text-align: right;
+  
+}
+/*------------- add to cart ------------ */
+.addtocartProduct {
+  background-color: #198754;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.addtocartProduct:hover {
+  background-color: #157347;
+}
+
+.cart-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5d2;
+  border-radius: 8px;
+  /* padding: 8px 10px; */
+  width: 100%;
+  border: 1px solid #ddd;
+}
+.cart-control .bi-trash{
+  color:rgb(206, 33, 33);
+}
+
+.cart-control button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #198754;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-control button:hover {
+  color: #145c39;
+}
+
+.cart-control span {
+  font-size: 16px;
+  font-weight: 600;
+  color:#333;
+}

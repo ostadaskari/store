@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ !empty($header_title) ? $header_title : '' }} - ShirazChip.ir</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{{asset('design/css/adminPanel.css')}}">
+    <link rel="icon" href="{{asset('design/image/logo.png')}}" type="image/png">
+
+    <!-- for editor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+    @yield('style')
+</head>
+<body>
+
+<div class="container panel">
+    <div class="row" dir="rtl">
+        <!-- right sidebar -->
+        <div class="col-2 px-0" style="width: 15%;">
+            <div class="offcanvas-lg offcanvas-start sidebar px-2 d-flex flex-column" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarLabel">
+                <div class="offcanvas-header d-lg-none d-flex justify-content-end">
+                    <button class="btn-close btn-close-white m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"></button>
+                </div>
+                <div class="offcanvas-body d-flex flex-column p-0">
+                    <div class="d-flex flex-row align-items-end p-2">
+                        <a href="#" class="d-flex align-items-center logo-panel">
+                            <img src="{{asset('design/image/Pepsi-Cola.svg')}}" class="img-fluid">
+                        </a>
+                        <p class="mx-3 mb-2">پنل مدیریت</p>
+                    </div>
+                    <hr class="border-light my-0">
+                    <!-- Sidebar Navigation -->
+                    <ul class="nav nav-pills flex-column mb-auto" >
+                        <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif" ><i class='bx bxs-dashboard mx-2'></i> داشبورد</a></li>
+                        <li><a href="{{ url('admin/admin/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'admin') active @endif" ><i class='bx bxs-shopping-bag-alt mx-2'></i>ادمین ها</a></li>
+                        <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif" ><i class='bi bi-tags-fill mx-2'></i>دسته ها</a></li>
+                        <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif" ><i class='bi bi-tags-fill mx-2'></i>محصولات</a></li>
+                        <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif" ><i class='bi bi-tags-fill mx-2'></i>بنر ها</a></li>
+                        <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif" ><i class='bi bi-tags-fill mx-2'></i>meta's</a></li>
+                        <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2'></i>قیمت ها</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2'></i> آنالیز</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-shopping-bag mx-2'></i>اطلاعات خرید</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-message-edit mx-2'></i> مدیریت SMS</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-pencil-square mx-2 EditorSvg"></i>Editor</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-kanban mx-2 EditorSvg"></i>مدیریت سفارشات</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت تبلیغات</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت برندها</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-cog bx-spin-hover mx-2'></i> تنظیمات</a></li>
+                        <hr class="border-light my-0">
+                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-person-check mx-2 EditorSvg"></i> {{ Auth::user()->name }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- main side -->
+        <div class="col-12 col-lg-10 mainCol">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-2 px-1" dir="rtl">
+                <div class="container-fluid">
+                    <!-- Hamburger menu (visible on mobile only) -->
+                    <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+                        <i class='bx bx-menu bx-sm'></i>
+                    </button>
+
+                    <!-- Search form (visible on medium and larger screens) -->
+                    <form class="d-none d-md-flex ms-auto w-50">
+                        <button class="btn btn-outline-secondary px-1 py-0 d-flex align-items-center" type="submit"><i class="bx bx-search"></i></button>
+                        <input class="form-control me-2" type="search" placeholder="جستجو...">
+                    </form>
+
+                    <!-- Notifications and profile menu -->
+                    <div class="d-flex align-items-center">
+                        <!-- Notification icon with badge -->
+                        <a href="" class="position-relative me-3 text-white">
+                            <i class='bx bxs-bell bx-tada-hover fs-5'></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
+                        </a>
+                        <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
+                    </div>
+                </div>
+            </nav>

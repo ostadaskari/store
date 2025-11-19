@@ -1,0 +1,136 @@
+@import url(-navbar-style.css);
+@import url(-shipping-cart.css);
+@import url(-special-offers-nav-style.css);
+@import url(-owl-products-offers-nav-style.css);
+@import url(-baner1-section-style.css);
+@import url(-footer-section-style.css);
+@import url(-product-single-style.css);
+@import url(parallax.css);
+@import url(owlBrands.css);
+@import url(blog.css);
+@import url(products\ page.css);
+@import url(userAccount.css);
+@import url(aboutUs.css);
+@import url(checkout.css);
+@import url(product-card.css);
+@import url(megaMenu.css);
+
+
+@font-face {
+  font-family: 'Shabnam';
+  src: url('../font/Shabnam-Medium-FD.eot') format('eot'),
+       url('../font/Shabnam-Medium-FD.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+*{
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+a{
+  text-decoration: none;
+  list-style: none;
+}
+html ,body{
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Shabnam' !important;
+  font-weight: 400;
+}
+.container{
+    max-width: 1280px!important;
+    padding-left: 0;
+    padding-right: 0;
+}
+.row{
+  margin: auto;
+}
+svg{
+  vertical-align:text-bottom!important;
+}
+:root {
+
+  /* pallet1 */
+    /* --darkBlu-color:#002323;
+    --main-color: #c2cecd;
+    --melloBlu-color:#ecbd44;
+    --icon-color:#02686b; */
+  /* end pallet1 */
+
+   /* pallet2 */
+    /* --darkBlu-color:#A48374;
+    --main-color: #EBE3DB;
+    --melloBlu-color:#F1EDE6;
+    --icon-color:#CBAD8D; */
+  /* end pallet2 */
+
+    /* pallet3 */
+    --darkBlu-color:#143246;
+    --main-color: #FE7743;
+    --melloBlu-color:#447D9B;
+    --icon-color:#D7D7D7;
+    --btnOwl-color:#5172867a;
+   /* end pallet3 */
+
+     /* pallet4 */
+    /* --darkBlu-color:#00303F;
+    --main-color: #7A9D96;
+    --melloBlu-color:#CAE4DB;
+    --icon-color:#DCAE1D; */
+   /* end pallet4 */
+
+    /* pallet4 */
+    /* --darkBlu-color:#002d3f;
+    --main-color: #e6bb47;
+    --melloBlu-color:#CAE4DB;
+    --icon-color:#4c6c79; */
+   /* end pallet4 */
+
+}
+
+  .input-ltr {
+    direction: ltr;
+    text-align: left;
+    
+  }
+.input-ltr::placeholder {
+    direction: rtl;
+    text-align: right;
+  }
+  /* loading */
+  .no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(http://smallenvelop.com/demo/simple-pre-loader/images/loader-64x/Preloader_2.gif) center no-repeat #fff;
+}
+
+/* btn add to cart style */
+.bgColor{
+  background-color:#4d668c!important;
+  outline:#4d668c;
+  color:#fff;
+}
+.bgColor:hover{
+  background-color:#2f425f!important;
+  outline:#4d668c;
+  color:#fff;
+}
+.fontColor{
+  color:#4d668c!important;
+}
+.btn-outline-fontColor{
+  outline:#4d668c;
+  border:1px solid #4d668c;
+}

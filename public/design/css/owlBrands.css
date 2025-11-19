@@ -1,0 +1,48 @@
+/* === Brand Slider Section === */
+.brands-slider-section {
+  border-radius: 20px;
+}
+
+/* === Brand Slider Wrapper === */
+.brands-slider-wrapper {
+  border-radius: 20px;
+  position: relative;
+}
+/* === Brand Section Title === */
+.brand-title {
+  font-weight: bold;
+  font-size: 24px;
+  color: #333;
+}
+
+/* === Individual Brand Item === */
+.brands-slider-wrapper .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  height: 50px;
+}
+
+/* === Brand Logos === */
+.brands-slider-wrapper img {
+  max-height: 80px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: grayscale(100%);
+}
+
+/* === Hover Effect on Brand Logos === */
+.brands-slider-wrapper img:hover {
+  transform: scale(1.1);
+  filter: grayscale(0%);
+}
+
+
+.owl-carousel .owl-item img {
+  display: block;
+  width:70%;
+}
+.owl-stage-outer{
+  padding: 20px 0;
+}

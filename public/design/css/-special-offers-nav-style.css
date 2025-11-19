@@ -1,0 +1,197 @@
+/* ---------- Custom Nav Pills Styling ---------- */
+.custom-nav-pills .nav-link.active,
+.custom-nav-pills .nav-item.show > .nav-link {
+  color: rgb(98, 98, 252);
+  background-color: unset;
+}
+
+.custom-nav-pills .nav-item .nav-link {
+  font-size: 14px !important;
+}
+
+/* ---------- Special Offers Section ---------- */
+.special-offers-nav .special-offers-sub-nav .img-sub-nav {
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.special-offers-nav .special-offers-sub-nav .img-sub-nav img {
+  width: 200px;
+  height: 200px;
+  transition: all 2s ease;
+  padding: 5px;
+}
+
+/* Hover effect for second image */
+.special-offers-nav .special-offers-sub-nav .img-sub-nav:hover .second-img {
+  transform: translateY(-200px);
+}
+
+/* Star rating styles */
+.special-offers-nav .title-sub-nav .star {
+  color: rgb(231, 231, 231);
+}
+
+.special-offers-nav .title-sub-nav .star i:nth-child(1),
+.special-offers-nav .title-sub-nav .star i:nth-child(2),
+.special-offers-nav .title-sub-nav .star i:nth-child(3),
+.special-offers-nav .title-sub-nav .star i:nth-child(4) {
+  color: rgb(235, 235, 53);
+}
+
+/* Title and offer info box */
+.special-offers-nav .special-offers-sub-nav .title-sub-nav {
+  width: 300px;
+  font-size: 14px;
+  padding: 20px 20px 0 0;
+  text-align: center;
+}
+
+.special-offers-nav .special-offers-sub-nav .title-sub-nav a {
+  font-size: 14px;
+}
+
+/* Responsive adjustments for special offers */
+@media (min-width: 760px), (max-width: 990px) {
+  .special-offers-nav .special-offers-sub-nav .title-sub-nav {
+    padding: 10px 20px 0 0;
+    font-size: 10px;
+  }
+
+  .special-offers-nav .special-offers-sub-nav .title-sub-nav a {
+    font-size: 14px;
+  }
+}
+
+/* Offer price with strikethrough */
+.special-offers-nav .special-offers-sub-nav .title-sub-nav .offer-price {
+  background-color:rgba(206, 206, 206, 0.185);
+  font-size: 16px;
+  padding: 5px;
+}
+.special-offers-nav .special-offers-sub-nav .title-sub-nav .offer-price s {
+  text-decoration-line: line-through;
+  font-size: 14px;
+  color:gray;
+}
+
+/* Countdown timer styles */
+.special-offers-nav .special-offers-sub-nav .title-sub-nav .count-down-timer p{
+margin-bottom: 0;
+}
+.special-offers-nav .special-offers-sub-nav .title-sub-nav .count-down-timer p.demos {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.special-offers-nav .special-offers-sub-nav .title-sub-nav .count-down-timer p.demos span {
+  font-size: 14px;
+  width: 25px;
+  display: inline-block;
+  text-align: center;
+  color: rgb(248, 58, 58);
+  background-color: rgb(236, 236, 236);
+  margin: 5px;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+/* Countdown labels */
+#day,
+#hours,
+#minutes,
+#seconds {
+  position: relative;
+}
+
+.demos #day::after {
+  content: "روز";
+  position: absolute;
+  color: rgb(27, 27, 27);
+  font-size: 10px;
+  top: 22px;
+  left: 7px;
+  padding-top: 2px;
+}
+
+.demos #hours::after {
+  content: "ساعت";
+  position: absolute;
+  color: rgb(27, 27, 27);
+  font-size: 10px;
+  top: 22px;
+  left: 0;
+  padding-top: 2px;
+}
+
+.demos #minutes::after {
+  content: "دقیقه";
+  position: absolute;
+  color: rgb(27, 27, 27);
+  font-size: 10px;
+  top: 22px;
+  left: 0;
+  padding-top: 2px;
+}
+
+.demos #seconds::after {
+  content: "ثانیه";
+  position: absolute;
+  color: rgb(27, 27, 27);
+  font-size: 10px;
+  top: 22px;
+  left: 5px;
+  padding-top: 2px;
+}
+
+/* Expired offer label */
+.offer-expire-text {
+  z-index: 1;
+  text-align: center;
+  padding: 10px;
+  color: rgb(248, 58, 58);
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Offer card border */
+.special-offers-border {
+  border: 1px solid #efefef;
+}
+
+/* Offer section title */
+.offer-section-title {
+  font-size: 18px;
+  border-bottom: 1px solid rgb(248, 101, 101);
+  top: 3px;
+  padding: 5px;
+  margin-bottom:15px;
+}
+
+/* Sub category section layout */
+.offer-section .sub-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+}
+
+/* Badge star position */
+.offer-section .sub-cat .badge-star {
+  right: 93%;
+}
+
+/* Responsive adjustment for title */
+@media (max-width: 760px) {
+  .offer-section-title {
+    top: -30px;
+    padding: 0 10px;
+  }
+}

@@ -1,0 +1,370 @@
+#adBanner {
+  background-color:rgb(247, 158, 56);
+  height: 40px;
+  width: 100%;
+  padding: 10px 20px;
+  position:fixed;
+  text-align: center;
+  font-size: 16px;
+  z-index: 1000;
+  cursor: pointer;
+  color:#f5f5f5;
+}
+
+#adBanner .close-btn {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.ad-text {
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+
+.ad-text.fade-out {
+  opacity: 0;
+}
+/* ----------------------------------------------
+   Header and Navigation Background
+---------------------------------------------- */
+.custom-bg-color {
+  background-color: var(--darkBlu-color);;
+  position: fixed;
+  top:0px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: margin-top 0.3s ease;
+}
+.StoreHeader{
+  top: 40px;
+}
+/* ----------------------------------------------
+   Logo and Branding
+---------------------------------------------- */
+.logo {
+  width:300px;
+  padding:5px;
+}
+.logoMobile{
+    width:190px;
+}
+/* ----------------------------------------------
+   show All Categories
+---------------------------------------------- */
+
+.category-item:hover, .submenu .list-group-item:hover, .subsubmenu .list-group-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.category-item.active .arrow-icon,
+.submenu .list-group-item.active .arrow-icon {
+  transform: translateX(-10px);
+
+}
+
+.category-item:hover,
+.submenu .list-group-item:hover,
+.subsubmenu .list-group-item:hover {
+  background-color: #f8f9fa;
+  color: #1b1b1b;
+  cursor: pointer;
+}
+
+#mobileMenuList li a{
+  color:var(--darkBlu-color);;
+}
+#mobileMenuList li{
+  border-bottom:1px dashed #ccc;
+}
+/* ----------------------------------------------
+   show All Categories
+---------------------------------------------- */
+
+
+
+/* ----------------------------------------------
+   Navigation Font and Layout
+---------------------------------------------- */
+.nav-font-size {
+  font-size: 14px;
+}
+.custom-nav-span {
+  display: inline-block;
+  padding: 14px;
+}
+
+/* ----------------------------------------------
+   Custom Dropdown Toggles and Icons
+---------------------------------------------- */
+.dropdown-toggle-custom {
+  border: 0 !important;
+  left: 0;
+}
+.dropdown-toggle-custom::after {
+  vertical-align: 0 !important;
+  content: "";
+}
+.custom-icon {
+  vertical-align: -8px;
+}
+
+/* ----------------------------------------------
+   Basket/User Cart Styles
+---------------------------------------------- */
+.basket {
+  width: 300px;
+  right: -100px !important;
+}
+.basket li img {
+  width: 64px;
+  height: 64px;
+}
+.basket .dropdown-item:hover {
+  background-color: rgba(187, 216, 243, 0.534);
+}
+
+.user-basket {
+  color: white;
+  align-items: center;
+}
+.user-basket span {
+  font-size: 25px;
+}
+.user-basket p {
+  font-size: 12px;
+  padding: 22px 3px 0 0;
+}
+#cartBtn:hover{
+  cursor: pointer;
+}
+.btnHover{
+  transition: transform 0.2s ease;
+}
+
+.btnHover:hover {
+  transform: scale(1.2);
+}
+.spanNum{
+width: 15px;
+text-align: center;
+}
+
+/* ----------------------------------------------
+   Button Radius Customization
+---------------------------------------------- */
+.custom-btn1 {
+  border-radius: 0px 3px 3px 0px !important;
+}
+.custom-btn2 {
+  border-radius: 3px 0px 0px 3px !important;
+}
+
+/* ----------------------------------------------
+   Navbar Styles
+---------------------------------------------- */
+.custom-container {
+  position: relative;
+  z-index: 1000;
+}
+.custom-navbar {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  /* height:5vh;   */
+  background-color: var(--main-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+.custom-navbar svg{
+  fill:var(--icon-color);
+}
+.custom-navbar-nav .nav-item {
+  position: unset;
+}
+.navbar-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 28px;
+  background-color: var(--main-color);
+  padding: 0 5px;
+}
+
+/* ----------------------------------------------
+   Custom Dropdown Menu Styling
+---------------------------------------------- */
+.custom-dropdown-menu {
+  border-radius: 0;
+  top: 49px;
+  border: 0;
+  font-size: 12px;
+}
+.custom-dropdown-menu li a {
+  transition: all 0.5s ease;
+  color: rgb(240, 240, 240);
+}
+.custom-dropdown-menu li a:hover {
+  transform: translateX(-10px);
+  color: rgb(69, 146, 248);
+}
+.custom-dropdown-menu li a span {
+  vertical-align: -10px;
+  padding: 3px;
+}
+.dropdown-menu li a:hover {
+  background-color: unset;
+}
+
+/* ----------------------------------------------
+   Font Utility Class
+---------------------------------------------- */
+.font-size-10 {
+  font-size: 10px;
+}
+
+/* ----------------------------------------------
+   Modal: User Login/Register
+---------------------------------------------- */
+.custom-form-group {
+  font-size: 12px !important;
+}
+.custom-form-group input::placeholder {
+  font-size: 12px !important;
+}
+.custom-form-group .form-group small {
+  font-size: 10px !important;
+  padding: 5px;
+}
+.custom-form-check-label {
+  padding: 4px;
+}
+.custom-form-check-input {
+  margin-right: 0px !important;
+}
+.custom-submit-user {
+  font-size: 12px !important;
+}
+.custom-modal-footer a {
+  font-size: 12px !important;
+  padding: 5px;
+}
+.custom-modal {
+  width: 400px;
+}
+
+/* ----------------------------------------------
+   Main Menu Collapse (Desktop & Mobile)
+---------------------------------------------- */
+#mainMenu .nav-item {
+  color: rgb(32, 32, 32);
+  text-align: center;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+#mainMenu .nav-item .nav-link {
+  color:rgb(48 48 48);
+  font-size: 14px;
+  display: flex;
+}
+#mainMenu .nav-item .nav-link:hover{
+  color: rgb(228, 228, 228);
+}
+#mainMenu .nav-item .nav-link svg{
+margin: 0 3px;
+}
+
+/* --------------------------------------------
+                cart-count
+----------------------------------------------- */
+#cart-count{
+  top: 18%;
+  left: 25.5%;
+}
+.itemsCart{
+  background-color: aliceblue;
+  padding: 5px;
+}
+.totalCart{
+  background-color: rgb(255, 240, 240);
+  padding: 5px;
+}
+.dropdown-menu-end .item{
+  border: 1px solid #cccc;
+    border-radius: 4px;
+}
+/* --------------------------------------------
+                cart-count
+----------------------------------------------- */
+
+/* ----------------------------------------------
+   Hamburger Menu: Responsive Behavior
+---------------------------------------------- */
+@media (max-width: 991.98px) {
+  .collapse-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: transparent;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1100;
+    background-color: #f0f0f0;
+
+    button{
+      background-color:#ccc;
+    }
+  }
+
+  .collapse-right.show {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-navbar {
+    background-color:transparent;
+  }
+  #mainMenu .navbar-nav {
+    flex-direction: column !important;
+    align-items: start !important;
+    justify-content: start !important;
+    padding: 20px 40px;
+    width: 100%;
+    height: 100vh;
+    /* margin-top: 8%; */
+  }
+
+  #mainMenu .navbar-nav li {
+    margin: 10px 0;
+  }
+
+ .inMobile{
+  transform: translate3d(-62.5px, 24px, 0px)!important;
+ }
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+      display: block !important;
+      flex-basis: auto;
+  }
+}
+/* ----------------------------------------------
+   End of CSS
+---------------------------------------------- */
