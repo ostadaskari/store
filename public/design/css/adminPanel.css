@@ -199,7 +199,7 @@
     z-index: 10;
   }
  tbody tr td, tbody tr th {
-    color: var(--text-color) !important;
+    color: var(--text-color);
 }
  .mainCol h5{
     font-size: 16px;

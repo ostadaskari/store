@@ -1,130 +1,90 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="container" dir="rtl">
-        <h3>مدیریت قیمت‌ها</h3>
+    <div class="container px-0" dir="rtl">
+        <div class="seven mt-3">
+            <h1>مدیریت قیمت ها</h1>
+        </div>
 
-        {{-- GLOBAL SETTINGS --}}
-        <div class="card mb-4 p-3">
-            <h5 class="mb-3">
-                تنظیمات کلی قیمت
-                <i class="bi bi-info-circle text-primary"
-                   title="مثال:
-- نرخ دلار: فقط عدد مثل 113500
-- درصد سود: مثلا 5 یعنی 5%
-- درصد هزینه اضافی: مثلا 5 یعنی 5%"
-                   style="cursor:pointer;">
-                </i>
-            </h5>
-
-            <div class="row g-3">
-
+        {{-- Settings --}}
+        <div class="card mb-2 p-3">
+            <div class="d-flex flex-row align-items-center mb-2">
+                <svg width="18" height="18" fill="currentColor" class="bi bi-gear mx-2" viewBox="0 0 16 16">
+                    <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                    <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+                </svg>
+                <h5 class="mb-0" style="font-size:14px;">تنظیمات کلی</h5>
+            </div>
+            <div class="row g-2">
                 <div class="col-md-3">
-                    <label class="form-label">نرخ دلار (تومان)</label>
-                    <input type="number" id="rate" class="form-control"
-                           placeholder="مثال: 113500"
-                           value="{{ $settings->dollar_rate }}">
+                    <input type="number" id="rate" class="form-control" placeholder="نرخ دلار" value="{{ $settings->dollar_rate }}">
                 </div>
-
                 <div class="col-md-3">
-                    <label class="form-label">درصد سود (%)</label>
-                    <input type="number" id="profit" class="form-control"
-                           placeholder="مثال: 5"
-                           value="{{ $settings->profit_percent }}">
+                    <input type="number" id="profit" class="form-control" placeholder="درصد سود" value="{{ $settings->profit_percent }}">
                 </div>
-
                 <div class="col-md-3">
-                    <label class="form-label">درصد هزینه اضافه (%)</label>
-                    <input type="number" id="extra" class="form-control"
-                           placeholder="مثال: 5"
-                           value="{{ $settings->extra_percent }}">
+                    <input type="number" id="extra" class="form-control" placeholder="درصد هزینه اضافی" value="{{ $settings->extra_percent }}">
                 </div>
-
-                <div class="col-md-3 d-flex align-items-end">
-                    <button class="btn btn-success w-100" id="save-settings">
-                        ثبت تنظیمات
-                    </button>
+                <div class="col-md-3">
+                    <button class="btn btn-success w-100" id="save-settings">ثبت تنظیمات</button>
                 </div>
-
             </div>
         </div>
 
-
-        {{-- PRODUCT PRICES --}}
         <div class="card p-3">
-
-            <table class="table table-bordered text-center align-middle">
-                <thead>
-                <tr>
-                    <th>Part Number</th>
-                    <th> قیمت به دلار $</th>
-                    <th>نهایی USD</th>
-                    <th>قیمت به تومان</th>
-                    <th style="background:#7861e4;">
-                        قیمت فروش
-                        <i class="bi bi-info-circle text-primary"
-                           title="اولویت با قیمت دلاری. اگر قیمت دلاری پاک شود و قیمت به تومان نوشته شود، قیمت فروش بر حسب قیمت تومانی محاسبه میشود"
-                           style="cursor:pointer;">
-                        </i>
-                    </th>
-                    <th>عملیات</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                @foreach($products as $p)
-                    @php
-                        $price = $p->price;   // null if not exist
-                    @endphp
-
-                    <tr data-part="{{ $p->part_number }}">
-
-                        <td>{{ $p->part_number }}</td>
-
-                        <td>
-                            <input type="number"
-                                   class="form-control usd-price"
-                                   value="{{ $price->usd_price ?? '' }}"
-                                   placeholder="USD قیمت">
-                        </td>
-
-                        {{-- Final USD --}}
-                        <td>
-                            {{ $price && $price->final_usd
-                                ? number_format($price->final_usd, 2)
-                                : '0' }}
-                        </td>
-
-                        {{-- Manual Toman --}}
-                        <td>
-                            <input type="number"
-                                   class="form-control toman-price"
-                                   value="{{ $price->toman_price ?? '' }}"
-                                   placeholder="تومان (دلخواه)">
-                        </td>
-
-                        {{-- Final Sell Toman (rounded — already saved in DB) --}}
-                        <td style="background:#8773e1;">
-                            {{ $price && $price->sell_price_toman
-                                ? number_format($price->sell_price_toman)
-                                : '0' }}
-                        </td>
-
-                        <td>
-                            <button class="btn btn-primary btn-save">ثبت</button>
-                        </td>
-
+            {{-- Products Table --}}
+            <div class="table-responsive border shadow-sm rounded bg-white" style="max-height:66vh; overflow-y: auto;" dir="ltr">
+                <table class="table table-hover align-middle mb-0 text-center" dir="rtl">
+                <thead class="table-blue">
+                    <tr>
+                        <th>Part Number</th>
+                        <th> قیمت به دلار $</th>
+                        <th>نهایی USD</th>
+                        <th>قیمت به تومان</th>
+                        <th style="background:#43897a;">
+                            قیمت فروش
+                            <i class="bi bi-info-circle text-primary"
+                            title="اولویت با قیمت دلاری. اگر قیمت دلاری پاک شود و قیمت به تومان نوشته شود، قیمت فروش بر حسب قیمت تومانی محاسبه میشود"
+                            style="cursor:pointer;">
+                            </i>
+                        </th>
+                        <th>عملیات</th>
                     </tr>
+                    </thead>
 
-                @endforeach
-                </tbody>
-            </table>
+                    <tbody>
+                    @foreach($products as $p)
+                        @php
+                             $price = $p->price;  
+                         @endphp
+                         
+                        <tr data-part="{{ $p->part_number }}">
+                            <td style="font-weight: 200;font-size: 16px;">{{ $p->part_number }}</td>
+                            <td><input type="number" class="form-control usd-price" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
+                            <td> {{ $price && $price->final_usd
+                                ? number_format($price->final_usd, 2)
+                                : '0' }}</td>
+                            
+                            <td>
+                                <input type="number" class="form-control toman-price"
+                                    value="{{ $price->toman_price ?? '' }}"
+                                   placeholder="تومان (دلخواه)">
+                            </td>
 
-            <div>{{ $products->links() }}</div>
-        </div>
+                            <td style="background:#78c7b7d9;color:black;">{{ $price && $price->sell_price_toman
+                                ? number_format($price->sell_price_toman)
+                                : '0' }}</td>
+                            <td><button class="btn btn-primary btn-save">ثبت</button></td>
+
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div>{{ $products->links() }}</div>
+            </div>
+        </div>   
     </div>
 @endsection
-
 
 @section('script')
     <script>
