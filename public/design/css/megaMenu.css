@@ -453,32 +453,33 @@ ul.ruby-menu.ruby-vertical.ruby-menu-dividers > li.ruby-active-menu-item > a {
   border-bottom: 1px solid #17a47d
 }
 
-ul.ruby-menu > li > ul,ul.ruby-menu > li > ul > li > ul,ul.ruby-menu > li > ul > li > ul > li > ul {
-  position: absolute;
-  -webkit-box-shadow: 0 8px 24px -5px #ccc;
-  -moz-box-shadow: 0 8px 24px -5px #ccc;
-  box-shadow: 0 8px 24px -5px #ccc;
-  border-top: 4px solid var(--darkBlu-color);;
-  top: 33px;
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul {
+    position: absolute;
+    -webkit-box-shadow: 0 8px 24px -5px #ccc;
+    -moz-box-shadow: 0 8px 24px -5px #ccc;
+    box-shadow: 0 8px 24px -5px #ccc;
+    border-top: 4px solid var(--darkBlu-color);
+    top: 33px;
 }
 
 ul.ruby-menu > li > ul > li,ul.ruby-menu > li > ul > li > ul > li {
   position: relative
 }
 
-ul.ruby-menu > li > ul > li > a,ul.ruby-menu > li > ul > li > ul > li > a,ul.ruby-menu > li > ul > li > ul > li > ul > li > a {
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul a {
   display: block;
-  width: 170px;
+  width: 215px;
   line-height: 40px;
-  padding: 0 35px 0 25px;
+  padding: 0 20px;
   background: #fff;
   color: #666;
   text-decoration: none;
-  font-size: 14px
+  font-size: 14px;
 }
 
-ul.ruby-menu > li > ul > li:hover > a,ul.ruby-menu > li > ul > li > a:hover,ul.ruby-menu > li > ul > li > ul > li:hover > a,ul.ruby-menu > li > ul > li > ul > li > a:hover,ul.ruby-menu > li > ul > li > ul > li > ul > li:hover > a,ul.ruby-menu > li > ul > li > ul > li > ul > li > a:hover {
-  background: #efefef
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul li:hover > a,
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul a:hover {
+    background: #efefef;
 }
 
 ul.ruby-menu > li > ul > li > a:only-child:after,ul.ruby-menu > li > ul > li > ul > li > a:only-child:after,ul.ruby-menu > li > ul > li > ul > li > ul > li > a:only-child:after {
@@ -494,15 +495,15 @@ ul.ruby-menu > li.ruby-menu-right > ul {
   right: 0
 }
 
-ul.ruby-menu > li > ul > li > ul,ul.ruby-menu > li > ul > li > ul > li > ul {
-  right: 170px;
-  top: -4px;
-  z-index: 100
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul ul {
+    right: 215px;
+    top: -4px; 
+    z-index: 100;
 }
 
-ul.ruby-menu > li > ul > li.ruby-open-to-left > ul,ul.ruby-menu > li > ul > li > ul > li.ruby-open-to-left > ul {
-  left: auto;
-  right: 170px
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul li.ruby-open-to-left > ul {
+    left: auto;
+    right: 170px;
 }
 
 ul.ruby-menu > li.ruby-menu-mega > div,ul.ruby-menu > li.ruby-menu-mega-blog > div,ul.ruby-menu > li.ruby-menu-mega-shop > div {
@@ -740,63 +741,88 @@ h3.ruby-list-heading {
   margin: 0;
   border-bottom:1px solid #ccc;
 }
-
-ul.ruby-menu > li.ruby-menu-mega > div ul,ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul {
-  margin: 0;
-  margin-top: 10px
+ul.ruby-menu > li.ruby-menu-mega > div ul, 
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul {
+    /* ⬅️ این margin برای لیست اصلی داخل مگا منو است */
+    margin: 0;
+    margin-top: 10px;
+    /* ⬅️ اضافه شده: برای پشتیبانی از لیست‌های تو در تو (سطوح عمیق‌تر) */
+    padding-right: 15px; /* ایجاد تورفتگی برای سطح بعدی */
 }
 
-ul.ruby-menu > li.ruby-menu-mega > div ul li,ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li {
-  position: relative;
-  font-size: 14px;
-  line-height: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-content:center;
-  width: 100%;
-  margin: 5px 0;
+/* 🌟 جدید: استایل‌دهی به تمام لیست‌های تو در توی داخل مگا منو (عمق نامحدود) */
+ul.ruby-menu > li.ruby-menu-mega > div ul ul,
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul ul {
+    margin-top: 5px; /* کاهش فاصله بین زیرلیست‌ها */
+    padding-right: 15px; /* افزایش تورفتگی برای عمق بیشتر */
 }
 
-ul.ruby-menu > li.ruby-menu-mega > div ul li > a,ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li > a {
-  text-decoration: none;
-  color: #555;
-  display: inline-block;
-  padding: 8px;
+ul.ruby-menu > li.ruby-menu-mega > div ul li, 
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li {
+    position: relative;
+    font-size: 14px;
+    line-height: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-content:center;
+    width: 100%;
+    margin: 5px 0;
 }
 
-ul.ruby-menu > li.ruby-menu-mega > div ul li > a:hover,ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li > a:hover {
-  color: #222;
-  text-decoration: underline;
-  background-color:#3c4b5e1c;
-  border-radius:5px;
+ul.ruby-menu > li.ruby-menu-mega > div ul li > a, 
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li > a {
+    text-decoration: none;
+    color: #555;
+    display: inline-block;
+    padding: 8px;
 }
 
-ul.ruby-menu > li.ruby-menu-mega > div ul li .fa,ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li .fa {
-  position: relative;
-  width: 24px
+/* 🌟 جدید: اصلاح انتخابگر برای اعمال استایل هاور روی تمام لینک‌های داخلی، صرف نظر از عمق */
+ul.ruby-menu > li.ruby-menu-mega > div ul a:hover, 
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul a:hover {
+    color: #222;
+    text-decoration: underline;
+    background-color:#3c4b5e1c;
+    border-radius:5px;
+}
+
+/* ⬅️ حذف انتخابگر قبلی برای هاور (ul li > a:hover) و جایگزینی با انتخابگر جامع‌تر (ul a:hover) */
+ ul.ruby-menu > li.ruby-menu-mega > div ul li > a:hover,
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li > a:hover {
+    color: #222;
+    text-decoration: underline;
+    background-color:#3c4b5e1c;
+    border-radius:5px;
+}
+
+/* ... (بقیه استایل‌های آیکون و تصاویر بدون تغییر) ... */
+ul.ruby-menu > li.ruby-menu-mega > div ul li .fa,
+ul.ruby-menu > li.ruby-menu-mega-shop > div > ul > li > div ul > li .fa {
+    position: relative;
+    width: 24px
 }
 ul.ruby-menu > li.ruby-menu-mega > div ul.ruby-list-with-images img {
- width: 50px;
-  height: 50px;
-  margin: 0 5px;
+    width: 50px;
+    height: 50px;
+    margin: 0 5px;
 }
 ul.ruby-menu > li.ruby-menu-mega > div ul.ruby-list-with-images li {
-  height: 50px
+    height: 50px
 }
 
 ul.ruby-menu > li.ruby-menu-mega > div ul.ruby-list-with-images li span.ruby-list-desc {
-  font-size: 11px;
-  display: block;
-  position: absolute;
-  top: 16px;
-  left:0;
-  color: #999
+    font-size: 11px;
+    display: block;
+    position: absolute;
+    top: 16px;
+    left:0;
+    color: #999
 }
 
 ul.ruby-menu > li.ruby-menu-mega > div ul li > a > img {
-  float: right;
-  width: 60px;
-  margin-right: 12px
+    float: right;
+    width: 60px;
+    margin-right: 12px
 }
 
 span.ruby-c-title,span.ruby-c-category,span.ruby-c-date {
@@ -883,15 +909,20 @@ span.ruby-c-content {
       margin: 0 auto
   }
 
-  ul.ruby-menu > li > ul,ul.ruby-menu > li > ul > li > ul,ul.ruby-menu > li > ul > li > ul > li > ul {
-      visibility: hidden;
-      opacity: 0
-  }
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) > ul,
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul > li > ul,
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul ul > li > ul {
+    visibility: hidden;
+    opacity: 0;
+}
 
-  ul.ruby-menu > li:hover > ul,ul.ruby-menu > li > ul > li:hover > ul,ul.ruby-menu > li > ul > li > ul > li:hover > ul {
-      visibility: visible;
-      opacity: 1
-  }
+/* ⬅️ نمایش زیرمنوهای استاندارد در هاور (سطح ۱ تا ۳) */
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop):hover > ul,
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul > li:hover > ul,
+ul.ruby-menu > li:not(.ruby-menu-mega):not(.ruby-menu-mega-shop) ul ul > li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+}
 
   ul.ruby-menu > li.ruby-menu-mega > div,ul.ruby-menu > li.ruby-menu-mega-blog > div,ul.ruby-menu > li.ruby-menu-mega-shop > div {
       visibility: hidden;

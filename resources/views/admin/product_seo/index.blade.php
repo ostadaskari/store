@@ -9,20 +9,25 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <h3>مدیریت SEO محصولات</h3>
-
-        <div class="search-box mb-3">
-            <input type="text" id="search-input" class="form-control" placeholder="جستجو بر اساس پارت نامبر...">
+    <div class="container px-0" dir="rtl">
+        <div class="seven mt-3">
+            <h1>مدیریت SEO محصولات</h1>
         </div>
+        
+        <div class="card p-3">
+            <div class="search-box mb-3">
+               <input type="text" id="search-input" class="form-control" placeholder="جستجو بر اساس پارت نامبر...">
+            </div>
 
-        <div id="seo-table">
-            @include('admin.product_seo._table_rows', ['products' => $products])
-        </div>
+                
+            <div class="table-responsive border shadow-sm rounded bg-white" style="max-height:66vh; overflow-y: auto;" dir="ltr" id="seo-table">
+                @include('admin.product_seo._table_rows', ['products' => $products])
+            </div>
 
-        <div class="mt-3">
-            {{ $products->appends(['q' => $q])->links() }}
-        </div>
+            <div class="mt-3">
+                {{ $products->appends(['q' => $q])->links() }}
+            </div>
+        </div>    
     </div>
 @endsection
 

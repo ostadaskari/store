@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container my-5 Checkout" style="padding-top:180px;">
+    <div class="container topPadd mt-4">
         <div class="row">
             <div class="col-12 col-md-8 p-0">
                 <!-- title -->
@@ -148,7 +148,7 @@
             </div>
 
             <div class="col-12 col-md-4">
-                <div class="leftSidePayment p-4 border rounded bg-light shadow-sm" style="position: sticky;height: 300px;top: 21.5%;">
+                <div class="leftSidePayment p-4 border rounded bg-light shadow-sm" style="position: sticky;top: 24.25%;">
                     <!-- The price of goods -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="fw-normal">قیمت کالاها</span>
@@ -166,14 +166,18 @@
                         </div>
                     </div>
 
-                    {{--    discount--}}
-                    <div class="d-flex flex-column mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>کد تخفیف:</span>
-                            <span> <input type="text" class="w-50 "> <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-bar-left"></i></button></span>
-                            <span>0 تومان</span>
+                    {{-- discount--}}
+                    <div class="d-flex justify-content-end flex-column mb-2">
+                        <div class="input-group d-flex align-items-center">
+                            <span class="fw-bold fs-6" style="width: 25%;">کد تخفیف</span>
+                            <input type="text" id="discountCode" class="form-control py-2"  placeholder="کد تخفیف خود را وارد کنید" aria-label="کد تخفیف">
+                            <!-- Discount code "OFF50" for testing -->
+                            <button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>
                         </div>
+                        <!-- Message -->
+                        <div id="discountMessage" class="mt-2 small text-danger"></div>
                     </div>
+
 
                     <!-- dividing line -->
                     <hr class="my-2">
@@ -200,9 +204,203 @@
                 </div>
             </div>
         </div>
+
+        <!-- Checkout Page -->
+        <div class="row">
+          <div class="col-12 col-md-8">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="card-title m-0">شیوه پرداخت</h6>
+            </div>
+
+            <!-- Payment Section -->
+            <section class="card shadow-sm mb-4">
+              <div class="card-body px-4 py-3">
+            
+                <!-- Payment options -->
+                <div class="mt-4">
+                  <!-- Online payment -->
+                  <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                    <input type="radio" name="paymentOption" value="credit" class="form-check-input mt-1 me-3" checked>
+                    <div class="d-flex flex-grow-1">
+                      <div class="me-3">
+                          <svg  width="30" height="30" fill="#788fad" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
+                              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
+                            </svg>
+                      </div>
+                      <div>
+                        <p class="fw-semibold mb-1 text-dark">پرداخت اینترنتی</p>
+                        <p class="text-muted small mb-0">پرداخت آنلاین با تمامی کارت‌های بانکی</p>
+                      </div>
+                    </div>
+                  </label>
+            
+                  <!-- wallet -->
+                  <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                    <input type="radio" name="paymentOption" value="wallet" class="form-check-input mt-1 me-3">
+                    <div class="d-flex flex-grow-1">
+                      <div class="me-3">
+                          <svg width="30" height="30" fill="#788fad" class="bi bi-wallet2" viewBox="0 0 16 16">
+                              <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                            </svg>
+                      </div>
+                      <div>
+                        <p class="fw-semibold mb-1 text-dark">کیف پول </p>
+                        <p class="text-muted small mb-0 d-flex align-items-center">
+                          موجودی:
+                          <span class="ms-2 fw-bold text-dark d-flex align-items-center">
+                            ۰
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+            
+                  <!-- credit card -->
+                  <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                    <input type="radio" name="paymentOption" value="corporate" class="form-check-input mt-1 me-3">
+                    <div class="d-flex flex-grow-1">
+                      <div class="me-3">
+                          <svg width="30" height="30" fill="#788fad" class="bi bi-credit-card" viewBox="0 0 16 16">
+                              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+                              <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                            </svg>
+                      </div>
+                      <div>
+                        <p class="fw-semibold mb-1 text-dark">پرداخت با کارت اعتباری</p>
+                        <p class="text-muted small mb-0">ویژه ی سازمان‌ها و شرکت‌ها</p>
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <!-- credit card -->
+                  <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                    <input type="radio" name="paymentOption" value="corporate" class="form-check-input mt-1 me-3">
+                    <div class="d-flex flex-grow-1">
+                      <div class="me-3">
+                        <svg width="30" height="30" fill="#788fad" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                          <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                          <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="fw-semibold mb-1 text-dark">پرداخت با حواله بانکی</p>
+                        <p class="text-muted small mb-0">حواله بانکی یا کارت به کارت</p>
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <!-- To upload a deposit slip -->
+                  <div id="bank-transfer-upload" class="mt-4 d-none d-flex flex-column flex-md-row justify-content-between">
+                    <div class="d-flex flex-column justify-content-between">
+                      <div class="copy-container mt-2">
+                        <label>شماره کارت:</label>
+                        <span class="copy-text bg-light p-2" data-copy="6104000011112222">6104000011112222</span>
+                      </div>
+                      <div class="copy-container mt-3">
+                        <label>شماره حساب:</label>
+                        <span class="copy-text bg-light p-2" data-copy="457854785">457854785</span>
+                      </div>
+                      <div class="copy-container mt-3">
+                        <label>نام شخص واریز کننده:</label>
+                        <input type="text" class="form-control my-1">
+                      </div>
+                      <div class="copy-container mt-3">
+                        <label for="bankSelector">مبدا کارت واریز کننده:</label>
+                        <select id="bankSelector" class="form-select my-1">
+                          <option value=""></option>
+                          <option value="melli">بانک ملی ایران</option>
+                          <option value="saderat">بانک صادرات ایران</option>
+                          <option value="mellat">بانک ملت</option>
+                          <option value="tejarat">بانک تجارت</option>
+                          <option value="refah">بانک رفاه کارگران</option>
+                          <option value="sepah">بانک سپه</option>
+                          <option value="keshavarzi">بانک کشاورزی</option>
+                          <option value="maskan">بانک مسکن</option>
+                          <option value="saman">بانک سامان</option>
+                          <option value="parsian">بانک پارسیان</option>
+                          <option value="pasargad">بانک پاسارگاد</option>
+                          <option value="karafarin">بانک کارآفرین</option>
+                          <option value="sina">بانک سینا</option>
+                          <option value="eghtesadnovin">بانک اقتصاد نوین</option>
+                          <option value="ayandeh">بانک آینده</option>
+                          <option value="shahr">بانک شهر</option>
+                          <option value="tourism">بانک گردشگری</option>
+                          <option value="resalat">بانک قرض‌الحسنه رسالت</option>
+                          <option value="mehr">بانک قرض‌الحسنه مهر ایران</option>
+                          <option value="day">بانک دی</option>
+                          <option value="iranZamin">بانک ایران زمین</option>
+                          <option value="gardeshgari">بانک گردشگری</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  <div class="">
+                    <label class="form-label fw-bold">آپلود تصویر رسید:</label>
+                    <input type="file" class="form-control" accept="image/*">
+                    <small class="text-muted">تصویر رسید پرداخت کارت به کارت یا حواله بانکی را بارگذاری کنید.</small>
+                  </div>
+                  </div>
+                  <!-- end To upload a deposit slip -->
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
     </div>
+
+
+
 @endsection
 
 @section('script')
+<!-- To upload a deposit slip -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const paymentRadios = document.querySelectorAll('input[name="paymentOption"]');
+    const uploadDiv = document.getElementById("bank-transfer-upload");
+  
+    paymentRadios.forEach(radio => {
+      radio.addEventListener("change", function () {
+        const labelText = this.closest("label").innerText;
+        const isBankTransfer = labelText.includes("حواله بانکی");
+  
+        if (isBankTransfer) {
+          uploadDiv.classList.remove("d-none");
+        } else {
+          uploadDiv.classList.add("d-none");
+        }
+      });
+    });
+  });
+
+  //###### for copy card number ######
+    document.querySelectorAll('.copy-text').forEach(el => {
+    el.addEventListener('click', function () {
+      const text = this.dataset.copy;
+      navigator.clipboard.writeText(text).then(() => {
+        // Delete previous message (if any)
+        const container = this.parentElement;
+        const oldMsg = container.querySelector('.copy-msg');
+        if (oldMsg) oldMsg.remove();
+
+     // Create and display a new message
+        const msg = document.createElement('div');
+        msg.className = 'copy-msg';
+        msg.innerText = 'کپی شد!';
+        container.appendChild(msg);
+
+       // Delete message after 2 seconds
+        setTimeout(() => {
+          msg.remove();
+        }, 2000);
+      });
+    });
+  });
+  //###### end for copy card number ######
+
+  </script>
+<!-- end To upload a deposit slip -->
+
 
 @endsection

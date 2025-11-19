@@ -26,23 +26,9 @@
     @endforeach
 </ul>
 
-<style>
-    .category-tree .child-list {
-        border-left: 1px dashed #ccc;
-        padding-left: 10px;
-        margin-top: 4px;
-    }
-    .category-node a {
-        text-decoration: none;
-        color: #333;
-    }
-    .category-node a:hover {
-        color: #0d6efd;
-    }
-    .text-danger.fw-bold {
-        color: #dc3545 !important;
-    }
-</style>
+
+{{-- The styles for this page have been moved to file "products page.css",
+ You will find it with the comment " style category-tree "--}}
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
