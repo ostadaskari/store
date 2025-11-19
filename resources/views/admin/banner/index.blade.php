@@ -2,6 +2,7 @@
 
 @section('style')
     <style>
+        /* Style for current sortable banners */
         .banner-item {
             display: flex;
             align-items: center;
@@ -19,65 +20,143 @@
             background-color: #eef2f7;
         }
 
-        .banner-thumb {
+        /* Thumb for currently saved banners (smaller size) */
+        .banner-item .banner-thumb {
             height: 80px;
             width: 150px;
             object-fit: cover;
             border-radius: 6px;
             border: 1px solid #ccc;
         }
-
-        .add-btn {
-            margin-top: 20px;
+        
+        /* Layout for new banner upload section */
+        .banner-upload {
+            position: relative; 
+            display: flex;
+            align-items: flex-start; 
+            gap: 20px; 
+            border: 1px solid #e9ecef;
+            padding: 20px; 
+            border-radius: 10px;
+            margin-bottom: 25px !important; 
         }
 
-        .alt-input {
-            width: 100%;
-            margin-top: 8px;
+        .left-side, .right-side {
+            display: flex;
+            flex-direction: column;
+            width: 50%; 
         }
 
-        .delete-btn {
+        @media (max-width: 768px) {
+            .banner-upload{
+                flex-direction:column;
+            }
+            .left-side, .right-side {
+                width: 100%; 
+            }
+        }
+        .right-side {
+            order: 1; /* Image/File on the right in RTL */
+        }
 
-            font-weight: bold;
+        .left-side {
+            order: 2; /* Alt text on the left in RTL */
+        }
+
+        /* Thumb for new upload preview (larger size) */
+        .banner-upload .banner-thumb {
+            width: 100%; 
+            max-height: 200px; 
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            padding: 5px;
+            margin-bottom: 15px !important; /* Spacing below the preview */
+        }
+
+        /* Modern input style */
+        .form-control-modern {
+            height: 48px; 
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #d1d9e6;
         }
     </style>
 @endsection
 
 @section('content')
-    <div class="container" dir="rtl">
-        <h2>مدیریت بنرهای اول سایت</h2>
+    <div class="container px-0" dir="rtl">
+        <div class="seven mt-3">
+            <h1>مدیریت بنرهای اول سایت</h1>
+        </div>
 
-        {{-- ✅ Upload new banners --}}
-        <form action="{{ route('banners.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div id="banner-inputs">
-                <div class="banner-upload mb-3">
-                    <input type="file" name="images[]" class="form-control mb-2 banner-file" accept="image/*" required>
-                    <input type="text" name="alts[]" class="form-control alt-input" placeholder="متن جایگزین تصویر (alt)" required>
-                    <img src="#" class="banner-thumb mt-2 d-none" alt="preview">
-                </div>
-            </div>
-
-            <button type="button" id="addMore1" class="btn btn-secondary add-btn">افزودن بنر جدید +</button>
-            <button type="submit" class="btn btn-primary mt-3">آپلود</button>
-        </form>
-
-        <hr>
-
-        <h4 class="mt-4">بنرهای فعلی (قابل جابجایی)</h4>
-        <ul id="sortable" class="list-unstyled">
-            @foreach ($banners as $banner)
-                <li class="banner-item" data-id="{{ $banner->id }}">
-                    <div>
-                        <img src="{{ asset($banner->image_path) }}" class="banner-thumb me-3" alt="{{ $banner->alt_text }}">                        <div class="mt-1 text-muted small">Alt: {{ $banner->alt_text ?? '-' }}</div>
+        <div class="card p-3">
+            {{-- ✅ Upload new banners --}}
+            <form action="{{ route('banners.store') }}" method="POST" enctype="multipart/form-data" dir="rtl">
+                @csrf
+                <div id="banner-inputs">
+                    {{-- Single Banner Input Block --}}
+                    <div class="banner-upload mb-3">
+                        
+                        {{-- ➡️ Right Side (Image Upload & Preview) --}}
+                        <div class="right-side">
+                            {{-- Preview Image (Above the File Input) --}}
+                            <label class="form-label">تصویر بنر (Choose File):</label>
+                            <img src="#" class="banner-thumb mt-2 d-none" alt="پیش‌نمایش تصویر">
+                            
+                            {{-- File Input --}}
+                            <input type="file" name="images[]" class="form-control form-control-modern banner-file" accept="image/*" required>
+                        </div>
+                        
+                        {{-- ⬅️ Left Side (Alt Text Input) --}}
+                        <div class="left-side">
+                            {{-- Alt Text Input --}}
+                            <label class="form-label">متن جایگزین (Alt):</label>
+                            <input type="text" name="alts[]" class="form-control form-control-modern alt-input" placeholder="متن جایگزین تصویر برای سئو" required>
+                        </div>
+                        
+                        <button type="button" class="btn btn-danger btn-sm remove-banner-btn d-none" style="position: absolute; top: 5px; left: 5px;">
+                            ❌
+                        </button>
                     </div>
-                    <form method="POST" action="{{ route('banners.destroy', $banner->id) }}" class="delete-form d-inline">
-                        @csrf @method('DELETE')
-                        <button type="button" class="btn btn-sm btn-danger delete-btn">حذف</button>
-                    </form>
-                </li>
-            @endforeach
-        </ul>
+                    {{-- End of Single Banner Input Block --}}
+                </div>
+
+                <div class="row mt-4 d-flex justify-content-end px-3">
+                    {{-- Add Button (Left Aligned for RTL context) --}}
+                    <div class="col-auto px-0 mx-1">
+                        <button type="button" id="addMore1" class="btn btn-secondary add-btn">افزودن بنر جدید +</button>
+                    </div>
+                    
+                    {{-- Submit Button (Right Aligned or standard float) --}}
+                    <div class="col-auto px-0">
+                        <button type="submit" class="btn btn-primary">آپلود نهایی</button>
+                    </div>
+                </div>
+            </form>
+        </div>   
+
+
+        <div class="seven mt-3">
+            <h1>بنرهای فعلی (قابل جابجایی)</h1>
+        </div>
+        <div class="card p-3">
+            <ul id="sortable" class="list-unstyled">
+                @foreach ($banners as $banner)
+                    <li class="banner-item" data-id="{{ $banner->id }}">
+                        <div>
+                            <img src="{{ asset('storage/'.$banner->image_path) }}" class="banner-thumb me-3" alt="{{ $banner->alt_text }}">
+                            <div class="mt-1 text-muted small">Alt: {{ $banner->alt_text ?? '-' }}</div>
+                        </div>
+                        <form method="POST" action="{{ route('banners.destroy', $banner->id) }}" class="delete-form d-inline">
+                            @csrf @method('DELETE')
+                            <button type="button" class="btn btn-sm btn-danger delete-btn">حذف</button>
+                        </form>
+                    </li>
+                @endforeach
+            </ul>
+        </div>  
     </div>
 @endsection
 
