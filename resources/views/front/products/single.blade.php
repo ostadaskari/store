@@ -11,7 +11,7 @@
     <!-- ============================
            BREADCRUMB
     ============================= -->
-    <div class="container mb-2 " style="margin-top:200px;">
+    <div class="container mb-2 mt-4 topPadd">
         <div class="row">
             <div class="col-12">
                 <nav aria-label="breadcrumb">
@@ -43,7 +43,7 @@
            PRODUCT DETAILS
     ============================= -->
 
-    <div class="container bg-white px-0 border-bottom">
+    <div class="container px-0 border-bottom">
         <div class="row">
 
             <!-- ACTION COLUMN -->
@@ -194,7 +194,10 @@
                 </div>
 
                 <div class="title-sub-nav-product-single d-flex flex-row align-items-center border-bottom w-100">
-                    <i class="bi bi-bag-check" style="font-size:20px;"></i>
+                    <svg width="20" height="20" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                        </svg>
                     {{ $product->available_qty ? 'موجودی :  '.$product->available_qty.' عدد' : 'ناموجود' }}
                 </div>
 
@@ -496,6 +499,9 @@
 @section('script')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('design/js/zoomy.js') }}"></script>
+
+    <script src="https://unpkg.com/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 

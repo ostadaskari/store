@@ -170,9 +170,9 @@
                     <div class="d-flex justify-content-end flex-column mb-2">
                         <div class="input-group d-flex align-items-center">
                             <span class="fw-bold fs-6" style="width: 25%;">کد تخفیف</span>
-                            <input type="text" id="discountCode" class="form-control py-2"  placeholder="کد تخفیف خود را وارد کنید" aria-label="کد تخفیف">
+                            <input type="text" id="discountCode" class="form-control"  placeholder="کد تخفیف خود را وارد کنید" aria-label="کد تخفیف">
                             <!-- Discount code "OFF50" for testing -->
-                            <button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>
+                            <button class="btn btn-outline-secondary btn-success text-dark px-1" type="button" id="applyDiscount">ثبت</button>
                         </div>
                         <!-- Message -->
                         <div id="discountMessage" class="mt-2 small text-danger"></div>
@@ -207,7 +207,7 @@
 
         <!-- Checkout Page -->
         <div class="row">
-          <div class="col-12 col-md-8">
+          <div class="col-12 col-md-8 px-0">
             <div class="d-flex align-items-center justify-content-between mb-3">
               <h6 class="card-title m-0">شیوه پرداخت</h6>
             </div>
