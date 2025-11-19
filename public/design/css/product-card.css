@@ -6,7 +6,7 @@
     flex-direction: column;
     position: relative;
     cursor: pointer;
-    margin:20px 1px;
+    margin:6px 1px;
     border-radius: 2px;
   }
  
@@ -40,26 +40,27 @@
   /* product-name in pro */
   .product-card .pro .product-name {
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
     padding: 5px 15px;
     white-space: nowrap;
     overflow: hidden;
-    text-align: right;
+    text-align: left;
     position: relative;
+    margin-top: 40px;
     max-width: 100%;
-    mask-image: linear-gradient(to right, transparent 2%, rgb(255, 255, 255) 40%);
+    mask-image: linear-gradient(to left, transparent 2%, rgb(255, 255, 255) 40%);
   }
   .product-card .pro .product-name:hover{
-    mask-image: linear-gradient(to right, transparent 0%, white 0%);
+    mask-image: linear-gradient(to left, transparent 0%, white 0%);
   }
   .product-card .pro .product-name span {
     display: inline-block;
-    transform: translateX(0);
+    transform: translateX(1);
     transition: transform 5s linear;
   }
   
   .product-card .pro .product-name:hover span {
-    transform: translateX(100%);
+    transform: translateX(-100px);
   }
   
   /* Sale label inside the triangle badge */
@@ -73,6 +74,13 @@
     font-size: 12px;
     white-space: nowrap;
   }
+.card-text{
+  height: 50px;
+  mask-image: linear-gradient(to bottom, 
+  rgb(255, 255, 255) 40%, 
+  transparent 98%);
+  overflow: hidden;
+}
 
   /* Badge for star rating */
   #offerSectionDown .product-card .pro .badge-star{
@@ -80,12 +88,15 @@
   }
   .product-card .pro .badge-star {
     width: 45px;
-    top:25px;
-    right: 89%;
+    top:25px!important;
+    right: 89%!important;
     background-color: #ffd901;
     color: rgb(31, 31, 31);
     border-radius: 0 5px 5px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     }
   .product-card .pro .top {
     height:200px;
@@ -95,7 +106,7 @@
   }
 
   .product-card .pro .top img {
-    max-width: 65%;
+    max-width: 85%;
     max-height: 100%;
     object-fit: contain;
   }
@@ -193,7 +204,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     z-index: 10;
-    height: 60%;
+    height: 50%;
     width: 90%;
     margin: 7px auto;
   }
@@ -204,3 +215,33 @@
     z-index: 11;
   }
   
+  /* add style zoomy*/
+  #el .owl-carousel {
+    width: 300px;
+  }
+  #el .owl-carousel .owl-stage-outer{
+    width: 85%;
+    margin: auto;
+    background-color:#fff!important;
+  }
+  #el .owl-carousel .owl-item img{
+    width: 100%;
+  }
+
+  #el .owl-carousel .owl-nav{
+    top:20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0;
+  }
+  #el .owl-carousel .owl-nav button{
+      font-size: 30px;
+      width: 20px;
+      height: 20px;
+      color:rgb(245, 138, 67);
+      border-radius:50%;
+      box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1) !important;
+      display: flex;
+      align-items:center;
+      justify-content: center;
+  }

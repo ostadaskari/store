@@ -132,6 +132,9 @@
   background-color: #005eb6de;
 }
 
+.topPadd{
+  padding-top: 170px;
+}
 /* Responsive Sidebar Behavior */
 @media (max-width: 768px) {
   .right-side {
@@ -169,6 +172,9 @@
   }
   .products-area .badge-star{
     right: 94%!important;
+  }
+  .topPadd{
+    padding-top: 70px;
   }
 }
 
@@ -210,3 +216,95 @@
   #applyBtn:hover{
     background-color:rgba(116, 167, 173, 0.226);
   }
+
+  /* style category-tree */
+
+:root {
+    --primary-blue: #0d6efd; 
+    --hover-background: #f8f9fa; 
+    --text-color: #495057; 
+    --border-color: #e9ecef; 
+    --active-color: #dc3545; 
+}
+
+.cardCategoris {
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+    border-radius: 12px;
+    border: none;
+}
+
+.cardH5 {
+    color: #fafafa;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color); 
+    padding: 10px;
+    background-color: var(--main-color);
+    margin-bottom: 0 !important; 
+    border-radius:12px 12px 0 0;
+}
+.category-tree {
+    padding-inline-start: 0;
+}
+
+.category-tree .child-list {
+    border-right: 1px solid var(--border-color); 
+    padding-right: 15px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+
+.category-node {
+    margin: 4px 0; 
+}
+
+.category-node > div.d-flex {
+    margin: 3px 0;
+    padding: 5px 0px; 
+    border-radius: 6px; 
+    transition: background-color 0.2s, box-shadow 0.2s;
+    line-height: 1.2;
+}
+
+.category-node > div.d-flex:hover {
+    background-color: var(--hover-background); 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+}
+
+.category-node div a {
+    padding: 0; 
+    text-decoration: none;
+    color: var(--text-color) !important;
+    font-size: 14px;
+    transition: color 0.2s;
+    flex-grow: 1; 
+}
+
+.category-node .toggle,
+.category-node .d-flex .me-3 {
+    font-weight: bold;
+    font-size: 1.1em;
+    width: 20px; 
+    text-align: center;
+    color: var(--primary-blue); 
+}
+.category-node .d-flex .me-3 {
+    color: transparent;
+}
+
+.category-node a.text-danger.fw-bold {
+    color: var(--active-color) !important; 
+    font-weight: 700;
+}
+
+.category-node a.text-danger.fw-bold ~ .toggle {
+    color: var(--active-color);
+}
+.category-node a.text-danger.fw-bold:closest(.d-flex) {
+    background-color: rgba(220, 53, 69, 0.05);
+}
+.subCategoryCard:hover{
+     background-color: var(--hover-background); 
+}
