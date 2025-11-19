@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductSEOController;
 use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CartCouponController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
@@ -45,6 +47,10 @@ Route::middleware('admin')->group(callback: function(){
     Route::post('/admin/prices/settings', [PriceController::class, 'saveSettings'])->name('admin.prices.saveSettings');
     Route::post('/admin/prices/save', [PriceController::class, 'saveProductPrice'])->name('admin.prices.saveProduct');
 
+    Route::get('/admin/discounts/search', [DiscountController::class, 'ajaxSearch'])->name('admin.discounts.ajaxSearch');
+    Route::resource('/admin/discounts', DiscountController::class)
+        ->names('admin.discounts');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -63,6 +69,11 @@ Route::prefix('cart')->group(function () {
     Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::get('/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+
+    // apply discount on Cart
+    Route::post('/coupon/apply', [CartCouponController::class, 'apply'])->name('cart.coupon.apply');
+    Route::post('/coupon/remove', [CartCouponController::class, 'remove'])->name('cart.coupon.remove');
 
 });
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
