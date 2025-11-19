@@ -24,10 +24,10 @@
 </head>
 <body class="rtl bg-light">
 <!-- ad bar -->
-{{--<div id="adBanner" class="ad-banner">--}}
-{{--    <button class="close-btn" onclick="closeAd()">×</button>--}}
-{{--    <div id="adText" class="ad-text">اینجا محل تبلیغات شماست!</div>--}}
-{{--</div>--}}
+<div id="adBanner" class="ad-banner">
+   <button class="close-btn" onclick="closeAd()">×</button>
+   <div id="adText" class="ad-text">اینجا محل تبلیغات شماست!</div>
+</div>
 <!--end ad bar  -->
 
 <!-- Start Store Header -->
