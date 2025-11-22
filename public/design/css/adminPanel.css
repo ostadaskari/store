@@ -61,7 +61,7 @@
   
   .EditorSvg {
     font-size: 18px;
-    color:#fe7743cc;
+    color:#e28902;
   }
   /* =====================
      General input style
@@ -1126,14 +1126,14 @@ manageOrder
       /* grid-template-rows: 27px 0; */
       grid-gap: 20px;
       align-items: center;
-      color:#d0653d;
+      color:#e28902;
   }
   
   .seven h1:after,.seven h1:before {
       content: " ";
       display: block;
-      border-bottom: 1px solid #d0653d;
-      border-top: 1px solid #d0653d;
+      border-bottom: 1px solid #e28902;
+      border-top: 1px solid #e28902;
       height: 5px;
       background-color:#f7f4dd;
   }
