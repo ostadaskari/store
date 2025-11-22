@@ -76,15 +76,15 @@
                    <img src="./logo (4).png" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
                 </div>
                 
-                <form class="custom-form" id="usernameLoginForm" method="POST" action="/login">
-                
+                <form class="custom-form" method="POST" action="">
+                @csrf
                     <div class="social-container">
                         <a href="{{ route('google.login') }}" class="btn btn-danger w-100">
                             <i class="fab fa-google"></i> Login with Google
                         </a>
                     </div>
                     
-                    <input type="text" id="usernameInput" name="username" placeholder="نام کاربری" class="form-control" required>
+                    <input type="text" id="usernameInput" name="email" placeholder="Email..." class="form-control" required>
                     
                     <div class="password-container">
                         <input class="form-control passwordId" type="password" id="passwordInput" name="password" placeholder="کلمه عبور..." required>

@@ -47,7 +47,7 @@
         <div class="row">
 
             <!-- ACTION COLUMN -->
-            <div class="col-12 col-md-1 action-column">
+            <div class="col-12 col-md-1 col-lg-1 action-column px-0">
                 <div class="actionDiv">
 
                     <div class="action-item" title="لایک" id="like-button">
@@ -89,7 +89,7 @@
             <!-- PRODUCT IMAGE -->
             {{-- 2. IMAGE GALLERY --}}
             {{-- Note: We only need the primary div for the zoomy plugin to attach to --}}
-            <div class="col-sm-12 col-md-4 d-flex align-items-center flex-column justify-content-between p-4" id="el">
+            <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center flex-column p-3" id="el">
                 {{-- The JS will inject the images here. Using the cover image as a fallback. --}}
                 <img class="img-fluid custom-img-fluid"
                      src="{{ $product->coverImage->url ?? asset('images/300x300.webp') }}"
@@ -97,7 +97,7 @@
             </div>
 
             <!-- PRODUCT FEATURES -->
-            <div class="col-sm-12 col-md-4 d-flex flex-column mt-3 mt-md-0 p-4">
+            <div class="col-12 col-md-6 col-lg-4 d-flex flex-column mt-3 mt-md-0 p-3">
 
                 <p class="partNumber">{{ $product->part_number }}</p>
 
@@ -176,7 +176,7 @@
             </div>
 
             <!-- RIGHT COLUMN (PRICE + INFO) -->
-            <div class="col-sm-12 col-md-3 d-flex align-items-center justify-content-between flex-column mt-5 mt-md-0 bg-leftSideSingle p-3">
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-between flex-column mt-5 mt-md-0 bg-leftSideSingle p-3">
 
                 <div class="d-flex align-items-center w-100">
                     <i class="bi bi-shop-window" style="font-size:24px;"></i>
@@ -184,8 +184,8 @@
                 </div>
 
                 <div class="score-product-single d-flex border-bottom w-100">
-                    <p class="border-left"><span>90%</span> رضایت از کالا</p>
-                    <p>عملکرد <span>بسیار خوب</span></p>
+                    <p class="border-left my-0"><span>90%</span> رضایت از کالا</p>
+                    <p class="my-0">عملکرد <span>بسیار خوب</span></p>
                 </div>
 
                 <div class="guarantee d-flex align-items-center border-bottom p-1 w-100">
@@ -193,8 +193,8 @@
                     <h1 class="m-0">گارانتی اصالت و سلامت فیزیکی</h1>
                 </div>
 
-                <div class="title-sub-nav-product-single d-flex flex-row align-items-center border-bottom w-100">
-                    <svg width="20" height="20" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                <div class="title-sub-nav-product-single d-flex flex-row align-items-center jus border-bottom w-100">
+                    <svg width="20" height="20" fill="green" class="bi bi-bag-check mx-2" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                         </svg>
@@ -202,31 +202,78 @@
                 </div>
 
                 <!-- PRICE -->
-                    <div class="offer-price-product-single d-flex flex-column mt-2 w-100">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 my-4 ">
+                    <div class="offer-price-product-single d-flex flex-row justify-content-between w-100 position-relative">
+                        <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                            20% -
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                        <s class="me-2">750,000 تومان</s>
 
-                    @php $display = $product->display_price_toman; @endphp
+                        @php $display = $product->display_price_toman; @endphp
 
                         @if($display)
                             <p class="m-0">{{ number_format($product->display_price_toman) }} تومان</p>
                         @else
                             <span class="text-muted">قیمت ثبت نشده</span>
                         @endif
-
+                        
                     </div>
 
 
-                <form action="{{ route('cart.add', $product) }}" method="POST">
+
+                </div>
+
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart">
                     @csrf
 
-                    <div class="qty-wrapper">
-                        <input type="number" name="qty" min="1" max="{{ $product->available_qty }}" value="1" autocomplete="off">
+                    {{-- Hidden input field to hold the actual quantity value for form submission. 
+                        This value is dynamically updated by the visible quantity control buttons (JS). --}}
+                    <div class="qty-wrapper" style="display: none;"> 
+                        <input type="number" 
+                            name="qty" 
+                            min="1" 
+                            max="{{ $product->available_qty }}" 
+                            value="1" 
+                            autocomplete="off"
+                            class="product-qty-input-js">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
-                        افزودن به سبد
+                    {{-- Visible Quantity Control Interface: Uses two buttons and a display span. --}}
+                    <div class="cart-control d-flex justify-content-center align-items-center gap-2 mx-0">
+                        
+                        {{-- Increase Quantity Button --}}
+                        <button type="button" class="increase-btn btn btn-sm btn-outline-secondary qty-plus-js">+</button>
+                        
+                        {{-- Quantity Display Span: Shows the current quantity to the user. --}}
+                        <span class="quantity fs-6 fw-bold qty-display-js">1</span>
+                        
+                        {{-- Decrease/Remove Button: Switches between Minus (-) and Trash icons based on qty (JS controlled). --}}
+                        <button type="button" class="decrease-btn btn btn-sm btn-outline-secondary qty-minus-js">
+                            
+                            {{-- Minus icon: Visible when quantity is > 1 --}}
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-dash icon-minus-js" viewBox="0 0 16 16">
+                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                            </svg>
+
+                            {{-- Trash icon: Visible when quantity is 1 (signals removal from cart logic) --}}
+                            <svg width="16" height="16" fill="rgb(206, 33, 33)" class="bi bi-trash icon-trash-js" style="display:none;" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                            </svg>
+                        </button>
+                        
+                    </div>
+                    
+                    {{-- Main Submit Button: Adds the product (with the hidden qty value) to the cart. --}}
+                    <button type="submit" class="addToCart-js addtocartProduct">
+                        <svg width="22" height="22" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+                            <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1z"/>
+                        </svg>
+                        افزودن به سبد خرید
                     </button>
                 </form>
-
 
             </div>
 
@@ -245,8 +292,16 @@
             <div class="row mt-5">
 
                 @foreach($relatedProducts as $item)
-                    <div class="col-6 col-md-3 product-card">
+                    <div class="col-12 col-md-3 p-0 px-2 product-card">
                         <div class="pro">
+
+                            <span class="badge badge-star">
+                            <p class="">3.4</p>
+                            <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                            </svg>
+                            </span>
+
                             <div class="top">
                                 <img src="{{$product->coverImage->url ?? asset('images/300x300.webp') }}" alt="{{ $item->company_cmt }}">
                             </div>
@@ -258,7 +313,7 @@
                             <div class="down">
 
                                 @if($item->display_price_toman)
-                                    <div class="final-price-div">
+                                    <div class="final-price-div mb-2">
                                         <div class="mx-1 number-format">
                                             {{ number_format($item->display_price_toman) }}
                                         </div>
@@ -276,9 +331,17 @@
                                             <span class="Quantity-stock">ناموجود</span>
                                         </div>
                                     @endif
+
+                                    <button class="addtocart">
+                                            خرید
+                                        </button>
                                 </div>
 
                             </div>
+                            <!-- ⚠ Overlay  -->
+                                <div class="product-overlay" style="height: 65%;">
+                                    <button class="btn btn-danger">جزئیات بیشتر</button>
+                                </div>
 
                         </div>
                     </div>
@@ -619,6 +682,51 @@
         // end notify
 
         // ###### end action-column ######
+
+
+        // ***************** js for input add to cart +/- *****************
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.formAddToCart');
+            if (!form) return;
+
+            const qtyInput = form.querySelector('.product-qty-input-js');
+            const qtyDisplay = form.querySelector('.qty-display-js');
+            const plusBtn = form.querySelector('.qty-plus-js');
+            const minusBtn = form.querySelector('.qty-minus-js');
+
+            const minQty = parseInt(qtyInput.min) || 1;
+            const maxQty = parseInt(qtyInput.max) || Infinity;
+
+            function updateQuantity(amount) {
+                let currentQty = parseInt(qtyInput.value);
+                let newQty = currentQty + amount;
+
+                // Minimum limit
+                if (newQty < minQty) {
+                    newQty = minQty;
+                }
+
+                // Maximum limit
+                if (newQty > maxQty) {
+                    newQty = maxQty;
+                }
+
+                qtyInput.value = newQty;
+                qtyDisplay.textContent = newQty;
+            }
+            
+            // Set the initial value in the display.
+            qtyDisplay.textContent = qtyInput.value;
+
+            plusBtn.addEventListener('click', function() {
+                updateQuantity(1);
+            });
+
+            minusBtn.addEventListener('click', function() {
+                updateQuantity(-1);
+            });
+        });
+    // ***************** end js for input add to cart +/- *****************
 
     </script>
 
