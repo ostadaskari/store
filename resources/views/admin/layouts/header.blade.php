@@ -49,6 +49,7 @@
                         <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif" ><i class='bi bi-tags-fill mx-2'></i>meta's</a></li>
                         <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2'></i>قیمت ها</a></li>
                         <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2'></i> تخفیف</a></li>
+                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-tags-fill mx-2'></i>باربری</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2'></i> آنالیز</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>

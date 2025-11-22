@@ -18,56 +18,32 @@
                     <div class="card-body px-md-4 py-3">
                         <!-- Payment options -->
                         <div class="mt-4">
-                            <!-- Online payment -->
-                            <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
-                                <input type="radio" name="paymentOption" value="credit" class="form-check-input mt-1 me-3" checked="">
-                                <div class="d-flex flex-grow-1">
-                                    <div class="me-3">
-                                        <svg width="30" height="30" fill="#788fad" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
-                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="fw-semibold mb-1 text-dark">ارسال با پست</p>
-                                        <p class="text-muted small mb-0">ارسال سه تا هفت روز کاری</p>
-                                    </div>
-                                </div>
-                            </label>
 
-                            <!-- wallet -->
-                            <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
-                                <input type="radio" name="paymentOption" value="wallet" class="form-check-input mt-1 me-3">
-                                <div class="d-flex flex-grow-1">
-                                    <div class="me-3">
-                                        <svg width="30" height="30" fill="#788fad" class="bi bi-wallet2" viewBox="0 0 16 16">
-                                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="fw-semibold mb-1 text-dark">تیپاکس</p>
-                                        <p class="text-muted small mb-0 d-flex align-items-center">
-                                            ارسال دو تا هفت روز کاری
-                                        </p>
-                                    </div>
-                                </div>
-                            </label>
+                            @foreach($shippings as $shipping)
+                                <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                                    <input type="radio"
+                                           name="shippingOption"
+                                           value="{{ $shipping->slug }}"
+                                           class="form-check-input mt-1 me-3"
+                                           data-price="{{ $shipping->price }}"
+                                           @if($loop->first) checked @endif
+                                    >
 
-                            <!-- credit card -->
-                            <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
-                                <input type="radio" name="paymentOption" value="corporate" class="form-check-input mt-1 me-3">
-                                <div class="d-flex flex-grow-1">
-                                    <div class="me-3">
-                                        <svg width="30" height="30" fill="#788fad" class="bi bi-credit-card" viewBox="0 0 16 16">
-                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"></path>
-                                            <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"></path>
-                                        </svg>
+                                    <div class="d-flex flex-grow-1">
+                                        <div class="me-3">
+                                            {{-- Add optional icons based on slug --}}
+                                        </div>
+                                        <div>
+                                            <p class="fw-semibold mb-1 text-dark">{{ $shipping->name }}</p>
+                                            @if($shipping->delivery_time)
+                                                <p class="text-muted small mb-0">{{ $shipping->delivery_time }}</p>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="fw-semibold mb-1 text-dark">پیک</p>
-                                        <p class="text-muted small mb-0">سریع ترین روش ارسال</p>
-                                    </div>
-                                </div>
-                            </label>
+                                </label>
+                            @endforeach
+
+
                         </div>
                     </div>
                 </section>
@@ -164,8 +140,9 @@
                     <div class="d-flex flex-column mb-3">
                         <div class="d-flex justify-content-between">
                             <span>هزینه ارسال</span>
-                            <span>50,000 تومان</span>
+                            <span class="shipping-cost">50,000 تومان</span>
                         </div>
+
                     </div>
 
 
@@ -370,134 +347,128 @@
 @endsection
 
 @section('script')
-<!-- To upload a deposit slip -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const paymentRadios = document.querySelectorAll('input[name="paymentOption"]');
-    const uploadDiv = document.getElementById("bank-transfer-upload");
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    {{--    AJAX COUPON AND TOTALS LOGIC --}}
+    <script>
+        $(document).ready(function () {
 
-    paymentRadios.forEach(radio => {
-      radio.addEventListener("change", function () {
-        const labelText = this.closest("label").innerText;
-        const isBankTransfer = labelText.includes("حواله بانکی");
+            // --- Core Total Calculation Function ---
+            function updateTotal(newDiscountAmount = null) {
 
-        if (isBankTransfer) {
-          uploadDiv.classList.remove("d-none");
-        } else {
-          uploadDiv.classList.add("d-none");
-        }
-      });
-    });
-  });
+                // Get current values
+                // Get the raw data-price attribute from the checked shipping option
+                let rawShippingPrice = $('input[name="shippingOption"]:checked').data('price');
 
-  //###### for copy card number ######
-    document.querySelectorAll('.copy-text').forEach(el => {
-    el.addEventListener('click', function () {
-      const text = this.dataset.copy;
-      navigator.clipboard.writeText(text).then(() => {
-        // Delete previous message (if any)
-        const container = this.parentElement;
-        const oldMsg = container.querySelector('.copy-msg');
-        if (oldMsg) oldMsg.remove();
+                // Clean the string by removing commas/non-digits before parsing
+                let shippingPrice = parseInt(String(rawShippingPrice).replace(/[^0-9.]/g, '')) || 0;
 
-     // Create and display a new message
-        const msg = document.createElement('div');
-        msg.className = 'copy-msg';
-        msg.innerText = 'کپی شد!';
-        container.appendChild(msg);
+                // Get current values
+                let cartTotal = {{ Cart::getTotal() }};
 
-       // Delete message after 2 seconds
-        setTimeout(() => {
-          msg.remove();
-        }, 2000);
-      });
-    });
-  });
-  //###### end for copy card number ######
+                // Determine discount: use the passed argument first, otherwise read from the display span
+                let discount;
+                if (newDiscountAmount !== null) {
+                    // If provided via function argument (from successful AJAX response)
+                    // Clean the passed discount amount (it might be a number or a string from backend)
+                    discount = parseInt(String(newDiscountAmount).replace(/[^0-9]/g, '')) || 0;
+                } else {
+                    // If reading from the DOM (e.g., shipping changed)
+                    let rawDiscountText = $('#discountAmountValue').text();
 
-  </script>
-<!-- end To upload a deposit slip -->
-
-{{--    apply discount --}}
-<script>
-    $(document).ready(function () {
-
-        // APPLY DISCOUNT
-        $('#applyDiscount').on('click', function () {
-            let code = $('#discountCode').val();
-
-            $.ajax({
-                url: "{{ route('cart.coupon.apply') }}",
-                type: "POST",
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    code: code
-                },
-                success: function (res) {
-
-                    let container = $('#discountCode').closest('.input-group');
-
-                    // Show success message
-                    $('#discountMessage')
-                        .removeClass('text-danger')
-                        .addClass('text-success')
-                        .text(res.message);
-
-                    // Show discount amount
-                    $('#discountAmountDisplay').removeClass('d-none');
-                    $('#discountAmountValue').text(res.discount_amount);
-
-                    // Update totals
-                    $('#payableAmount').text(res.payable + " تومان");
-
-                    // Disable input
-                    $('#discountCode').prop('disabled', true);
-
-                    // Replace apply button with remove button
-                    container.find('#applyDiscount').remove();
-                    container.append(`<button class="btn btn-danger px-1" id="removeDiscount">حذف</button>`);
+                    //  Clean the text read from the DOM, ensuring only digits remain.
+                    // This handles the formatted number placed by .toLocaleString()
+                    discount = parseInt(rawDiscountText.replace(/[^0-9]/g, '')) || 0;
                 }
-,
-                error: function (xhr) {
-                    let msg = xhr.responseJSON?.message ?? "خطایی رخ داد.";
-                    $('#discountMessage')
-                        .removeClass('text-success')
-                        .addClass('text-danger')
-                        .text(msg);
-                }
+
+                // --- 4. Calculate Payable ---
+                let payable = cartTotal + shippingPrice - discount;
+
+                // --- 5. Update Display Elements ---
+                $('#payableAmount').text(payable.toLocaleString() + " تومان");
+                $('.shipping-cost').text(shippingPrice.toLocaleString() + " تومان");
+
+                // Ensure the discount span itself reflects the clean, formatted discount value for consistency
+                $('#discountAmountValue').text(discount.toLocaleString());
+            }
+
+            // --- Shipping Change Handler ---
+            $('input[name="shippingOption"]').on('change', updateTotal);
+
+            // --- Initial Load: Apply default shipping price to totals ---
+            updateTotal();
+
+            // --- AJAX Handlers ---
+
+            // APPLY DISCOUNT
+            $(document).on('click', '#applyDiscount', function () {
+                let code = $('#discountCode').val();
+
+                // Disable button immediately to prevent double-click
+                $(this).prop('disabled', true);
+
+                $.ajax({
+                    url: "{{ route('cart.coupon.apply') }}",
+                    type: "POST",
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        code: code
+                    },
+                    success: function (res) {
+                        let container = $('#discountCode').closest('.input-group');
+
+                        // Update visual elements
+                        $('#discountMessage')
+                            .removeClass('text-danger')
+                            .addClass('text-success')
+                            .text(res.message);
+                        $('#discountAmountDisplay').removeClass('d-none');
+                        $('#discountCode').prop('disabled', true);
+
+                        // Replace apply button with remove button
+                        container.find('#applyDiscount').remove();
+                        container.append(`<button class="btn btn-danger px-1" type="button" id="removeDiscount">حذف</button>`);
+
+                        // 🛑 CRITICAL FIX: Update totals using the calculated discount amount from the response
+                        updateTotal(res.discount_amount);
+                    },
+                    error: function (xhr) {
+                        let msg = xhr.responseJSON?.message ?? "خطایی رخ داد.";
+                        $('#discountMessage')
+                            .removeClass('text-success')
+                            .addClass('text-danger')
+                            .text(msg);
+                        $('#applyDiscount').prop('disabled', false); // Re-enable button on error
+                    }
+                });
+            });
+
+            // REMOVE DISCOUNT
+            $(document).on('click', '#removeDiscount', function () {
+
+                // Disable button immediately
+                $(this).prop('disabled', true);
+
+                $.ajax({
+                    url: "{{ route('cart.coupon.remove') }}",
+                    type: "POST",
+                    data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function (res) {
+                        let container = $('#discountCode').closest('.input-group');
+
+                        // Reset visual elements
+                        $('#discountAmountDisplay').addClass('d-none');
+                        $('#discountMessage').text('');
+                        $('#discountCode').prop('disabled', false).val('');
+
+                        // Replace remove button with apply button
+                        container.find('#removeDiscount').remove();
+                        container.append(`<button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>`);
+
+                        // 🛑 CRITICAL FIX: Update totals, passing 0 as the new discount amount
+                        updateTotal(0);
+                    }
+                });
             });
         });
-
-        // REMOVE DISCOUNT
-        $(document).on('click', '#removeDiscount', function () {
-            $.ajax({
-                url: "{{ route('cart.coupon.remove') }}",
-                type: "POST",
-                data: {_token: $('meta[name="csrf-token"]').attr('content')},
-                success: function (res) {
-
-                    $('#discountAmountDisplay').addClass('d-none');
-                    $('#discountAmountValue').text(0);
-
-                    $('#discountMessage').text('');
-
-                    $('#discountCode')
-                        .prop('disabled', false)
-                        .val('');
-
-                    $('#payableAmount').text(res.total + " تومان");
-
-
-
-                    $('#removeDiscount').remove();
-                    $('#discountCode').after(`<button class="btn btn-outline-secondary px-1 ms-2" id="applyDiscount">ثبت</button>`);
-                }
-            });
-        });
-
-
-    });
-</script>
-
-
+    </script>
 @endsection
