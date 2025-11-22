@@ -1,4 +1,4 @@
-.zoom {height:400px; position: relative;}
+.zoom {position: relative;}
 .zoom-main {
     height:300px;
     position:relative;
@@ -37,7 +37,7 @@
     cursor: pointer;
 }
 .zoom .zoom-thumb .owl-stage{
-    width: 400px!important;
+    width: 600px!important;
 }
 .zoom-right .zoom-thumb a {float:left;height:20%;display:inline-block;}
 .zoom .zoom-thumb a img {height:100%;}

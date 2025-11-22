@@ -89,7 +89,7 @@
             <!-- PRODUCT IMAGE -->
             {{-- 2. IMAGE GALLERY --}}
             {{-- Note: We only need the primary div for the zoomy plugin to attach to --}}
-            <div class="col-sm-12 col-md-3 d-flex align-items-center flex-column justify-content-between p-4" id="el">
+            <div class="col-sm-12 col-md-4 d-flex align-items-center flex-column justify-content-between p-4" id="el">
                 {{-- The JS will inject the images here. Using the cover image as a fallback. --}}
                 <img class="img-fluid custom-img-fluid"
                      src="{{ $product->coverImage->url ?? asset('images/300x300.webp') }}"
@@ -176,7 +176,7 @@
             </div>
 
             <!-- RIGHT COLUMN (PRICE + INFO) -->
-            <div class="col-sm-12 col-md-4 d-flex align-items-center justify-content-between flex-column mt-5 mt-md-0 bg-leftSideSingle p-3">
+            <div class="col-sm-12 col-md-3 d-flex align-items-center justify-content-between flex-column mt-5 mt-md-0 bg-leftSideSingle p-3">
 
                 <div class="d-flex align-items-center w-100">
                     <i class="bi bi-shop-window" style="font-size:24px;"></i>

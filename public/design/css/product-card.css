@@ -209,14 +209,14 @@
 
 /* add style zoomy*/
 #el .owl-carousel {
-  width: 300px;
-  margin-top: 20px;
+  width:100%;
 }
 #el .owl-carousel .owl-stage-outer{
-  width: 85%;
+  width: 100%;
   margin: auto;
   background-color:#fff!important;
   z-index: 10;
+  
 }
 #el .owl-carousel .owl-item img{
   width: 100%;
@@ -229,13 +229,29 @@
   margin-top: 0;
 }
 #el .owl-carousel .owl-nav button{
-    font-size: 30px;
-    width: 20px;
-    height: 20px;
-    color:rgb(245, 138, 67);
-    border-radius:50%;
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1) !important;
-    display: flex;
-    align-items:center;
-    justify-content: center;
+  font-size: 30px;
+  width: 20px;
+  height: 20px;
+  color:rgb(245, 138, 67);
+  border-radius:50%;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1) !important;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  position: absolute; 
+  top: auto; 
+  margin: 0; 
+  z-index: 20;
+}
+
+  #el .owl-carousel .owl-nav .owl-prev {
+      right: -20px; 
+  }
+
+  #el .owl-carousel .owl-nav .owl-next {
+      left: -20px; 
+  }
+  #el .owl-carousel.owl-rtl .owl-item {
+    float: right;
+    margin: 0px !important;
 }
