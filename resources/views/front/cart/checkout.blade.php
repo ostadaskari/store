@@ -196,14 +196,6 @@
 
                     </div>
 
-
-
-
-                    <!-- dividing line -->
-                    <hr class="my-2">
-
-
-
                     <!-- dividing line -->
                     <hr class="my-2">
 

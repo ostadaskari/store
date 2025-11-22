@@ -141,7 +141,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">120,000,000</div>
@@ -168,7 +168,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -195,7 +195,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -222,7 +222,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -249,7 +249,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -276,7 +276,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -303,7 +303,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -330,7 +330,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -357,7 +357,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -384,7 +384,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -411,7 +411,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -438,7 +438,7 @@
                                 <div class="down">
                                     <div class="box">
                                         <div class="orginal">985,000 تومان</div>
-                                        <div class="off">34%</div>
+                                        <div class="off">40% -</div>
                                     </div>
                                     <div class="final-price-div">
                                         <div class="mx-1">540,000</div>
@@ -1508,7 +1508,7 @@
                 <div class="down">
                     <div class="box">
                         <div class="orginal">985,000 تومان</div>
-                        <div class="off">34%</div>
+                        <div class="off">40% -</div>
                     </div>
                     <div class="final-price-div">
                         <div class="mx-1">540,000</div>
@@ -1537,7 +1537,7 @@
                 <div class="down">
                     <div class="box">
                         <div class="orginal">985,000 تومان</div>
-                        <div class="off">34%</div>
+                        <div class="off">40% -</div>
                     </div>
                     <div class="final-price-div">
                         <div class="mx-1">540,000</div>
@@ -1566,7 +1566,7 @@
                 <div class="down">
                     <div class="box">
                         <div class="orginal">985,000 تومان</div>
-                        <div class="off">34%</div>
+                        <div class="off">40% -</div>
                     </div>
                     <div class="final-price-div">
                         <div class="mx-1">540,000</div>
@@ -1595,7 +1595,7 @@
                 <div class="down">
                     <div class="box">
                         <div class="orginal">985,000 تومان</div>
-                        <div class="off">34%</div>
+                        <div class="off">40% -</div>
                     </div>
                     <div class="final-price-div">
                         <div class="mx-1">540,000</div>

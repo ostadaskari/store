@@ -25,15 +25,15 @@
             <div class="row g-2">
                 <div class="col-md-3">
                     <label class="form-label">نرخ دلار (تومان)</label>
-                    <input type="number" id="rate" class="form-control" placeholder="نرخ دلار" value="{{ $settings->dollar_rate }}">
+                    <input type="number" id="rate" class="form-control input-ltr" placeholder="نرخ دلار" value="{{ $settings->dollar_rate }}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">درصد سود (%)</label>
-                    <input type="number" id="profit" class="form-control" placeholder="درصد سود" value="{{ $settings->profit_percent }}">
+                    <input type="number" id="profit" class="form-control input-ltr" placeholder="درصد سود" value="{{ $settings->profit_percent }}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">درصد هزینه اضافه (%)</label>
-                    <input type="number" id="extra" class="form-control" placeholder="درصد هزینه اضافی" value="{{ $settings->extra_percent }}">
+                    <input type="number" id="extra" class="form-control input-ltr" placeholder="درصد هزینه اضافی" value="{{ $settings->extra_percent }}">
                 </div>
                 <div class="col-md-3">
                     <button class="btn btn-success w-100" style="margin-top:30px;" id="save-settings">ثبت تنظیمات</button>
