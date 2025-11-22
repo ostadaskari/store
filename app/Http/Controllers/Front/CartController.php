@@ -36,9 +36,11 @@ class CartController extends Controller
     // Show cart
     public function index()
     {
+        $header_title = 'سبد خرید';
         return view('front.cart.index', [
             'cart' => \Cart::getContent(),
             'total' => \Cart::getTotal(),
+            'header_title' => $header_title
         ]);
     }
 

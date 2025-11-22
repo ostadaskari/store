@@ -28,23 +28,23 @@
             border-radius: 6px;
             border: 1px solid #ccc;
         }
-        
+
         /* Layout for new banner upload section */
         .banner-upload {
-            position: relative; 
+            position: relative;
             display: flex;
-            align-items: flex-start; 
-            gap: 20px; 
+            align-items: flex-start;
+            gap: 20px;
             border: 1px solid #e9ecef;
-            padding: 20px; 
+            padding: 20px;
             border-radius: 10px;
-            margin-bottom: 25px !important; 
+            margin-bottom: 25px !important;
         }
 
         .left-side, .right-side {
             display: flex;
             flex-direction: column;
-            width: 50%; 
+            width: 50%;
         }
 
         @media (max-width: 768px) {
@@ -52,7 +52,7 @@
                 flex-direction:column;
             }
             .left-side, .right-side {
-                width: 100%; 
+                width: 100%;
             }
         }
         .right-side {
@@ -65,8 +65,8 @@
 
         /* Thumb for new upload preview (larger size) */
         .banner-upload .banner-thumb {
-            width: 100%; 
-            max-height: 200px; 
+            width: 100%;
+            max-height: 200px;
             object-fit: contain;
             border-radius: 6px;
             border: 1px solid #dee2e6;
@@ -77,7 +77,7 @@
 
         /* Modern input style */
         .form-control-modern {
-            height: 48px; 
+            height: 48px;
             padding: 10px 15px;
             border-radius: 8px;
             border: 1px solid #d1d9e6;
@@ -98,24 +98,24 @@
                 <div id="banner-inputs">
                     {{-- Single Banner Input Block --}}
                     <div class="banner-upload mb-3">
-                        
+
                         {{-- ➡️ Right Side (Image Upload & Preview) --}}
                         <div class="right-side">
                             {{-- Preview Image (Above the File Input) --}}
                             <label class="form-label">تصویر بنر (Choose File):</label>
                             <img src="#" class="banner-thumb mt-2 d-none" alt="پیش‌نمایش تصویر">
-                            
+
                             {{-- File Input --}}
                             <input type="file" name="images[]" class="form-control form-control-modern banner-file" accept="image/*" required>
                         </div>
-                        
+
                         {{-- ⬅️ Left Side (Alt Text Input) --}}
                         <div class="left-side">
                             {{-- Alt Text Input --}}
                             <label class="form-label">متن جایگزین (Alt):</label>
                             <input type="text" name="alts[]" class="form-control form-control-modern alt-input" placeholder="متن جایگزین تصویر برای سئو" required>
                         </div>
-                        
+
                         <button type="button" class="btn btn-danger btn-sm remove-banner-btn d-none" style="position: absolute; top: 5px; left: 5px;">
                             ❌
                         </button>
@@ -128,14 +128,14 @@
                     <div class="col-auto px-0 mx-1">
                         <button type="button" id="addMore1" class="btn btn-secondary add-btn">افزودن بنر جدید +</button>
                     </div>
-                    
+
                     {{-- Submit Button (Right Aligned or standard float) --}}
                     <div class="col-auto px-0">
                         <button type="submit" class="btn btn-primary">آپلود نهایی</button>
                     </div>
                 </div>
             </form>
-        </div>   
+        </div>
 
 
         <div class="seven mt-3">
@@ -146,7 +146,7 @@
                 @foreach ($banners as $banner)
                     <li class="banner-item" data-id="{{ $banner->id }}">
                         <div>
-                            <img src="{{ asset('storage/'.$banner->image_path) }}" class="banner-thumb me-3" alt="{{ $banner->alt_text }}">
+                            <img src="{{ asset($banner->image_path) }}" class="banner-thumb me-3" alt="{{ $banner->alt_text }}">
                             <div class="mt-1 text-muted small">Alt: {{ $banner->alt_text ?? '-' }}</div>
                         </div>
                         <form method="POST" action="{{ route('banners.destroy', $banner->id) }}" class="delete-form d-inline">
@@ -156,7 +156,7 @@
                     </li>
                 @endforeach
             </ul>
-        </div>  
+        </div>
     </div>
 @endsection
 

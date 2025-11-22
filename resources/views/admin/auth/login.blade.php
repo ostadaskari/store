@@ -29,22 +29,22 @@
         </div>
 
         <div class="form-container">
-            
+
             {{--show errors--}}
             @include('admin.layouts._message')
 
             <div id="mobile-tab" class="tab-pane active w-100">
-                
+
                 <form id="mobile-step-1-form" class="custom-form active-step" method="POST" action="">
                      @csrf
                     <div class="logoContainer">
-                        <img src="./logo (4).png" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
+                        <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
                     </div>
                     <p class="text-sm mt-4 text-center">برای ورود به سایت لطفا شماره موبایل خود را جهت دریافت کد تایید وارد کنید.</p>
-                    
-                    <input type="tel" id="mobileNumberInput" name="mobile" class="form-control input-ltr" 
+
+                    <input type="tel" id="mobileNumberInput" name="mobile" class="form-control input-ltr"
                             placeholder="۰۹۱۲۶۳۲۴۷۴۵" maxlength="11" required>
-                    
+
                     <button class="btn-primary" type="button" id="js-mobile-continue">ادامه</button>
                 </form>
 
@@ -56,44 +56,44 @@
                     </div>
                     <h1 class="text-center"><i class="fa fa-mobile-alt login-input-icon mx-1"></i>کد تایید را وارد کنید</h1>
                     <p class="text-center text-sm">کد ۴ رقمی ارسال شده به شماره <span id="displayMobileNumber" class="fw-bold text-dark"></span> را وارد کنید.</p>
-                    
+
                     <div class="otp-input-group" dir="ltr">
                         <input type="text" class="otp-input form-control" maxlength="1" data-index="0" name="otp_0" inputmode="numeric">
                         <input type="text" class="otp-input form-control" maxlength="1" data-index="1" name="otp_1" inputmode="numeric">
                         <input type="text" class="otp-input form-control" maxlength="1" data-index="2" name="otp_2" inputmode="numeric">
                         <input type="text" class="otp-input form-control" maxlength="1" data-index="3" name="otp_3" inputmode="numeric">
-                        <input type="hidden" id="hiddenMobileForOtp" name="mobile"> 
+                        <input type="hidden" id="hiddenMobileForOtp" name="mobile">
                     </div>
-                    
+
                     <button class="btn-primary" type="button" id="js-otp-login">ورود</button>
-                    
+
                     <a href="#" class="forgotPass mt-4" id="resend-otp">ارسال مجدد کد تایید</a>
                 </form>
             </div>
 
             <div id="username-tab" class="tab-pane w-100">
                 <div class="logoContainer">
-                   <img src="./logo (4).png" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
+                   <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
                 </div>
-                
-                <form class="custom-form" id="usernameLoginForm" method="POST" action="/login">
-                
+
+                <form class="custom-form"  method="POST" action="">
+                    @csrf
                     <div class="social-container">
                         <a href="{{ route('google.login') }}" class="btn btn-danger w-100">
                             <i class="fab fa-google"></i> Login with Google
                         </a>
                     </div>
-                    
-                    <input type="text" id="usernameInput" name="username" placeholder="نام کاربری" class="form-control" required>
-                    
+
+                    <input type="text" id="usernameInput" name="email" placeholder="Email" class="form-control" required>
+
                     <div class="password-container">
                         <input class="form-control passwordId" type="password" id="passwordInput" name="password" placeholder="کلمه عبور..." required>
                         <span class="password-toggle" data-target="passwordInput">
                             <i class="fa fa-eye-slash" aria-hidden="true"></i>
                         </span>
                     </div>
-                    
-                    <a href="#" class="forgotPass">فراموشی رمز عبور</a>
+
+                    <a href="" class="forgotPass">فراموشی رمز عبور</a>
                     <button class="btn-primary" type="submit">ورود</button>
 
                 </form>
@@ -120,12 +120,12 @@
                 const canvas = document.getElementById("bg");
                 if (!canvas) return; // Prevent error if canvas is missing
 
-                const renderer = new THREE.WebGLRenderer({ 
+                const renderer = new THREE.WebGLRenderer({
                     canvas: canvas,
                     alpha: true,
                     antialias: true
                 });
-                renderer.setClearColor(0x000000, 0); 
+                renderer.setClearColor(0x000000, 0);
                 renderer.setSize(window.innerWidth, window.innerHeight);
 
                 // Stars (particles) logic... (as originally written)
@@ -138,9 +138,9 @@
                     positions[i+1] = (Math.random() - 0.5) * 100;
                     positions[i+2] = (Math.random() - 0.5) * 100;
 
-                    const r = Math.random() * 0.5 + 0.5; 
-                    const g = Math.random() * 0.5 + 0.5; 
-                    const b = Math.random() * 0.5 + 0.5; 
+                    const r = Math.random() * 0.5 + 0.5;
+                    const g = Math.random() * 0.5 + 0.5;
+                    const b = Math.random() * 0.5 + 0.5;
                     colors[i] = r;
                     colors[i+1] = g;
                     colors[i+2] = b;
@@ -187,10 +187,10 @@
                     camera.updateProjectionMatrix();
                 });
             }
-            
+
             // Use DOMContentLoaded to ensure the canvas exists before calling setupThreeJS
             document.addEventListener('DOMContentLoaded', setupThreeJS);
-        
+
         //====================================================
         //          end js code for background
         //====================================================
@@ -204,8 +204,8 @@
         const tabUsername = document.getElementById('tab-username');
         const mobileTab = document.getElementById('mobile-tab');
         const usernameTab = document.getElementById('username-tab');
-        const mobileStep1 = document.getElementById('mobile-step-1-form'); 
-        const mobileStep2 = document.getElementById('mobile-step-2-form'); 
+        const mobileStep1 = document.getElementById('mobile-step-1-form');
+        const mobileStep2 = document.getElementById('mobile-step-2-form');
         const mobileNumberInput = document.getElementById('mobileNumberInput');
         const displayMobileNumber = document.getElementById('displayMobileNumber');
         const btnMobileContinue = document.getElementById('js-mobile-continue');
@@ -217,7 +217,7 @@
 
         function showSweetAlert(title, text, icon = 'error') {
             const alertIcon = (icon === 'success') ? 'success' : 'error';
-            
+
             Swal.fire({
                 title: title,
                 text: text,
@@ -249,7 +249,7 @@
                 mobileTab.classList.add('active');
                 mobileStep1.classList.remove('hidden'); // Ensure mobile starts at step 1
                 mobileStep2.classList.add('hidden');
-        
+
             } else { // username
                 tabUsername.classList.add('active');
                 usernameTab.classList.add('active');
@@ -266,7 +266,7 @@
             if (mobileNumber.length !== 11 || !/^\d+$/.test(mobileNumber)) {
                 // !!! اصلاح شده: استفاده از showSweetAlert برای خطا !!!
                 showSweetAlert(
-                    'شماره نامعتبر', 
+                    'شماره نامعتبر',
                     'لطفاً یک شماره موبایل ۱۱ رقمی معتبر وارد کنید.'
                 );
                 return;
@@ -278,9 +278,9 @@
             mobileStep1.classList.add('hidden');
             mobileStep2.classList.remove('hidden');
             otpInputs[0].focus(); // Focus on the first OTP input
-            
-          
-          
+
+
+
         });
 
         // Step 2 -> Step 1 (Back button)
@@ -290,47 +290,8 @@
             mobileNumberInput.value = ''; // Clear number input
         });
 
-        // 3. OTP Input Logic (Automatic focus shift)
-        otpInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
-                    otpInputs[index + 1].focus();
-                } else if (index === otpInputs.length - 1 && e.target.value.length === 1) {
-                    btnOtpLogin.focus();
-                }
-            });
 
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
-                    otpInputs[index - 1].focus();
-                }
-            });
-        });
 
-        // 4. Final Login Submission (Mobile and Username)
-        btnOtpLogin.addEventListener('click', () => {
-            const otpCode = Array.from(otpInputs).map(input => input.value).join('');
-            const mobile = hiddenMobileForOtp.value.trim(); // گرفتن شماره موبایل از فیلد مخفی
-
-            if (otpCode.length !== 4) {
-                showSweetAlert(
-                    'کد ناقص است', 
-                    'لطفاً کد تایید ۴ رقمی را کامل وارد کنید.'
-                );
-                return;
-            }
-
-            // Simulated Successful Login
-            showSweetAlert(
-                'ورود موفق!', 
-                `ورود موفق! کد ${otpCode} برای شماره ${mobile} تایید شد.`, 
-                'success'
-            );
-            
-            // در محیط واقعی، اینجا باید فرم مرحله دوم را submit کنید:
-            // document.getElementById('mobile-step-2-form').submit();
-        });
 
 
         // 5. Password Visibility Toggle (EYE ICON)
@@ -353,10 +314,10 @@
         });
 
         // Initialize the first tab as active
-        document.addEventListener('DOMContentLoaded', () => {
-            switchTab('mobile');
-        });
-        
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     switchTab('mobile');
+        // });
+
     </script>
 </body>
 </html>

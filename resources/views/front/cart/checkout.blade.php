@@ -1,5 +1,7 @@
 @extends('front.layouts.app')
-
+@section('style')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 
 @section('content')
 
@@ -166,39 +168,53 @@
                         </div>
                     </div>
 
-                    {{-- discount--}}
+
+                    {{-- discount --}}
                     <div class="d-flex justify-content-end flex-column mb-2">
+
                         <div class="input-group d-flex align-items-center">
                             <span class="fw-bold fs-6" style="width: 25%;">کد تخفیف</span>
-                            <input type="text" id="discountCode" class="form-control py-2"  placeholder="کد تخفیف خود را وارد کنید" aria-label="کد تخفیف">
-                            <!-- Discount code "OFF50" for testing -->
-                            <button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>
+
+                            <input type="text" id="discountCode" class="form-control py-2"
+                                   placeholder="کد تخفیف خود را وارد کنید"
+                                   value="{{ session('cart.discount.code') ?? '' }}"
+                                {{ session('cart.discount') ? 'disabled' : '' }}>
+
+                            @if(session('cart.discount'))
+                                <button class="btn btn-danger px-1" type="button" id="removeDiscount">حذف</button>
+                            @else
+                                <button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>
+                            @endif
                         </div>
-                        <!-- Message -->
+
                         <div id="discountMessage" class="mt-2 small text-danger"></div>
+
+                        <div id="discountAmountDisplay"
+                             class="mt-2 small text-success {{ session('cart.discount') ? '' : 'd-none' }}">
+                            مبلغ تخفیف: <span id="discountAmountValue">{{ session('cart.discount.amount') ?? 0 }}</span> تومان
+                        </div>
+
                     </div>
+
+
 
 
                     <!-- dividing line -->
                     <hr class="my-2">
 
-                    <!-- total sum -->
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="fw-bold">جمع کل</span>
-                        <span class="fw-bold">1,250,000 تومان</span>
-                    </div>
+
 
                     <!-- dividing line -->
                     <hr class="my-2">
 
                     <!--Amount payable-->
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="fw-bold fs-6">مبلغ قابل پرداخت</span>
-                        <span class="fw-bold fs-6">1,250,000 تومان</span>
+                    <div class="d-flex justify-content-between align-items-center mt-3 fw-bold">
+                        <span>مبلغ قابل پرداخت</span>
+                        <span id="payableAmount">{{ Cart::getTotal() - (session('cart.discount.amount') ?? 0) }} تومان</span>
                     </div>
 
                     <!-- Actions -->
-                    <a href="./checkout.html" class="btn btn-payment mt-4 w-100 py-2">
+                    <a href="" class="btn btn-payment mt-4 w-100 py-2">
                         ثبت نهایی سفارش
                     </a>
                 </div>
@@ -215,7 +231,7 @@
             <!-- Payment Section -->
             <section class="card shadow-sm mb-4">
               <div class="card-body px-4 py-3">
-            
+
                 <!-- Payment options -->
                 <div class="mt-4">
                   <!-- Online payment -->
@@ -233,7 +249,7 @@
                       </div>
                     </div>
                   </label>
-            
+
                   <!-- wallet -->
                   <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
                     <input type="radio" name="paymentOption" value="wallet" class="form-check-input mt-1 me-3">
@@ -254,7 +270,7 @@
                       </div>
                     </div>
                   </label>
-            
+
                   <!-- credit card -->
                   <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
                     <input type="radio" name="paymentOption" value="corporate" class="form-check-input mt-1 me-3">
@@ -271,7 +287,7 @@
                       </div>
                     </div>
                   </label>
-                  
+
                   <!-- credit card -->
                   <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
                     <input type="radio" name="paymentOption" value="corporate" class="form-check-input mt-1 me-3">
@@ -288,7 +304,7 @@
                       </div>
                     </div>
                   </label>
-                  
+
                   <!-- To upload a deposit slip -->
                   <div id="bank-transfer-upload" class="mt-4 d-none d-flex flex-column flex-md-row justify-content-between">
                     <div class="d-flex flex-column justify-content-between">
@@ -359,12 +375,12 @@
   document.addEventListener("DOMContentLoaded", function () {
     const paymentRadios = document.querySelectorAll('input[name="paymentOption"]');
     const uploadDiv = document.getElementById("bank-transfer-upload");
-  
+
     paymentRadios.forEach(radio => {
       radio.addEventListener("change", function () {
         const labelText = this.closest("label").innerText;
         const isBankTransfer = labelText.includes("حواله بانکی");
-  
+
         if (isBankTransfer) {
           uploadDiv.classList.remove("d-none");
         } else {
@@ -401,6 +417,87 @@
 
   </script>
 <!-- end To upload a deposit slip -->
+
+{{--    apply discount --}}
+<script>
+    $(document).ready(function () {
+
+        // APPLY DISCOUNT
+        $('#applyDiscount').on('click', function () {
+            let code = $('#discountCode').val();
+
+            $.ajax({
+                url: "{{ route('cart.coupon.apply') }}",
+                type: "POST",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    code: code
+                },
+                success: function (res) {
+
+                    let container = $('#discountCode').closest('.input-group');
+
+                    // Show success message
+                    $('#discountMessage')
+                        .removeClass('text-danger')
+                        .addClass('text-success')
+                        .text(res.message);
+
+                    // Show discount amount
+                    $('#discountAmountDisplay').removeClass('d-none');
+                    $('#discountAmountValue').text(res.discount_amount);
+
+                    // Update totals
+                    $('#payableAmount').text(res.payable + " تومان");
+
+                    // Disable input
+                    $('#discountCode').prop('disabled', true);
+
+                    // Replace apply button with remove button
+                    container.find('#applyDiscount').remove();
+                    container.append(`<button class="btn btn-danger px-1" id="removeDiscount">حذف</button>`);
+                }
+,
+                error: function (xhr) {
+                    let msg = xhr.responseJSON?.message ?? "خطایی رخ داد.";
+                    $('#discountMessage')
+                        .removeClass('text-success')
+                        .addClass('text-danger')
+                        .text(msg);
+                }
+            });
+        });
+
+        // REMOVE DISCOUNT
+        $(document).on('click', '#removeDiscount', function () {
+            $.ajax({
+                url: "{{ route('cart.coupon.remove') }}",
+                type: "POST",
+                data: {_token: $('meta[name="csrf-token"]').attr('content')},
+                success: function (res) {
+
+                    $('#discountAmountDisplay').addClass('d-none');
+                    $('#discountAmountValue').text(0);
+
+                    $('#discountMessage').text('');
+
+                    $('#discountCode')
+                        .prop('disabled', false)
+                        .val('');
+
+                    $('#payableAmount').text(res.total + " تومان");
+
+
+
+                    $('#removeDiscount').remove();
+                    $('#discountCode').after(`<button class="btn btn-outline-secondary px-1 ms-2" id="applyDiscount">ثبت</button>`);
+                }
+            });
+        });
+
+
+    });
+</script>
 
 
 @endsection
