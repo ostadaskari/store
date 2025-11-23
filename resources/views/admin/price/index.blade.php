@@ -70,13 +70,13 @@
                          
                         <tr data-part="{{ $p->part_number }}">
                             <td style="font-weight: 200;font-size: 16px;">{{ $p->part_number }}</td>
-                            <td><input type="number" class="form-control usd-price" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
+                            <td><input type="number" class="form-control usd-price input-ltr" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
                             <td> {{ $price && $price->final_usd
                                 ? number_format($price->final_usd, 2)
                                 : '0' }}</td>
                             
                             <td>
-                                <input type="number" class="form-control toman-price"
+                                <input type="number" class="form-control toman-price input-ltr"
                                     value="{{ $price->toman_price ?? '' }}"
                                    placeholder="تومان (دلخواه)">
                             </td>
