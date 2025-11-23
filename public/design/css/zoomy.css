@@ -30,7 +30,7 @@
 .zoom-right .zoom-thumb {display:inline;}
 .zoom .zoom-thumb a {
     margin:0 5px 5px 0;
-    padding:5px;
+    /* padding:5px; */
     border:solid thin #ccc;
     height:100%;
     display:inline-block;

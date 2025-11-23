@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductSEOController;
+use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CartCouponController;
 use App\Http\Controllers\Front\HomeController;
@@ -51,6 +52,11 @@ Route::middleware('admin')->group(callback: function(){
     Route::resource('/admin/discounts', DiscountController::class)
         ->names('admin.discounts');
 
+    Route::get('/admin/shippings', [ShippingController::class, 'index'])->name('admin.shippings.index');
+    Route::post('/admin/shippings', [ShippingController::class, 'store'])->name('admin.shippings.store'); // create
+    Route::put('/admin/shippings/{shipping}', [ShippingController::class, 'update'])->name('admin.shippings.update'); // update
+    Route::delete('/admin/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('admin.shippings.destroy'); // soft delete
+    Route::post('/admin/shippings/{shipping}/toggle-status', [ShippingController::class, 'toggleStatus'])->name('admin.shippings.toggleStatus');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

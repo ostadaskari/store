@@ -11,13 +11,14 @@ class DiscountController extends Controller
 {
     public function index(Request $request)
     {
+        $header_title = "تخفیف ها";
         $q = $request->get('q', '');
         $discounts = Discount::where('is_deleted', false)
             ->when($q, fn($qB) => $qB->where('name', 'like', "%{$q}%")->orWhere('code', 'like', "%{$q}%"))
             ->orderByDesc('created_at')
             ->paginate(25);
 
-        return view('admin.discounts.index', compact('discounts', 'q'));
+        return view('admin.discounts.index', compact('discounts', 'q', 'header_title'));
     }
 
     public function create()

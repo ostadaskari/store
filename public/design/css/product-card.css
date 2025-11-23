@@ -63,6 +63,11 @@
     transform: translateX(-100px);
   }
   
+  .owl-carousel .product-card .pro .product-name span {
+    display: inline-block;
+    transform: translateX(0px);
+    transition: transform 10s linear;
+  }
   .owl-products .product-card .pro .product-name {
     margin-top: 10px;
     mask-image: linear-gradient(to right, transparent 2%, rgb(255, 255, 255) 40%);
@@ -103,6 +108,20 @@
     position: absolute;
     top:1px!important;
     right: 81%!important;
+    background-color: #ffd901;
+    color: rgb(31, 31, 31);
+    border-radius:0 5px 5px 0 ;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    }
+    
+    .owl-products .product-card .pro .badge-star {
+    width: 45px;
+    position: absolute;
+    top:15px!important;
+    right: 89%!important;
     background-color: #ffd901;
     color: rgb(31, 31, 31);
     border-radius:0 5px 5px 0 ;

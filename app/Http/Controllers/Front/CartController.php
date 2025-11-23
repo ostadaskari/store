@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shipping;
 use App\Models\Warehouse\Product;
 
 
@@ -116,7 +117,12 @@ class CartController extends Controller
 
     public function checkout()
     {
-        return view('front.cart.checkout');
+        $header_title = 'صفحه پرداخت';
+        $shippings = Shipping::active()
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('front.cart.checkout', compact('header_title', 'shippings'));
     }
 
 }
