@@ -239,6 +239,14 @@
 <!-- Owl Carousel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    // تنظیمات دلخواه (اختیاری)
+    duration: 2000, // مدت زمان انیمیشن به میلی‌ثانیه
+    once: false,      // فقط یکبار انیمیشن اجرا شود (هنگام اولین رسیدن به عنصر)
+  });
+</script>
 
 <!-- js -->
 <script defer src="{{url('design/js/main.js')}}"></script>

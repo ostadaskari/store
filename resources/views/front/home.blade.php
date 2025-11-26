@@ -790,7 +790,7 @@
 <!-- Start Properties Section -->
 <section class="container my-5" id="PropertiesSection">
     <div class="row w-100 d-flex flex-row justify-content-around m-auto">
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12" data-aos="fade-up">
             <div class="property">
                 <svg  width="40" height="40" fill="var(--melloBlu-color)" class="bi bi-award-fill" viewBox="0 0 16 16">
                     <path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864z"/>
@@ -802,7 +802,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12" data-aos="fade-up" data-aos-delay="200">
             <div class="property">
                 <svg width="40" height="40" fill="var(--melloBlu-color)" class="bi bi-headset" viewBox="0 0 16 16">
                     <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
@@ -813,7 +813,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12" data-aos="fade-up" data-aos-delay="400">
             <div class="property">
                 <svg width="40" height="40" fill="var(--melloBlu-color)" class="bi bi-send-fill" viewBox="0 0 16 16">
                     <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
@@ -826,7 +826,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12" data-aos="fade-up" data-aos-delay="600">
             <div class="property">
                 <svg width="40" height="40" fill="var(--melloBlu-color)" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5M8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.18.18 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.18.18 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.18.18 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.18.18 0 0 1-.134-.098z"/>
@@ -1487,13 +1487,13 @@
     <p class="offer-section-title">
         <img src="./design/image/enlargement.png" style="width: 30px;" alt="محصولات">
         محصولات</p>
-    <div class="row m-auto my-3">
+    <div class="row m-auto my-5">
         <div class="col-12 col-md-3 product-card">
             <div class="pro my-0">
                 <div class="triangle-badge">
                     <span class="sale">تخفیف</span>
                 </div>
-                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                <span class="position-absolute translate-middle badge badge-starPro d-flex flex-row align-items-center">
                 <p class="">3.4</p>
                 <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -1522,7 +1522,7 @@
                 <div class="triangle-badge">
                     <span class="sale">تخفیف</span>
                 </div>
-                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                <span class="position-absolute translate-middle badge badge-starPro d-flex flex-row align-items-center">
                 <p class="">3.4</p>
                 <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -1551,7 +1551,7 @@
                 <div class="triangle-badge">
                     <span class="sale">تخفیف</span>
                 </div>
-                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                <span class="position-absolute translate-middle badge badge-starPro d-flex flex-row align-items-center">
                 <p class="">3.4</p>
                 <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -1580,7 +1580,7 @@
                 <div class="triangle-badge">
                     <span class="sale">تخفیف</span>
                 </div>
-                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                <span class="position-absolute translate-middle badge badge-starPro d-flex flex-row align-items-center">
                 <p class="">3.4</p>
                 <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
                   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>

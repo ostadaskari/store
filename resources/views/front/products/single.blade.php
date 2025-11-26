@@ -289,7 +289,7 @@
             </div>
         </div>
         @if($relatedProducts->count() > 0)
-            <div class="row mt-5">
+            <div class="row mt-2">
 
                 @foreach($relatedProducts as $item)
                     <div class="col-12 col-md-3 p-0 px-2 product-card">
@@ -352,19 +352,19 @@
         <div class="row pt-3">
             <div class="col-sm-4 d-flex justify-content-center">
                 <div class="shipping d-flex p-2">
-                    <a href="#"><img class="img-fluid pt-2" src="{{ asset('design/image/shipping00.png') }}"></a>
+                    <a href="#"><img class="img-fluid pt-2" alt="ارسال به سراسر کشور" src="{{ asset('design/image/shipping00.png') }}"></a>
                     <p class="pl-2 pt-2">ارسال  به سراسر کشور</p>
                 </div>
             </div>
             <div class="col-sm-4 d-flex justify-content-center">
                 <div class="shipping d-flex p-2">
-                    <a href="#"><img class="img-fluid pt-2" src="{{ asset('design/image/shipping000.png') }}"></a>
+                    <a href="#"><img class="img-fluid pt-2" alt="ارسال سریع" src="{{ asset('design/image/shipping000.png') }}"></a>
                     <p class="pl-2 pt-2">ارسال سریع با پیک</p>
                 </div>
             </div>
             <div class="col-sm-4 d-flex justify-content-center">
                 <div class="shipping d-flex p-2">
-                    <a href="#"><img class="img-fluid pt-2" src="{{ asset('design/image/shipping00000.png') }}"></a>
+                    <a href="#"><img class="img-fluid pt-2" alt="ارسال امن" src="{{ asset('design/image/shipping00000.png') }}"></a>
                     <p class="pl-2 pt-2">ارسال امن و مطمئن</p>
                 </div>
             </div>
