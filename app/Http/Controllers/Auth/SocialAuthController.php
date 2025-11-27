@@ -29,9 +29,10 @@ class SocialAuthController extends Controller
 
         $user = User::where('email', $googleUser->getEmail())->first();
         $isNewUser = false;
+        $needsUpdate = false; // پرچمی برای ذخیره کردن در صورت نیاز
 
         if (!$user) {
-            // کاربر جدید است، او را ثبت می‌کنیم
+            // 1. کاربر جدید است، او را ثبت می‌کنیم
             $user = User::create([
                 'email' => $googleUser->getEmail(),
                 'name' => $googleUser->getName(),
@@ -41,6 +42,23 @@ class SocialAuthController extends Controller
                 // 'mobile' به صورت پیش‌فرض NULL است
             ]);
             $isNewUser = true;
+        } else {
+            // 2. کاربر قدیمی است، بررسی می‌کنیم که آیا ایمیل او تأیید شده است یا خیر
+            if (is_null($user->email_verified_at)) {
+                $user->email_verified_at = Carbon::now();
+                $needsUpdate = true;
+            }
+
+            // اگر کاربر قبلاً از طریق ایمیل/رمز عبور ثبت نام کرده و نام خود را وارد نکرده باشد، نام گوگل را ست می‌کنیم.
+            if (empty($user->name) && !empty($googleUser->getName())) {
+                $user->name = $googleUser->getName();
+                $needsUpdate = true;
+            }
+
+            // اگر به به‌روزرسانی نیاز بود، آن را ذخیره می‌کنیم
+            if ($needsUpdate) {
+                $user->save();
+            }
         }
 
         // بررسی می‌کنیم که آیا کاربر جدید است یا قبلاً ثبت‌نام کرده اما شماره موبایلش را وارد نکرده است.
