@@ -18,6 +18,12 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
+    'smsir' => [
+        'api_key' => env('SMSIR_API_KEY'),
+        'secret'  => env('SMSIR_SECRET'),
+        'base_url'=> env('SMSIR_BASE_URL'), // e.g. https://api.sms.ir
+    ],
+
 
 
     'postmark' => [

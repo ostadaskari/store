@@ -1,0 +1,186 @@
+/* =====================================================
+  🌙 Base Variables & Settings
+  ===================================================== */
+
+/* CSS Variables - Keeping the user's color scheme */
+:root {
+    --darkBlu-color:#143246;
+    --main-color: #FE7743;
+    --primary-blue: rgb(82, 152, 218);
+}
+
+/* General & Background Styles (from previous code) */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--darkBlu-color);
+    font-family: 'Shabnam' !important;
+}
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 20% 30%, #000000, #143246 70%);
+}
+
+/* Main Registration Container (Login-like box) */
+.registration-box {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 450px;
+    max-width: 90%;
+    min-height: 580px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .registration-box {
+        width: 100%;
+        min-height: 100vh;
+        margin-top: 0 !important;
+        border-radius: 0;
+        max-width: 100%;
+    }
+}
+
+/* Logo and Header */
+.logoContainer{
+    width:65%;
+    height:60px;
+    margin:20px auto;
+}
+.verify-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--darkBlu-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+.create-description {
+    font-size: 13px;
+    color: #777;
+    text-align: center;
+    margin-bottom: 25px;
+    line-height: 1.8;
+}
+
+/* Form Styling */
+.verify-form-container {
+    width: 100%;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.login-input-icon {
+    position: absolute;
+    right: 15px;
+    color: #ccc;
+    font-size: 16px;
+    z-index: 10;
+}
+.registration-box .form-control {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    font-size: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+    direction: rtl;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    text-align: right;
+}
+.registration-box .form-control:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(82, 152, 218, 0.2);
+}
+/* Mobile and Email input correction for LTR content */
+.input-ltr {
+    direction: ltr !important;
+    text-align: left !important;
+    padding: 12px 15px;
+}
+
+/* Password Toggle */
+.password-toggle {
+    position: absolute;
+    left: 15px;
+    cursor: pointer;
+    user-select: none;
+    color: #888;
+    z-index: 10;
+}
+.password-toggle:hover {
+    color: #555;
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    background-color: var(--primary-blue);
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+.btn-primary:hover {
+    background-color: #4a91e5;
+}
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.message-box {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+    display: none; /* Hidden by default */
+}
+
+.create-terms-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+}
+.create-terms-section p {
+    font-size: 13px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin: 0;
+}
+/* Utility */
+.d-none { display: none !important; }
