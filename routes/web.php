@@ -3,6 +3,12 @@
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductSEOController;
 use App\Http\Controllers\Admin\ShippingController;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordController;
+
+use App\Http\Controllers\Auth\RegisterController;
+
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CartCouponController;
 use App\Http\Controllers\Front\HomeController;
@@ -42,7 +48,7 @@ Route::middleware('admin')->group(callback: function(){
     Route::post('/admin/banners/order', [BannerController::class, 'updateOrder'])->name('banners.updateOrder');
 
     Route::get('/admin/product-seo', [ProductSEOController::class,'index'])->name('product_seo.index');
-    Route::post('/admin/product-seo/save', [ProductSEOController::class,'storeOrUpdate'])->name('product_seo.save');
+    Route::post('/admin/product-seo/save', [ProductSEOController::class, 'storeOrUpdate'])->name('product_seo.save');
 
     Route::get('/admin/prices', [PriceController::class, 'index'])->name('admin.prices.index');
     Route::post('/admin/prices/settings', [PriceController::class, 'saveSettings'])->name('admin.prices.saveSettings');
@@ -85,14 +91,50 @@ Route::prefix('cart')->group(function () {
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
 
-
+// admin authentication
 Route::get('/admin',[AuthController::class,'login_admin']);
 Route::post('/admin',[AuthController::class,'auth_login_admin']);
 Route::get('/admin/logout',[AuthController::class,'logout_admin']);
 
-//for OAth with Google
-Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+// Front Authentication Routes (Only accessible when NOT logged in)
+Route::middleware('guest')->group(function () {
+
+    // front authentication (Registration Flow)
+    // 1. Initial Mobile Input & Sending OTP
+    Route::get('/register', [RegisterController::class, 'showMobileForm'])->name('client.register.mobile.form');
+    Route::post('/register/send-code', [RegisterController::class, 'sendVerificationCode'])->name('client.register.send.code');
+    Route::get('/register/reset', [RegisterController::class, 'resetMobile'])->name('client.register.reset.mobile');
+
+    // 2. Verify OTP Code
+    Route::post('/register/verify-code', [RegisterController::class, 'verifyCode'])->name('client.register.verify.code');
+
+    // 3. Final Registration Form (after successful verification)
+    Route::get('/register/complete', [RegisterController::class, 'showRegistrationForm'])->name('client.register.final.form');
+    Route::post('/register/complete', [RegisterController::class, 'finalRegister'])->name('client.register');
+
+
+    // front authentication (Login Flow - Mobile OTP)
+    Route::get('/login', [LoginController::class, 'showMobileForm'])->name('client.login.mobile.form');
+    Route::post('/login/send-code', [LoginController::class, 'sendVerificationCode'])->name('client.login.send.code');
+    Route::post('/login/verify-code', [LoginController::class, 'verifyCode'])->name('client.login.verify.code');
+
+    // NEW: Standard Email/Password/Username Login
+    Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('client.login.authenticate');
+
+
+    // for OAth with Google
+    Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
+    Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+});
+
+// Route definitions needed for the new flow
+Route::get('/social-complete-mobile', [LoginController::class, 'showMobileRegistrationForSocial'])->name('client.social.complete.mobile');
+Route::post('/social-send-code', [LoginController::class, 'sendSocialMobileCode'])->name('client.social.send.code');
+Route::post('/social-verify-code', [LoginController::class, 'completeSocialRegistration'])->name('client.social.verify.code');
+
+// Logout Route (Only accessible when logged in)
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('client.logout');
+
+
 Route::get('product/{category:slug}/{product:slug}', [FrontProductController::class, 'show'])->name('front.product.show');
-
-

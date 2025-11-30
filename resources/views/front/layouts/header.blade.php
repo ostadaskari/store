@@ -71,58 +71,58 @@
 
                         <!-- list dropdown -->
                         @if(!empty(Cart::getContent()->count() ))
-                        <ul class="dropdown-menu dropdown-menu-end p-3" style="min-width: 450px;z-index:9999; font-size: 14px;">
-                            <div class="cart-items mb-3">
-                                @foreach(Cart::getContent() as $header_cart)
-                                    @php $getCartProduct = \App\Models\Warehouse\Product::getSingle($header_cart->id) @endphp
-                                    @if(!empty($getCartProduct))
+                            <ul class="dropdown-menu dropdown-menu-end p-3" style="min-width: 450px;z-index:9999; font-size: 14px;">
+                                <div class="cart-items mb-3">
+                                    @foreach(Cart::getContent() as $header_cart)
+                                        @php $getCartProduct = \App\Models\Warehouse\Product::getSingle($header_cart->id) @endphp
+                                        @if(!empty($getCartProduct))
 
 
-                                    <li class="d-flex align-items-center mb-2 justify-content-between"  data-price="1500000">
-                                        <span class="fw-bold"><img src="{{$getCartProduct->coverImage->url ?? asset('images/300x300.webp') }}" width="30"></span>
-                                            <a href="{{ route('front.product.show', [
-                                                    'category' => $getCartProduct->category->slug,
-                                                    'product'  => $getCartProduct->slug
-                                                ]) }}" class="flex-grow-1 mx-2">{{ $getCartProduct->part_number }}
-                                            </a>
-                                        <div class="d-flex align-items-center item">
+                                            <li class="d-flex align-items-center mb-2 justify-content-between"  data-price="1500000">
+                                                <span class="fw-bold"><img src="{{$getCartProduct->coverImage->url ?? asset('images/300x300.webp') }}" width="30"></span>
+                                                <a href="{{ route('front.product.show', [
+                                        'category' => $getCartProduct->category->slug,
+                                        'product'  => $getCartProduct->slug
+                                    ]) }}" class="flex-grow-1 mx-2">{{ $getCartProduct->part_number }}
+                                                </a>
+                                                <div class="d-flex align-items-center item">
 
-                                            <span class="spanNum">   {{ $header_cart->quantity }}  </span>
-                                            <span class="p-1"> X </span>
-                                            <span> {{ number_format($header_cart->price) }} تومان </span>
-                                        </div>
-                                            <a href="{{ route('cart.remove', $header_cart->id) }}" class="btn btn-sm btnHover">
-                                                <svg width="18" height="18" fill="#bb0303" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
-                                                </svg>
-                                            </a>
+                                                    <span class="spanNum">   {{ $header_cart->quantity }}  </span>
+                                                    <span class="p-1"> X </span>
+                                                    <span> {{ number_format($header_cart->price) }} تومان </span>
+                                                </div>
+                                                <a href="{{ route('cart.remove', $header_cart->id) }}" class="btn btn-sm btnHover">
+                                                    <svg width="18" height="18" fill="#bb0303" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                                    </svg>
+                                                </a>
 
 
 
-                                    </li>
-                                    @endif
-                                @endforeach
+                                            </li>
+                                        @endif
+                                    @endforeach
 
-                            </div>
-
-                            <!-- جمع کل -->
-                            <li class="border-top pt-2">
-                                <div class="d-flex justify-content-between mb-2 totalCart">
-                                    <span> مبلغ کل:</span>
-                                    <span>تومان {{ number_format(Cart::getSubTotal(),2) }}</span>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <a class="btn btn-outline-fontColor fontColor flex-grow-1" href="{{ route('cart.index') }}">سبد خرید</a>
-                                    <a class="btn addtocartProduct flex-grow-1" href="{{ url('checkout') }}">نهایی کردن خرید</a>
-                                </div>
-                            </li>
-                        </ul>
+
+                                <!-- جمع کل -->
+                                <li class="border-top pt-2">
+                                    <div class="d-flex justify-content-between mb-2 totalCart">
+                                        <span> مبلغ کل:</span>
+                                        <span>تومان {{ number_format(Cart::getSubTotal(),2) }}</span>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-outline-fontColor fontColor flex-grow-1" href="{{ route('cart.index') }}">سبد خرید</a>
+                                        <a class="btn addtocartProduct flex-grow-1" href="{{ url('checkout') }}">نهایی کردن خرید</a>
+                                    </div>
+                                </li>
+                            </ul>
                         @endif
                     </div>
 
 
-                    <!-- Login -->
+                    <!-- Login & User Info -->
                     <div class="mx-3">
                         <div class="dropdown">
                             <a class="text-white d-flex align-items-center dropdown-toggle nav-font-size" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -130,26 +130,66 @@
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                                 </svg>
+
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end text-end mt-2 shadow rounded-3 border-0 nav-font-size" aria-labelledby="userDropdown" style="min-width: 200px;">
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./userAccount.html">
-                                        <svg width="16" height="16" fill="#a4bad4" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
-                                            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
-                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                        </svg>
-                                        حساب کاربری من
-                                    </a>
-                                </li>
 
-                                <hr class="my-2" style="margin: auto; width: 80%;">
-                                <li>
-                                    <a href="{{ route('google.login') }}" class="btn btn-danger w-100">
-                                        <i class="fab fa-google"></i> Login with Google
-                                    </a>
-
-                                </li>
+                                {{--  حالت: کاربر وارد شده است --}}
+                                @if (Auth::check())
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href=""> {{-- مسیر حساب کاربری را اینجا قرار دهید --}}
+                                            <svg width="16" height="16" fill="#a4bad4" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+                                                <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+                                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            </svg>
+                                            <span class="ms-2 me-1 ">{{ Auth::user()->name }}</span>
+                                        </a>
+                                    </li>
+                                    <hr class="my-2" style="margin: auto; width: 80%;">
+                                    <li>
+                                        {{-- 🛑 دکمه خروج (با استفاده از فرم POST) --}}
+                                        <form method="POST" action="{{ route('client.logout') }}" id="logout-form">
+                                            @csrf
+                                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <svg width="20" height="20" fill="#e35858" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"></path>
+                                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"></path>
+                                                </svg>
+                                                خروج
+                                            </a>
+                                        </form>
+                                    </li>
+                                @else
+                                    {{-- 🛑 حالت: کاربر وارد نشده است --}}
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('client.login.mobile.form') }}">
+                                            <svg width="20" height="20" fill="#a4bad4" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                                                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                            </svg>
+                                            ورود
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('client.register.mobile.form') }}">
+                                            <svg width="20" height="20" fill="#a4bad4" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                                                <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 1 1 0-1h.5a.5.5 0 1 1 0 1h-.5a.5.5 0 0 1-.5.5h-.5a.5.5 0 0 1 0-1h.5a.5.5 0 0 0 .5-.5V4h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 1-.5-.5V2a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5h-.5a.5.5 0 0 0 0 1h.5a.5.5 0 0 0 .5.5v.5a.5.5 0 0 1 1 0z"/>
+                                            </svg>
+                                            ثبت نام
+                                        </a>
+                                    </li>
+                                    <hr class="my-2" style="margin: auto; width: 80%;">
+{{--                                    <li>--}}
+{{--                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('client.password.forgot') }}">--}}
+{{--                                            <svg width="20" height="20" fill="#a4bad4" class="bi bi-lock" viewBox="0 0 16 16">--}}
+{{--                                                <path d="M8 1a2 2 0 0 0-2 2v4H5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H9V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3.5a.5.5 0 0 0 1 0V3a2 2 0 0 0-2-2z"/>--}}
+{{--                                            </svg>--}}
+{{--                                            فراموشی رمز عبور--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+                                @endif
                             </ul>
                         </div>
                     </div>

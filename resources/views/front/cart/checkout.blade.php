@@ -339,7 +339,7 @@
 @endsection
 
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     {{--    AJAX COUPON AND TOTALS LOGIC --}}
     <script>
         $(document).ready(function () {
