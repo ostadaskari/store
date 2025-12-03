@@ -127,13 +127,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                        <p class="">3.4</p>
-                        <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                        </svg>
-                      </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -154,13 +154,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -181,13 +181,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -208,13 +208,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -235,13 +235,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                     <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -262,13 +262,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -289,13 +289,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -316,13 +316,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -343,13 +343,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -370,13 +370,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -397,13 +397,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -424,13 +424,13 @@
                                     <span class="sale">تخفیف</span>
                                 </div>
                                 <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                          <p class="">3.4</p>
-                          <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                          </svg>
-                        </span>
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -510,19 +510,61 @@
                 <div class="row m-auto">
                     <div class="col-sm-12 p-0 position-relative" style="background-color:rgb(255, 179, 1);">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5" src="./design/image/favicon.png" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5" src="./design/image/favicon.png" width="80" height="80" alt="پرفروش ترین ها" title="" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0">پرفروش ترین ها</h2>
                         </div>
                         <div class="owl-carousel product-card">
                             <div class="pro">
-                    <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                      <p class="">3.4</p>
-                      <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                      </svg>
-                    </span>
+                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                                <p class="">3.4</p>
+                                <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                </svg>
+                                </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
+                                </div>
+                                <div class="product-name">
+                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
+                                </div>
+                                <div class="down">
+                                    <div class="final-price-div">
+                                        <div class="mx-1">540,000</div>
+                                        <div>تومان</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
+                                <div class="top">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
+                                </div>
+                                <div class="product-name">
+                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
+                                </div>
+                                <div class="down">
+                                    <div class="final-price-div">
+                                        <div class="mx-1">540,000</div>
+                                        <div>تومان</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
+                                    <p class="">3.4</p>
+                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                </span>
+                                <div class="top">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -543,7 +585,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -564,7 +606,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -585,7 +627,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -606,7 +648,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -627,7 +669,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -648,7 +690,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -669,7 +711,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -690,7 +732,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -711,49 +753,7 @@
                         </svg>
                       </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="pro">
-                      <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                        <p class="">3.4</p>
-                        <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                        </svg>
-                      </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="pro">
-                      <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                        <p class="">3.4</p>
-                        <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                        </svg>
-                      </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -868,8 +868,8 @@
                                 </div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">نمایشگر توزین دیجیتال</a>
@@ -895,8 +895,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">نمایشگر توزین دیجیتال</a>
@@ -922,8 +922,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">نمایشگر توزین دیجیتال</a>
@@ -951,8 +951,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
 
                                     </div>
                                     <div class="title-sub-nav">
@@ -979,8 +979,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">نمایشگر توزین دیجیتال</a>
@@ -1006,8 +1006,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/2018_95112.jpg" alt="">
-                                        <img class="second-img img-fluid" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/2018_95112.jpg" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/ماژول-نمایشگر-وزن-سنسور-hx711-3.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">نمایشگر توزین دیجیتال</a>
@@ -1039,8 +1039,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1066,8 +1066,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1093,8 +1093,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1122,8 +1122,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1149,8 +1149,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1176,8 +1176,8 @@
                                 <div class="position-absolute offer-expire "><div class="badge bg-warning p-3 offer-expire-text-inner"></div></div>
                                 <div class="d-flex justify-content-between offer-blur">
                                     <div class="img-sub-nav">
-                                        <img class="first-img img-fluid" src="design/image/PM-AD40.png" alt="">
-                                        <img class="second-img img-fluid" src="design/image/PM-CT13.jpg" alt="">
+                                        <img class="first-img img-fluid" loading="lazy" src="design/image/PM-AD40.png" alt="">
+                                        <img class="second-img img-fluid" loading="lazy" src="design/image/PM-CT13.jpg" alt="">
                                     </div>
                                     <div class="title-sub-nav">
                                         <a href="#">ترانسمیتر آنالوگ</a>
@@ -1229,7 +1229,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1249,7 +1249,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1269,7 +1269,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1289,7 +1289,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1309,7 +1309,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1329,7 +1329,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1349,7 +1349,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1369,7 +1369,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1389,7 +1389,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1409,7 +1409,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1429,7 +1429,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1449,7 +1449,7 @@
                           </svg>
                         </span>
                                 <div class="top">
-                                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                                 </div>
                                 <div class="product-name">
                                     <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
@@ -1500,7 +1500,7 @@
                 </svg>
               </span>
                 <div class="top">
-                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                 </div>
                 <div class="product-name">
                     ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40
@@ -1529,7 +1529,7 @@
                 </svg>
               </span>
                 <div class="top">
-                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                 </div>
                 <div class="product-name">
                     ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40
@@ -1558,7 +1558,7 @@
                 </svg>
               </span>
                 <div class="top">
-                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                 </div>
                 <div class="product-name">
                     ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40
@@ -1587,7 +1587,7 @@
                 </svg>
               </span>
                 <div class="top">
-                    <img src="design/image/PM-AD40.png" alt="PM-AD40">
+                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
                 </div>
                 <div class="product-name">
                     ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40
@@ -1615,34 +1615,34 @@
             <div class="brands-slider-wrapper">
                 <div class="owl-carousel owl-theme w-100">
                     <div class="item">
-                        <img src="design/image/barnds/b70276b18114f7f272e4452b40e15a35.png" class="img-fluid" alt="Brand 1">
+                        <img src="design/image/barnds/b70276b18114f7f272e4452b40e15a35.png" class="img-fluid" loading="lazy" alt="Brand 1">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/coilcraft-logo-png_seeklogo-221886-removebg-preview.png" class="img-fluid" alt="Brand 2">
+                        <img src="design/image/barnds/coilcraft-logo-png_seeklogo-221886-removebg-preview.png" class="img-fluid" loading="lazy" alt="Brand 2">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/KEMET_Corporation_wordmark_(whitespace).svg.png" class="img-fluid" alt="Brand 3">
+                        <img src="design/image/barnds/KEMET_Corporation_wordmark_(whitespace).svg.png" class="img-fluid" loading="lazy" alt="Brand 3">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/Logo_Analog_Devices.svg.png" class="img-fluid" alt="Brand 4">
+                        <img src="design/image/barnds/Logo_Analog_Devices.svg.png" class="img-fluid" loading="lazy" alt="Brand 4">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/logo_texasinstruments-1024x512.png" class="img-fluid" alt="Brand 5">
+                        <img src="design/image/barnds/logo_texasinstruments-1024x512.png" class="img-fluid" loading="lazy" alt="Brand 5">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/MACOM_logo.svg.png" class="img-fluid" alt="Brand 6">
+                        <img src="design/image/barnds/MACOM_logo.svg.png" class="img-fluid" loading="lazy" alt="Brand 6">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/mouser-reg-logo-trim.webp" class="img-fluid" alt="Brand 7">
+                        <img src="design/image/barnds/mouser-reg-logo-trim.webp" class="img-fluid" loading="lazy" alt="Brand 7">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/RFPD_logo.webp" class="img-fluid" alt="Brand 8">
+                        <img src="design/image/barnds/RFPD_logo.webp" class="img-fluid" loading="lazy" alt="Brand 8">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/wurth_electronics_midcom_logo.jpg" class="img-fluid" alt="Brand 9">
+                        <img src="design/image/barnds/wurth_electronics_midcom_logo.jpg" class="img-fluid" loading="lazy" alt="Brand 9">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/Xilinx.svg.png" class="img-fluid" alt="Brand 10">
+                        <img src="design/image/barnds/Xilinx.svg.png" class="img-fluid" loading="lazy" alt="Brand 10">
                     </div>
                 </div>
             </div>

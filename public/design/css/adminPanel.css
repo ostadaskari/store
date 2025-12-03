@@ -221,7 +221,7 @@
     font-size: 13px;
 }
 .icon-glass {
-    padding: 1rem;
+    padding:4px;
     border-radius: 1rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -241,6 +241,7 @@
     background-color: rgba(0, 123, 255, 0.2);
     color: #007bff;
   }
+ 
   .tabBtn{
     background-color: rgba(155, 203, 253, 0.2);
     color: #e7e7e7;

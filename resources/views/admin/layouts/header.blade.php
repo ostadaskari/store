@@ -15,8 +15,7 @@
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="{{asset('design/css/adminPanel.css')}}">
-    <link rel="icon" href="{{asset('design/image/logo.png')}}" type="image/png">
-
+    <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
     <!-- for editor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
     @yield('style')
@@ -32,13 +31,12 @@
                     <button class="btn-close btn-close-white m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column p-0">
-                    <div class="d-flex flex-row align-items-end p-2">
-                        <a href="#" class="d-flex align-items-center logo-panel">
-                            <img src="{{asset('design/image/Pepsi-Cola.svg')}}" class="img-fluid">
+                    <div class="d-flex flex-row align-items-end p-2 mt-2">
+                        <a href="#" class="d-flex align-items-center">
+                            <img src="{{asset('design/image/logo (4).png')}}" class="img-fluid">
                         </a>
-                        <p class="mx-3 mb-2">پنل مدیریت</p>
                     </div>
-                    <hr class="border-light my-0">
+                    <hr class="border-light">
                     <!-- Sidebar Navigation -->
                     <ul class="nav nav-pills flex-column mb-auto" >
 
@@ -70,7 +68,7 @@
         <!-- main side -->
         <div class="col-12 col-lg-10 mainCol">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-2 px-1" dir="rtl">
+            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-3 px-1" dir="rtl">
                 <div class="container-fluid">
                     <!-- Hamburger menu (visible on mobile only) -->
                     <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
@@ -85,11 +83,18 @@
 
                     <!-- Notifications and profile menu -->
                     <div class="d-flex align-items-center">
+
+                        <div class="d-flex flex-row align-items-center ms-3">
+                            <p class="mb-0 ms-3">08:05</p>
+                            <span>1404/09/10</span>
+                        </div>
+                        
                         <!-- Notification icon with badge -->
                         <a href="" class="position-relative me-3 text-white">
                             <i class='bx bxs-bell bx-tada-hover fs-5'></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
                         </a>
+
                         <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
                     </div>
                 </div>

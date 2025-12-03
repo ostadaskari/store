@@ -107,9 +107,9 @@
                     @forelse ($product->featureValues as $fv)
 
                         @php
-                            $data = $fv->value;                     // decoded JSON (handled in model)
-                            $feature = $fv->feature;                // relation to features table
-                            $name = $feature->name ?? '---';        // feature name
+                            $data = $fv->value;     
+                            $feature = $fv->feature;               
+                            $name = $feature->name ?? '---';        
 
                             $output = '';
 
