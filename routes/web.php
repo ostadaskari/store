@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductSEOController;
 use App\Http\Controllers\Admin\ShippingController;
 
@@ -13,7 +14,9 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CartCouponController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
+use App\Http\Controllers\Front\LocationController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
+use App\Http\Controllers\Front\UserAddressController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -63,6 +66,9 @@ Route::middleware('admin')->group(callback: function(){
     Route::put('/admin/shippings/{shipping}', [ShippingController::class, 'update'])->name('admin.shippings.update'); // update
     Route::delete('/admin/shippings/{shipping}', [ShippingController::class, 'destroy'])->name('admin.shippings.destroy'); // soft delete
     Route::post('/admin/shippings/{shipping}/toggle-status', [ShippingController::class, 'toggleStatus'])->name('admin.shippings.toggleStatus');
+
+    Route::get('/admin/orders', [OrderController::class, 'list'])->name('admin.orders.list');
+    Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -89,7 +95,18 @@ Route::prefix('cart')->group(function () {
 
 });
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('checkout/place_order', [CartController::class, 'place_order'])->name('checkout.place_order');
+Route::get('checkout/payment', [CartController::class, 'checkout_payment']);
+// GET request to fetch all saved addresses (Used by loadUserAddresses in JS)
+Route::get('/user/addresses', [UserAddressController::class, 'index'])
+    ->name('user.addresses.index');
 
+// POST request to save a new address (Used by saveAddressBtn in JS)
+Route::post('/user/addresses', [UserAddressController::class, 'store'])
+    ->name('user.address.store');
+// --- API Route for Iran Locations ---
+// این مسیر توسط جاوا اسکریپت در صفحه تسویه حساب برای پر کردن دراپ‌داون استان/شهر استفاده می‌شود.
+Route::get('/api/iran/locations', [LocationController::class, 'getIranLocations'])->name('api.iran.locations');
 
 // admin authentication
 Route::get('/admin',[AuthController::class,'login_admin']);

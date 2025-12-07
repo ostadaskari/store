@@ -243,6 +243,10 @@
 <!-- js -->
 <script defer src="{{url('design/js/main.js')}}"></script>
 @yield('script')
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@include('front.layouts.swal')
 </body>
 
 </html>

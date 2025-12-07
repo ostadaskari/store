@@ -107,6 +107,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             // ... (Your existing code for .qty-btn click listeners) ...
 
+            // --- SweetAlert Flash Message Display Logic ---
+            // Get flash messages from Laravel session and trim any whitespace
+            const successMessage = "{{ session('success') }}".trim();
+            const errorMessage = "{{ session('error') }}".trim();
+
+            if (successMessage.length > 0) {
+                Swal.fire({
+                    title: 'موفقیت!',
+                    text: successMessage,
+                    icon: 'success',
+                    confirmButtonText: 'تأیید',
+                    customClass: {
+                        popup: 'swal2-popup-rtl' // For proper RTL alignment
+                    }
+                });
+            } else if (errorMessage.length > 0) {
+                Swal.fire({
+                    title: 'خطا!',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'تأیید',
+                    customClass: {
+                        popup: 'swal2-popup-rtl'
+                    }
+                });
+            }
+            // --- End SweetAlert Flash Message Display Logic ---
+
+
+
             // AJAX function to update cart
             function updateCart(id, qty) {
                 fetch("{{ url('/cart/ajax/update') }}/" + id, {
