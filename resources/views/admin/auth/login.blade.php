@@ -37,9 +37,9 @@
 
                 <form id="mobile-step-1-form" class="custom-form active-step" method="POST" action="">
                      @csrf
-                    <div class="logoContainer">
+                    <a class="logoContainer" href="\">
                         <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
-                    </div>
+                    </a>
                     <p class="text-sm mt-4 text-center">برای ورود به سایت لطفا شماره موبایل خود را جهت دریافت کد تایید وارد کنید.</p>
 
                     <input type="tel" id="mobileNumberInput" name="mobile" class="form-control input-ltr"
@@ -72,17 +72,12 @@
             </div>
 
             <div id="username-tab" class="tab-pane w-100">
-                <div class="logoContainer">
+                <a class="logoContainer" href="\">
                    <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
-                </div>
+                </a>
 
                 <form class="custom-form"  method="POST" action="">
                     @csrf
-                    <div class="social-container">
-                        <a href="{{ route('google.login') }}" class="btn btn-danger w-100">
-                            <i class="fab fa-google"></i> Login with Google
-                        </a>
-                    </div>
 
                     <input type="text" id="usernameInput" name="email" placeholder="Email" class="form-control" required>
 
@@ -97,6 +92,24 @@
                     <button class="btn-primary" type="submit">ورود</button>
 
                 </form>
+
+                {{-- forgot pass form --}}
+                <form id="forgot-password-form" class="custom-form" method="POST" action="">
+
+                    <a class="logoContainer" href="\">
+                        <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
+                    </a>
+                    <p class="text-sm mt-4 text-center">برای بازیابی رمز عبور، لطفا شماره موبایل خود را وارد کنید.</p>
+
+                    <input type="tel" id="mobileNumberInputRecovery" name="mobile" class="form-control input-ltr"
+                        placeholder="۰۹۱۲۶۳۲۴۷۴۵" maxlength="11" required>
+
+                    <button class="btn-primary" type="submit">بازیابی رمز</button>
+                    
+                    <a href="#" id="backToLogin" class="mt-3 d-block text-center">بازگشت به صفحه ورود</a>
+                </form>
+                {{-- end forgot pass form --}}
+
             </div>
 
         </div>

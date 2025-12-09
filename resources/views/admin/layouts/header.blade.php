@@ -15,8 +15,7 @@
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="{{asset('design/css/adminPanel.css')}}">
-    <link rel="icon" href="{{asset('design/image/logo.png')}}" type="image/png">
-
+    <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
     <!-- for editor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
     @yield('style')
@@ -32,36 +31,33 @@
                     <button class="btn-close btn-close-white m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column p-0">
-                    <div class="d-flex flex-row align-items-end p-2">
-                        <a href="#" class="d-flex align-items-center logo-panel">
-                            <img src="{{asset('design/image/Pepsi-Cola.svg')}}" class="img-fluid">
+                    <div class="d-flex flex-row align-items-end p-2 mt-2">
+                        <a href="#" class="d-flex align-items-center">
+                            <img src="{{asset('design/image/logo (4).png')}}" class="img-fluid">
                         </a>
-                        <p class="mx-3 mb-2">پنل مدیریت</p>
                     </div>
-                    <hr class="border-light my-0">
+                    <hr class="border-light">
                     <!-- Sidebar Navigation -->
                     <ul class="nav nav-pills flex-column mb-auto" >
-                        <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif" ><i class='bx bxs-dashboard mx-2'></i> داشبورد</a></li>
-                        <li><a href="{{ url('admin/admin/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'admin') active @endif" ><i class='bx bxs-shopping-bag-alt mx-2'></i>ادمین ها</a></li>
-                        <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif" ><i class='bi bi-tags-fill mx-2'></i>دسته ها</a></li>
-                        <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif" ><i class='bi bi-tags-fill mx-2'></i>محصولات</a></li>
-                        <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif" ><i class='bi bi-tags-fill mx-2'></i>بنر ها</a></li>
-                        <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif" ><i class='bi bi-tags-fill mx-2'></i>meta's</a></li>
-                        <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2'></i>قیمت ها</a></li>
-                        <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2'></i> تخفیف</a></li>
-                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-tags-fill mx-2'></i>باربری</a></li>
-                        <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif" ><i class='bi bi-tags-fill mx-2'></i>سفارشات</a></li>
-                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-tags-fill mx-2'></i>مشتریان</a></li>
+                        <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif" ><i class='bx bxs-dashboard mx-2 EditorSvg'></i> داشبورد</a></li>
+                        <li><a href="{{ url('admin/admin/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'admin') active @endif" ><i class='bx bxs-shopping-bag-alt mx-2 EditorSvg'></i>ادمین ها</a></li>
+                        <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>دسته ها</a></li>
+                        <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>محصولات</a></li>
+                        <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>بنر ها</a></li>
+                        <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>meta's</a></li>
+                        <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>قیمت ها</a></li>
+                        <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
+                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>باربری</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2'></i> آنالیز</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-shopping-bag mx-2'></i>اطلاعات خرید</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-message-edit mx-2'></i> مدیریت SMS</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-shopping-bag mx-2 EditorSvg'></i>اطلاعات خرید</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-message-edit mx-2 EditorSvg'></i> مدیریت SMS</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-pencil-square mx-2 EditorSvg"></i>Editor</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-kanban mx-2 EditorSvg"></i>مدیریت سفارشات</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت تبلیغات</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت برندها</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-cog bx-spin-hover mx-2'></i> تنظیمات</a></li>
+                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-cog bx-spin-hover mx-2 EditorSvg'></i> تنظیمات</a></li>
                         <hr class="border-light my-0">
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-person-check mx-2 EditorSvg"></i> {{ Auth::user()->name }}</a></li>
                     </ul>
@@ -71,7 +67,7 @@
         <!-- main side -->
         <div class="col-12 col-lg-10 mainCol">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-2 px-1" dir="rtl">
+            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-3 px-1" dir="rtl">
                 <div class="container-fluid">
                     <!-- Hamburger menu (visible on mobile only) -->
                     <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
@@ -86,11 +82,18 @@
 
                     <!-- Notifications and profile menu -->
                     <div class="d-flex align-items-center">
+
+                        <div class="d-flex flex-row align-items-center ms-3">
+                            <p class="mb-0 ms-3">08:05</p>
+                            <span>1404/09/10</span>
+                        </div>
+                        
                         <!-- Notification icon with badge -->
                         <a href="" class="position-relative me-3 text-white">
                             <i class='bx bxs-bell bx-tada-hover fs-5'></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
                         </a>
+
                         <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
                     </div>
                 </div>

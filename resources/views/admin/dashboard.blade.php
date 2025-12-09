@@ -15,27 +15,27 @@
             <div id="dashboard-section" class="content-section">
                 <div class="container px-0">
                     <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center">
+                        <div class="col-md-3">
+                            <div class="card" style="height: 100px;">
+                                <div class="card-body d-flex align-items-center justify-content-around">
                                     <div class="icon-glass icon-yellow">
                                         <i class='bx bxs-calendar-check bx-lg'></i>
                                     </div>
-                                    <div class="px-4">
-                                        <h5 class="card-title">۱۰۲۰</h5>
-                                        <p class="card-text">سفارش جدید</p>
+                                    <div class="pe-3">
+                                        <h5 class="card-title">۱۰۲</h5>
+                                        <p class="card-text">آخرین سفارشات</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center">
+                        <div class="col-md-3">
+                            <div class="card" style="height: 100px;">
+                                <div class="card-body d-flex align-items-center justify-content-around">
                                     <div class="icon-glass icon-green">
                                         <i class='bx bxs-group bx-lg'></i>
                                     </div>
-                                    <div class="px-4">
+                                    <div class="pe-3">
                                         <h5 class="card-title">۲۸۳۴</h5>
                                         <p class="card-text">بازدیدکنندگان</p>
                                     </div>
@@ -43,13 +43,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center">
+                        <div class="col-md-3">
+                            <div class="card" style="height: 100px;">
+                                <div class="card-body d-flex align-items-center justify-content-around">
                                     <div class="icon-glass icon-blue">
                                         <i class='bx bxs-dollar-circle bx-lg'></i>
                                     </div>
-                                    <div class="px-4">
+                                    <div class="pe-3">
                                         <h5 class="card-title">۵۰.۰۰۰.۰۰۰.۰۰۰ </h5>
                                         <p class="card-text">کل فروش</p>
                                     </div>
@@ -57,6 +57,19 @@
                             </div>
                         </div>
 
+                        <div class="col-md-3">
+                            <div class="card" style="height: 100px;">
+                                <div class="card-body d-flex align-items-center justify-content-around">
+                                    <div class="icon-glass icon-orange">
+                                       <i class="bi bi-stack-overflow px-2" style="font-size: 2.05rem !important;"></i>
+                                    </div>
+                                    <div class="pe-3">
+                                        <h5 class="card-title">۸۳۴.۰۰۰</h5>
+                                        <p class="card-text">مانده اعتبار پیامکی</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Orders Table & Todos -->
 
                         <!-- Orders Table -->

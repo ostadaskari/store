@@ -38,7 +38,7 @@
     padding-top: 10px;
   }
   /* product-name in pro */
- .product-card .pro .product-name {
+  .product-card .pro .product-name {
     display: inline-block;
     font-size: 14px;
     padding: 5px 15px;
@@ -47,23 +47,21 @@
     text-align: left;
     position: relative;
     margin-top: 30px;
-    max-width: 100%;
-    mask-image: linear-gradient(to left, transparent 2%, rgb(255, 255, 255) 85%);
-    width: 100%;
-    color:#111111;
-}
+    max-width: 92%;
+    mask-image: linear-gradient(to left, transparent 2%, rgb(255, 255, 255) 40%);
+  }
   .product-card .pro .product-name:hover{
     mask-image: linear-gradient(to left, transparent 0%, white 0%);
   }
   .product-card .pro .product-name span {
     display: inline-block;
-    transform: translateX(1);
-    transition: transform 5s linear;
+    transform: translateX(50%);
+    transition: transform 10s linear;
   }
-  
   .product-card .pro .product-name:hover span {
     transform: translateX(-100px);
-  }
+  } 
+ 
   
   /* Sale label inside the triangle badge */
    .product-card .pro .triangle-badge .sale {
@@ -85,23 +83,49 @@
 }
 
   /* Badge for star rating */
-  #offerSectionDown .product-card .pro .badge-star{
-       right: 93%;
-  }
+   .product-card .pro .badge-starPro {
+    width: 45px;
+    position: absolute;
+    top:16px!important;
+    right: 92%!important;
+    background-color: #ffd901;
+    color: rgb(31, 31, 31);
+    border-radius:0 5px 5px 0 ;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    }
+
   .product-card .pro .badge-star {
     width: 45px;
-    top:25px!important;
+    position: absolute;
+    top:1px!important;
+    right: 81%!important;
+    background-color: #ffd901;
+    color: rgb(31, 31, 31);
+    border-radius:0 5px 5px 0 ;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    }
+    
+    .owl-products .product-card .pro .badge-star {
+    width: 45px;
+    position: absolute;
+    top:15px!important;
     right: 89%!important;
     background-color: #ffd901;
     color: rgb(31, 31, 31);
-    border-radius: 0 5px 5px 0;
+    border-radius:0 5px 5px 0 ;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     flex-direction: row;
     }
   .product-card .pro .top {
-    height:200px;
+    height:210px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,12 +152,13 @@
   }
 
   .product-card .pro .down .box .off {
-    background-color: var(--darkBlu-color);;
+    background-color:#dc3545;
     color: white;
-    padding: 4px 8px;
+    padding: 0px 8px;
     border-radius: 4px;
     font-size: 14px;
     flex-shrink: 0;
+    border-radius: var(--bs-border-radius-pill) !important;
   }
 
   .product-card .pro .down .box .orginal {
@@ -206,7 +231,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     z-index: 10;
-    height: 50%;
+    height: 47%;
     width: 90%;
     margin: 7px auto;
   }
@@ -217,34 +242,62 @@
     z-index: 11;
   }
   
-  /* add style zoomy*/
-  #el .owl-carousel {
-    width: 300px;
-  }
-  #el .owl-carousel .owl-stage-outer{
-    width: 85%;
-    margin: auto;
-    background-color:#fff!important;
-  }
-  #el .owl-carousel .owl-item img{
-    width: 100%;
+  /*========================================== 
+              add style zoomy
+  ==========================================*/
+
+#el .owl-carousel {
+  margin-top: 10px;
+  width:100%;
+}
+
+#el .owl-carousel .owl-stage-outer{
+  width: 100%;
+  margin: auto;
+  background-color:#fff!important;
+  z-index: 10;
+}
+
+#el .owl-carousel .owl-item img{
+  width: 100%;
+}
+
+#el .owl-carousel .owl-nav{
+  top:20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+#el .owl-carousel .owl-nav button{
+  font-size: 30px;
+  width: 20px;
+  height: 20px;
+  color:rgb(245, 138, 67);
+  border-radius:50%;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1) !important;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  position: absolute; 
+  top: auto; 
+  margin: 0; 
+  z-index: 20;
+}
+
+
+
+  #el .owl-carousel .owl-nav .owl-prev {
+      right: -20px; 
   }
 
-  #el .owl-carousel .owl-nav{
-    top:20px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0;
+
+  #el .owl-carousel .owl-nav .owl-next {
+      left: -20px; 
   }
-  #el .owl-carousel .owl-nav button{
-      font-size: 30px;
-      width: 20px;
-      height: 20px;
-      color:rgb(245, 138, 67);
-      border-radius:50%;
-      box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1) !important;
-      display: flex;
-      align-items:center;
-      justify-content: center;
-  }
+
+  #el .owl-carousel.owl-rtl .owl-item {
+    float: right;
+    margin: 0px !important;
+}
 

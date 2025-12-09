@@ -1,6 +1,6 @@
-.zoom {height:400px; position: relative;}
+.zoom {position: relative;}
 .zoom-main {
-    height:270px;
+    height:300px;
     position:relative;
     text-align:center;
 }
@@ -30,17 +30,20 @@
 .zoom-right .zoom-thumb {display:inline;}
 .zoom .zoom-thumb a {
     margin:0 5px 5px 0;
-    padding:5px;
+    /* padding:5px; */
     border:solid thin #ccc;
     height:100%;
     display:inline-block;
     cursor: pointer;
 }
+.zoom .zoom-thumb .owl-stage{
+    width: 600px!important;
+}
 .zoom-right .zoom-thumb a {float:left;height:20%;display:inline-block;}
 .zoom .zoom-thumb a img {height:100%;}
 .zoom-left .zoom-main, .zoom-left .zoom-thumb a{float:right;width:auto;}
 @media all and (max-width: 735px){
-    .zoom img{width:auto;max-width:100%;height:auto;}
+    .zoom img{width:auto;max-width:100%;}
     .zoom .zoom-thumb a img {width:auto;}
     .zoom-main, .zoom-thumb a{float:none !important;}
     .zoom-main {height:auto !important;}
