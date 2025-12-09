@@ -206,7 +206,10 @@ class LoginController extends Controller
         try {
             $templateId = env('SMSIR_TEMPLATE_ID'); // از همان تمپلیت استفاده می‌کنیم
             $parameters = [
-                ["name" => "Code", "value" => (string)$code]
+                [
+                 "name" => "Code",
+                 "value" => (string)$code
+                ]
             ];
 
             SmsIr::verifySend($mobile, $templateId, $parameters);
