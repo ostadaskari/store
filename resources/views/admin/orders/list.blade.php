@@ -308,6 +308,8 @@
                     // Show success notification
                     Swal.close();
                     showNotification('موفقیت‌آمیز', result.message, 'success');
+                    // Reload the page to fetch the updated data from the database
+                    window.location.reload();
 
                 } else {
                     // Revert to old status and show error
@@ -321,6 +323,7 @@
                 selectElement.value = currentStatus;
                 Swal.close();
                 showNotification('خطا در ارتباط', 'خطا در برقراری ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی کنید.', 'error');
+
             }
         }
     </script>
