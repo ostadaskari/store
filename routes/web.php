@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductSEOController;
@@ -69,6 +70,12 @@ Route::middleware('admin')->group(callback: function(){
 
     Route::get('/admin/orders', [OrderController::class, 'list'])->name('admin.orders.list');
     Route::get('/admin/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+    // New route for AJAX status update
+    Route::post('admin/orders/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update.status');
+
+    Route::get('admin/customers',[CustomerController::class,'list'])->name('admin.customers.list');
+    Route::get('admin/customers/{userId}/addresses', [CustomerController::class, 'showAddresses'])->name('admin.customers.addresses');
+    Route::get('/admin/customers/delete/{id}',[CustomerController::class,'delete'])->name('admin.customers.delete');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

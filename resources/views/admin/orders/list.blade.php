@@ -6,9 +6,9 @@
             <h3>لیست سفارشات <span style="color: #b9d5f0">( {{ $orders->total() }} )</span></h3>
         </div>
         <!-- Search Form -->
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4" dir="rtl">
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">فیلتر و جستجوی پیشرفته</h5>
+                <h5 class="mb-0 text-danger">فیلتر و جستجوی پیشرفته</h5>
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#searchFormCollapse" aria-expanded="false" aria-controls="searchFormCollapse">
                     نمایش/پنهان کردن فیلترها
                 </button>
@@ -20,12 +20,21 @@
 
                             <!-- Section 1: Order Details -->
                             <div class="col-12"><h6 class="border-bottom pb-2">فیلترهای سفارش</h6></div>
+
+                            <!-- ADDED: Order Number Filter -->
+                            <div class="col-md-3">
+                                <label for="order_number" class="form-label">شماره سفارش</label>
+                                <input type="text" name="order_number" id="order_number" class="form-control" value="{{ request('order_number') }}" placeholder="جستجو بر اساس شماره سفارش">
+                            </div>
+                            <!-- END ADDED -->
+
                             <div class="col-md-3">
                                 <label for="status" class="form-label">وضعیت سفارش</label>
                                 <select name="status" id="status" class="form-select">
                                     <option value="">همه وضعیت‌ها</option>
                                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>در انتظار پرداخت</option>
                                     <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>در حال پردازش</option>
+                                    <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>تحویل داده شده</option>
                                     <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>تکمیل شده</option>
                                     <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>لغو شده</option>
                                 </select>
@@ -134,29 +143,42 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @php
+                            $statuses = [
+                                'pending'    => ['text' => 'در انتظار پرداخت', 'class' => 'bg-warning text-dark'],
+                                'processing' => ['text' => 'در حال پردازش', 'class' => 'bg-info text-dark'],
+                                'delivered'  => ['text' => 'تحویل داده شده', 'class' => 'bg-primary'],
+                                'completed'  => ['text' => 'تکمیل شده', 'class' => 'bg-success'],
+                                'canceled'   => ['text' => 'لغو شده', 'class' => 'bg-danger'],
+                            ];
+                        @endphp
                         @forelse ($orders as $order)
                             <tr>
                                 <th scope="row">{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</th>
-                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->order_number }}</td>
                                 <td>{{ $order->user->name ?? 'نامشخص' }} {{ $order->user->family ?? '' }} (ID: {{ $order->user_id }})</td>
                                 <td>{{ number_format($order->total_amount) }}</td>
                                 <td>
-                                    @php
-                                        // Simple status badge logic
-                                        $statusClass = [
-                                            'pending' => 'badge bg-warning text-dark',
-                                            'processing' => 'badge bg-info text-dark',
-                                            'completed' => 'badge bg-success',
-                                            'canceled' => 'badge bg-danger',
-                                        ][$order->status] ?? 'badge bg-secondary';
-                                        $statusText = [
-                                            'pending' => 'در انتظار پرداخت',
-                                            'processing' => 'در حال پردازش',
-                                            'completed' => 'تکمیل شده',
-                                            'canceled' => 'لغو شده',
-                                        ][$order->status] ?? 'نامشخص';
-                                    @endphp
-                                    <span class="{{ $statusClass }}">{{ $statusText }}</span>
+                                    <!-- Status Select Box -->
+                                    <select
+                                        class="form-select form-select-sm order-status-select"
+                                        data-order-id="{{ $order->id }}"
+                                        data-order-number="{{ $order->order_number }}"
+                                        data-current-status="{{ $order->status }}"
+                                        style="min-width: 150px; background-color: var(--bs-{{ $statuses[$order->status]['class'] ?? 'secondary' }}); color: {{ $order->status === 'pending' || $order->status === 'processing' ? 'black' : 'white' }}; border: 1px solid #ccc;"
+                                        onchange="updateOrderStatus(this)"
+                                    >
+                                        @foreach($statuses as $value => $data)
+                                            <option
+                                                value="{{ $value }}"
+                                                @if($order->status == $value) selected @endif
+                                                style="background-color: white; color: black;"
+                                            >
+                                                {{ $data['text'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="status-indicator" data-order-id="{{ $order->id }}"></span>
                                 </td>
                                 <td>{{ jdate($order->created_at)->format('Y/m/d H:i') }}</td> {{-- Assuming jdate for Jalali date --}}
                                 <td>
@@ -181,10 +203,127 @@
 
 
     </div>
+
+
 @endsection
 
 @section('script')
+    <script>
+        // Define the status color and text mapping for client-side styling
+        const statusColorClasses = {
+            pending: { class: 'bg-warning', textColor: 'text-dark' },
+            processing: { class: 'bg-info', textColor: 'text-dark' },
+            delivered: { class: 'bg-primary', textColor: 'text-white' },
+            completed: { class: 'bg-success', textColor: 'text-white' },
+            canceled: { class: 'bg-danger', textColor: 'text-white' },
+        };
 
+        /**
+         * Shows a SweetAlert notification.
+         * @param {string} title - The title of the alert.
+         * @param {string} message - The message body.
+         * @param {string} icon - 'success', 'error', 'warning', 'info', or 'question'.
+         */
+        function showNotification(title, message, icon) {
+            Swal.fire({
+                title: title,
+                html: message,
+                icon: icon,
+                confirmButtonText: 'تایید',
+                customClass: {
+                    // Ensure RTL compatibility if needed, though SweetAlert handles most RTL.
+                    popup: 'text-right'
+                }
+            });
+        }
+
+        /**
+         * Sends an AJAX request to update the order status.
+         * @param {HTMLSelectElement} selectElement - The select box that triggered the change.
+         */
+        async function updateOrderStatus(selectElement) {
+            const orderId = selectElement.dataset.orderId;
+            const orderNumber = selectElement.dataset.orderNumber;
+            const newStatus = selectElement.value;
+            const currentStatus = selectElement.dataset.currentStatus;
+
+            if (newStatus === currentStatus) return; // Prevent unnecessary calls
+
+            // 1. Show confirmation dialog using SweetAlert
+            const confirmationResult = await Swal.fire({
+                title: 'تغییر وضعیت سفارش',
+                text: `آیا مطمئن هستید که می‌خواهید وضعیت سفارش ${orderNumber} را به "${selectElement.options[selectElement.selectedIndex].text}" تغییر دهید؟`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'بله، تغییر بده',
+                cancelButtonText: 'لغو',
+                reverseButtons: true, // For RTL
+            });
+
+            if (!confirmationResult.isConfirmed) {
+                // Revert the select box value if user cancels
+                selectElement.value = currentStatus;
+                return;
+            }
+
+            // 2. Show loading state (SweetAlert)
+            Swal.fire({
+                title: 'در حال به‌روزرسانی...',
+                html: 'لطفاً صبر کنید، وضعیت در حال ثبت است.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                const response = await fetch("{{ route('admin.orders.update.status') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        status: newStatus
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Remove existing color classes
+                    Object.values(statusColorClasses).forEach(data => {
+                        selectElement.classList.remove(data.class, data.textColor);
+                    });
+
+                    // Add new color classes
+                    const colorData = statusColorClasses[newStatus];
+                    selectElement.classList.add(colorData.class, colorData.textColor);
+
+                    // Update the current status dataset
+                    selectElement.dataset.currentStatus = newStatus;
+
+                    // Show success notification
+                    Swal.close();
+                    showNotification('موفقیت‌آمیز', result.message, 'success');
+
+                } else {
+                    // Revert to old status and show error
+                    selectElement.value = currentStatus;
+                    Swal.close();
+                    showNotification('خطا', result.message || 'خطای ناشناخته در سرور.', 'error');
+                }
+
+            } catch (error) {
+                // Revert to old status and show generic error
+                selectElement.value = currentStatus;
+                Swal.close();
+                showNotification('خطا در ارتباط', 'خطا در برقراری ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی کنید.', 'error');
+            }
+        }
+    </script>
 @endsection
 
 

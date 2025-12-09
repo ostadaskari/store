@@ -13,22 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number', 50)->unique()->nullable();
+            $table->string('transaction_id', 255)->unique()->nullable();
+
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
             // --- Address Linking ---
-            // ارجاع به آدرس انتخابی کاربر از جدول user_addresses
-            // این فیلد جایگزین ستون‌های متعدد آدرس می‌شود.
+
             $table->foreignId('user_address_id')->nullable()->constrained('user_addresses')->onDelete('set null');
 
-            // Note: Keep some key details as denormalized data for historical safety/reporting
-            // $table->string('first_name'); // Kept for safety/reporting
-            // $table->string('last_name');  // Kept for safety/reporting
-            // $table->string('email');      // Kept for safety/reporting
-            // $table->text('note')->nullable(); // Kept for order-specific notes
-            // $table->string('company_name')->nullable(); // Kept for safety/reporting
-
-            // حذف ستون‌های آدرس تکراری:
-            // $table->dropColumn(['province', 'city', 'address', 'mobile', 'phone', 'post_code']);
 
             // Shipping & Discount
             $table->foreignId('shipping_id')->nullable()->constrained('shippings');

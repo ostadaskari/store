@@ -137,8 +137,25 @@ class CartController extends Controller
     }
 
     /**
+     * Helper function to generate a unique 9-digit order number.
+     * Uses random_int which is cryptographically secure (better than mt_rand).
+     * @return string
+     */
+    protected function generateUniqueOrderNumber(): string
+    {
+        do {
+            // Generate a random 9-digit number
+            // Using random_int is generally preferred for security/unpredictability
+            $orderNumber = (string) random_int(100000000, 999999999);
+        } while (Order::where('order_number', $orderNumber)->exists());
+
+        return $orderNumber;
+    }
+
+    /**
      * Process the checkout form and create the Order and OrderItems.
      */
+
     public function place_order(Request $request)
     {
         // 1. Validation
@@ -184,9 +201,13 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
+            // --- Generate Unique Order Number ---
+            $orderNumber = $this->generateUniqueOrderNumber();
+
             // 3. Create Order
             $order = Order::create([
                 'user_id'         => Auth::id(),
+                'order_number'    => $orderNumber, // ADDED: Save the unique order number
                 'user_address_id' => $address->id, // <<--- لینک کردن به آدرس ذخیره شده
 
                 // حفظ فیلدهای فردی در جدول Order برای سوابق و گزارش‌دهی

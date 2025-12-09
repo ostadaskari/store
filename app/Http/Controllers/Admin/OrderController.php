@@ -19,6 +19,9 @@ class OrderController extends Controller
         // --- Apply Filters ---
 
         // 1. Filter on Orders Table fields (Direct)
+        if ($request->filled('order_number')) {
+            $ordersQuery->where('order_number', 'LIKE', '%' . $request->order_number . '%');
+        }
         if ($request->filled('status')) {
             $ordersQuery->where('status', $request->status);
         }
@@ -45,8 +48,8 @@ class OrderController extends Controller
 
         if ($request->filled('user_name')) {
             $ordersQuery->where(function ($q) use ($request) {
-                $q->where('users.first_name', 'LIKE', '%' . $request->user_name . '%')
-                    ->orWhere('users.last_name', 'LIKE', '%' . $request->user_name . '%');
+                $q->where('users.name', 'LIKE', '%' . $request->user_name . '%')
+                    ->orWhere('users.family', 'LIKE', '%' . $request->user_name . '%');
             });
         }
         if ($request->filled('user_mobile')) {
@@ -124,5 +127,37 @@ class OrderController extends Controller
 
         // We will pass the full order object to the view.
         return view('admin.orders.show', compact('order'));
+    }
+    /**
+     * Handles the AJAX request to update the status of an order.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'status' => 'required|string|in:pending,processing,delivered,completed,canceled',
+        ]);
+
+        try {
+            $order = Order::findOrFail($request->order_id);
+            $order->status = $request->status;
+            $order->save();
+
+            // Return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'وضعیت سفارش با موفقیت به‌روزرسانی شد.',
+                'status_code' => $request->status
+            ]);
+        } catch (\Exception $e) {
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در به‌روزرسانی وضعیت سفارش: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

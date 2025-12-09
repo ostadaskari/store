@@ -87,7 +87,7 @@
 
 
         <div class="d-flex justify-content-between align-items-center mb-4 d-print-none">
-            <h1 class="text-right">جزئیات سفارش #{{ $order->id }}</h1>
+            <h1 class="text-right">جزئیات سفارش #{{ $order->order_number }}</h1>
             <div class="d-flex">
                 <button onclick="window.print()" class="btn btn-info text-white me-2">
                     <i class="fas fa-print"></i> چاپ صفحه (فاکتور)
