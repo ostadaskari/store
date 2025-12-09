@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail; // <-- NEW
+use App\Mail\OrderStatusUpdated;      // <-- NEW
+
 class OrderController extends Controller
 {
     public function list(Request $request)
@@ -129,9 +132,8 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
     /**
-     * Handles the AJAX request to update the status of an order.
-     *
-     * @param Request $request
+     * Handles AJAX request to update order status and send notification email.
+     * * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateStatus(Request $request)
@@ -142,22 +144,78 @@ class OrderController extends Controller
         ]);
 
         try {
-            $order = Order::findOrFail($request->order_id);
-            $order->status = $request->status;
+            // Find the order and eagerly load the user
+            $order = Order::with('user')->findOrFail($request->order_id);
+            $oldStatus = $order->status;
+            $newStatus = $request->status;
+
+            // Update the status in the database
+            $order->status = $newStatus;
             $order->save();
+
+            // Dispatch the email (wrapped in its own error handling for clean logging)
+            $this->sendEmailNotification($order, $newStatus);
 
             // Return success response
             return response()->json([
                 'success' => true,
-                'message' => 'وضعیت سفارش با موفقیت به‌روزرسانی شد.',
-                'status_code' => $request->status
+                'message' => 'وضعیت سفارش با موفقیت به‌روزرسانی شد و ایمیل اطلاع‌رسانی ارسال گردید.',
+                'status_code' => $newStatus
             ]);
-        } catch (\Exception $e) {
-            // Return error response
+
+        } catch (Exception $e) {
+            // Log the error for internal debugging
+            \Log::error('Order Status Update Error (Order ID: ' . $request->order_id . '): ' . $e->getMessage());
+
+            // Check if status changed before the error happened (which is true in your case)
+            $message = 'وضعیت سفارش با موفقیت به‌روزرسانی شد، اما خطایی در ارسال ایمیل رخ داد.';
+
+            // Revert the status if it failed before saving (though not likely in this scenario)
+            if (isset($order) && $order->isDirty('status')) {
+                // If the status was saved, we notify the user about the email failure only.
+                return response()->json([
+                    'success' => true, // We return true because the DB update worked
+                    'message' => $message . ' لطفا تنظیمات ایمیل را بررسی کنید.',
+                    'status_code' => $newStatus // Return the new status
+                ]);
+            }
+
+            // Fallback for general database error
             return response()->json([
                 'success' => false,
-                'message' => 'خطا در به‌روزرسانی وضعیت سفارش: ' . $e->getMessage()
+                'message' => 'خطا در به‌روزرسانی وضعیت سفارش.',
+                'details' => $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Helper to send the status update email.
+     * @param Order $order
+     * @param string $newStatus
+     * @throws Exception
+     */
+    protected function sendEmailNotification(Order $order, string $newStatus): void
+    {
+        if ($order->user && $order->user->email) {
+            // Add status text dynamically for the email view
+            $order->status_text = $this->getStatusText($newStatus);
+            Mail::to($order->user->email)->send(new OrderStatusUpdated($order));
+        }
+    }
+
+    /**
+     * Helper function to convert status slug to readable text.
+     */
+    protected function getStatusText(string $status): string
+    {
+        return match ($status) {
+            'pending' => 'در انتظار پرداخت',
+            'processing' => 'در حال پردازش',
+            'delivered' => 'تحویل داده شده',
+            'completed' => 'تکمیل شده',
+            'canceled' => 'لغو شده',
+            default => 'وضعیت نامشخص',
+        };
     }
 }
