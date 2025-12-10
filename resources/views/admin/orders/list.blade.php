@@ -2,203 +2,257 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>لیست سفارشات <span style="color: #b9d5f0">( {{ $orders->total() }} )</span></h3>
+         <div class="seven mt-3">
+            <h1>لیست سفارشات ( {{ $orders->total() }} )</h1>
         </div>
-        <!-- Search Form -->
-        <div class="card shadow-sm mb-4" dir="rtl">
-            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-danger">فیلتر و جستجوی پیشرفته</h5>
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#searchFormCollapse" aria-expanded="false" aria-controls="searchFormCollapse">
-                    نمایش/پنهان کردن فیلترها
-                </button>
-            </div>
-            <div class="collapse {{ request()->except('page') ? 'show' : '' }}" id="searchFormCollapse">
-                <div class="card-body">
-                    <form method="GET" action="{{ route('admin.orders.list') }}">
-                        <div class="row g-3 text-right">
 
-                            <!-- Section 1: Order Details -->
-                            <div class="col-12"><h6 class="border-bottom pb-2">فیلترهای سفارش</h6></div>
+        <div class="row">
+            <!-- Search Form -->
+            <div class="col-12 col-lg-3 px-0">
+                <div class="card shadow-sm mb-4" dir="rtl">
+        
+                    <div class="card-body px-2">
+                        <form method="GET" action="{{ route('admin.orders.list') }}">
 
-                            <!-- ADDED: Order Number Filter -->
-                            <div class="col-md-3">
-                                <label for="order_number" class="form-label">شماره سفارش</label>
-                                <input type="text" name="order_number" id="order_number" class="form-control" value="{{ request('order_number') }}" placeholder="جستجو بر اساس شماره سفارش">
-                            </div>
-                            <!-- END ADDED -->
+                            <div class="accordion" id="orderFiltersAccordion">
 
-                            <div class="col-md-3">
-                                <label for="status" class="form-label">وضعیت سفارش</label>
-                                <select name="status" id="status" class="form-select">
-                                    <option value="">همه وضعیت‌ها</option>
-                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>در انتظار پرداخت</option>
-                                    <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>در حال پردازش</option>
-                                    <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>تحویل داده شده</option>
-                                    <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>تکمیل شده</option>
-                                    <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>لغو شده</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="payment_method" class="form-label">روش پرداخت</label>
-                                <select name="payment_method" id="payment_method" class="form-select">
-                                    <option value="">همه روش‌ها</option>
-                                    <option value="credit" {{ request('payment_method') == 'credit' ? 'selected' : '' }}>آنلاین</option>
-                                    <option value="cash" {{ request('payment_method') == 'cash' ? 'selected' : '' }}>نقدی (COD)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="discount_code" class="form-label">کد تخفیف</label>
-                                <input type="text" name="discount_code" id="discount_code" class="form-control" value="{{ request('discount_code') }}" placeholder="جستجو بر اساس کد تخفیف">
-                            </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOrderDetails">
+                                        <button class="accordion-button {{ !request('order_number') && !request('status') && !request('payment_method') && !request('discount_code') && !request('from_date') && !request('to_date') ? 'collapsed' : '' }}" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#collapseOrderDetails" 
+                                                aria-expanded="{{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'true' : 'false' }}" 
+                                                aria-controls="collapseOrderDetails">
+                                            فیلترهای سفارش
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOrderDetails" 
+                                        class="accordion-collapse collapse {{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'show' : '' }}" 
+                                        aria-labelledby="headingOrderDetails" 
+                                        data-bs-parent="#orderFiltersAccordion">
+                                        <div class="accordion-body px-2">
+                                            <div class="row g-3 text-right">
+                                                <div class="col-md-12">
+                                                    <label for="order_number" class="form-label">شماره سفارش:</label>
+                                                    <input type="text" name="order_number" id="order_number" class="form-control" value="{{ request('order_number') }}" placeholder="جستجو بر اساس شماره سفارش">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="status" class="form-label">وضعیت سفارش:</label>
+                                                    <select name="status" id="status" class="form-select">
+                                                        <option value="">همه وضعیت‌ها</option>
+                                                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>در انتظار پرداخت</option>
+                                                        <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>در حال پردازش</option>
+                                                        <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>تحویل داده شده</option>
+                                                        <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>تکمیل شده</option>
+                                                        <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>لغو شده</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="payment_method" class="form-label">روش پرداخت:</label>
+                                                    <select name="payment_method" id="payment_method" class="form-select">
+                                                        <option value="">همه روش‌ها</option>
+                                                        <option value="credit" {{ request('payment_method') == 'credit' ? 'selected' : '' }}>آنلاین</option>
+                                                        <option value="cash" {{ request('payment_method') == 'cash' ? 'selected' : '' }}>نقدی (COD)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="discount_code" class="form-label">کد تخفیف:</label>
+                                                    <input type="text" name="discount_code" id="discount_code" class="form-control" value="{{ request('discount_code') }}" placeholder="جستجو بر اساس کد تخفیف">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="from_date" class="form-label">از تاریخ ثبت:</label>
+                                                    <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="to_date" class="form-label">تا تاریخ ثبت:</label>
+                                                    <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <!-- Date Range -->
-                            <div class="col-md-3">
-                                <label for="from_date" class="form-label">از تاریخ ثبت</label>
-                                <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="to_date" class="form-label">تا تاریخ ثبت</label>
-                                <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') }}">
-                            </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingUserDetails">
+                                        <button class="accordion-button {{ !request('user_name') && !request('user_mobile') && !request('user_email') ? 'collapsed' : '' }}" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#collapseUserDetails" 
+                                                aria-expanded="{{ request('user_name') || request('user_mobile') || request('user_email') ? 'true' : 'false' }}" 
+                                                aria-controls="collapseUserDetails">
+                                            فیلترهای کاربر(ثبت کننده)
+                                        </button>
+                                    </h2>
+                                    <div id="collapseUserDetails" 
+                                        class="accordion-collapse collapse {{ request('user_name') || request('user_mobile') || request('user_email') ? 'show' : '' }}" 
+                                        aria-labelledby="headingUserDetails" 
+                                        data-bs-parent="#orderFiltersAccordion">
+                                        <div class="accordion-body px-2">
+                                            <div class="row g-3 text-right">
+                                                <div class="col-md-12">
+                                                    <label for="user_name" class="form-label">نام و نام خانوادگی کاربر:</label>
+                                                    <input type="text" name="user_name" id="user_name" class="form-control" value="{{ request('user_name') }}" placeholder="نام یا نام خانوادگی">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="user_mobile" class="form-label">موبایل کاربر:</label>
+                                                    <input type="text" name="user_mobile" id="user_mobile" class="form-control" value="{{ request('user_mobile') }}" placeholder="09xxxxxxxxx">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="user_email" class="form-label">ایمیل کاربر:</label>
+                                                    <input type="email" name="user_email" id="user_email" class="form-control" value="{{ request('user_email') }}" placeholder="example@domain.com">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingShippingAddress">
+                                        <button class="accordion-button {{ !request('address_first_name') && !request('address_mobile') && !request('address_province') && !request('address_city') && !request('address_post_code') && !request('address_company_name') ? 'collapsed' : '' }}" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#collapseShippingAddress" 
+                                                aria-expanded="{{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'true' : 'false' }}" 
+                                                aria-controls="collapseShippingAddress">
+                                            فیلترهای آدرس گیرنده
+                                        </button>
+                                    </h2>
+                                    <div id="collapseShippingAddress" 
+                                        class="accordion-collapse collapse {{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'show' : '' }}" 
+                                        aria-labelledby="headingShippingAddress" 
+                                        data-bs-parent="#orderFiltersAccordion">
+                                        <div class="accordion-body px-2">
+                                            <div class="row g-3 text-right">
+                                                <div class="col-md-12">
+                                                    <label for="address_first_name" class="form-label">نام گیرنده:</label>
+                                                    <input type="text" name="address_first_name" id="address_first_name" class="form-control" value="{{ request('address_first_name') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="address_mobile" class="form-label">موبایل گیرنده:</label>
+                                                    <input type="text" name="address_mobile" id="address_mobile" class="form-control" value="{{ request('address_mobile') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="address_province" class="form-label">استان:</label>
+                                                    <input type="text" name="address_province" id="address_province" class="form-control" value="{{ request('address_province') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="address_city" class="form-label">شهر:</label>
+                                                    <input type="text" name="address_city" id="address_city" class="form-control" value="{{ request('address_city') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="address_post_code" class="form-label">کد پستی:</label>
+                                                    <input type="text" name="address_post_code" id="address_post_code" class="form-control" value="{{ request('address_post_code') }}">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="address_company_name" class="form-label">نام شرکت:</label>
+                                                    <input type="text" name="address_company_name" id="address_company_name" class="form-control" value="{{ request('address_company_name') }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <!-- Section 2: User Details -->
-                            <div class="col-12"><h6 class="border-bottom pb-2 mt-3">فیلترهای کاربر (ثبت کننده)</h6></div>
-                            <div class="col-md-3">
-                                <label for="user_name" class="form-label">نام و نام خانوادگی کاربر</label>
-                                <input type="text" name="user_name" id="user_name" class="form-control" value="{{ request('user_name') }}" placeholder="نام یا نام خانوادگی">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="user_mobile" class="form-label">موبایل کاربر</label>
-                                <input type="text" name="user_mobile" id="user_mobile" class="form-control" value="{{ request('user_mobile') }}" placeholder="09xxxxxxxxx">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="user_email" class="form-label">ایمیل کاربر</label>
-                                <input type="email" name="user_email" id="user_email" class="form-control" value="{{ request('user_email') }}" placeholder="example@domain.com">
-                            </div>
-
-                            <!-- Section 3: Shipping Address Details -->
-                            <div class="col-12"><h6 class="border-bottom pb-2 mt-3">فیلترهای آدرس گیرنده</h6></div>
-
-                            <div class="col-md-3">
-                                <label for="address_first_name" class="form-label">نام گیرنده</label>
-                                <input type="text" name="address_first_name" id="address_first_name" class="form-control" value="{{ request('address_first_name') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="address_mobile" class="form-label">موبایل گیرنده</label>
-                                <input type="text" name="address_mobile" id="address_mobile" class="form-control" value="{{ request('address_mobile') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="address_province" class="form-label">استان</label>
-                                <input type="text" name="address_province" id="address_province" class="form-control" value="{{ request('address_province') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="address_city" class="form-label">شهر</label>
-                                <input type="text" name="address_city" id="address_city" class="form-control" value="{{ request('address_city') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="address_post_code" class="form-label">کد پستی</label>
-                                <input type="text" name="address_post_code" id="address_post_code" class="form-control" value="{{ request('address_post_code') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="address_company_name" class="form-label">نام شرکت</label>
-                                <input type="text" name="address_company_name" id="address_company_name" class="form-control" value="{{ request('address_company_name') }}">
-                            </div>
-
-
-                            <!-- Action Buttons -->
-                            <div class="col-12 mt-4 text-left">
-                                <button type="submit" class="btn btn-primary me-2">
-                                    <i class="fas fa-search"></i> جستجو
-                                </button>
+                            </div> <div class="col-12 mt-4 text-left">
                                 <a href="{{ route('admin.orders.list') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-times"></i> پاک کردن فیلترها
                                 </a>
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <svg width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                    </svg>
+                                    جستجو
+                                </button>
                             </div>
-                        </div>
-                    </form>
+
+                        </form>
+                    </div>
+                 
                 </div>
             </div>
-        </div>
-        <!-- End Search Form -->
+            <!-- End Search Form -->
+            <div class="col-12 col-lg-9 pe-0">
+                <div class="card shadow-sm">
+                    <div class="card-body p-2">
+                        @if(request()->except('page'))
+                            <p class="alert alert-info text-center">نتایج بر اساس فیلترهای اعمال شده نمایش داده شده‌اند.</p>
+                        @endif
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                @if(request()->except('page'))
-                    <p class="alert alert-info text-center">نتایج بر اساس فیلترهای اعمال شده نمایش داده شده‌اند.</p>
-                @endif
-
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped text-right" dir="rtl">
-                        <thead class="bg-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">کد سفارش</th>
-                            <th scope="col">مشتری</th>
-                            <th scope="col">مبلغ کل (تومان)</th>
-                            <th scope="col">وضعیت</th>
-                            <th scope="col">تاریخ ثبت</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @php
-                            $statuses = [
-                                'pending'    => ['text' => 'در انتظار پرداخت', 'class' => 'bg-warning text-dark'],
-                                'processing' => ['text' => 'در حال پردازش', 'class' => 'bg-info text-dark'],
-                                'delivered'  => ['text' => 'تحویل داده شده', 'class' => 'bg-primary'],
-                                'completed'  => ['text' => 'تکمیل شده', 'class' => 'bg-success'],
-                                'canceled'   => ['text' => 'لغو شده', 'class' => 'bg-danger'],
-                            ];
-                        @endphp
-                        @forelse ($orders as $order)
-                            <tr>
-                                <th scope="row">{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</th>
-                                <td>{{ $order->order_number }}</td>
-                                <td>{{ $order->user->name ?? 'نامشخص' }} {{ $order->user->family ?? '' }} (ID: {{ $order->user_id }})</td>
-                                <td>{{ number_format($order->total_amount) }}</td>
-                                <td>
-                                    <!-- Status Select Box -->
-                                    <select
-                                        class="form-select form-select-sm order-status-select"
-                                        data-order-id="{{ $order->id }}"
-                                        data-order-number="{{ $order->order_number }}"
-                                        data-current-status="{{ $order->status }}"
-                                        style="min-width: 150px; background-color: var(--bs-{{ $statuses[$order->status]['class'] ?? 'secondary' }}); color: {{ $order->status === 'pending' || $order->status === 'processing' ? 'black' : 'white' }}; border: 1px solid #ccc;"
-                                        onchange="updateOrderStatus(this)"
-                                    >
-                                        @foreach($statuses as $value => $data)
-                                            <option
-                                                value="{{ $value }}"
-                                                @if($order->status == $value) selected @endif
-                                                style="background-color: white; color: black;"
+                        <div class="table-responsive border shadow-sm rounded bg-white" style="max-height:66vh; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0 text-center" dir="rtl">
+                                <thead class="table-blue">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">کد سفارش</th>
+                                    <th scope="col">مشتری</th>
+                                    <th scope="col">مبلغ کل (تومان)</th>
+                                    <th scope="col">وضعیت</th>
+                                    <th scope="col">تاریخ ثبت</th>
+                                    <th scope="col">عملیات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $statuses = [
+                                        'pending'    => ['text' => 'در انتظار پرداخت', 'class' => 'bg-warning text-dark'],
+                                        'processing' => ['text' => 'در حال پردازش', 'class' => 'bg-info text-dark'],
+                                        'delivered'  => ['text' => 'تحویل داده شده', 'class' => 'bg-primary'],
+                                        'completed'  => ['text' => 'تکمیل شده', 'class' => 'bg-success'],
+                                        'canceled'   => ['text' => 'لغو شده', 'class' => 'bg-danger'],
+                                    ];
+                                @endphp
+                                @forelse ($orders as $order)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</th>
+                                        <td>{{ $order->order_number }}</td>
+                                        <td>{{ $order->user->name ?? 'نامشخص' }} {{ $order->user->family ?? '' }} (ID: {{ $order->user_id }})</td>
+                                        <td>{{ number_format($order->total_amount) }}</td>
+                                        <td>
+                                            <!-- Status Select Box -->
+                                            <select
+                                                class="form-select form-select-sm order-status-select"
+                                                data-order-id="{{ $order->id }}"
+                                                data-order-number="{{ $order->order_number }}"
+                                                data-current-status="{{ $order->status }}"
+                                                style="background-color: var(--bs-{{ $statuses[$order->status]['class'] ?? 'secondary' }}); color: {{ $order->status === 'pending' || $order->status === 'processing' ? 'black' : 'white' }}; border: 1px solid #ccc;"
+                                                onchange="updateOrderStatus(this)"
                                             >
-                                                {{ $data['text'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="status-indicator" data-order-id="{{ $order->id }}"></span>
-                                </td>
-                                <td>{{ jdate($order->created_at)->format('Y/m/d H:i') }}</td> {{-- Assuming jdate for Jalali date --}}
-                                <td>
-                                    <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-primary">جزئیات</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-center py-4">هیچ سفارشی با این مشخصات یافت نشد.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                                                @foreach($statuses as $value => $data)
+                                                    <option
+                                                        value="{{ $value }}"
+                                                        @if($order->status == $value) selected @endif
+                                                        style="background-color: white; color: black;"
+                                                    >
+                                                        {{ $data['text'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="status-indicator" data-order-id="{{ $order->id }}"></span>
+                                        </td>
+                                        <td>{{ jdate($order->created_at)->format('Y/m/d H:i') }}</td> {{-- Assuming jdate for Jalali date --}}
+                                        <td>
+                                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-primary">جزئیات</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">هیچ سفارشی با این مشخصات یافت نشد.</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
 
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $orders->links() }}
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $orders->links() }}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div> 
         </div>
+        
+
+        
 
 
 

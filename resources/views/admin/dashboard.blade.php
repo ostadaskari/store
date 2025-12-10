@@ -23,7 +23,7 @@
                                         <i class='bx bxs-calendar-check bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">۱۰۲</h5>
+                                        <h5 class="card-title text-start">۱۰۲</h5>
                                         <p class="card-text">آخرین سفارشات</p>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                         <i class='bx bxs-group bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">۲۸۳۴</h5>
+                                        <h5 class="card-title text-start">۲۸۳۴</h5>
                                         <p class="card-text">بازدیدکنندگان</p>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                         <i class='bx bxs-dollar-circle bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">۵۰.۰۰۰.۰۰۰.۰۰۰ </h5>
+                                        <h5 class="card-title text-start">۵۰.۰۰۰.۰۰۰.۰۰۰ </h5>
                                         <p class="card-text">کل فروش</p>
                                     </div>
                                 </div>
@@ -62,10 +62,10 @@
                             <div class="card" style="height: 100px;">
                                 <div class="card-body d-flex align-items-center justify-content-around">
                                     <div class="icon-glass icon-orange">
-                                       <i class="bi bi-stack-overflow px-2" style="font-size: 2.05rem !important;"></i>
+                                        <i class="bi bi-chat-left-text-fill mt-3" style="font-size:33px !important;"></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">۸۳۴.۰۰۰</h5>
+                                        <h5 class="card-title text-start">۸۳۴.۰۰۰</h5>
                                         <p class="card-text">مانده اعتبار پیامکی</p>
                                     </div>
                                 </div>

@@ -3,12 +3,20 @@
 
 @section('content')
     <div class="content-section" dir="rtl">
-        <div class="seven mt-3 d-flex justify-content-between align-items-center">
-            <h1>آدرس‌های مشتری: {{ $customer->name }} (ID: {{ $customer->id }})</h1>
-            <a href="{{ route('admin.customers.list') }}" class="btn btn-secondary">بازگشت به لیست مشتریان</a>
+        <div class="seven mt-3">
+            <h1>آدرس‌های مشتری: {{ $customer->name }} {{ $customer->family }} (ID: {{ $customer->id }})</h1>
+        </div>
+        
+        <div class="card p-2 px-3 d-flex flex-row justify-content-between rounded">
+            <a href="{{ route('admin.customers.list') }}" class="btnBack m-0" title="بازگشت">
+                <svg width="24" height="24" fill="currentColor" class="bi bi-arrow-right-circle icon-transition" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"></path>
+                </svg>
+            </a>
+
+            <p class="lead mb-0">ایمیل: {{ $customer->email }}</p>
         </div>
 
-        <p class="lead">ایمیل: {{ $customer->email }}</p>
 
         @if($addresses->isEmpty())
             <div class="alert alert-warning text-center mt-4">
@@ -17,7 +25,7 @@
         @else
             <div class="row g-4 mt-2">
                 @foreach($addresses as $address)
-                    <div class="col-lg-6 col-xl-4">
+                    <div class="col-lg-6 col-xl-4 mt-1">
                         <div class="card shadow-sm h-100 border-primary">
                             <div class="card-header bg-primary text-white d-flex justify-content-between">
                                 <h5 class="mb-0">آدرس #{{ $loop->iteration }}</h5>

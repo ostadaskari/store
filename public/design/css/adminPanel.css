@@ -37,31 +37,15 @@
     height: 100vh;
   }
   body {
-    position: relative;
-    background-image: url('../image/adminPanel-bg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center center;
+    background-color:rgba(18, 24, 27, 0.959);
     color: #eeeeee;
     z-index: 0;
     direction:ltr;
   }
   
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(26, 26, 26, 0.925);
-    z-index: -1;
-  }
-  
   .EditorSvg {
-    font-size: 18px;
-    color:#e28902;
+    font-size: 20px;
+    color:#d4af37;
   }
   /* =====================
      General input style
@@ -97,7 +81,7 @@
   }
 
   .panel{
-    background-color:rgba(18, 24, 27, 0.932);
+    background-color:rgb(18, 24, 27);
     min-height: 100vh;
   }
   .bg-panel{
@@ -225,6 +209,12 @@
     border-radius: 1rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    width: 56px;
+    height: 61px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+
   }
 
   .icon-yellow {
@@ -1119,27 +1109,26 @@ manageOrder
 /********** custom style **********/
 .seven h1 {
   text-align: center;
-      font-size:18px;
-      font-weight:300; color:#222; letter-spacing:1px;
-      text-transform: uppercase;
-      display: grid;
-      grid-template-columns: 1fr max-content 1fr;
-      /* grid-template-rows: 27px 0; */
-      grid-gap: 20px;
-      align-items: center;
-      color:#e28902;
+  font-size:18px;
+  font-weight:300; color:#222; letter-spacing:1px;
+  text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-gap: 20px;
+  align-items: center;
+  color:#e08d10;
   }
-  
+
   .seven h1:after,.seven h1:before {
-      content: " ";
-      display: block;
-      border-bottom: 1px solid #e28902;
-      border-top: 1px solid #e28902;
-      height: 5px;
-      background-color:#f7f4dd;
+  content: " ";
+  display: block;
+  border-bottom: 1px solid #e28902;
+  border-top: 1px solid #e28902;
+  height: 5px;
+  background-color:#f7f4dd;
   }
   .form-control{
-    font-size: 14px!important;
+  font-size: 14px!important;
   }
   
 /* arrow in card */
@@ -1252,7 +1241,7 @@ manageOrder
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease-in-out; 
+    transition: transform 0.3s ease-in-out; 
     cursor: pointer;
     border-radius: 50%; 
     width: 25px; 
@@ -1262,22 +1251,17 @@ manageOrder
     margin-right: 25px;
 }
 
-
-
 .btnBack:hover {
-    background-color: #f0f0f0;
     color: #f88425; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 
 .btnBack svg {
     transition: transform 0.3s ease-in-out;
 }
 
-
 .btnBack:hover svg {
-    transform: scale(1.1) translateX(3px); 
+    fill: #f88425; 
 }
 
   /***************** metas *****************/
@@ -1301,8 +1285,29 @@ manageOrder
     font-weight:normal!important;
     font-size: 14px;
   }
-
-
+/* ******************* orders ***************** */
+#orderFiltersAccordion button{
+  padding-right: 40px;
+  font-size: 14px;
+  color:#d59c45;
+  background-color:var(--sidebar-bg);
+}
+#orderFiltersAccordion label{
+  font-size: 14px;
+}
+#orderFiltersAccordion .accordion-button::after {
+    flex-shrink: 0;
+    width: var(--bs-accordion-btn-icon-width);
+    height: var(--bs-accordion-btn-icon-width);
+    content: "";
+    background-image: var(--bs-accordion-btn-icon);
+    background-repeat: no-repeat;
+    background-size: var(--bs-accordion-btn-icon-width);
+    transition: var(--bs-accordion-btn-icon-transition);
+    position: absolute;
+    right: 10px;
+    filter: invert(100%);
+}
  /* responsive */
   @media (max-width: 768px) {
   .mainCol{
@@ -1330,3 +1335,5 @@ manageOrder
     --bs-table-color-type: #b9d5f0!important;
     --bs-table-bg-type: var(--bs-table-striped-bg);
 }
+
+/*  */
