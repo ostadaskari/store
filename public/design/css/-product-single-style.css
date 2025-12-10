@@ -35,12 +35,27 @@
 /* -------------------- Offer Price -------------------- */
 .offer-price-product-single {
   padding-right: 10px;
-  font-size: 12px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.offer-price-product-single .badge{
+  top:-10px;
+  right: 10%;
 }
 .offer-price-product-single s {
   text-decoration: line-through;
 }
+.offer-price-product-single p {
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    color: #333; 
+    margin-bottom: 5px !important;
+}
 
+.offer-price-product-single span.text-muted {
+    font-size: 1.1rem;
+    font-style: italic;
+}
 /* --------------------- title-partNumber ------------------------ */
 .partNumber{
   text-align: end;
@@ -421,6 +436,12 @@ ul.mylist-product-single li {
   
 }
 /*------------- add to cart ------------ */
+.formAddToCart{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
 .addtocartProduct {
   background-color: #198754;
   color: #fff;
@@ -436,13 +457,11 @@ ul.mylist-product-single li {
 }
 
 .cart-control {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 40%;
+  /* height: 40px; */
+  margin-right: 10px;
   background-color: #f5f5f5d2;
   border-radius: 8px;
-  /* padding: 8px 10px; */
-  width: 100%;
   border: 1px solid #ddd;
 }
 .cart-control .bi-trash{

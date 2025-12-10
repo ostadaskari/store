@@ -192,20 +192,29 @@
                                        value="{{ session('cart.discount.code') ?? '' }}"
                                     {{ session('cart.discount') ? 'disabled' : '' }}>
 
-                                @if(session('cart.discount'))
-                                    <button class="btn btn-danger px-1" type="button" id="removeDiscount">حذف</button>
-                                @else
-                                    <button class="btn btn-outline-secondary px-1" type="button" id="applyDiscount">ثبت</button>
-                                @endif
-                            </div>
+                            @if(session('cart.discount'))
+                                <button class="btn btn-danger px-1" type="button" id="removeDiscount">حذف</button>
+                            @else
+                                <button class="btn btn-outline-secondary btn-success text-dark px-1" type="button" id="applyDiscount">ثبت</button>
+                            @endif
+                        </div>
 
                             <div id="discountMessage" class="mt-2 small text-danger"></div>
 
-                            <div id="discountAmountDisplay"
-                                 class="mt-2 small text-success {{ session('cart.discount') ? '' : 'd-none' }}">
-                                مبلغ تخفیف: <span id="discountAmountValue">{{ session('cart.discount.amount') ?? 0 }}</span> تومان
-                            </div>
+                        <div id="discountAmountDisplay"
+                             class="mt-2 small text-success {{ session('cart.discount') ? '' : 'd-none' }}">
+                            مبلغ تخفیف: <span id="discountAmountValue">{{ session('cart.discount.amount') ?? 0 }}</span> تومان
                         </div>
+
+                    </div>
+
+
+
+
+                    <!-- dividing line -->
+                    <hr class="my-2">
+
+
 
                         <!-- dividing line -->
                         <hr class="my-2">
@@ -225,12 +234,12 @@
                 </div>
             </div>
 
-            <!-- Payment Options Section -->
-            <div class="row mt-4">
-                <div class="col-12 col-md-8">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="card-title m-0">شیوه پرداخت</h6>
-                    </div>
+        <!-- Checkout Page -->
+        <div class="row">
+          <div class="col-12 col-md-8">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="card-title m-0">شیوه پرداخت</h6>
+            </div>
 
                     <!-- Payment Section -->
                     <section class="card shadow-sm mb-4">

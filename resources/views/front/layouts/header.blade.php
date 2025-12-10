@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="{{ url('design/css/owl.carousel.css') }}">
 
 
-    <!-- owl carousel -->
-    <!-- <link rel="stylesheet" href="https://unpkg.com/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://unpkg.com/owl.carousel@2.3.4/dist/assets/owl.theme.default.min.css"> -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 
     <!-- style -->

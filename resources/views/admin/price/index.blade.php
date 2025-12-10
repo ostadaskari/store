@@ -14,19 +14,29 @@
                     <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
                 </svg>
                 <h5 class="mb-0" style="font-size:14px;">تنظیمات کلی</h5>
+                <i class="bi bi-info-circle text-primary mx-1"
+                   title="مثال:
+                    - نرخ دلار: فقط عدد مثل 113500
+                    - درصد سود: مثلا 5 یعنی 5%
+                    - درصد هزینه اضافی: مثلا 5 یعنی 5%"
+                   style="cursor:pointer;">
+                </i>
             </div>
             <div class="row g-2">
                 <div class="col-md-3">
-                    <input type="number" id="rate" class="form-control" placeholder="نرخ دلار" value="{{ $settings->dollar_rate }}">
+                    <label class="form-label">نرخ دلار (تومان)</label>
+                    <input type="number" id="rate" class="form-control input-ltr" placeholder="نرخ دلار" value="{{ $settings->dollar_rate }}">
                 </div>
                 <div class="col-md-3">
-                    <input type="number" id="profit" class="form-control" placeholder="درصد سود" value="{{ $settings->profit_percent }}">
+                    <label class="form-label">درصد سود (%)</label>
+                    <input type="number" id="profit" class="form-control input-ltr" placeholder="درصد سود" value="{{ $settings->profit_percent }}">
                 </div>
                 <div class="col-md-3">
-                    <input type="number" id="extra" class="form-control" placeholder="درصد هزینه اضافی" value="{{ $settings->extra_percent }}">
+                    <label class="form-label">درصد هزینه اضافه (%)</label>
+                    <input type="number" id="extra" class="form-control input-ltr" placeholder="درصد هزینه اضافی" value="{{ $settings->extra_percent }}">
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-success w-100" id="save-settings">ثبت تنظیمات</button>
+                    <button class="btn btn-success w-100" style="margin-top:30px;" id="save-settings">ثبت تنظیمات</button>
                 </div>
             </div>
         </div>
@@ -60,13 +70,13 @@
                          
                         <tr data-part="{{ $p->part_number }}">
                             <td style="font-weight: 200;font-size: 16px;">{{ $p->part_number }}</td>
-                            <td><input type="number" class="form-control usd-price" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
+                            <td><input type="number" class="form-control usd-price input-ltr" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
                             <td> {{ $price && $price->final_usd
                                 ? number_format($price->final_usd, 2)
                                 : '0' }}</td>
                             
                             <td>
-                                <input type="number" class="form-control toman-price"
+                                <input type="number" class="form-control toman-price input-ltr"
                                     value="{{ $price->toman_price ?? '' }}"
                                    placeholder="تومان (دلخواه)">
                             </td>

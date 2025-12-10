@@ -61,7 +61,7 @@
   
   .EditorSvg {
     font-size: 18px;
-    color:#fe7743cc;
+    color:#e28902;
   }
   /* =====================
      General input style
@@ -221,7 +221,7 @@
     font-size: 13px;
 }
 .icon-glass {
-    padding: 1rem;
+    padding:4px;
     border-radius: 1rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -241,6 +241,7 @@
     background-color: rgba(0, 123, 255, 0.2);
     color: #007bff;
   }
+ 
   .tabBtn{
     background-color: rgba(155, 203, 253, 0.2);
     color: #e7e7e7;
@@ -1126,14 +1127,14 @@ manageOrder
       /* grid-template-rows: 27px 0; */
       grid-gap: 20px;
       align-items: center;
-      color:#d0653d;
+      color:#e28902;
   }
   
   .seven h1:after,.seven h1:before {
       content: " ";
       display: block;
-      border-bottom: 1px solid #d0653d;
-      border-top: 1px solid #d0653d;
+      border-bottom: 1px solid #e28902;
+      border-top: 1px solid #e28902;
       height: 5px;
       background-color:#f7f4dd;
   }

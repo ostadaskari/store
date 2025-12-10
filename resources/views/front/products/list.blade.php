@@ -120,12 +120,12 @@
                     <div class="row m-auto">
                         <div class="col-12 col-md-3 p-0 ml-1 product-card" data-price="578000" data-brand="bosch" data-color="black">
                             <div class="pro">
-                    <span class="badge badge-star">
-                      <p class="">3.4</p>
-                      <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                      </svg>
-                    </span>
+                            <span class="badge badge-star">
+                            <p class="">3.4</p>
+                                <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                            </span>
                                 <div class="top">
                                     <img src="design/image/PM-WI01.jpg" alt="PM-AD40">
                                 </div>
@@ -137,6 +137,7 @@
                                         <div class="mx-1">570,000</div>
                                         <div>تومان</div>
                                     </div>
+                                    
                                     <div class="box">
                                         <div class="text-danger">
                                             <span class="Quantity-stock">تنها 5 عدد در انبار باقی مانده</span>
@@ -155,12 +156,12 @@
 
                         <div class="col-12 col-md-3 p-0 ml-1 product-card" data-brand="bosch" data-price="1540000" data-color="white">
                             <div class="pro">
-                    <span class="badge badge-star">
-                      <p class="">3.4</p>
-                      <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                      </svg>
-                    </span>
+                                <span class="badge badge-star">
+                                <p class="">3.4</p>
+                                <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                </svg>
+                                </span>
                                 <div class="top">
                                     <img src="design/image/PM-CT11.jpg" alt="PM-AD40">
                                 </div>
