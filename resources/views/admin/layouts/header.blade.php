@@ -48,6 +48,8 @@
                         <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>قیمت ها</a></li>
                         <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
                         <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>باربری</a></li>
+                        <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>سفارشات</a></li>
+                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>مشتریان</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
@@ -87,7 +89,7 @@
                             <p class="mb-0 ms-3">08:05</p>
                             <span>1404/09/10</span>
                         </div>
-                        
+
                         <!-- Notification icon with badge -->
                         <a href="" class="position-relative me-3 text-white">
                             <i class='bx bxs-bell bx-tada-hover fs-5'></i>
