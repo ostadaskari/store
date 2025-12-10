@@ -24,7 +24,8 @@
                         <a href="{{ route('admin.discounts.edit', $d) }}" class="btn btn-sm btn-primary">ویرایش</a>
                         <form action="{{ route('admin.discounts.destroy', $d) }}" method="POST" style="display:inline">
                             @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger btn-delete" data-name="{{ $d->name }}">حذف</button>                        </form>
+                            <button type="submit" class="btn btn-sm btn-danger btn-delete" data-name="{{ $d->name }}">حذف</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
