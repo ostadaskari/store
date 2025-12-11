@@ -166,11 +166,11 @@
 }
   .mainCol .card{
     color: var(--text-color);
-    background-color: var(--sidebar-bg)!important;
+    background-color: var(--sidebar-bg);
   }
   .mainCol .table{
     --bs-table-color: var(--text-color);
-    --bs-table-bg: var(--sidebar-bg)!important;
+    --bs-table-bg: var(--sidebar-bg);
     font-size: 13px;
   }
   .table-hover tbody tr:hover {
@@ -1307,6 +1307,14 @@ manageOrder
     position: absolute;
     right: 10px;
     filter: invert(100%);
+}
+
+/* ********************* customers ******************** */
+.addCustomer i{
+  color:#4d2c00;
+}
+.addCustomer span{
+  font-size: 14px;
 }
  /* responsive */
   @media (max-width: 768px) {

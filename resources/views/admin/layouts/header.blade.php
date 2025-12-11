@@ -70,7 +70,7 @@
         <!-- main side -->
         <div class="col-12 col-lg-10 mainCol ps-0">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-3 px-0" dir="rtl">
+            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-2 pt-3 px-0" dir="rtl">
                 <div class="container px-0">
                     <!-- Hamburger menu (visible on mobile only) -->
                     <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
@@ -98,8 +98,6 @@
                     </div>
                 </div>
             </nav>
-
-
 
 
  {{-- date and time --}}

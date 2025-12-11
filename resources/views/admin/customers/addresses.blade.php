@@ -23,49 +23,72 @@
                 این مشتری هیچ آدرس ثبت شده‌ای ندارد.
             </div>
         @else
-            <div class="row g-4 mt-2">
+            <div class="row g-4 mt-2 d-flex flex-row justify-content-between addCustomer">
                 @foreach($addresses as $address)
-                    <div class="col-lg-6 col-xl-4 mt-1">
-                        <div class="card shadow-sm h-100 border-primary">
-                            <div class="card-header bg-primary text-white d-flex justify-content-between">
-                                <h5 class="mb-0">آدرس #{{ $loop->iteration }}</h5>
+                    <div class="col-12 col-lg-5 mt-1">
+                        <div class="card shadow-sm h-100 border-light">
+                            <div class="card-header text-dark d-flex justify-content-between" style="background-color:rgb(191 170 142);">
+                                <h5 class="mb-0">
+                                    <i class="bi bi-geo-alt"></i>
+                                    آدرس #{{ $loop->iteration }}</h5>
                                 <small>ثبت شده در: {{ jdate($address->created_at)->format('Y/m/d') }}</small>
                             </div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold border-bottom pb-2">گیرنده: {{ $address->first_name }} {{ $address->last_name }}</p>
+                            <div class="card-body p-0" style="background-color: #f7f0e2ff;">
+                                <p class="card-title border-bottom px-3 py-2 text-dark">
+                                    <i class="bi bi-person-bounding-box"></i>
+                                    گیرنده: {{ $address->first_name }} {{ $address->last_name }}</p>
 
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush" style="--bs-list-group-bg: #f7f0e2ff;">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold">استان/شهر:</span>
+                                       <div>
+                                            <i class="bi bi-globe-americas"></i>
+                                            <span class="fw-bold">استان/شهر:</span>
+                                       </div>
                                         <span>{{ $address->province }} / {{ $address->city }}</span>
                                     </li>
                                     <li class="list-group-item">
+                                        <i class="bi bi-geo"></i>
                                         <span class="fw-bold">آدرس کامل:</span>
-                                        <div class="text-wrap mt-1">{{ $address->address }} (پلاک: {{ $address->plate }})</div>
+                                        <span class="text-wrap mt-1">{{ $address->address }} (پلاک: {{ $address->plate }})</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold">کد پستی:</span>
+                                        <div>
+                                            <i class="bi bi-signpost"></i>
+                                             <span class="fw-bold">کد پستی:</span>
+                                        </div>   
                                         <span>{{ $address->post_code }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span class="fw-bold">موبایل:</span>
+                                        <div>
+                                            <i class="bi bi-phone"></i>
+                                             <span class="fw-bold">موبایل:</span>
+                                        </div>
                                         <span dir="ltr">{{ $address->mobile }}</span>
                                     </li>
                                     @if($address->phone)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span class="fw-bold">تلفن ثابت:</span>
+                                            <div>
+                                                <i class="bi bi-telephone"></i>
+                                                <span class="fw-bold">تلفن ثابت:</span>
+                                            </div>  
                                             <span dir="ltr">{{ $address->phone }}</span>
                                         </li>
                                     @endif
                                     @if($address->company_name)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span class="fw-bold">نام شرکت:</span>
+                                            <div>
+                                                <i class="bi bi-buildings"></i>
+                                                <span class="fw-bold">نام شرکت:</span>
+                                            </div>
                                             <span>{{ $address->company_name }}</span>
                                         </li>
                                     @endif
                                     @if($address->email)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span class="fw-bold">ایمیل (آدرس):</span>
+                                            <div>
+                                                <i class="bi bi-envelope-at"></i>
+                                                <span class="fw-bold">ایمیل (آدرس):</span>
+                                            </div>
                                             <span dir="ltr">{{ $address->email }}</span>
                                         </li>
                                     @endif
