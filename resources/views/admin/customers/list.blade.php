@@ -6,7 +6,7 @@
 @section('content')
     <div class="content-section" dir="rtl">
         <div class="seven mt-3">
-            <h1>لیست مشتری ها</h1>
+            <h1>لیست مشتری ها ({{ $getRecord->total() }})</h1>
         </div>
         <div class="card mb-4 p-3 shadow-sm">
             <h5 class="card-title mb-3">فیلتر مشتریان</h5>

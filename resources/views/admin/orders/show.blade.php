@@ -117,12 +117,14 @@
                                 $statusClass = [
                                     'pending' => 'badge bg-warning text-dark',
                                     'processing' => 'badge bg-info text-dark',
+                                    'delivered' => 'badge bg-primary',
                                     'completed' => 'badge bg-success',
                                     'canceled' => 'badge bg-danger',
                                 ][$order->status] ?? 'badge bg-secondary';
                                 $statusText = [
                                     'pending' => 'در انتظار',
                                     'processing' => 'در حال پردازش',
+                                    'delivered' => 'تحویل داده شده',
                                     'completed' => 'ارسال شده',
                                     'canceled' => 'لغو شده',
                                 ][$order->status] ?? 'نامشخص';

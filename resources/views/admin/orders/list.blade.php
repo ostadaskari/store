@@ -156,7 +156,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</th>
                                 <td>{{ $order->order_number }}</td>
-                                <td>{{ $order->user->name ?? 'نامشخص' }} {{ $order->user->family ?? '' }} (ID: {{ $order->user_id }})</td>
+                                <td>{{ $order->user->name ?? 'نامشخص' }} {{ $order->user->family ?? 'نامشخص' }} (ID: {{ $order->user_id }})</td>
                                 <td>{{ number_format($order->total_amount) }}</td>
                                 <td>
                                     <!-- Status Select Box -->

@@ -18,6 +18,7 @@ use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
 use App\Http\Controllers\Front\LocationController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
 use App\Http\Controllers\Front\UserAddressController;
+use App\Http\Controllers\User\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -28,10 +29,16 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PriceController;
 
+Route::middleware('user')->group(callback: function(){
+    Route::get('/user/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
+});
 
 Route::middleware('admin')->group(callback: function(){
 
     Route::get('/admin/dashboard',[DashboardController::class,'dashboard']);
+    Route::get('/admin/dashboard/chart-data', [DashboardController::class, 'chartData'])
+        ->name('admin.dashboard.chart');
+
 
     Route::get('/admin/admin/list',[AdminController::class,'list']);
     Route::get('/admin/admin/add',[AdminController::class,'add']);

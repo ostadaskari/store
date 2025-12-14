@@ -17,14 +17,14 @@
     <!-- style -->
     <link rel="stylesheet" href="{{ url('design/css/style.css') }}">
     <link rel="icon" href="{{url('design/image/favicon-3.png')}}" type="image/png">
-@yield('style')
+    @yield('style')
 
 </head>
 <body class="rtl bg-light">
 <!-- ad bar -->
 <div id="adBanner" class="ad-banner">
-   <button class="close-btn" onclick="closeAd()">×</button>
-   <div id="adText" class="ad-text">اینجا محل تبلیغات شماست!</div>
+    <button class="close-btn" onclick="closeAd()">×</button>
+    <div id="adText" class="ad-text">اینجا محل تبلیغات شماست!</div>
 </div>
 <!--end ad bar  -->
 
@@ -181,14 +181,14 @@
                                         </a>
                                     </li>
                                     <hr class="my-2" style="margin: auto; width: 80%;">
-{{--                                    <li>--}}
-{{--                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('client.password.forgot') }}">--}}
-{{--                                            <svg width="20" height="20" fill="#a4bad4" class="bi bi-lock" viewBox="0 0 16 16">--}}
-{{--                                                <path d="M8 1a2 2 0 0 0-2 2v4H5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H9V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3.5a.5.5 0 0 0 1 0V3a2 2 0 0 0-2-2z"/>--}}
-{{--                                            </svg>--}}
-{{--                                            فراموشی رمز عبور--}}
-{{--                                        </a>--}}
-{{--                                    </li>--}}
+                                    {{--                                    <li>--}}
+                                    {{--                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ route('client.password.forgot') }}">--}}
+                                    {{--                                            <svg width="20" height="20" fill="#a4bad4" class="bi bi-lock" viewBox="0 0 16 16">--}}
+                                    {{--                                                <path d="M8 1a2 2 0 0 0-2 2v4H5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H9V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v3.5a.5.5 0 0 0 1 0V3a2 2 0 0 0-2-2z"/>--}}
+                                    {{--                                            </svg>--}}
+                                    {{--                                            فراموشی رمز عبور--}}
+                                    {{--                                        </a>--}}
+                                    {{--                                    </li>--}}
                                 @endif
                             </ul>
                         </div>
@@ -236,131 +236,7 @@
                                             @include('front.partials.category_menu', ['categories' => $categoriesTree])
                                         </li>
 
-                                        <!-- IC & میکروکنترلر -->
-                                        <li class="ruby-menu-mega">
-                                            <a href="#">
-                                                <svg width="18" height="18" fill="currentColor" class="bi bi-cpu" viewBox="0 0 16 16">
-                                                    <path d="M5 0a.5.5 0 0 1 .5.5V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2A2.5 2.5 0 0 1 14 4.5h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14a2.5 2.5 0 0 1-2.5 2.5v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14A2.5 2.5 0 0 1 2 11.5H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2A2.5 2.5 0 0 1 4.5 2V.5A.5.5 0 0 1 5 0m-.5 3A1.5 1.5 0 0 0 3 4.5v7A1.5 1.5 0 0 0 4.5 13h7a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 11.5 3zM5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5zM6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
-                                                </svg>
-                                                IC & میکروکنترلر</a>
-                                            <div class="ruby-grid ruby-grid-lined">
-                                                <div class="ruby-row">
-                                                    <div class="ruby-col-2">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/hardware.png" alt="ic">
-                                                            آی‌سی‌ها</h3>
-                                                        <ul>
-                                                            <li><a href="#">آی‌سی دیجیتال</a></li>
-                                                            <li><a href="#">آی‌سی آنالوگ</a></li>
-                                                            <li><a href="#">آی‌سی حافظه</a></li>
-                                                            <li><a href="#">آی‌سی منطق</a></li>
-                                                            <li><a href="#">آی‌سی تغذیه</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-2 hidden-md">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/microcontroller-technology.png" alt="microcontroller">
-                                                            میکروکنترلرها</h3>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>AVR</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ARM</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ESP32</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>STM32</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>PIC</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-3">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/sensor.png" alt="sensor">
-                                                            حسگرها</h3>
-                                                        <ul class="ruby-list-with-images">
-                                                            <li><a href="#"><img src="./design/image/L351-min.png">حسگر دما</a><span class="ruby-list-desc">Temperature Sensor</span></li>
-                                                            <li><a href="#"><img src="./design/image/ldr-5mm-removebg-preview.png">حسگر نور</a><span class="ruby-list-desc">Light Sensor</span></li>
-                                                            <li><a href="#"><img src="./design/image/images-removebg-preview.png">حسگر فاصله</a><span class="ruby-list-desc">Distance Sensor</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-5">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/3d-cube.png" alt="modules">
-                                                            ماژول‌ها</h3>
-                                                        <div class="ruby-row">
-                                                            <div class="ruby-col-4 ruby-col-6-md">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-wifi" aria-hidden="true"></i>ماژول WiFi</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bluetooth" aria-hidden="true"></i>ماژول Bluetooth</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول برق</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:10px">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-thermometer-half" aria-hidden="true"></i>ماژول دما</a></li>
-                                                                    <li><a href="#"><i class="fa fa-lightbulb-o" aria-hidden="true"></i>ماژول نور</a></li>
-                                                                    <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>ماژول کنترل</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:15px">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-motorcycle" aria-hidden="true"></i>ماژول موتور</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول قدرت</a></li>
-                                                                    <li><a href="#"><i class="fa fa-battery-full" aria-hidden="true"></i>ماژول باتری</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="ruby-dropdown-toggle"></span>
-                                        </li>
 
-                                        <!-- ابزار -->
-                                        <li class="ruby-menu-mega-shop">
-                                            <a href="#">
-                                                <svg width="17" height="17" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
-                                                    <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
-                                                </svg>
-                                                ابزار & تجهیزات</a>
-                                            <div style="height: 263px;">
-                                                <ul>
-                                                    <li><a href="#">ابزار لحیم‌کاری</a>
-                                                        <div class="ruby-grid ruby-grid-lined">
-                                                            <div class="ruby-row">
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/soldering-iron.png" alt="soldering">
-                                                                        هویه</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">هویه قلمی</a></li>
-                                                                        <li><a href="#">هویه صنعتی</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/soldering-iron (1).png" alt="soldering">
-                                                                        سیم لحیم</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">سیم لحیم نقره‌ای</a></li>
-                                                                        <li><a href="#">سیم لحیم بدون سرب</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/workpiece.png" alt="fixture">
-                                                                        فیکسچر</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">گیره برد</a></li>
-                                                                        <li><a href="#">پایه هویه</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
 
                                         <!-- other items-->
                                         <li class="nav-item">
@@ -402,4 +278,4 @@
 </div>
 <!-- End Store Header -->
 
-@include('front.layouts.mobile_header')
+@include('user.layouts.mobile_header')
