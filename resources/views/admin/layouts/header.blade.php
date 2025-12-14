@@ -39,17 +39,18 @@
                     <hr class="border-light">
                     <!-- Sidebar Navigation -->
                     <ul class="nav nav-pills flex-column mb-auto" >
-                        <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif" ><i class='bx bxs-dashboard mx-2 EditorSvg'></i> داشبورد</a></li>
-                        <li><a href="{{ url('admin/admin/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'admin') active @endif" ><i class='bx bxs-shopping-bag-alt mx-2 EditorSvg'></i>ادمین ها</a></li>
-                        <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>دسته ها</a></li>
-                        <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>محصولات</a></li>
-                        <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>بنر ها</a></li>
-                        <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>meta's</a></li>
-                        <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>قیمت ها</a></li>
+                         <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif"><i class='bx bxs-dashboard mx-2 EditorSvg'></i> داشبورد</a></li>
+                        <li><a href="{{ url('admin/admin/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'admin') active @endif"><i class="bi bi-person-gear mx-2 EditorSvg"></i>ادمین ها</a></li>
+                        <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif"><i class="bi bi-grid-1x2 mx-2 EditorSvg"></i>دسته ها</a></li>
+                        <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif"><i class="bi bi-box-seam mx-2 EditorSvg"></i>محصولات</a></li>
+                        <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif"><i class="bi bi-rainbow mx-2 EditorSvg"></i>بنر ها</a></li>
+                        <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif"><i class="bi bi-meta mx-2 EditorSvg"></i>meta's</a></li>
+                        <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif"><i class="bi bi-cash-coin mx-2 EditorSvg"></i>قیمت ها</a></li>
                         <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
-                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>باربری</a></li>
-                        <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>سفارشات</a></li>
-                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i>مشتریان</a></li>
+
+                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-truck-front mx-2 EditorSvg'></i>باربری</a></li>
+                        <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif"><i class="bi bi-card-list mx-2 EditorSvg"></i>سفارشات</a></li>
+                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
@@ -67,36 +68,71 @@
             </div>
         </div>
         <!-- main side -->
-        <div class="col-12 col-lg-10 mainCol">
+        <div class="col-12 col-lg-10 mainCol ps-0">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-3 px-1" dir="rtl">
-                <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg bg-panel borderRadius py-2 pt-3 px-0" dir="rtl">
+                <div class="container px-0">
                     <!-- Hamburger menu (visible on mobile only) -->
                     <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
                         <i class='bx bx-menu bx-sm'></i>
                     </button>
 
-                    <!-- Search form (visible on medium and larger screens) -->
-                    <form class="d-none d-md-flex ms-auto w-50">
-                        <button class="btn btn-outline-secondary px-1 py-0 d-flex align-items-center" type="submit"><i class="bx bx-search"></i></button>
-                        <input class="form-control me-2" type="search" placeholder="جستجو...">
-                    </form>
+                    <div class="row w-100 px-0">
+                        <!-- Notifications and profile menu -->
+                        <div class="col-12 d-flex align-items-center justify-content-end px-0">
 
-                    <!-- Notifications and profile menu -->
-                    <div class="d-flex align-items-center">
+                            <div class="d-flex flex-row align-items-center ms-3" dir="rtl">
+                                <p class="mb-0 ms-3" id="live-time">00:00:00</p>
+                                <span id="live-date">0000/00/00</span>
+                            </div>
 
-                        <div class="d-flex flex-row align-items-center ms-3">
-                            <p class="mb-0 ms-3">08:05</p>
-                            <span>1404/09/10</span>
+                            <!-- Notification icon with badge -->
+                            <a href="" class="position-relative me-3 text-white">
+                                <i class='bx bxs-bell bx-tada-hover fs-5'></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
+                            </a>
+
+                            <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
                         </div>
 
-                        <!-- Notification icon with badge -->
-                        <a href="" class="position-relative me-3 text-white">
-                            <i class='bx bxs-bell bx-tada-hover fs-5'></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
-                        </a>
-
-                        <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
                     </div>
                 </div>
             </nav>
+
+
+ {{-- date and time --}}
+    <script>
+        function updateIranDateTime() {
+        const now = new Date();
+
+        const timeOptions = {
+            timeZone: 'Asia/Tehran',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
+
+        // تنظیمات برای تاریخ شمسی
+        const dateOptions = {
+            timeZone: 'Asia/Tehran',
+            calendar: 'persian',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        };
+
+        const timeString = new Intl.DateTimeFormat('fa-IR', timeOptions).format(now);
+        let dateString = new Intl.DateTimeFormat('fa-IR', dateOptions).format(now);
+
+        const englishDate = dateString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+        const englishTime = timeString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+
+        document.getElementById('live-time').innerText = englishTime;
+        document.getElementById('live-date').innerText = englishDate;
+        }
+
+        setInterval(updateIranDateTime, 1000);
+
+        updateIranDateTime();
+    </script>

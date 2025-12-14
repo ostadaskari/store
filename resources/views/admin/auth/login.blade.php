@@ -22,58 +22,16 @@
 
     <canvas id="bg"></canvas>
 
-    <div class="login" id="mainLoginContainer">
-        <div class="tab-menu">
-            <button id="tab-mobile" class="active" data-tab="mobile">ورود با شماره موبایل</button>
-            <button id="tab-username" data-tab="username">ورود با نام کاربری</button>
-        </div>
+    <div class="login" id="mainLoginContainer" style="min-height: 460px;">
 
         <div class="form-container">
 
             {{--show errors--}}
             @include('admin.layouts._message')
 
-            <div id="mobile-tab" class="tab-pane active w-100">
-
-                <form id="mobile-step-1-form" class="custom-form active-step" method="POST" action="">
-                     @csrf
-                    <a class="logoContainer" href="\">
-                        <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
-                    </a>
-                    <p class="text-sm mt-4 text-center">برای ورود به سایت لطفا شماره موبایل خود را جهت دریافت کد تایید وارد کنید.</p>
-
-                    <input type="tel" id="mobileNumberInput" name="mobile" class="form-control input-ltr"
-                            placeholder="۰۹۱۲۶۳۲۴۷۴۵" maxlength="11" required>
-
-                    <button class="btn-primary" type="button" id="js-mobile-continue">ادامه</button>
-                </form>
-
-                <form id="mobile-step-2-form" class="custom-form hidden" method="POST" action="">
-                    <div class="w-100 text-start">
-                        <button class="btn btn-link text-secondary p-0" type="button" id="backToMobileStep1">
-                            <i class="fa fa-arrow-right fs-4"></i>
-                        </button>
-                    </div>
-                    <h1 class="text-center"><i class="fa fa-mobile-alt login-input-icon mx-1"></i>کد تایید را وارد کنید</h1>
-                    <p class="text-center text-sm">کد ۴ رقمی ارسال شده به شماره <span id="displayMobileNumber" class="fw-bold text-dark"></span> را وارد کنید.</p>
-
-                    <div class="otp-input-group" dir="ltr">
-                        <input type="text" class="otp-input form-control" maxlength="1" data-index="0" name="otp_0" inputmode="numeric">
-                        <input type="text" class="otp-input form-control" maxlength="1" data-index="1" name="otp_1" inputmode="numeric">
-                        <input type="text" class="otp-input form-control" maxlength="1" data-index="2" name="otp_2" inputmode="numeric">
-                        <input type="text" class="otp-input form-control" maxlength="1" data-index="3" name="otp_3" inputmode="numeric">
-                        <input type="hidden" id="hiddenMobileForOtp" name="mobile">
-                    </div>
-
-                    <button class="btn-primary" type="button" id="js-otp-login">ورود</button>
-
-                    <a href="#" class="forgotPass mt-4" id="resend-otp">ارسال مجدد کد تایید</a>
-                </form>
-            </div>
-
-            <div id="username-tab" class="tab-pane w-100">
-                <a class="logoContainer" href="\">
-                   <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
+            <div id="username-tab" class="tab-pane active w-100 mt-4">
+                <a class="mb-4" href="\">
+                   <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid mb-4">
                 </a>
 
                 <form class="custom-form"  method="POST" action="">
@@ -88,27 +46,9 @@
                         </span>
                     </div>
 
-                    <a href="" class="forgotPass">فراموشی رمز عبور</a>
                     <button class="btn-primary" type="submit">ورود</button>
 
                 </form>
-
-                {{-- forgot pass form --}}
-                <form id="forgot-password-form" class="custom-form" method="POST" action="">
-
-                    <a class="logoContainer" href="\">
-                        <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid">
-                    </a>
-                    <p class="text-sm mt-4 text-center">برای بازیابی رمز عبور، لطفا شماره موبایل خود را وارد کنید.</p>
-
-                    <input type="tel" id="mobileNumberInputRecovery" name="mobile" class="form-control input-ltr"
-                        placeholder="۰۹۱۲۶۳۲۴۷۴۵" maxlength="11" required>
-
-                    <button class="btn-primary" type="submit">بازیابی رمز</button>
-                    
-                    <a href="#" id="backToLogin" class="mt-3 d-block text-center">بازگشت به صفحه ورود</a>
-                </form>
-                {{-- end forgot pass form --}}
 
             </div>
 
@@ -213,7 +153,6 @@
        // ==========================================================
         // UI Logic (Click, Visibility, Toggles)
         // ==========================================================
-        const tabMobile = document.getElementById('tab-mobile');
         const tabUsername = document.getElementById('tab-username');
         const mobileTab = document.getElementById('mobile-tab');
         const usernameTab = document.getElementById('username-tab');
@@ -249,28 +188,6 @@
             });
         }
 
-
-        // 1. Tab Switching Logic
-        function switchTab(targetTab) {
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-
-            // Add active class to the selected button and content pane
-            if (targetTab === 'mobile') {
-                tabMobile.classList.add('active');
-                mobileTab.classList.add('active');
-                mobileStep1.classList.remove('hidden'); // Ensure mobile starts at step 1
-                mobileStep2.classList.add('hidden');
-
-            } else { // username
-                tabUsername.classList.add('active');
-                usernameTab.classList.add('active');
-            }
-        }
-
-        tabMobile.addEventListener('click', () => switchTab('mobile'));
-        tabUsername.addEventListener('click', () => switchTab('username'));
 
 
         // 2. Mobile Login Flow (Step 1 -> Step 2)

@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="col-12 col-md-4">
-                    <div class="leftSidePayment p-4 border rounded bg-light shadow-sm" style="position: sticky;top: 24.25%;">
+                    <div class="leftSidePayment p-4 border rounded bg-light shadow-sm" style="margin-top: 54px;position: sticky;top: 24.25%;">
                         <!-- The price of goods -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="fw-normal">قیمت کالاها</span>
@@ -195,7 +195,7 @@
                             @if(session('cart.discount'))
                                 <button class="btn btn-danger px-1" type="button" id="removeDiscount">حذف</button>
                             @else
-                                <button class="btn btn-outline-secondary btn-success text-dark px-1" type="button" id="applyDiscount">ثبت</button>
+                                <button class="btn btn-outline-secondary btn-success px-1 text-light" style="height: 42px;" type="button" id="applyDiscount">ثبت</button>
                             @endif
                         </div>
 
