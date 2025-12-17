@@ -173,40 +173,7 @@
 
             <!-- General Order Details & Status -->
             {{-- Using col-4 to force 33% width everywhere, including print --}}
-            <div class="col-12 col-lg-4 mb-2 colPrint">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-primary text-white text-right">خلاصه سفارش</div>
-                    <div class="card-body text-right">
-                        <p><strong>تاریخ ثبت:</strong> {{ jdate($order->created_at)->format('Y/m/d - H:i') }}</p>
-                        <p><strong>وضعیت پرداخت:</strong>
-                            <span class="badge {{ $order->is_payment ? 'bg-success' : 'bg-danger' }}">
-                        {{ $order->is_payment ? 'پرداخت شده' : 'پرداخت نشده' }}
-                    </span>
-                        </p>
-                        <p><strong>روش پرداخت:</strong> {{ $order->payment_method == 'credit' ? 'آنلاین' : 'نقدی (COD)' }}</p>
-                        <p><strong>وضعیت ارسال:</strong>
-                            @php
-                                $statusClass = [
-                                    'pending' => 'badge bg-warning text-dark',
-                                    'processing' => 'badge bg-info text-dark',
-                                    'delivered' => 'badge bg-primary',
-                                    'completed' => 'badge bg-success',
-                                    'canceled' => 'badge bg-danger',
-                                ][$order->status] ?? 'badge bg-secondary';
-                                $statusText = [
-                                    'pending' => 'در انتظار',
-                                    'processing' => 'در حال پردازش',
-                                    'delivered' => 'تحویل داده شده',
-                                    'completed' => 'ارسال شده',
-                                    'canceled' => 'لغو شده',
-                                ][$order->status] ?? 'نامشخص';
-                            @endphp
-                            <span class="{{ $statusClass }}">{{ $statusText }}</span>
-                        </p>
-                        <p><strong>توضیحات سفارش:</strong><br>{{ $order->note ?? 'ندارد' }}</p>
-                    </div>
-                </div>
-            </div>
+
                 <div class="col-12 col-lg-4 mb-2 colPrint">
                     <div class="card shadow-sm h-100">
                         <div class="card-header bg-primary text-white text-right">خلاصه سفارش</div>

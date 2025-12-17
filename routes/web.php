@@ -18,7 +18,10 @@ use App\Http\Controllers\Front\CategoryController as FrontCategoryController;
 use App\Http\Controllers\Front\LocationController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
 use App\Http\Controllers\Front\UserAddressController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\User\UserInvoiceController;
+use App\Http\Controllers\User\UserOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -31,6 +34,25 @@ use App\Http\Controllers\Admin\PriceController;
 
 Route::middleware('user')->group(callback: function(){
     Route::get('/user/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/orders', [UserOrderController::class, 'orders'])->name('user.orders');
+    // Main invoices page (user.invoices)
+    Route::get('/user/invoices', [UserInvoiceController::class, 'index'])->name('user.invoices');
+    // AJAX endpoint for fetching/searching/paginating invoices
+    Route::get('/user/invoices/fetch', [UserInvoiceController::class, 'fetchInvoices'])->name('user.invoices.fetch');
+
+    Route::get('/user/profile', [ProfileController::class, 'index'])->name('user.profile');
+    // Route for updating personal info (Form 1)
+    Route::post('/user/profile/update-info', [ProfileController::class, 'updateProfile'])
+        ->name('user.profile.updateProfile');
+
+    // Route for updating bank info (Form 2)
+    Route::post('/user/profile/update-bank', [ProfileController::class, 'updateBankInfo'])
+        ->name('user.profile.updateBankInfo');
+
+    // Route for changing password (Form 3)
+    Route::post('/user/profile/update-password', [ProfileController::class, 'updatePassword'])
+        ->name('user.profile.updatePassword');
+
 });
 
 Route::middleware('admin')->group(callback: function(){
@@ -118,6 +140,10 @@ Route::get('/user/addresses', [UserAddressController::class, 'index'])
 // POST request to save a new address (Used by saveAddressBtn in JS)
 Route::post('/user/addresses', [UserAddressController::class, 'store'])
     ->name('user.address.store');
+Route::put('/user/addresses/{address}', [UserAddressController::class, 'update'])
+    ->name('user.address.update');
+Route::delete('/user/addresses/{address}', [UserAddressController::class, 'destroy'])
+    ->name('user.address.destroy');
 // --- API Route for Iran Locations ---
 // این مسیر توسط جاوا اسکریپت در صفحه تسویه حساب برای پر کردن دراپ‌داون استان/شهر استفاده می‌شود.
 Route::get('/api/iran/locations', [LocationController::class, 'getIranLocations'])->name('api.iran.locations');

@@ -7,14 +7,13 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserDashboardController extends Controller
+class UserOrderController extends Controller
 {
     // Define the number of items per page for non-ajax load
     protected const PER_PAGE = 10;
-
-    public function dashboard(Request $request)
+        public function orders(Request $request)
     {
-        $data['header_title'] = 'داشبورد کاربر';
+        $data['header_title'] = 'سفارشات کاربر';
         $userId = Auth::id();
 
         // Separate logic for simple counts and main query
@@ -59,6 +58,7 @@ class UserDashboardController extends Controller
         $data['user_orders'] = $query->paginate(self::PER_PAGE);
         $data['orders_count'] = $data['user_orders']->total(); // Use total() for paginated collection
 
-        return view('user.dashboard', $data);
+        return view('user.orders.index', $data);
     }
+
 }

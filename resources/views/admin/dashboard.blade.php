@@ -30,7 +30,7 @@
                                         <i class='bx bxs-calendar-check bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">{{ number_format($orders_taday) }}</h5>
+                                        <h5 class="card-title text-start">{{ number_format($orders_taday) }}</h5>
                                         <p class="card-text"> تعداد سفارشات امروز</p>
                                     </div>
                                 </div>
@@ -58,10 +58,9 @@
                                         <i class='bx bxs-group bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">{{ number_format($clients_count) }}</h5>
+                                        <h5 class="card-title text-start">{{ number_format($clients_count) }}</h5>
                                         <p class="card-text">تعداد کل کاربران</p>
-                                        <h5 class="card-title text-start">۱۰۲</h5>
-                                        <p class="card-text">آخرین سفارشات</p>
+
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +85,7 @@
                                         <i class='bx bxs-calendar-check bx-lg'></i>
                                     </div>
                                     <div class="pe-3">
-                                        <h5 class="card-title">{{ number_format($orders_count) }}</h5>
+                                        <h5 class="card-title text-start">{{ number_format($orders_count) }}</h5>
                                         <p class="card-text">تعداد کل سفارشات</p>
                                     </div>
                                 </div>
@@ -144,10 +143,10 @@
                                     <table class="table table-hover align-middle border-panel">
                                         <thead>
                                         <tr>
-                                            <th>شماره سفارش</th>
+                                            <th># شماره سفارش</th>
                                             <th>تاریخ سفارش</th>
                                             <th>وضعیت</th>
-                                            <th></th>
+                                            <th>جزییات</th>
                                         </tr>
                                         </thead>
                                         @php
@@ -162,7 +161,7 @@
                                         <tbody>
                                         @foreach($latest_orders as $latest)
                                         <tr>
-                                            <td>#{{ $latest->order_number }}</td>
+                                            <td>{{ $latest->order_number }}</td>
                                             <td>{{ jdate($latest->created_at) }}</td>
                                             <td>
                                                 <span class="badge {{ $statuses[$latest->status]['class'] ?? 'bg-secondary' }}">

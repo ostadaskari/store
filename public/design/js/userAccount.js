@@ -355,10 +355,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (card.classList.contains("order-active")) {
         targetElement = document.getElementById("current-order-detail");
-      } 
+      }
       else if (card.classList.contains("order-delivered")) {
         targetElement = document.getElementById("delivered-order-detail");
-      } 
+      }
       else if (card.classList.contains("order-returned")) {
         targetElement = document.getElementById("returned-order-detail");
       }
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // <!--====================== invoice ======================-->
 
-// invoice Accordion toggle 
+// invoice Accordion toggle
 document.querySelectorAll('.accordion-header-invoice').forEach(button => {
 button.addEventListener('click', () => {
 const currentBody = button.nextElementSibling;
@@ -539,21 +539,21 @@ input.addEventListener("input", function (e) {
   [cardNumberInput, shabaInput, accountInput].forEach(el => allowOnlyNumbers(el));
 
   const bankIcons = {
-    '603799': 'design/image/bank/ملی.png',     
-    '610433': 'design/image/bank/ملت.png',       
-    '603769': 'design/image/bank/صادرات.png',  
-    '622106': 'design/image/bank/پارسیان.png',   
-    '589210': 'design/image/bank/سپه.png',    
-    '627381': 'design/image/bank/انصار.png',     
-    '621986': 'design/image/bank/سامان.png',   
-    '603799': 'design/image/bank/مسکن.png',    
-    '636214': 'design/image/bank/آینده.png',    
-    '502938': 'design/image/bank/دی.png',        
-    '502806': 'design/image/bank/شهر.png', 
-    '627353': 'design/image/bank/تجارت.png',      
+    '603799': 'design/image/bank/ملی.png',
+    '610433': 'design/image/bank/ملت.png',
+    '603769': 'design/image/bank/صادرات.png',
+    '622106': 'design/image/bank/پارسیان.png',
+    '589210': 'design/image/bank/سپه.png',
+    '627381': 'design/image/bank/انصار.png',
+    '621986': 'design/image/bank/سامان.png',
+    '603799': 'design/image/bank/مسکن.png',
+    '636214': 'design/image/bank/آینده.png',
+    '502938': 'design/image/bank/دی.png',
+    '502806': 'design/image/bank/شهر.png',
+    '627353': 'design/image/bank/تجارت.png',
 
   };
-  
+
 
 
   cardNumberInput.addEventListener('input', () => {

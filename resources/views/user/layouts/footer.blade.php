@@ -1,4 +1,7 @@
-<!-- start footer -->
+
+
+</div>
+</div><!-- start footer -->
 <div class="container mt-60 footer-style">
     <div class="row">
         <div class="container bg-light" style="border-radius: 0 0 120px 120px;">

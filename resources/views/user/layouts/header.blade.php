@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ url('design/css/style.css') }}">
     <link rel="icon" href="{{url('design/image/favicon-3.png')}}" type="image/png">
     @yield('style')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 <body class="rtl bg-light">
@@ -237,7 +238,6 @@
                                         </li>
 
 
-
                                         <!-- other items-->
                                         <li class="nav-item">
                                             <a class="nav-link" title="عضویت" href="./registration.html">
@@ -279,3 +279,9 @@
 <!-- End Store Header -->
 
 @include('user.layouts.mobile_header')
+
+<!-- user account -->
+<div class="container user-account" style="padding-top:70px;">
+    <div class="row" style="height: 100%;" >
+
+        @include('user.layouts.sidebar')
