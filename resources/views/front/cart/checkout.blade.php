@@ -187,7 +187,7 @@
                         <!-- The price of goods -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="fw-normal">قیمت کالاها</span>
-                            <span class="fw-normal">{{ Cart::getTotal() }} تومان</span>
+                            <span class="fw-normal">{{  number_format(Cart::getTotal())}} تومان</span>
                         </div>
 
                         <!-- dividing line -->
