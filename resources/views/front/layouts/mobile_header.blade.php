@@ -150,7 +150,7 @@
         <div class="col-7">
             <div class="d-flex flex-row align-items-center w-100">
                 <div class="logoMobile">
-                    <img class="img-fluid" src="design/image/logo.png">
+                    <img class="img-fluid" src="{{ url('design/image/logo (4).png') }}">
                 </div>
                 <a href="#" class="m-2 title-logo">
                     <p class="mb-0 d-none d-md-block">فروشگاه تخصصی برق و الکترونیک</p>

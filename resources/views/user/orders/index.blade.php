@@ -173,7 +173,7 @@
 
 
                         <!--======== DYNAMIC MODAL FOR INVOICE (Inside the loop) ===============-->
-                        <div class="modal fade" id="invoiceModal-{{ $order->id }}" tabindex="-1" aria-labelledby="invoiceModalLabel-{{ $order->id }}" aria-hidden="true">
+                        <div class="modal fade" id="invoiceModal-{{ $order->id }}" tabindex="-1" aria-labelledby="invoiceModalLabel-{{ $order->id }}" >
                             <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header justify-content-between">

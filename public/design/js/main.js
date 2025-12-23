@@ -296,5 +296,150 @@ document.querySelectorAll('.nav-item.nav-link').forEach(link => {
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Helper to keep dropdown open during updates
+    function preserveDropdownState() {
+        const cartWrapper = document.getElementById('header-cart-wrapper');
+        const cartBtn = document.getElementById('cartBtn');
+        const isVisible = cartBtn.classList.contains('show') || (cartWrapper && cartWrapper.querySelector('.dropdown-menu.show'));
+
+        return { isVisible, cartBtn };
+    }
+
+    async function syncCartAction(id, qty, isRemove = false) {
+        const url = isRemove ? `/cart/ajax/remove/${id}` : `/cart/ajax/update/${id}`;
+
+        // Save current state before HTML replacement
+        const state = preserveDropdownState();
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: isRemove ? null : JSON.stringify({ qty: qty })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                Swal.fire({ icon: 'error', title: 'خطا', text: data.error, confirmButtonText: 'متوجه شدم' });
+                return;
+            }
+
+            // --- 1. Update Header UI ---
+            if (data.count_html) document.getElementById('header-cart-count-container').innerHTML = data.count_html;
+
+            if (data.list_html) {
+                const listContainer = document.getElementById('header-cart-list-container');
+                listContainer.innerHTML = data.list_html;
+
+                // RE-INITIALIZE Dropdown: This is the fix.
+                // This uses Bootstrap’s official API instead of manual class manipulation.
+                if (state.isVisible) {
+                    const dropdown = bootstrap.Dropdown.getOrCreateInstance(state.cartBtn);
+                    dropdown.show();
+                }
+            }
+
+            // --- 2. Update Cart Page UI (Same as before) ---
+            const cartTableBody = document.getElementById('cart-body');
+            if (cartTableBody) {
+                if (isRemove || (data.is_empty)) {
+                    const row = document.getElementById(`item-${id}`);
+                    if (row) row.remove();
+                    if (!cartTableBody.innerText.trim() || data.is_empty) {
+                        cartTableBody.innerHTML = '<tr><td colspan="5">سبد خرید خالی است</td></tr>';
+                    }
+                } else {
+                    const lineTotal = document.getElementById(`line-total-${id}`);
+                    const qtyInput = document.getElementById(`qty-${id}`);
+                    if (lineTotal) lineTotal.innerText = new Intl.NumberFormat().format(data.line_total);
+                    if (qtyInput) qtyInput.value = qty;
+                }
+
+                const formattedGrand = new Intl.NumberFormat().format(data.grand_total);
+                const grandTotalEl = document.getElementById('grand-total');
+                const summaryTotalEl = document.getElementById('summary-total');
+
+                if (grandTotalEl) grandTotalEl.innerText = formattedGrand;
+                if (summaryTotalEl) summaryTotalEl.innerText = formattedGrand + " تومان";
+            }
+
+        } catch (error) {
+            console.error("Cart Sync Error:", error);
+        }
+    }
+
+    // --- Event Listeners ---
+    document.addEventListener('click', function(e) {
+
+
+        // QTY Buttons
+        if (e.target.classList.contains('qty-btn') || e.target.classList.contains('header-qty-btn')) {
+            const id = e.target.dataset.id;
+            const type = e.target.dataset.type;
+
+            let currentQty;
+            const inputField = document.getElementById(`qty-${id}`);
+            if (inputField) {
+                currentQty = parseInt(inputField.value);
+            } else {
+                currentQty = parseInt(e.target.parentNode.querySelector('span').innerText);
+            }
+
+            let newQty = (type === 'plus') ? currentQty + 1 : currentQty - 1;
+            if (newQty > 0) syncCartAction(id, newQty);
+        }
+
+        // DELETE Buttons
+        const removeBtn = e.target.closest('.header-remove-btn') || e.target.closest('.cart-remove-page');
+        if (removeBtn) {
+            e.preventDefault();
+            const id = removeBtn.dataset.id;
+
+            Swal.fire({
+                title: 'آیا مطمئن هستید؟',
+                text: "این آیتم از سبد خرید شما حذف خواهد شد.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله، حذف شود',
+                cancelButtonText: 'انصراف'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    syncCartAction(id, 0, true);
+                }
+            });
+        }
+    });
+
+    const addToCartForm = document.querySelector('.formAddToCart');
+    if (addToCartForm) {
+        addToCartForm.addEventListener('submit', function(e) {
+            const input = this.querySelector('.product-qty-input-js');
+            const max = parseInt(input.getAttribute('max'));
+            const val = parseInt(input.value);
+
+            if (val > max) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطا',
+                    text: 'تعداد انتخابی بیشتر از موجودی انبار است.'
+                });
+            }
+        });
+    }
+});
+
+
+
+
 
 

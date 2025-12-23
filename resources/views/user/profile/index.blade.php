@@ -14,10 +14,17 @@
         }
         .password-valid { color: green !important; }
     </style>
-
+    <link rel="stylesheet" href="{{asset('design/css/persian-datepicker.min.css')}}">
 @endsection
 
 @section('content')
+    @php
+        use Morilog\Jalali\Jalalian;
+
+        $jalaliBirthDate = $user->birth_date
+            ? Jalalian::fromDateTime($user->birth_date)->format('Y/m/d')
+            : null;
+    @endphp
 
     <div class="col-md-9" id="user-profile-editor">
 
@@ -45,7 +52,7 @@
             <div class="col-md-2 mt-0">
                 <label class="form-label"> نام خانوادگی:</label>
                 <input type="text" class="form-control" name="family" value="{{ $user->family ?? '' }}" placeholder=" احمدی" required>
-                <small class="text-danger name-error"></small>
+                <small class="text-danger family-error"></small>
             </div>
             <div class="col-md-3 mt-0">
                 <label class="form-label">حوزه کاری شما:</label>
@@ -76,13 +83,28 @@
 
 
             <div class="col-md-6">
-                <label class="form-label">تاریخ تولد (شمسی):</label>
-                {{-- This date handling is complex. For simplicity, we'll use a single text input here and assume a Jalali date picker library handles it, but we'll send a standard format to backend --}}
-                <input type="text" class="form-control input-ltr" id="birth_date_input" name="birth_date_text" value="{{ $user->birth_date ?? '' }}" placeholder="1370/01/01">
-                <small class="text-muted">فرمت: YYYY/MM/DD</small>
-                <input type="hidden" id="birth_date_hidden" name="birth_date" value="{{ $user->birth_date ?? '' }}">
+                <label class="form-label">تاریخ تولد:</label>
+
+                {{-- Jalali visible input --}}
+                <input
+                    type="text"
+                    class="form-control input-ltr"
+                    id="birth_date_picker"
+                    placeholder="انتخاب تاریخ تولد"
+                    autocomplete="off"
+                >
+
+                {{-- Gregorian value sent to backend --}}
+                <input
+                    type="hidden"
+                    id="birth_date"
+                    name="birth_date"
+                    value="{{ $user->birth_date }}"
+                >
+
                 <small class="text-danger birth_date-error"></small>
             </div>
+
 
             <div class="col-md-6">
                 <label class="form-label">ایمیل:</label>
@@ -294,6 +316,7 @@
                         <li id="rule-length" class="text-danger">⬤ حداقل ۸ کاراکتر</li>
                         <li id="rule-lower" class="text-danger">⬤ حروف کوچک (a-z)</li>
                         <li id="rule-upper" class="text-danger">⬤ حروف بزرگ (A-Z)</li>
+                        <li id="rule-number" class="text-danger">⬤ حداقل یک عدد (0-9)"</li>
                         <li id="rule-symbol" class="text-danger">⬤ یک کاراکتر خاص (مثل @#$!)</li>
                     </ul>
                 </div>
@@ -315,17 +338,25 @@
 
 @section('script')
 
+    {{-- Persian Datepicker Dependencies --}}
+    <script src="{{asset('design/js/persian-date.min.js')}}"></script>
+    <script src="{{asset('design/js/persian-datepicker.min.js')}}"></script>
+
     <script>
         $(document).ready(function () {
             let userAddresses = [];
             let currentEditId = null;
-            // CSRF
+
+            // CSRF Setup
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
+            /* =========================
+               HELPERS
+            ========================= */
             function showFeedback(message, type) {
                 const feedback = $('#ajax-feedback');
                 $('#feedback-message').text(message);
@@ -337,65 +368,104 @@
                 setTimeout(() => feedback.fadeOut(), 5000);
             }
 
-            function clearErrors(form) {
+            function clearFormErrors(form) {
                 form.find('.text-danger').text('').hide();
-                form.find('.is-invalid').removeClass('is-invalid');
-            }
-
-            function displayErrors(form, errors) {
-                clearErrors(form);
-                $.each(errors, function (key, value) {
-                    form.find(`.${key}-error`).text(value[0]).show();
-                    form.find(`[name="${key}"]`).addClass('is-invalid');
+                form.find('input, select, textarea').each(function () {
+                    $(this).removeClass('is-invalid');
                 });
             }
 
+            function displayErrors(form, errors) {
+                clearFormErrors(form);
+                $.each(errors, function (key, value) {
+                    const errorEl = form.find(`.${key}-error`);
+                    if (errorEl.length) {
+                        errorEl.text(value[0]).show();
+                    }
+                    const inputEl = form.find(`[name="${key}"]`);
+                    if (inputEl.length) {
+                        inputEl.addClass('is-invalid');
+                    }
+                });
+            }
+
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
             /* =========================
-               1. PROFILE INFO
+               1. PROFILE INFO (AJAX SUBMIT)
             ========================= */
             $('#profileInfoForm').on('submit', function (e) {
                 e.preventDefault();
 
                 const form = $(this);
                 const btn = $('#mainSaveBtn');
+                const emailVal = form.find('input[name="email"]').val();
 
-                $('#birth_date_hidden').val($('#birth_date_input').val());
+                // Client-side Validation
+                if (!isValidEmail(emailVal)) {
+                    showFeedback('ایمیل وارد شده معتبر نیست', 'danger');
+                    form.find('input[name="email"]').addClass('is-invalid');
+                    return;
+                }
 
                 btn.prop('disabled', true).text('در حال ذخیره...');
-                clearErrors(form);
+                clearFormErrors(form);
 
                 $.post("{{ route('user.profile.updateProfile') }}", form.serialize())
-                    .done(res => showFeedback(res.message, 'success'))
+                    .done(res => {
+                        showFeedback(res.message || 'اطلاعات با موفقیت ذخیره شد', 'success');
+                    })
                     .fail(xhr => {
                         if (xhr.status === 422) {
                             displayErrors(form, xhr.responseJSON.errors);
-                            console.log(xhr.responseJSON.errors);
                             showFeedback('خطا در اطلاعات وارد شده', 'danger');
                         } else {
-                            showFeedback('خطای سرور', 'danger');
+                            showFeedback('خطای سرور در ذخیره اطلاعات', 'danger');
                         }
                     })
-                    .always(() => btn.prop('disabled', false).text('ذخیره اطلاعات'));
+                    .always(() => {
+                        btn.prop('disabled', false).text('ذخیره اطلاعات');
+                    });
             });
+
+            /* =========================
+               BIRTHDATE PICKER
+            ========================= */
+            $('#birth_date_picker').pDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                observer: true,
+                calendar: { persian: { leapYearMode: 'algorithmic' } },
+                onSelect: function (unix) {
+                    const gDate = new Date(unix);
+                    const yyyy = gDate.getFullYear();
+                    const mm = String(gDate.getMonth() + 1).padStart(2, '0');
+                    const dd = String(gDate.getDate()).padStart(2, '0');
+                    $('#birth_date').val(`${yyyy}-${mm}-${dd}`);
+                }
+            });
+            @if($jalaliBirthDate)
+            $('#birth_date_picker').val('{{ $jalaliBirthDate }}');
+            @endif
 
             /* =========================
                2. BANK INFO
             ========================= */
             $('#bankInfoForm').on('submit', function (e) {
                 e.preventDefault();
-
                 const form = $(this);
                 const btn = $('#bankSaveBtn');
 
                 btn.prop('disabled', true).text('در حال ذخیره...');
-                clearErrors(form);
+                clearFormErrors(form);
 
                 $.post("{{ route('user.profile.updateBankInfo') }}", form.serialize())
                     .done(res => showFeedback(res.message, 'success'))
                     .fail(xhr => {
                         if (xhr.status === 422) {
                             displayErrors(form, xhr.responseJSON.errors);
-                            console.log(xhr.responseJSON.errors);
                             showFeedback('خطا در اطلاعات بانکی', 'danger');
                         } else {
                             showFeedback('خطای سرور', 'danger');
@@ -405,435 +475,122 @@
             });
 
             /* =========================
-               3. CHANGE PASSWORD
+               3. PASSWORD MANAGEMENT
             ========================= */
+
+            // The logic for visual updates
+            function updateRule(elementId, condition, text) {
+                const el = document.getElementById(elementId);
+                if (!el) return;
+
+                if (condition) {
+                    el.classList.remove("text-muted", "text-danger");
+                    el.classList.add("text-success");
+                    el.innerHTML = "✔ " + text;
+                } else {
+                    el.classList.remove("text-success");
+                    el.classList.add("text-danger");
+                    el.innerHTML = "⬤ " + text;
+                }
+            }
+
+            // The function you requested
+            function validatePasswordRules(value) {
+                updateRule("rule-length", value.length >= 8, "حداقل ۸ کاراکتر");
+                updateRule("rule-lower", /[a-z]/.test(value), "حروف کوچک (a-z)");
+                updateRule("rule-upper", /[A-Z]/.test(value), "حروف بزرگ (A-Z)");
+                updateRule("rule-number", /[0-9]/.test(value), "حداقل یک عدد (0-9)");
+                updateRule("rule-symbol", /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value), "یک کاراکتر خاص (مثل @#$!)");
+            }
+
+            // Event listener for the new password field
+            const newInput = document.getElementById("newPassword");
+            if (newInput) {
+                newInput.addEventListener("input", function() {
+                    validatePasswordRules(this.value);
+                });
+            }
+
             $('#changePasswordForm').on('submit', function (e) {
                 e.preventDefault();
-
                 const form = $(this);
                 const btn = $('#changePassSaveBtn');
 
-                btn.prop('disabled', true).text('در حال ذخیره...');
-                clearErrors(form);
-
-                $.post("{{ route('user.profile.updatePassword') }}", {
-                    current_password: $('#currentPassword').val(),
-                    new_password: $('#newPassword').val(),
-                    new_password_confirmation: $('#confirmPassword').val()
-                })
+                btn.prop('disabled', true).text('در حال تغییر...');
+                $.post("{{ route('user.profile.updatePassword') }}", form.serialize())
                     .done(res => {
                         showFeedback(res.message, 'success');
                         form[0].reset();
+                        // Reset rules to muted after success
+                        $('.rule-item').removeClass('text-success text-danger').addClass('text-muted');
                     })
                     .fail(xhr => {
-                        if (xhr.status === 422) {
-                            displayErrors(form, xhr.responseJSON.errors);
-                            console.log(xhr.responseJSON.errors);
-                            showFeedback('خطا در تغییر رمز عبور', 'danger');
-                        } else {
-                            showFeedback('خطای سرور', 'danger');
-                        }
+                        if (xhr.status === 422) displayErrors(form, xhr.responseJSON.errors);
+                        showFeedback('خطا در تغییر رمز عبور', 'danger');
                     })
                     .always(() => btn.prop('disabled', false).text('ذخیره'));
             });
 
-        });
-    </script>
-
-    <script>
-        /* =========================
-           SAFE GLOBAL FEEDBACK (ALERT)
-        ========================= */
-        if (typeof window.showFeedback !== 'function') {
-            window.showFeedback = function (message, type = 'success') {
-                const feedbackElement = $('#ajax-feedback');
-                $('#feedback-message').text(message);
-                feedbackElement
-                    .removeClass('alert-success alert-danger')
-                    .addClass('alert-' + type)
-                    .fadeIn();
-
-                setTimeout(() => feedbackElement.fadeOut(), 5000);
-            };
-        }
-
-        $(document).ready(function () {
-
             /* =========================
-               GLOBAL STATE
+               ADDRESS MANAGEMENT
             ========================= */
-            let IRAN_LOCATIONS = {};
-            let userAddresses = [];
-            let currentEditId = null;
-
             const addAddressBtn = $('#btnNew-address');
             const saveAddressBtn = $('#saveAddressBtn');
             const formContainer = $('#new-address-form-container');
             const addressForm = $('#address-form');
 
-            /* =========================
-               FORM VISIBILITY
-            ========================= */
             addAddressBtn.on('click', function () {
                 if (formContainer.is(':visible')) {
-                    resetForm();
+                    addressForm[0].reset();
                     formContainer.slideUp(300);
                     addAddressBtn.text('+ افزودن آدرس جدید');
                 } else {
-                    resetForm();
-                    fetchIranLocations();
                     formContainer.slideDown(300);
                     addAddressBtn.text('- لغو');
                 }
             });
 
-            /* =========================
-               LOAD ADDRESSES
-            ========================= */
             function loadUserAddresses() {
-                // Ensure the loading message is displayed first
-                let $loadingMsg = $('#address-section');
-                $loadingMsg.html('<div class="text-center p-3 text-muted" id="address-loading-message">در حال بارگذاری آدرس‌ها...</div>');
+                let $section = $('#address-section');
+                $section.html('<div class="text-center p-3 text-muted">در حال بارگذاری...</div>');
 
-                $.ajax({
-                    url: "{{ route('user.addresses.index') }}",
-                    type: "GET",
-                    // Crucial: Include the CSRF token for protected routes
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    success: function (res) {
-                        // Check if the server returned status=true and the addresses array
-                        if (res.status && res.addresses) {
-                            userAddresses = res.addresses;
-                            renderAddresses();
-                        } else {
-                            // Handle cases where the request succeeds but status is false (e.g., unauthenticated JSON response)
-                            userAddresses = [];
-                            renderAddresses();
-                        }
-                    },
-                    error: function (xhr) {
-                        // Handle connection errors, 401, 403, 419, etc.
-                        userAddresses = [];
-                        renderAddresses(); // Render empty list
-                        // Update the loading message with an error
-                        $('#address-section').html('<div class="text-center p-3 text-danger">خطا در برقراری ارتباط با سرور یا بارگذاری آدرس‌ها.</div>');
-                        console.error('Failed to load user addresses:', xhr.status, xhr.responseText);
-                    }
-                });
+                $.get("{{ route('user.addresses.index') }}")
+                    .done(res => {
+                        userAddresses = res.addresses || [];
+                        renderAddresses();
+                    })
+                    .fail(() => {
+                        $section.html('<div class="text-center p-3 text-danger">خطا در بارگذاری آدرس‌ها</div>');
+                    });
             }
 
-            /* =========================
-               RENDER ADDRESSES
-            ========================= */
             function renderAddresses() {
                 const container = $('#address-section');
                 container.empty();
-
                 if (!userAddresses.length) {
                     container.html('<div class="text-muted p-3">آدرسی ثبت نشده است</div>');
                     return;
                 }
-
                 userAddresses.forEach(address => {
                     container.append(`
-                <div class="card mb-2 address-item" data-id="${address.id}">
-                    <div class="card-body d-flex justify-content-between">
-                        <div>
-                            <strong>${address.first_name} ${address.last_name}</strong><br>
-                            ${address.province}، ${address.city}<br>
-                            ${address.address}
+                        <div class="card mb-2">
+                            <div class="card-body d-flex justify-content-between">
+                                <div>
+                                    <strong>${address.first_name} ${address.last_name}</strong><br>
+                                    ${address.province}، ${address.city}<br>${address.address}
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <button class="btn btn-sm btn-outline-info edit-address" data-id="${address.id}">ویرایش</button>
+                                    <button class="btn btn-sm btn-outline-danger delete-address" data-id="${address.id}">حذف</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-info edit-address" data-id="${address.id}">ویرایش</button>
-                            <button class="btn btn-sm btn-outline-danger delete-address" data-id="${address.id}">حذف</button>
-                        </div>
-                    </div>
-                </div>
-            `);
+                    `);
                 });
             }
 
-            /* =========================
-               EDIT ADDRESS
-            ========================= */
-            $(document).on('click', '.edit-address', function () {
-                const id = $(this).data('id');
-                const addr = userAddresses.find(a => a.id == id);
-                if (!addr) return;
-
-                currentEditId = id;
-                $('#first_name').val(addr.first_name);
-                $('#last_name').val(addr.last_name);
-                $('#new_plate').val(addr.plate);
-                $('#new_postalCode').val(addr.post_code);
-                $('#new_mobile').val(addr.mobile);
-                $('#new_fullAddress').val(addr.address);
-                $('#new_phone').val(addr.phone || '');
-                $('#new_companyName').val(addr.company_name || '');
-
-                fetchIranLocations(addr.province, addr.city);
-
-                formContainer.slideDown(300);
-                addAddressBtn.text('- لغو ویرایش');
-            });
-
-            /* =========================
-               DELETE ADDRESS
-            ========================= */
-            $(document).on('click', '.delete-address', function () {
-                const id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'حذف آدرس',
-                    text: 'آیا از حذف این آدرس مطمئن هستید؟',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'بله، حذف شود',
-                    cancelButtonText: 'انصراف',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (!result.isConfirmed) return;
-
-                    $.ajax({
-                        url: "{{ route('user.address.destroy', '__id__') }}".replace('__id__', id),
-                        type: 'POST',
-                        data: { _method: 'DELETE' },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    })
-                        .done(res => {
-                            Swal.fire({
-                                icon: 'success',
-                                text: res.message,
-                                timer: 1200,
-                                showConfirmButton: false
-                            });
-                            loadUserAddresses();
-                        })
-                        .fail(xhr => {
-                            Swal.fire({
-                                icon: 'error',
-                                text: xhr.status === 419
-                                    ? 'نشست شما منقضی شده است'
-                                    : 'خطا در حذف آدرس'
-                            });
-                        });
-                });
-            });
-
-
-            /* =========================
-               SAVE (ADD / UPDATE)
-            ========================= */
-
-            saveAddressBtn.on('click', function () {
-
-
-                $('#provinceSelect').prop('disabled', false);
-                $('#citySelect').prop('disabled', false);
-
-                const url = currentEditId
-                    ? "{{ route('user.address.update', '__id__') }}".replace('__id__', currentEditId)
-                    : "{{ route('user.address.store') }}";
-
-                const method = currentEditId ? 'PUT' : 'POST';
-
-                saveAddressBtn.prop('disabled', true);
-
-                $.ajax({
-                    url,
-                    method,
-                    data: addressForm.serialize(),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                })
-                    .done(res => {
-                        showFeedback(res.message, 'success');
-                        resetForm();
-                        formContainer.slideUp(300);
-                        loadUserAddresses();
-                    })
-                    .fail(xhr => {
-                        if (xhr.status === 422) {
-                            console.error(xhr.responseJSON.errors);
-                            showFeedback(Object.values(xhr.responseJSON.errors)[0][0], 'danger');
-                        } else {
-                            showFeedback('خطای سرور', 'danger');
-                        }
-                    })
-                    .always(() => {
-                        saveAddressBtn.prop('disabled', false);
-                    });
-            });
-
-
-            /* =========================
-               RESET FORM
-            ========================= */
-            function resetForm() {
-                addressForm[0].reset();
-                currentEditId = null;
-            }
-
-            /* =========================
-               PROVINCE / CITY (AJAX)
-            ========================= */
-            function fetchIranLocations(selectedProvince = null, selectedCity = null) {
-                $.get("{{ route('api.iran.locations') }}")
-                    .done(res => {
-                        IRAN_LOCATIONS = res.locations || {};
-                        loadProvinces(selectedProvince, selectedCity);
-                    });
-            }
-
-            function loadProvinces(p = null, c = null) {
-                const ps = $('#provinceSelect').empty();
-                ps.append('<option disabled selected>انتخاب استان</option>');
-
-                Object.keys(IRAN_LOCATIONS).forEach(province => {
-                    ps.append(`<option ${p === province ? 'selected' : ''}>${province}</option>`);
-                });
-
-                if (p) loadCities(p, c);
-            }
-
-            function loadCities(province, city = null) {
-                const cs = $('#citySelect');
-                cs.empty().prop('disabled', false);
-
-                IRAN_LOCATIONS[province].forEach(ct => {
-                    cs.append(`<option ${ct === city ? 'selected' : ''}>${ct}</option>`);
-                });
-            }
-
-            $('#provinceSelect').on('change', function () {
-                loadCities(this.value);
-            });
-
-            /* =========================
-               INIT
-            ========================= */
+            // Init Addresses
             loadUserAddresses();
-
         });
     </script>
-
-    <script>
-        // <!-- =======================edit password======================= -->
-
-        // Elements
-        const currentInput = document.getElementById("currentPassword");
-        const newInput = document.getElementById("newPassword");
-        const confirmInput = document.getElementById("confirmPassword");
-
-        const currentError = document.getElementById("currentPasswordError");
-        const newError = document.getElementById("newPasswordError");
-        const confirmError = document.getElementById("confirmPasswordError");
-
-        const ruleLength = document.getElementById("rule-length");
-        const ruleLower = document.getElementById("rule-lower");
-        const ruleUpper = document.getElementById("rule-upper");
-        const ruleSymbol = document.getElementById("rule-symbol");
-
-        const emailInput = document.querySelector('input[type="email"]');
-        const phoneInput = document.querySelector('input[placeholder^="09"]');
-
-        // Strong password validation
-        function isStrongPassword(pw) {
-            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
-            return regex.test(pw);
-        }
-
-        // Email validation
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        // Phone validation (starts with 09 and numeric)
-        function isValidPhone(phone) {
-            return /^09\d{9}$/.test(phone);
-        }
-
-        // Clear errors
-        function clearErrors() {
-            currentError.classList.add("d-none");
-            newError.classList.add("d-none");
-            confirmError.classList.add("d-none");
-        }
-
-        // Update rule visuals
-        function updateRule(element, condition, text) {
-            if (condition) {
-                element.classList.remove("text-danger");
-                element.classList.add("text-success");
-                element.textContent = "✔ " + text;
-            } else {
-                element.classList.add("text-danger");
-                element.classList.remove("text-success");
-                element.textContent = "⬤ " + text;
-            }
-        }
-
-        // Validate password visually
-        function validatePasswordRules(value) {
-            updateRule(ruleLength, value.length >= 8, "حداقل ۸ کاراکتر");
-            updateRule(ruleLower, /[a-z]/.test(value), "حروف کوچک (a-z)");
-            updateRule(ruleUpper, /[A-Z]/.test(value), "حروف بزرگ (A-Z)");
-            updateRule(ruleSymbol, /[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/.test(value), "یک کاراکتر خاص (مثل @#$!)");
-        }
-
-        newInput.addEventListener("input", () => {
-            validatePasswordRules(newInput.value);
-        });
-
-        // Main submit button
-        document.getElementById("mainSaveBtn").addEventListener("click", function (e) {
-            e.preventDefault();
-            clearErrors();
-
-            let isValid = true;
-
-            // Email check
-            if (!isValidEmail(emailInput.value)) {
-                alert("ایمیل وارد شده معتبر نیست ❌");
-                isValid = false;
-            }
-
-            // Phone check
-            if (!isValidPhone(phoneInput.value)) {
-                alert("شماره موبایل معتبر نیست ❌ (باید با 09 شروع شود)");
-                isValid = false;
-            }
-
-            // Password checks
-            if (currentInput.value.trim() === "") {
-                currentError.classList.remove("d-none");
-                isValid = false;
-            }
-
-            if (!isStrongPassword(newInput.value)) {
-                newError.classList.remove("d-none");
-                isValid = false;
-            }
-
-            if (newInput.value !== confirmInput.value) {
-                confirmError.classList.remove("d-none");
-                isValid = false;
-            }
-
-            if (isValid) {
-                alert("اطلاعات با موفقیت ذخیره شد ✅");
-            }
-        });
-
-        // <!-- =======================end edit password======================= -->
-    </script>
-
-
 @endsection
-

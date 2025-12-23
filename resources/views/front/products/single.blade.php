@@ -3,6 +3,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('design/css/zoomy.css') }}">
     <link rel="stylesheet" href="{{ asset('design/css/style.css') }}">
+
 @endsection
 
 
@@ -107,9 +108,9 @@
                     @forelse ($product->featureValues as $fv)
 
                         @php
-                            $data = $fv->value;     
-                            $feature = $fv->feature;               
-                            $name = $feature->name ?? '---';        
+                            $data = $fv->value;
+                            $feature = $fv->feature;
+                            $name = $feature->name ?? '---';
 
                             $output = '';
 
@@ -217,7 +218,7 @@
                         @else
                             <span class="text-muted">قیمت ثبت نشده</span>
                         @endif
-                        
+
                     </div>
 
 
@@ -227,30 +228,30 @@
                 <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart">
                     @csrf
 
-                    {{-- Hidden input field to hold the actual quantity value for form submission. 
+                    {{-- Hidden input field to hold the actual quantity value for form submission.
                         This value is dynamically updated by the visible quantity control buttons (JS). --}}
-                    <div class="qty-wrapper" style="display: none;"> 
-                        <input type="number" 
-                            name="qty" 
-                            min="1" 
-                            max="{{ $product->available_qty }}" 
-                            value="1" 
-                            autocomplete="off"
-                            class="product-qty-input-js">
+                    <div class="qty-wrapper" style="display: none;">
+                        <input type="number"
+                               name="qty"
+                               min="1"
+                               max="{{ $product->available_qty }}"
+                               value="{{ $currentCartQty }}"
+                               autocomplete="off"
+                               class="product-qty-input-js">
                     </div>
 
                     {{-- Visible Quantity Control Interface: Uses two buttons and a display span. --}}
                     <div class="cart-control d-flex justify-content-center align-items-center gap-2 mx-0">
-                        
+
                         {{-- Increase Quantity Button --}}
                         <button type="button" class="increase-btn btn btn-sm btn-outline-secondary qty-plus-js">+</button>
-                        
+
                         {{-- Quantity Display Span: Shows the current quantity to the user. --}}
-                        <span class="quantity fs-6 fw-bold qty-display-js">1</span>
-                        
+                        <span class="quantity fs-6 fw-bold qty-display-js">{{ $currentCartQty }}</span>
+
                         {{-- Decrease/Remove Button: Switches between Minus (-) and Trash icons based on qty (JS controlled). --}}
                         <button type="button" class="decrease-btn btn btn-sm btn-outline-secondary qty-minus-js">
-                            
+
                             {{-- Minus icon: Visible when quantity is > 1 --}}
                             <svg width="16" height="16" fill="currentColor" class="bi bi-dash icon-minus-js" viewBox="0 0 16 16">
                                 <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
@@ -262,9 +263,9 @@
                                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
                             </svg>
                         </button>
-                        
+
                     </div>
-                    
+
                     {{-- Main Submit Button: Adds the product (with the hidden qty value) to the cart. --}}
                     <button type="submit" class="addToCart-js addtocartProduct">
                         <svg width="22" height="22" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
@@ -488,7 +489,7 @@
                                     <section class="container px-0">
                                         <div class="">
                                             <div class="img-send-messege border-bottom">
-                                                <img class="img-fluid" src="./design/image/review.svg" alt="">
+                                                <img class="img-fluid" src="{{ asset('design/image/review.svg') }}" alt="">
                                             </div>
                                             <div class="card-body my-4">
                                                 <form>
@@ -554,10 +555,9 @@
 
 
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('design/js/zoomy.js') }}"></script>
 
-    <script src="https://unpkg.com/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+    <script src="{{asset('design/js/owl.carousel.min.js')}}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -687,38 +687,110 @@
             const qtyDisplay = form.querySelector('.qty-display-js');
             const plusBtn = form.querySelector('.qty-plus-js');
             const minusBtn = form.querySelector('.qty-minus-js');
+            const submitBtn = form.querySelector('.addToCart-js');
+            const iconMinus = form.querySelector('.icon-minus-js');
+            const iconTrash = form.querySelector('.icon-trash-js');
 
             const minQty = parseInt(qtyInput.min) || 1;
             const maxQty = parseInt(qtyInput.max) || Infinity;
 
-            function updateQuantity(amount) {
-                let currentQty = parseInt(qtyInput.value);
-                let newQty = currentQty + amount;
+            // --- UI Update Logic ---
+            function updateUI() {
+                const val = parseInt(qtyInput.value);
+                qtyDisplay.textContent = val;
 
-                // Minimum limit
-                if (newQty < minQty) {
-                    newQty = minQty;
+                // Toggle between Trash and Minus icons
+                if (val <= 1) {
+                    iconMinus.style.display = 'none';
+                    iconTrash.style.display = 'block';
+                } else {
+                    iconMinus.style.display = 'block';
+                    iconTrash.style.display = 'none';
                 }
-
-                // Maximum limit
-                if (newQty > maxQty) {
-                    newQty = maxQty;
-                }
-
-                qtyInput.value = newQty;
-                qtyDisplay.textContent = newQty;
             }
-            
-            // Set the initial value in the display.
-            qtyDisplay.textContent = qtyInput.value;
+
+            // Initialize UI on load
+            updateUI();
 
             plusBtn.addEventListener('click', function() {
-                updateQuantity(1);
+                let currentQty = parseInt(qtyInput.value);
+                if (currentQty < maxQty) {
+                    qtyInput.value = currentQty + 1;
+                    updateUI();
+                }
             });
 
             minusBtn.addEventListener('click', function() {
-                updateQuantity(-1);
+                let currentQty = parseInt(qtyInput.value);
+                if (currentQty > 1) {
+                    qtyInput.value = currentQty - 1;
+                } else {
+                    // Optional: You could trigger a 'remove' AJAX here if you want
+                    // the minus button to act as a delete when qty is 1
+                    console.log("Already at minimum");
+                }
+                updateUI();
             });
+
+            // --- AJAX Add/Update Logic ---
+            $(form).on('submit', function(e) {
+                e.preventDefault();
+
+                const $form = $(this);
+                const url = $form.attr('action');
+                const formData = $form.serialize();
+
+                const originalBtnHtml = $(submitBtn).html();
+                submitBtn.disabled = true;
+                $(submitBtn).html('در حال بروزرسانی...');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        showCartMessage(response.message, 'success');
+
+                        // 1. Update Global Header Info
+                        if (response.count_html) $('#header-cart-count-container').html(response.count_html);
+                        if (response.list_html) $('#header-cart-list-container').html(response.list_html);
+
+                        // 2. Change button text to indicate it's updated
+                        $(submitBtn).html('<i class="bi bi-check-all"></i> بروزرسانی شد');
+
+                        // 3. Re-init Bootstrap Dropdowns
+                        if (typeof bootstrap !== 'undefined') {
+                            const cartBtn = document.getElementById('cartBtn');
+                            if (cartBtn) {
+                                const existingInstance = bootstrap.Dropdown.getInstance(cartBtn);
+                                if (existingInstance) existingInstance.dispose();
+                                new bootstrap.Dropdown(cartBtn);
+                            }
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'خطایی رخ داد.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) errorMsg = xhr.responseJSON.message;
+                        showCartMessage(errorMsg, 'danger');
+                        $(submitBtn).html(originalBtnHtml);
+                    },
+                    complete: function() {
+                        submitBtn.disabled = false;
+                        // Return to "Update" or "Add" state after a delay
+                        setTimeout(() => {
+                            $(submitBtn).html(originalBtnHtml);
+                        }, 2000);
+                    }
+                });
+            });
+
+            function showCartMessage(text, type) {
+                $('.cart-ajax-alert').remove();
+                const alertHtml = `<div class="cart-ajax-alert alert alert-${type} shadow-sm" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; min-width: 250px; direction: rtl;">${text}</div>`;
+                $('body').append(alertHtml);
+                setTimeout(() => { $('.cart-ajax-alert').fadeOut(500, function() { $(this).remove(); }); }, 3000);
+            }
         });
     // ***************** end js for input add to cart +/- *****************
 

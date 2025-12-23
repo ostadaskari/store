@@ -55,7 +55,7 @@ class UserOrderController extends Controller
         }
 
         // Standard Dashboard Load (Initial page load)
-        $data['user_orders'] = $query->paginate(self::PER_PAGE);
+        $data['user_orders'] = $query->whereNotIn('status', ['completed', 'canceled'])->paginate(self::PER_PAGE);
         $data['orders_count'] = $data['user_orders']->total(); // Use total() for paginated collection
 
         return view('user.orders.index', $data);

@@ -114,6 +114,8 @@ Route::get('/category/{slug}',[FrontCategoryController::class,'show'])->name('ca
 // AJAX update route (must be OUTSIDE prefix!)
 Route::post('/cart/ajax/update/{id}', [CartController::class, 'ajaxUpdate'])
     ->name('cart.ajax.update');
+Route::post('/cart/ajax/remove/{id}', [CartController::class, 'ajaxRemove'])
+    ->name('cart.ajax.remove');
 
 // Normal cart routes
 Route::prefix('cart')->group(function () {

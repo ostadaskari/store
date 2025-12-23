@@ -16,11 +16,12 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $header_title = "پروفایل";
         $user = Auth::user();
         $addresses = UserAddress::where('user_id', $user->id)->get();
 
         // Pass all necessary data to the view
-        return view('user.profile.index', compact('user', 'addresses'));
+        return view('user.profile.index', compact('header_title','user', 'addresses'));
     }
 
     /**
@@ -36,7 +37,7 @@ class ProfileController extends Controller
             'job' => ['nullable', 'string', 'max:100'],
             'mobile' => ['required', 'string', 'regex:/^09[0-9]{9}$/', Rule::unique('users')->ignore($user->id)],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'birth_date' => ['nullable', 'date'], // Assumes date parsing happens on frontend/request formatting
+            'birth_date' => 'nullable|date|before:today',
         ]);
 
         // Merge name and family back into `name` if your model relies on it, or update them separately

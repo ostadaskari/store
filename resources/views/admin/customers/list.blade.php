@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('style')
     {{-- Changed to the specific CDN path used previously, as min.css often has a version in the name --}}
-    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+    <link rel="stylesheet" href="{{asset('design/css/persian-datepicker.min.css')}}">
 @endsection
 @section('content')
     <div class="content-section" dir="rtl">
@@ -98,7 +98,7 @@
                     </div>
                 </form>
             </div>
-   
+
 
     </div>
 
@@ -106,11 +106,11 @@
 @endsection
 
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+    <script src="{{asset('design/js/jquery-3.7.1.min.js')}}" ></script>
 
     {{-- Persian Datepicker Dependencies --}}
-    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script src="{{asset('design/js/persian-date.min.js')}}"></script>
+    <script src="{{asset('design/js/persian-datepicker.min.js')}}"></script>
 
     <script>
         $(document).ready(function() {

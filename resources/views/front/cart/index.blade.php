@@ -52,7 +52,7 @@
                        </td>
 
                        <td>
-                           <a href="{{ route('cart.remove', $item->id) }}" class="btn btn-danger">×</a>
+                           <button class="btn btn-danger cart-remove-page" data-id="{{ $item->id }}">×</button>
                        </td>
 
                    </tr>
@@ -137,53 +137,7 @@
 
 
 
-            // AJAX function to update cart
-            function updateCart(id, qty) {
-                fetch("{{ url('/cart/ajax/update') }}/" + id, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ qty: qty })
-                })
-                    .then(response => response.json())
-                    .then(data => {
 
-                        if (data.error) {
-                            alert(data.error);
-                            return;
-                        }
-
-                        // Use Intl.NumberFormat to format the number
-                        const formattedTotal = new Intl.NumberFormat().format(data.grand_total);
-
-                        // 1. Update line total
-                        document.querySelector("#line-total-" + id).innerText = new Intl.NumberFormat().format(data.line_total);
-
-                        // 2. Update grand total in the main column
-                        document.querySelector("#grand-total").innerText = formattedTotal;
-
-                        //   Update grand total in the summary card
-                        document.querySelector("#summary-total").innerText = formattedTotal + " تومان";
-                    });
-            }
-
-            // ... (Your existing code for + and - buttons) ...
-            document.querySelectorAll('.qty-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    let id = this.dataset.id;
-                    let type = this.dataset.type;
-                    let input = document.querySelector('#qty-' + id);
-                    let qty = parseInt(input.value);
-
-                    if (type === "plus") qty++;
-                    if (type === "minus" && qty > 1) qty--;
-
-                    input.value = qty;
-                    updateCart(id, qty);
-                });
-            });
 
         });
     </script>

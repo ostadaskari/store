@@ -18,24 +18,49 @@ class CartController extends Controller
     // Add product to cart
     public function add(Product $product)
     {
-
         $qty = request('qty', 1);
 
-        // Check stock
+        // 1. Check if the requested quantity exists in stock
         if ($qty > $product->available_qty) {
-            return back()->with('error', 'تعداد انتخاب شده بیشتر از موجودی است.');
+            $errorMsg = 'تعداد انتخاب شده بیشتر از موجودی انبار است. موجودی فعلی: ' . $product->available_qty;
+            if (request()->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $errorMsg], 422);
+            }
+            return back()->with('error', $errorMsg);
+        }
+
+        // 2. Check if item is already in cart, then check the COMBINED total against stock
+        $existingItem = \Cart::get($product->id);
+        if ($existingItem) {
+            $totalInCart = $existingItem->quantity + $qty;
+            if ($totalInCart > $product->available_qty) {
+                $errorMsg = 'شما قبلاً این محصول را در سبد دارید. مجموعاً نمی‌توانید بیش از ' . $product->available_qty . ' عدد سفارش دهید.';
+                if (request()->ajax()) {
+                    return response()->json(['status' => 'error', 'message' => $errorMsg], 422);
+                }
+                return back()->with('error', $errorMsg);
+            }
         }
 
         \Cart::add([
             'id' => $product->id,
             'name' => $product->part_number,
-            'price' => $product->display_price_toman, // your final price
+            'price' => $product->display_price_toman,
             'quantity' => $qty,
             'attributes' => [
                 'slug' => $product->slug,
-//                'image' => $product->coverImage->url
+                'image' => $product->coverImage->url ?? '', // Safety check
             ],
         ]);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'محصول با موفقیت به سبد خرید اضافه شد.',
+                'count_html' => view('front.layouts._cart_count')->render(),
+                'list_html' => view('front.layouts._cart_dropdown')->render(),
+            ]);
+        }
 
         return back()->with('success', 'محصول به سبد اضافه شد.');
     }
@@ -55,19 +80,17 @@ class CartController extends Controller
     public function update($id)
     {
         $item = \Cart::get($id);
-        $newQty = request('qty');
+        if (!$item) return back()->with('error', 'محصول یافت نشد.');
 
+        $newQty = (int)request('qty');
         $product = Product::find($item->id);
 
         if ($newQty > $product->available_qty) {
-            return back()->with('error', 'موجودی کافی نیست.');
+            return back()->with('error', 'تعداد انتخابی بیش از موجودی انبار (' . $product->available_qty . ') است.');
         }
 
         \Cart::update($id, [
-            'quantity' => [
-                'relative' => false,
-                'value' => $newQty
-            ]
+            'quantity' => ['relative' => false, 'value' => $newQty]
         ]);
 
         return back()->with('success', 'بروزرسانی انجام شد.');
@@ -77,32 +100,41 @@ class CartController extends Controller
     public function ajaxUpdate($id)
     {
         $item = \Cart::get($id);
-        $newQty = request('qty');
+        if (!$item) return response()->json(['error' => 'محصول یافت نشد'], 404);
 
-        if (!$item) {
-            return response()->json(['error' => 'محصول در سبد پیدا نشد.']);
-        }
-
-        // Validate against real product stock
+        $newQty = (int)request('qty');
         $product = Product::find($item->id);
 
+        // Server-side validation against DB
         if ($newQty > $product->available_qty) {
             return response()->json([
-                'error' => 'موجودی کافی نیست.'
-            ]);
+                'error' => 'تعداد انتخاب شده بیشتر از موجودی انبار است. حداکثر: ' . $product->available_qty
+            ], 422);
         }
 
         \Cart::update($id, [
-            'quantity' => [
-                'relative' => false,
-                'value' => $newQty,
-            ],
+            'quantity' => ['relative' => false, 'value' => $newQty]
         ]);
 
         return response()->json([
             'success'     => true,
-            'line_total'  => ($item->price * $newQty),
+            'line_total'  => (\Cart::get($id)->price * \Cart::get($id)->quantity),
             'grand_total' => \Cart::getTotal(),
+            'count_html'  => view('front.layouts._cart_count')->render(),
+            'list_html'   => view('front.layouts._cart_dropdown')->render(),
+        ]);
+    }
+
+    public function ajaxRemove($id)
+    {
+        \Cart::remove($id);
+
+        return response()->json([
+            'success'     => true,
+            'grand_total' => \Cart::getTotal(),
+            'is_empty'    => \Cart::isEmpty(),
+            'count_html'  => view('front.layouts._cart_count')->render(),
+            'list_html'   => view('front.layouts._cart_dropdown')->render(),
         ]);
     }
 
@@ -162,8 +194,7 @@ class CartController extends Controller
         // اکنون تنها به ID آدرس انتخابی نیاز داریم، نه تمام جزئیات آدرس
         $request->validate([
             'user_address_id' => 'required|integer|exists:user_addresses,id', // مطمئن شوید آدرس وجود دارد
-            'first_name'      => 'required|string|max:255', // نگهداری برای گزارش‌دهی
-            'last_name'       => 'required|string|max:255',  // نگهداری برای گزارش‌دهی
+
             'email'           => 'required|email|max:255',  // نگهداری برای گزارش‌دهی
             'shipping_slug'   => 'required|string|exists:shippings,slug',
             'payment_method'  => 'required|string|in:credit,cash',
@@ -200,6 +231,19 @@ class CartController extends Controller
         // 2. Transaction for atomic operations
         try {
             DB::beginTransaction();
+
+            // 1. PRE-CHECK STOCK AGAIN: Prevent race condition right before order
+            foreach (\Cart::getContent() as $item) {
+                $product = Product::find($item->id);
+
+                if (!$product || $item->quantity > $product->available_qty) {
+                    // برگرداندن پاسخ به صورت JSON برای نمایش در Swal
+                    return response()->json([
+                        'status' => false,
+                        'message' => "متأسفانه موجودی محصول «{$item->name}» به پایان رسیده یا کمتر از مقدار درخواستی شماست. (موجودی فعلی: {$product->available_qty} عدد)"
+                    ]);
+                }
+            }
 
             // --- Generate Unique Order Number ---
             $orderNumber = $this->generateUniqueOrderNumber();
