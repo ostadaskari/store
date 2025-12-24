@@ -23,7 +23,6 @@
 .user-account .card .form-label {
   font-size: 14px;
 }
-
 .user-profile {
   position: sticky;
   top:13%;
@@ -34,7 +33,6 @@
   box-shadow: 0 4px 5px #4f6c8f86;
   border: 1px solid #f3f3f3;
 }
-
 .user-profile h5 {
   margin-bottom: 10px;
   padding-bottom: 10px;

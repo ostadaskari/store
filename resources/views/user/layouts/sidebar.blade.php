@@ -4,20 +4,10 @@
         <div class="avatar-div d-flex align-items-center flex-column">
             <picture>
                 <img id="avatarPreview" class="avatar-img img-fluid" src="{{ asset('design/image/avatar.jpg') }}" alt="آواتار">
-                <svg width="28" height="28" fill="" class="bi bi-star-fill goldRank" viewBox="0 0 16 16">
-                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                </svg>
             </picture>
-            <button class="change-avatar-btn d-flex align-items-center" onclick="document.getElementById('avatarInput').click()" title="تغییر آواتار">
-                <svg class="mx-1" width="22" height="22" fill="#2e91be" class="bi bi-camera" viewBox="0 0 16 16">
-                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                    <path d="M4.318 1a1 1 0 0 0-.894.553L2.382 3H1a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-1.382l-1.042-1.447A1 1 0 0 0 11.682 1H4.318zM14 4v9H2V4h2.118l1.106-1.447A.5.5 0 0 1 5.618 2h4.764a.5.5 0 0 1 .394.197L11.882 4H14z"/>
-                </svg>
-            </button>
-            <input type="file" id="avatarInput" accept="image/*" onchange="previewAvatar(event)">
         </div>
 
-        <div class="user-info-item d-flex flex-column justify-content-between align-items-center">
+        <div class="user-info-item d-flex flex-row justify-content-between align-items-center ">
             <b>{{ Auth::user()->name ?? 'نام' }} {{ Auth::user()->family ?? 'نام خانوادگی' }}</b>
             <b>{{ Auth::user()->mobile ?? 'شماره موبایل ثبت نشده' }}</b>
         </div>

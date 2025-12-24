@@ -27,7 +27,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             background-color: var(--darkBlu-color);
-            font-family: 'Tahoma', sans-serif !important;
+            font-family: 'Shabnam' !important;
         }
 
         #bg {
