@@ -203,26 +203,34 @@
                 </div>
 
                 <!-- PRICE -->
+
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 my-4 ">
                     <div class="offer-price-product-single d-flex flex-row justify-content-between w-100 position-relative">
-                        <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                            20% -
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                        <s class="me-2">750,000 تومان</s>
 
-                        @php $display = $product->display_price_toman; @endphp
+                        @php
+                            $display = $product->display_price_toman;
+                            $priceModel = $product->price;
+                            $hasDiscount = $priceModel && $priceModel->discount_percent > 0;
+                        @endphp
+
+                        @if($hasDiscount)
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="right: -10px; top: 0;">
+                {{ round($priceModel->discount_percent) }}% -
+            </span>
+
+                            @php
+                                $oldPrice = $display / (1 - ($priceModel->discount_percent / 100));
+                            @endphp
+                            <s class="me-2 text-muted">{{ number_format($oldPrice) }} تومان</s>
+                        @endif
 
                         @if($display)
-                            <p class="m-0">{{ number_format($product->display_price_toman) }} تومان</p>
+                            <p class="m-0 fw-bold" style="font-size: 1.25rem;">{{ number_format($display) }} تومان</p>
                         @else
                             <span class="text-muted">قیمت ثبت نشده</span>
                         @endif
 
                     </div>
-
-
-
                 </div>
 
                 <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart">
@@ -294,11 +302,19 @@
 
                 @foreach($relatedProducts as $item)
                     <div class="col-12 col-md-3 p-0 px-2 product-card">
-                        <div class="pro">
+                        <div class="pro position-relative"> {{-- Added position-relative --}}
 
+                            {{-- Dynamic Discount Badge for Related Products --}}
+                            @if($item->price && $item->price->discount_percent > 0)
+                                <div class="position-absolute top-0 end-0 m-2 badge bg-danger text-white shadow-sm"
+                                     style="z-index: 10; border-radius: 50px; padding: 4px 8px; font-weight: bold; direction: ltr;">
+                                    {{ round($item->price->discount_percent) }}%
+                                </div>
+                            @endif
 
                             <div class="top mt-2">
-                                <img src="{{$product->coverImage->url ?? asset('images/300x300.webp') }}" alt="{{ $item->company_cmt }}">
+                                {{-- Fixed variable name from $product to $item for the image --}}
+                                <img src="{{$item->coverImage->url ?? asset('images/300x300.webp') }}" alt="{{ $item->company_cmt }}">
                             </div>
 
                             <div class="product-name">
@@ -309,10 +325,22 @@
 
                                 @if($item->display_price_toman)
                                     <div class="final-price-div mb-2">
-                                        <div class="mx-1 number-format">
-                                            {{ number_format($item->display_price_toman) }}
+                                        {{-- Show strike-through for related items --}}
+                                        @if($item->price && $item->price->discount_percent > 0)
+                                            @php
+                                                $itemOldPrice = $item->display_price_toman / (1 - ($item->price->discount_percent / 100));
+                                            @endphp
+                                            <small class="text-muted text-decoration-line-through d-block" style="font-size: 0.75rem;">
+                                                {{ number_format($itemOldPrice) }}
+                                            </small>
+                                        @endif
+
+                                        <div class="d-flex align-items-center">
+                                            <div class="mx-1 number-format fw-bold">
+                                                {{ number_format($item->display_price_toman) }}
+                                            </div>
+                                            <div>تومان</div>
                                         </div>
-                                        <div>تومان</div>
                                     </div>
                                 @endif
 
@@ -328,15 +356,15 @@
                                     @endif
 
                                     <button class="addtocart">
-                                            خرید
-                                        </button>
+                                        خرید
+                                    </button>
                                 </div>
 
                             </div>
                             <!-- ⚠ Overlay  -->
-                                <div class="product-overlay" style="height: 65%;">
-                                    <button class="btn btn-danger">جزئیات بیشتر</button>
-                                </div>
+                            <div class="product-overlay" style="height: 65%;">
+                                <a href="{{ route('front.product.show', ['category' => $item->category->slug, 'product' => $item->slug]) }}" class="btn btn-danger">جزئیات بیشتر</a>
+                            </div>
 
                         </div>
                     </div>
@@ -344,7 +372,6 @@
 
             </div>
         @endif
-
     </div>
     <!-- End Suggest other products -->
 
