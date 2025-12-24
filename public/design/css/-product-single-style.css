@@ -2,6 +2,7 @@
 /* ---------------------------------------------------- */
 .breadcrumb-product-single li {
   font-size: 12px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
@@ -61,7 +62,7 @@
 .partNumber{
   text-align: end;
   font-size: 18px;
-
+  font-family: 'Roboto';
 }
 /* -------------------- Product Features List -------------------- */
 .title-mylist-product-single {
@@ -75,6 +76,9 @@ ul.mylist-product-single li {
   padding: 2px;
   font-size: 12px;
   color: rgb(99, 97, 97);
+}
+ul.mylist-product-single li span{
+  font-family: Roboto;
 }
 @media (min-width: 768px) {
   ul.mylist-product-single li {
