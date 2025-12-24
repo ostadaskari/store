@@ -65,20 +65,20 @@
             float: left;
         }
 
-        .col-lg-4.colPrint { 
-            width: 33.333333% !important; 
-            flex: 0 0 33.333333% !important; 
-            display: block !important; 
+        .col-lg-4.colPrint {
+            width: 33.333333% !important;
+            flex: 0 0 33.333333% !important;
+            display: block !important;
         }
-        .col-lg-8.colPrint { 
-            width: 66.666667% !important; 
-            flex: 0 0 66.666667% !important; 
+        .col-lg-8.colPrint {
+            width: 66.666667% !important;
+            flex: 0 0 66.666667% !important;
             display: block !important;
         }
 
         .col-12 { width: 100% !important; flex: 0 0 100% !important; }
 
-        .mb-4, .mb-2 { margin-bottom: 0.5rem !important; } 
+        .mb-4, .mb-2 { margin-bottom: 0.5rem !important; }
 
         /* Remove the large top margin on the main row (if exists) */
         .container > .row {
@@ -98,8 +98,8 @@
             color: #000!important;
             box-shadow: none !important;
             page-break-inside: avoid;
-            margin-bottom: 0.5rem !important; 
-            height: auto !important; 
+            margin-bottom: 0.5rem !important;
+            height: auto !important;
         }
         .card-header {
             background-color: #eee !important;
@@ -108,9 +108,9 @@
         }
 
         .card-body p, .card-body h5 {
-            margin-bottom: 0.25rem !important; 
-            line-height: 1.2; 
-            font-size: 0.9rem; 
+            margin-bottom: 0.25rem !important;
+            line-height: 1.2;
+            font-size: 0.9rem;
         }
         .card-body h4 {
             margin-top: 0.5rem !important;
@@ -122,7 +122,7 @@
         /* REMOVED: Force the "Order Items List" section to start on a new page (Page 2) */
         /* Since you want all content on one page, this rule must be removed or disabled. */
         #order-items-section {
-            page-break-before: auto !important; 
+            page-break-before: auto !important;
             margin-top:4px !important;
         }
         .my-3 { margin-top: 0.5rem !important; margin-bottom: 0.5rem !important; }
@@ -138,16 +138,16 @@
         }
         .table-bordered th, .table-bordered td {
             border-color: #000 !important;
-            font-size: 0.85rem; 
+            font-size: 0.85rem;
         }
         .table-responsive { overflow: visible !important; }
-        .table tfoot td { font-size:16px; } 
+        .table tfoot td { font-size:16px; }
          }
     </style>
 @endsection
     @section('content')
         <div class="container" style="padding-bottom:50px;" dir="rtl">
-            
+
             {{-- H1 and Buttons Section (d-print-none will hide this) --}}
             <div class="seven mt-3">
                 <h1>جزئیات سفارش #{{ $order->order_number }}</h1>
@@ -166,10 +166,13 @@
                     </svg>
                 </button>
             </div>
-            
+
 
             {{-- **TARGET ROW** - This content will be shown and all other elements hidden --}}
             <div class="row">
+
+            <!-- General Order Details & Status -->
+            {{-- Using col-4 to force 33% width everywhere, including print --}}
 
                 <div class="col-12 col-lg-4 mb-2 colPrint">
                     <div class="card shadow-sm h-100">

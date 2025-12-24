@@ -10,7 +10,7 @@
             <!-- Search Form -->
             <div class="col-12 col-lg-3 px-0">
                 <div class="card shadow-sm mb-4" dir="rtl">
-        
+
                     <div class="card-body px-2">
                         <form method="GET" action="{{ route('admin.orders.list') }}">
 
@@ -18,18 +18,18 @@
 
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOrderDetails">
-                                        <button class="accordion-button {{ !request('order_number') && !request('status') && !request('payment_method') && !request('discount_code') && !request('from_date') && !request('to_date') ? 'collapsed' : '' }}" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#collapseOrderDetails" 
-                                                aria-expanded="{{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'true' : 'false' }}" 
+                                        <button class="accordion-button {{ !request('order_number') && !request('status') && !request('payment_method') && !request('discount_code') && !request('from_date') && !request('to_date') ? 'collapsed' : '' }}"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOrderDetails"
+                                                aria-expanded="{{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'true' : 'false' }}"
                                                 aria-controls="collapseOrderDetails">
                                             فیلترهای سفارش
                                         </button>
                                     </h2>
-                                    <div id="collapseOrderDetails" 
-                                        class="accordion-collapse collapse {{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'show' : '' }}" 
-                                        aria-labelledby="headingOrderDetails" 
+                                    <div id="collapseOrderDetails"
+                                        class="accordion-collapse collapse {{ request('order_number') || request('status') || request('payment_method') || request('discount_code') || request('from_date') || request('to_date') ? 'show' : '' }}"
+                                        aria-labelledby="headingOrderDetails"
                                         data-bs-parent="#orderFiltersAccordion">
                                         <div class="accordion-body px-2">
                                             <div class="row g-3 text-right">
@@ -75,18 +75,18 @@
 
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingUserDetails">
-                                        <button class="accordion-button {{ !request('user_name') && !request('user_mobile') && !request('user_email') ? 'collapsed' : '' }}" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#collapseUserDetails" 
-                                                aria-expanded="{{ request('user_name') || request('user_mobile') || request('user_email') ? 'true' : 'false' }}" 
+                                        <button class="accordion-button {{ !request('user_name') && !request('user_mobile') && !request('user_email') ? 'collapsed' : '' }}"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseUserDetails"
+                                                aria-expanded="{{ request('user_name') || request('user_mobile') || request('user_email') ? 'true' : 'false' }}"
                                                 aria-controls="collapseUserDetails">
                                             فیلترهای کاربر(ثبت کننده)
                                         </button>
                                     </h2>
-                                    <div id="collapseUserDetails" 
-                                        class="accordion-collapse collapse {{ request('user_name') || request('user_mobile') || request('user_email') ? 'show' : '' }}" 
-                                        aria-labelledby="headingUserDetails" 
+                                    <div id="collapseUserDetails"
+                                        class="accordion-collapse collapse {{ request('user_name') || request('user_mobile') || request('user_email') ? 'show' : '' }}"
+                                        aria-labelledby="headingUserDetails"
                                         data-bs-parent="#orderFiltersAccordion">
                                         <div class="accordion-body px-2">
                                             <div class="row g-3 text-right">
@@ -109,18 +109,18 @@
 
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingShippingAddress">
-                                        <button class="accordion-button {{ !request('address_first_name') && !request('address_mobile') && !request('address_province') && !request('address_city') && !request('address_post_code') && !request('address_company_name') ? 'collapsed' : '' }}" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#collapseShippingAddress" 
-                                                aria-expanded="{{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'true' : 'false' }}" 
+                                        <button class="accordion-button {{ !request('address_first_name') && !request('address_mobile') && !request('address_province') && !request('address_city') && !request('address_post_code') && !request('address_company_name') ? 'collapsed' : '' }}"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseShippingAddress"
+                                                aria-expanded="{{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'true' : 'false' }}"
                                                 aria-controls="collapseShippingAddress">
                                             فیلترهای آدرس گیرنده
                                         </button>
                                     </h2>
-                                    <div id="collapseShippingAddress" 
-                                        class="accordion-collapse collapse {{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'show' : '' }}" 
-                                        aria-labelledby="headingShippingAddress" 
+                                    <div id="collapseShippingAddress"
+                                        class="accordion-collapse collapse {{ request('address_first_name') || request('address_mobile') || request('address_province') || request('address_city') || request('address_post_code') || request('address_company_name') ? 'show' : '' }}"
+                                        aria-labelledby="headingShippingAddress"
                                         data-bs-parent="#orderFiltersAccordion">
                                         <div class="accordion-body px-2">
                                             <div class="row g-3 text-right">
@@ -167,7 +167,7 @@
 
                         </form>
                     </div>
-                 
+
                 </div>
             </div>
             <!-- End Search Form -->
@@ -248,11 +248,8 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
-        
-
-        
 
 
 

@@ -296,5 +296,152 @@ document.querySelectorAll('.nav-item.nav-link').forEach(link => {
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Helper to check if dropdown is currently active
+    function isDropdownOpen() {
+        const cartBtn = document.getElementById('cartBtn');
+        if (!cartBtn) return false;
+        // Check both class and attribute for Bootstrap 5 compatibility
+        return cartBtn.classList.contains('show') || cartBtn.getAttribute('aria-expanded') === 'true';
+    }
+
+    async function syncCartAction(id, qty, isRemove = false) {
+        const url = isRemove ? `/cart/ajax/remove/${id}` : `/cart/ajax/update/${id}`;
+
+        // 1. Store the current visibility state BEFORE the HTML is replaced
+        const wasOpen = isDropdownOpen();
+        const cartBtn = document.getElementById('cartBtn');
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: isRemove ? null : JSON.stringify({ qty: qty })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                Swal.fire({ icon: 'error', title: 'خطا', text: data.error, confirmButtonText: 'متوجه شدم' });
+                return;
+            }
+
+            // Update Count
+            if (data.count_html) {
+                const countContainer = document.getElementById('header-cart-count-container');
+                if (countContainer) countContainer.innerHTML = data.count_html;
+            }
+
+            // --- THE CRITICAL PART: Update List ---
+            if (data.list_html) {
+                const listContainer = document.getElementById('header-cart-list-container');
+                if (listContainer) {
+                    // This action destroys the old dropdown menu element
+                    listContainer.innerHTML = data.list_html;
+
+                    // If it was open, we need to force Bootstrap to recognize the new menu
+                    if (wasOpen && cartBtn) {
+                        // Dispose the old instance to clear internal memory of the old DOM element
+                        const oldInstance = bootstrap.Dropdown.getInstance(cartBtn);
+                        if (oldInstance) oldInstance.dispose();
+
+                        // Create a fresh instance and show it
+                        const newDropdown = new bootstrap.Dropdown(cartBtn);
+                        newDropdown.show();
+
+                        // Force classes back if Bootstrap fails to apply them to the new DOM
+                        cartBtn.classList.add('show');
+                        cartBtn.setAttribute('aria-expanded', 'true');
+                        const newMenu = cartBtn.nextElementSibling || listContainer.querySelector('.dropdown-menu');
+                        if (newMenu) newMenu.classList.add('show');
+                    }
+                }
+            }
+
+            // Update Cart Page (Table)
+            const cartTableBody = document.getElementById('cart-body');
+            if (cartTableBody) {
+                if (isRemove || data.is_empty) {
+                    const row = document.getElementById(`item-${id}`);
+                    if (row) row.remove();
+                    if (!cartTableBody.innerText.trim() || data.is_empty) {
+                        cartTableBody.innerHTML = '<tr><td colspan="5" class="text-center">سبد خرید خالی است</td></tr>';
+                    }
+                } else {
+                    const lineTotal = document.getElementById(`line-total-${id}`);
+                    const qtyInput = document.getElementById(`qty-${id}`);
+                    if (lineTotal) lineTotal.innerText = new Intl.NumberFormat().format(data.line_total);
+                    if (qtyInput) qtyInput.value = qty;
+                }
+                updateTotals(data.grand_total);
+            }
+
+        } catch (error) {
+            console.error("Cart Sync Error:", error);
+        }
+    }
+
+    function updateTotals(total) {
+        const formatted = new Intl.NumberFormat().format(total);
+        const gTotal = document.getElementById('grand-total');
+        const sTotal = document.getElementById('summary-total');
+        if (gTotal) gTotal.innerText = formatted;
+        if (sTotal) sTotal.innerText = formatted + " تومان";
+    }
+
+    // Event Delegation
+    document.addEventListener('click', function(e) {
+        const qtyBtn = e.target.closest('.qty-btn') || e.target.closest('.header-qty-btn');
+        const removeBtn = e.target.closest('.header-remove-btn') || e.target.closest('.cart-remove-page');
+
+        // Prevent dropdown from closing on these specific clicks
+        if (qtyBtn || removeBtn) {
+            e.preventDefault();
+            e.stopPropagation(); // STOP BOOTSTRAP FROM SEEING THIS CLICK
+        }
+
+        if (qtyBtn) {
+            const id = qtyBtn.dataset.id;
+            const type = qtyBtn.dataset.type;
+            const inputField = document.getElementById(`qty-${id}`);
+
+            let currentQty;
+            if (inputField) {
+                currentQty = parseInt(inputField.value);
+            } else {
+                // Find qty inside the header dropdown item
+                const parent = qtyBtn.closest('.cart-item-wrapper') || qtyBtn.parentNode;
+                const span = parent.querySelector('.qty-value-js') || parent.querySelector('span');
+                currentQty = span ? parseInt(span.innerText) : 1;
+            }
+
+            let newQty = (type === 'plus') ? currentQty + 1 : currentQty - 1;
+            if (newQty > 0) syncCartAction(id, newQty);
+        }
+
+        if (removeBtn) {
+            const id = removeBtn.dataset.id;
+            Swal.fire({
+                title: 'آیا مطمئن هستید؟',
+                text: "این آیتم حذف شود؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'بله',
+                cancelButtonText: 'انصراف'
+            }).then((result) => {
+                if (result.isConfirmed) syncCartAction(id, 0, true);
+            });
+        }
+    });
+});
+
+
+
+
 
 

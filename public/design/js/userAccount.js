@@ -125,113 +125,6 @@ daySelect.addEventListener("change", function () {
 
 // <!-- =======================edit password======================= -->
 
-// Elements
-const currentInput = document.getElementById("currentPassword");
-const newInput = document.getElementById("newPassword");
-const confirmInput = document.getElementById("confirmPassword");
-
-const currentError = document.getElementById("currentPasswordError");
-const newError = document.getElementById("newPasswordError");
-const confirmError = document.getElementById("confirmPasswordError");
-
-const ruleLength = document.getElementById("rule-length");
-const ruleLower = document.getElementById("rule-lower");
-const ruleUpper = document.getElementById("rule-upper");
-const ruleSymbol = document.getElementById("rule-symbol");
-
-const emailInput = document.querySelector('input[type="email"]');
-const phoneInput = document.querySelector('input[placeholder^="09"]');
-
-// Strong password validation
-function isStrongPassword(pw) {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
-  return regex.test(pw);
-}
-
-// Email validation
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-// Phone validation (starts with 09 and numeric)
-function isValidPhone(phone) {
-  return /^09\d{9}$/.test(phone);
-}
-
-// Clear errors
-function clearErrors() {
-  currentError.classList.add("d-none");
-  newError.classList.add("d-none");
-  confirmError.classList.add("d-none");
-}
-
-// Update rule visuals
-function updateRule(element, condition, text) {
-  if (condition) {
-    element.classList.remove("text-danger");
-    element.classList.add("text-success");
-    element.textContent = "✔ " + text;
-  } else {
-    element.classList.add("text-danger");
-    element.classList.remove("text-success");
-    element.textContent = "⬤ " + text;
-  }
-}
-
-// Validate password visually
-function validatePasswordRules(value) {
-  updateRule(ruleLength, value.length >= 8, "حداقل ۸ کاراکتر");
-  updateRule(ruleLower, /[a-z]/.test(value), "حروف کوچک (a-z)");
-  updateRule(ruleUpper, /[A-Z]/.test(value), "حروف بزرگ (A-Z)");
-  updateRule(ruleSymbol, /[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/.test(value), "یک کاراکتر خاص (مثل @#$!)");
-}
-
-newInput.addEventListener("input", () => {
-  validatePasswordRules(newInput.value);
-});
-
-// Main submit button
-document.getElementById("mainSaveBtn").addEventListener("click", function (e) {
-  e.preventDefault();
-  clearErrors();
-
-  let isValid = true;
-
-  // Email check
-  if (!isValidEmail(emailInput.value)) {
-    alert("ایمیل وارد شده معتبر نیست ❌");
-    isValid = false;
-  }
-
-  // Phone check
-  if (!isValidPhone(phoneInput.value)) {
-    alert("شماره موبایل معتبر نیست ❌ (باید با 09 شروع شود)");
-    isValid = false;
-  }
-
-  // Password checks
-  if (currentInput.value.trim() === "") {
-    currentError.classList.remove("d-none");
-    isValid = false;
-  }
-
-  if (!isStrongPassword(newInput.value)) {
-    newError.classList.remove("d-none");
-    isValid = false;
-  }
-
-  if (newInput.value !== confirmInput.value) {
-    confirmError.classList.remove("d-none");
-    isValid = false;
-  }
-
-  if (isValid) {
-    alert("اطلاعات با موفقیت ذخیره شد ✅");
-  }
-});
-
-// <!-- =======================end edit password======================= -->
 // <!--============================address============================-->
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -355,10 +248,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (card.classList.contains("order-active")) {
         targetElement = document.getElementById("current-order-detail");
-      } 
+      }
       else if (card.classList.contains("order-delivered")) {
         targetElement = document.getElementById("delivered-order-detail");
-      } 
+      }
       else if (card.classList.contains("order-returned")) {
         targetElement = document.getElementById("returned-order-detail");
       }
@@ -385,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // <!--====================== invoice ======================-->
 
-// invoice Accordion toggle 
+// invoice Accordion toggle
 document.querySelectorAll('.accordion-header-invoice').forEach(button => {
 button.addEventListener('click', () => {
 const currentBody = button.nextElementSibling;
@@ -539,21 +432,21 @@ input.addEventListener("input", function (e) {
   [cardNumberInput, shabaInput, accountInput].forEach(el => allowOnlyNumbers(el));
 
   const bankIcons = {
-    '603799': 'design/image/bank/ملی.png',     
-    '610433': 'design/image/bank/ملت.png',       
-    '603769': 'design/image/bank/صادرات.png',  
-    '622106': 'design/image/bank/پارسیان.png',   
-    '589210': 'design/image/bank/سپه.png',    
-    '627381': 'design/image/bank/انصار.png',     
-    '621986': 'design/image/bank/سامان.png',   
-    '603799': 'design/image/bank/مسکن.png',    
-    '636214': 'design/image/bank/آینده.png',    
-    '502938': 'design/image/bank/دی.png',        
-    '502806': 'design/image/bank/شهر.png', 
-    '627353': 'design/image/bank/تجارت.png',      
+    '603799': 'design/image/bank/ملی.png',
+    '610433': 'design/image/bank/ملت.png',
+    '603769': 'design/image/bank/صادرات.png',
+    '622106': 'design/image/bank/پارسیان.png',
+    '589210': 'design/image/bank/سپه.png',
+    '627381': 'design/image/bank/انصار.png',
+    '621986': 'design/image/bank/سامان.png',
+    '603799': 'design/image/bank/مسکن.png',
+    '636214': 'design/image/bank/آینده.png',
+    '502938': 'design/image/bank/دی.png',
+    '502806': 'design/image/bank/شهر.png',
+    '627353': 'design/image/bank/تجارت.png',
 
   };
-  
+
 
 
   cardNumberInput.addEventListener('input', () => {

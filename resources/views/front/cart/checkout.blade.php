@@ -107,8 +107,27 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="new_receiver" class="fieldlabels">نام و نام خانوادگی<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="new_receiver_name" placeholder="نام کامل گیرنده" value="{{ Auth::user()->name ?? '' }} {{ Auth::user()->family ?? '' }}" >
+                                                    <label class="fieldlabels">
+                                                        نام گیرنده <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="new_first_name"
+                                                           name="first_name"
+                                                           placeholder="نام"
+                                                           value="{{ Auth::user()->first_name ?? '' }}">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="fieldlabels">
+                                                        نام خانوادگی گیرنده <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="new_last_name"
+                                                           name="last_name"
+                                                           placeholder="نام خانوادگی"
+                                                           value="{{ Auth::user()->last_name ?? '' }}">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="plate" class="fieldlabels">پلاک<span class="text-danger">*</span></label>
@@ -167,7 +186,7 @@
                         <!-- The price of goods -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="fw-normal">قیمت کالاها</span>
-                            <span class="fw-normal">{{ Cart::getTotal() }} تومان</span>
+                            <span class="fw-normal">{{  number_format(Cart::getTotal())}} تومان</span>
                         </div>
 
                         <!-- dividing line -->
@@ -421,7 +440,8 @@
                     data-address="${address.address} - پلاک ${address.plate}"
                     data-mobile="${address.mobile}"
                     data-postcode="${address.post_code}"
-                    data-fullname="${address.first_name} ${address.last_name}"
+                    data-first-name="${address.first_name}"
+                    data-last-name="${address.last_name}"
                     data-email="${address.email || ''}"
                     data-phone="${address.phone || ''}"
                     data-company="${address.company_name || ''}"
@@ -502,26 +522,54 @@
                  * @param {Object} [addressData=null] - Optional address object to force update (e.g., after saving new address)
                  */
                 function updateHiddenAddressFields(addressData = null) {
-                    let data = {};
-                    let selectedAddressId = ''; // Initialize the ID variable
+
+                    let selectedAddressId = '';
+                    let data = {
+                        firstName: '',
+                        lastName: '',
+                        mobile: '',
+                        email: '',
+                        company: ''
+                    };
 
                     if (addressData) {
-                        // Case 1: Use explicitly passed data (e.g., the newly saved address)
-                        selectedAddressId = addressData.id || ''; // Get the ID
+                        /**
+                         * Case 1: Explicit address object passed
+                         * (e.g. immediately after saving a new address)
+                         */
+                        selectedAddressId = addressData.id || '';
+
                         data = {
                             firstName: addressData.first_name || '',
                             lastName: addressData.last_name || '',
                             mobile: addressData.mobile || '',
                             email: addressData.email || '',
-                            company: addressData.company_name || '',
+                            company: addressData.company_name || ''
                         };
+
                     } else {
-                        // Case 2: Read from the currently checked address item
+                        /**
+                         * Case 2: Read from selected radio item
+                         */
                         const $checkedAddress = $('.address-radio:checked').closest('.address-item');
 
-                        if (!$checkedAddress.length) {
-                            // Case 3: No addresses selected/available. Use default user info as fallback.
-                            selectedAddressId = ''; // No ID selected
+                        if ($checkedAddress.length) {
+                            selectedAddressId = $checkedAddress.data('id') || '';
+
+                            data = {
+                                firstName: $checkedAddress.data('first-name') || '',
+                                lastName: $checkedAddress.data('last-name') || '',
+                                mobile: $checkedAddress.data('mobile') || '',
+                                email: $checkedAddress.data('email') || '',
+                                company: $checkedAddress.data('company') || ''
+                            };
+
+                        } else {
+                            /**
+                             * Case 3: No address selected (fallback to user profile)
+                             */
+                            selectedAddressId = '';
+
                             data = {
                                 firstName: "{{ Auth::user()->first_name ?? '' }}",
                                 lastName: "{{ Auth::user()->last_name ?? '' }}",
@@ -529,30 +577,19 @@
                                 email: "{{ Auth::user()->email ?? '' }}",
                                 company: ''
                             };
-                        } else {
-                            // Case 2: Extract data attributes
-                            selectedAddressId = $checkedAddress.data('id') || ''; // Get the ID from data attribute
-                            const rawFullName = $checkedAddress.data('fullname') || '';
-                            const fullNameParts = rawFullName.split(' ').filter(part => part.trim() !== '');
-
-                            data = {
-                                firstName: fullNameParts[0] || '',
-                                lastName: fullNameParts.slice(1).join(' ') || '',
-                                mobile: $checkedAddress.data('mobile') || '',
-                                email: $checkedAddress.data('email') || '',
-                                company: $checkedAddress.data('company') || '',
-                            };
                         }
                     }
 
-                    // Populate hidden form fields
-                    $('#address_id').val(selectedAddressId); // <-- IMPORTANT: Set the selected address ID
+                    /* =========================
+                       Populate hidden fields
+                    ========================= */
+
+                    $('#address_id').val(selectedAddressId);
                     $('#address_first_name').val(data.firstName);
                     $('#address_last_name').val(data.lastName);
                     $('#address_mobile').val(data.mobile);
                     $('#address_email').val(data.email);
                     $('#address_company_name').val(data.company);
-                    // NOTE: Removed the line setting $('#order_note').val(data.note);
                 }
 
 
@@ -607,11 +644,12 @@
                     const $btn = $(this);
                     const $errorMsg = $('#new-address-error-message');
                     $errorMsg.addClass('d-none').removeClass('text-success text-danger').text('');
-
+                    const firstName = $('#new_first_name').val(); // Read first name
+                    const lastName = $('#new_last_name').val();   // Read last name
                     // 1. Gather Data and Basic Validation (client-side quick check)
                     const province = $('#provinceSelect').val();
                     const city = $('#citySelect').val();
-                    const receiverName = $('#new_receiver_name').val();
+
                     const fullAddress = $('#new_fullAddress').val();
                     const plate = $('#new_plate').val();
                     const postCode = $('#new_postalCode').val();
@@ -620,20 +658,25 @@
                     const companyName = $('#new_companyName').val();
                     // NOTE: The 'note' field for the address is removed here.
 
-                    if (!province || !city || !receiverName || !fullAddress || !plate || !postCode || !mobile) {
-                        $errorMsg.removeClass('d-none').addClass('text-danger').text('لطفاً تمامی فیلدهای الزامی (دارای *) را پر کنید.');
+                    if (!firstName || !lastName || !province || !city ||
+                        !fullAddress || !plate || !postCode || !mobile) {
+
+                        $errorMsg
+                            .removeClass('d-none')
+                            .addClass('text-danger')
+                            .text('لطفاً نام و نام خانوادگی گیرنده و سایر فیلدهای الزامی را وارد کنید.');
+
                         return;
                     }
 
-                    // Split receiver name (First word as first name, rest as last name)
-                    const fullNameParts = receiverName.split(' ').filter(part => part.trim() !== '');
-                    const firstName = fullNameParts.length > 0 ? fullNameParts[0] : '';
-                    const lastName = fullNameParts.slice(1).join(' ') || '';
+
 
                     const addressData = {
                         _token: $('meta[name="csrf-token"]').attr('content'),
-                        first_name: firstName,
-                        last_name: lastName,
+
+                        first_name: $('#new_first_name').val(),
+                        last_name: $('#new_last_name').val(),
+
                         province: province,
                         city: city,
                         address: fullAddress,
@@ -642,9 +685,9 @@
                         mobile: mobile,
                         phone: phone,
                         company_name: companyName,
-                        // NOTE: Removed the 'note' property from addressData
                         email: "{{ Auth::user()->email ?? '' }}"
                     };
+
 
                     $btn.prop('disabled', true).text('در حال ذخیره‌سازی...');
 
@@ -654,22 +697,27 @@
                         type: "POST",
                         data: addressData,
                         success: function (res) {
-                            if (res.status && res.address) {
-                                // Add the returned address object to the local list and re-render
-                                userAddresses.unshift(res.address); // Add new address to the top
+                            // Check for the 'addresses' array (as returned by the user's controller)
+                            if (res.status && res.addresses) {
+                                // Replace the entire local array with the new, ordered list from the server (newest at index 0)
+                                userAddresses = res.addresses;
 
-                                // Re-render and select the newly added address
+
+                                // Re-render the addresses list
                                 renderAddresses();
 
-                                // Check the newly added address radio button
-                                $(`#address-${res.address.id}`).prop('checked', true).trigger('change');
+                                // The newest address is guaranteed to be at index 0 because the controller uses orderByDesc('created_at').
+                                const newAddressId = userAddresses[0].id;
+
+                                // Check the newly added address radio button and trigger change
+                                $(`#address-${newAddressId}`).prop('checked', true).trigger('change');
 
                                 $('#new-address').addClass('d-none');
                                 $('#btnNew-address').text('+ افزودن آدرس جدید');
                                 $errorMsg.removeClass('d-none text-danger').addClass('text-success').text(res.message);
 
-                                // Reset form fields except pre-filled user data
-                                $('#address-form input:not(#new_receiver_name, #new_mobile), #address-form textarea').val('');
+                                // Reset form fields
+                                $('#new_first_name, #new_last_name, #new_fullAddress, #new_plate, #new_postalCode, #new_mobile, #new_phone, #new_companyName').val('');
 
                                 // Reset province/city dropdowns
                                 $('#provinceSelect').val('');

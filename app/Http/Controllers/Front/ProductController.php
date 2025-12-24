@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Warehouse\Category;
 use App\Models\Warehouse\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -53,6 +54,10 @@ class ProductController extends Controller
             $current = $current->parent;
         }
 
-        return view('front.products.single', compact('product', 'relatedProducts', 'breadcrumbs', 'header_title'));
+        $cartItem = \Cart::get($product->id);
+
+        $currentCartQty = $cartItem ? $cartItem->quantity : 1;
+
+        return view('front.products.single', compact('product', 'relatedProducts', 'breadcrumbs', 'header_title', 'currentCartQty' ));
     }
 }

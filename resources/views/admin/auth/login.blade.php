@@ -60,7 +60,7 @@
     <script type="module">
 
         //====================================================
-        //            js code for background (THREE.js)
+        //  (THREE.js)
         //====================================================
             // Note: The THREE.js dependency must be loaded for this block to run
             import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
@@ -145,7 +145,7 @@
             document.addEventListener('DOMContentLoaded', setupThreeJS);
 
         //====================================================
-        //          end js code for background
+        // end js code for background
         //====================================================
 
 
@@ -187,40 +187,6 @@
                 buttonsStyling: false,
             });
         }
-
-
-
-        // 2. Mobile Login Flow (Step 1 -> Step 2)
-        btnMobileContinue.addEventListener('click', () => {
-            const mobileNumber = mobileNumberInput.value.trim();
-            if (mobileNumber.length !== 11 || !/^\d+$/.test(mobileNumber)) {
-                // !!! اصلاح شده: استفاده از showSweetAlert برای خطا !!!
-                showSweetAlert(
-                    'شماره نامعتبر',
-                    'لطفاً یک شماره موبایل ۱۱ رقمی معتبر وارد کنید.'
-                );
-                return;
-            }
-
-            // UI Transition to Step 2
-            displayMobileNumber.textContent = mobileNumber;
-            hiddenMobileForOtp.value = mobileNumber; // ذخیره شماره موبایل در فیلد مخفی برای مرحله بعد
-            mobileStep1.classList.add('hidden');
-            mobileStep2.classList.remove('hidden');
-            otpInputs[0].focus(); // Focus on the first OTP input
-
-
-
-        });
-
-        // Step 2 -> Step 1 (Back button)
-        btnBackToStep1.addEventListener('click', () => {
-            mobileStep2.classList.add('hidden');
-            mobileStep1.classList.remove('hidden');
-            mobileNumberInput.value = ''; // Clear number input
-        });
-
-
 
 
 

@@ -51,6 +51,8 @@
                         <th> قیمت به دلار $</th>
                         <th>نهایی USD</th>
                         <th>قیمت به تومان</th>
+                        <th>تخفیف %</th>
+                        <th style="color: #666; font-size: 0.85rem;">قبل از تخفیف</th>
                         <th style="background:#43897a;">
                             قیمت فروش
                             <i class="bi bi-info-circle text-primary"
@@ -65,25 +67,41 @@
                     <tbody>
                     @foreach($products as $p)
                         @php
-                             $price = $p->price;  
+                            $price = $p->price;
+                          // Pre-calculate display "before discount" logic for initial load
+                          $rate = $settings->dollar_rate;
+                          $costMult = 1 + (($settings->profit_percent + $settings->extra_percent) / 100);
+                          $beforeDiscount = 0;
+                          if($price && $price->usd_price > 0) {
+                              $beforeDiscount = ($price->usd_price * $costMult) * $rate;
+                          } elseif($price && $price->toman_price > 0) {
+                              $beforeDiscount = $price->toman_price * $costMult;
+                          }
                          @endphp
-                         
+
                         <tr data-part="{{ $p->part_number }}">
                             <td style="font-weight: 200;font-size: 16px;">{{ $p->part_number }}</td>
                             <td><input type="number" class="form-control usd-price input-ltr" value="{{ $price->usd_price ?? '' }}" placeholder="USD قیمت"></td>
                             <td> {{ $price && $price->final_usd
                                 ? number_format($price->final_usd, 2)
                                 : '0' }}</td>
-                            
+
                             <td>
                                 <input type="number" class="form-control toman-price input-ltr"
                                     value="{{ $price->toman_price ?? '' }}"
                                    placeholder="تومان (دلخواه)">
                             </td>
+                            <td><input type="number" class="form-control discount-percent input-ltr" value="{{ $price->discount_percent ?? '0' }}"></td>
 
-                            <td style="background:#78c7b7d9;color:black;">{{ $price && $price->sell_price_toman
-                                ? number_format($price->sell_price_toman)
-                                : '0' }}</td>
+                            <td  style="font-size: 0.9rem;color:#666;">
+                                {{ $beforeDiscount > 0 ? number_format($beforeDiscount) : '0' }}
+                            </td>
+
+                            <td style="background:#78c7b7d9; font-weight: bold;">
+                                {{ $price && $price->sell_price_toman ? number_format($price->sell_price_toman) : '0' }}
+                            </td>
+
+
                             <td><button class="btn btn-primary btn-save">ثبت</button></td>
 
                         </tr>
@@ -92,7 +110,7 @@
                 </table>
                 <div>{{ $products->links() }}</div>
             </div>
-        </div>   
+        </div>
     </div>
 @endsection
 
@@ -194,12 +212,10 @@
 
                 const tr = e.target.closest('tr');
                 const part = tr.dataset.part;
+                const usd = tr.querySelector('.usd-price').value;
+                const toman = tr.querySelector('.toman-price').value;
+                const discount = tr.querySelector('.discount-percent').value;
 
-                // Get the input values as numbers (or 0)
-                const usd = parseFloat(tr.querySelector('.usd-price').value) || 0;
-                const toman = parseFloat(tr.querySelector('.toman-price').value) || 0;
-
-                // Send the data to the server
                 fetch('{{ route("admin.prices.saveProduct") }}', {
                     method: 'POST',
                     headers: {
@@ -210,32 +226,20 @@
                     body: JSON.stringify({
                         product_part_number: part,
                         usd_price: usd,
-                        toman_price: toman
+                        toman_price: toman,
+                        discount_percent: discount
                     })
                 })
                     .then(r => r.json())
                     .then(d => {
-                        // Success toast
                         Swal.fire({icon:'success', text:d.message, timer:1200, showConfirmButton:false});
-
-                        // Update final usd and final toman from returned price object
-                        const resPrice = d.price;
                         const p = d.price;
-
-// final USD column (index 2)
-                        tr.children[2].innerText =
-                            p.final_usd ? Number(p.final_usd).toLocaleString('en-US', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }) : '0';
-
-// final Toman column (index 4)
-                        tr.children[4].innerText =
-                            p.sell_price_toman ? Number(p.sell_price_toman).toLocaleString('en-US') : '0';
-
+                        // Final USD (Index 2)
+                        tr.children[2].innerText = p.final_usd ? Number(p.final_usd).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0';
+                        // Final Toman (Index 5)
+                        tr.children[5].innerText = p.sell_price_toman ? Number(p.sell_price_toman).toLocaleString('en-US') : '0';
                     })
                     .catch(() => Swal.fire({icon:'error', text:'خطا در ذخیره'}));
-
             });
 
         });

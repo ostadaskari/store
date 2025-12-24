@@ -6,17 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ !empty($header_title) ? $header_title : '' }} - ShirazChip.ir</title>
     <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('design/css/owl.carousel.css') }}">
-
-
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="{{asset('design/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('design/css/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{ asset('design/css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('design/css/aos.css') }}">
 
 
     <!-- style -->
-    <link rel="stylesheet" href="{{ url('design/css/style.css') }}">
-    <link rel="icon" href="{{url('design/image/favicon-3.png')}}" type="image/png">
+    <link rel="stylesheet" href="{{ asset('design/css/style.css') }}">
+    <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @yield('style')
 
 </head>
@@ -61,65 +60,34 @@
             <div class="col-12 col-md-1">
                 <div class="d-flex flex-row justify-content-end w-100">
                     <!-- Cart -->
-                    <div class="mx-3 position-relative" dir="rtl">
-                        <a class="text-white nav-font-size d-flex justify-content-center align-items-center p-0 position-relative" id="cartBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg width="22" height="22" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
-                            </svg>
-                            <span class="position-absolute translate-middle badge rounded-pill bg-danger" id="cart-count">{{ Cart::getContent()->count() }}</span>
-                        </a>
+                    <!-- Cart -->
+                    @if(!request()->routeIs('cart.checkout'))
+                        <div class="mx-3 position-relative dropdown" dir="rtl" id="header-cart-wrapper">
+                            <a
+                                class="text-white nav-font-size d-flex justify-content-center align-items-center p-0 position-relative"
+                                id="cartBtn"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                                aria-expanded="false"
+                                role="button"
+                            >
+                                <svg width="22" height="22" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                </svg>
 
-                        <!-- list dropdown -->
-                        @if(!empty(Cart::getContent()->count() ))
-                            <ul class="dropdown-menu dropdown-menu-end p-3" style="min-width: 450px;z-index:9999; font-size: 14px;">
-                                <div class="cart-items mb-3">
-                                    @foreach(Cart::getContent() as $header_cart)
-                                        @php $getCartProduct = \App\Models\Warehouse\Product::getSingle($header_cart->id) @endphp
-                                        @if(!empty($getCartProduct))
-
-
-                                            <li class="d-flex align-items-center mb-2 justify-content-between"  data-price="1500000">
-                                                <span class="fw-bold"><img src="{{$getCartProduct->coverImage->url ?? asset('images/300x300.webp') }}" width="30"></span>
-                                                <a href="{{ route('front.product.show', [
-                                        'category' => $getCartProduct->category->slug,
-                                        'product'  => $getCartProduct->slug
-                                    ]) }}" class="flex-grow-1 mx-2">{{ $getCartProduct->part_number }}
-                                                </a>
-                                                <div class="d-flex align-items-center item">
-
-                                                    <span class="spanNum">   {{ $header_cart->quantity }}  </span>
-                                                    <span class="p-1"> X </span>
-                                                    <span> {{ number_format($header_cart->price) }} تومان </span>
-                                                </div>
-                                                <a href="{{ route('cart.remove', $header_cart->id) }}" class="btn btn-sm btnHover">
-                                                    <svg width="18" height="18" fill="#bb0303" class="bi bi-trash" viewBox="0 0 16 16">
-                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
-                                                    </svg>
-                                                </a>
-
-
-
-                                            </li>
-                                        @endif
-                                    @endforeach
-
+                                <!-- Container for just the red badge number -->
+                                <div id="header-cart-count-container">
+                                    @include('front.layouts._cart_count')
                                 </div>
+                            </a>
 
-                                <!-- جمع کل -->
-                                <li class="border-top pt-2">
-                                    <div class="d-flex justify-content-between mb-2 totalCart">
-                                        <span> مبلغ کل:</span>
-                                        <span>تومان {{ number_format(Cart::getSubTotal(),2) }}</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <a class="btn btn-outline-fontColor fontColor flex-grow-1" href="{{ route('cart.index') }}">سبد خرید</a>
-                                        <a class="btn addtocartProduct flex-grow-1" href="{{ url('checkout') }}">نهایی کردن خرید</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        @endif
-                    </div>
+                            <!-- Container for the dropdown list (ul) -->
+                            <div id="header-cart-list-container">
+                                @include('front.layouts._cart_dropdown')
+                            </div>
+                        </div>
+                    @endif
+
 
 
                     <!-- Login & User Info -->
@@ -138,7 +106,7 @@
                                 {{--  حالت: کاربر وارد شده است --}}
                                 @if (Auth::check())
                                     <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href=""> {{-- مسیر حساب کاربری را اینجا قرار دهید --}}
+                                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ url('user/dashboard') }}">
                                             <svg width="16" height="16" fill="#a4bad4" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
                                                 <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
                                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
