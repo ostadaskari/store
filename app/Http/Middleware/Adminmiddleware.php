@@ -15,12 +15,15 @@ class Adminmiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!empty(Auth::check()) && (Auth::user()->is_admin == 1)){
-                return $next($request);
-        }else{
-            Auth::logout();
-            return redirect('admin');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return $next($request);
         }
 
+        // If they aren't an admin, clear the session and send to login
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 }

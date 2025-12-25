@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{asset('design/css/style.css') }}">
     <link rel="stylesheet" href="{{asset('design/css/login.css')}}">
 
-    <link rel="icon" href="{{asset('design/image/logo.png')}}" type="image/png">
+    <link rel="icon" href="{{asset('design/image/logo (4).png')}}" type="image/png">
 
 
 </head>
@@ -34,7 +34,7 @@
                    <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid mb-4">
                 </a>
 
-                <form class="custom-form"  method="POST" action="">
+                <form class="custom-form"  method="POST" action="{{ route('admin.auth') }}">
                     @csrf
 
                     <input type="text" id="usernameInput" name="email" placeholder="Email" class="form-control" required>

@@ -150,10 +150,10 @@ Route::delete('/user/addresses/{address}', [UserAddressController::class, 'destr
 // این مسیر توسط جاوا اسکریپت در صفحه تسویه حساب برای پر کردن دراپ‌داون استان/شهر استفاده می‌شود.
 Route::get('/api/iran/locations', [LocationController::class, 'getIranLocations'])->name('api.iran.locations');
 
-// admin authentication
-Route::get('/admin',[AuthController::class,'login_admin']);
-Route::post('/admin',[AuthController::class,'auth_login_admin']);
-Route::get('/admin/logout',[AuthController::class,'logout_admin']);
+// Admin authentication
+Route::get('/admin', [AuthController::class, 'login_admin'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'auth_login_admin'])->name('admin.auth');
+Route::get('/admin/logout', [AuthController::class, 'logout_admin'])->name('admin.logout');
 
 
 // Front Authentication Routes (Only accessible when NOT logged in)

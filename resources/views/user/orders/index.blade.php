@@ -173,9 +173,14 @@
 
 
                         <!--======== DYNAMIC MODAL FOR INVOICE (Inside the loop) ===============-->
+
                         <div class="modal fade" id="invoiceModal-{{ $order->id }}" tabindex="-1" aria-labelledby="invoiceModalLabel-{{ $order->id }}" >
                             <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                                 <div class="modal-content">
+                                    <style>
+                                        .original-price-strikethrough { text-decoration: line-through; color: #999; font-size: 0.85em; }
+                                        .badge-discount { background-color: #f8d7da; color: #721c24; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+                                    </style>
                                     <div class="modal-header justify-content-between">
                                         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="بستن"></button>
                                         <h5 class="modal-title" id="invoiceModalLabel-{{ $order->id }}">فاکتور سفارش: #{{ $order->order_number }}</h5>
@@ -200,8 +205,8 @@
                                                             <p><strong>تاریخ ثبت:</strong> {{ jdate($order->created_at)->format('Y/m/d - H:i') }}</p>
                                                             <p><strong>وضعیت پرداخت:</strong>
                                                                 <span class="badge {{ $order->is_payment ? 'bg-success' : 'bg-danger' }}">
-                                                            {{ $order->is_payment ? 'پرداخت شده' : 'پرداخت نشده' }}
-                                                        </span>
+                                {{ $order->is_payment ? 'پرداخت شده' : 'پرداخت نشده' }}
+                            </span>
                                                             </p>
                                                             <p><strong>روش پرداخت:</strong> {{ $order->payment_method == 'credit' ? 'آنلاین' : 'نقدی (COD)' }}</p>
                                                             <p><strong>وضعیت ارسال:</strong>
@@ -269,7 +274,7 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- Order Items List Section (moved into the target row) --}}
+                                                {{-- Order Items List Section --}}
                                                 <div id="order-items-section" class="col-12">
                                                     <div class="seven mt-3">
                                                         <h1>اقلام سفارش</h1>
@@ -281,11 +286,13 @@
                                                                     <thead class="table-blue">
                                                                     <tr>
                                                                         <th scope="col" style="width: 3%;">#</th>
-                                                                        <th scope="col" style="width: 15%;">تصویر</th>
-                                                                        <th scope="col" style="width: 33%;">محصول (PN-)</th>
-                                                                        <th scope="col" style="width: 20%;">قیمت واحد (تومان)</th>
+                                                                        <th scope="col" style="width: 10%;">تصویر</th>
+                                                                        <th scope="col" style="width: 30%;">محصول (PN-)</th>
+                                                                        <th scope="col" style="width: 15%;">قیمت اصلی</th>
+                                                                        <th scope="col" style="width: 10%;">تخفیف</th>
+                                                                        <th scope="col" style="width: 15%;">قیمت نهایی</th>
                                                                         <th scope="col" style="width: 5%;">تعداد</th>
-                                                                        <th scope="col" style="width: 25%;">مجموع (تومان)</th>
+                                                                        <th scope="col" style="width: 12%;">مجموع (تومان)</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -299,19 +306,33 @@
                                                                             <td>
                                                                                 PN: {{ $item->product->part_number }}
                                                                             </td>
-                                                                            <td>{{ number_format($item->price) }}</td>
+                                                                            <td>
+                                                                                @if($item->discount_percent > 0)
+                                                                                    <span class="original-price-strikethrough">{{ number_format($item->original_price) }}</span>
+                                                                                @else
+                                                                                    {{ number_format($item->price) }}
+                                                                                @endif
+                                                                            </td>
+                                                                            <td>
+                                                                                @if($item->discount_percent > 0)
+                                                                                    <span class="badge-discount">{{ $item->discount_percent }}%</span>
+                                                                                @else
+                                                                                    -
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="text-primary font-weight-bold">{{ number_format($item->price) }}</td>
                                                                             <td>{{ $item->quantity }}</td>
                                                                             <td>{{ number_format($item->total_price) }}</td>
                                                                         </tr>
                                                                     @empty
                                                                         <tr>
-                                                                            <td colspan="6" class="text-center py-4">این سفارش فاقد اقلام محصول است.</td>
+                                                                            <td colspan="8" class="text-center py-4">این سفارش فاقد اقلام محصول است.</td>
                                                                         </tr>
                                                                     @endforelse
                                                                     </tbody>
                                                                     <tfoot>
                                                                     <tr class="table-secondary">
-                                                                        <td colspan="5" class="text-right"><strong>جمع کل اقلام:</strong></td>
+                                                                        <td colspan="7" class="text-right"><strong>جمع کل اقلام:</strong></td>
                                                                         <td class="font-weight-bold">{{ number_format($order->items->sum('total_price')) }}</td>
                                                                     </tr>
                                                                     </tfoot>
@@ -337,6 +358,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                         <!--========= end DYNAMIC modal invoice ============-->
                     @endforeach
