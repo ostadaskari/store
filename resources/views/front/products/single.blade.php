@@ -50,9 +50,27 @@
             <!-- ACTION COLUMN -->
             <div class="col-12 col-md-1 col-lg-1 action-column px-0">
                 <div class="actionDiv">
-
-                    <div class="action-item" title="لایک" id="like-button">
-                        <i class="bi bi-heart m-0" style="font-size: 24px;"></i>
+                    @php
+                        $isWishlisted = auth()->check()
+                            && auth()->user()
+                                ->wishlists()
+                                ->where('product_id', $product->id)
+                                ->exists();
+                    @endphp
+                    <div class="action-item" title="لایک">
+                        @auth
+                            <a href="javascript:void(0)"
+                               class="wishlist-btn"
+                               data-product="{{ $product->id }}"
+                               data-url="{{ route('wishlist.toggle') }}">
+                                <i class="bi {{ $isWishlisted ? 'bi-heart-fill text-danger' : 'bi-heart' }}"
+                                   style="font-size:24px"></i>
+                            </a>
+                        @else
+                            <a href="{{ url('login') }}">
+                                <i class="bi bi-heart" style="font-size:24px"></i>
+                            </a>
+                        @endauth
                     </div>
 
                     <div class="action-item share-btn" title="اشتراک‌گذاری">

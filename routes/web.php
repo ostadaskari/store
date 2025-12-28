@@ -22,6 +22,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserInvoiceController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Http\Controllers\User\WishlistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -52,6 +53,12 @@ Route::middleware('user')->group(callback: function(){
     // Route for changing password (Form 3)
     Route::post('/user/profile/update-password', [ProfileController::class, 'updatePassword'])
         ->name('user.profile.updatePassword');
+
+    // add to wishlist
+    Route::post('/add_to_wishlist', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
 });
 
