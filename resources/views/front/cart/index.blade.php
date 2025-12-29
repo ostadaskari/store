@@ -6,7 +6,7 @@
 
        <div class="col-12 col-md-8">
            <table class="table">
-               <thead>
+               <thead class="table-success">
                <tr>
                    <th>محصول</th>
                    <th>قیمت</th>
@@ -63,7 +63,7 @@
                </tbody>
            </table>
 
-           <h3>جمع کل: <span id="grand-total">{{ number_format($total) }}</span> تومان</h3>
+           <h3 class="text-center mt-3">جمع کل: <span id="grand-total">{{ number_format($total) }}</span> تومان</h3>
 
        </div>
         <div class="col-12 col-md-4">

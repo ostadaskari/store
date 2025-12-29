@@ -307,6 +307,9 @@ margin: 0 3px;
   border: 1px solid #cccc;
     border-radius: 4px;
 }
+.showBasket:hover{
+  background-color:#6c757d!important;
+}
 /* --------------------------------------------
                 cart-count
 ----------------------------------------------- */
