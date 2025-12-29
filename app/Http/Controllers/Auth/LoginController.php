@@ -63,7 +63,7 @@ class LoginController extends Controller
         try {
             $templateId = env('SMSIR_TEMPLATE_ID');
             $parameters = [
-                ["name" => "Code", "value" => (string)$code]
+                ["name" => "Code", "value" => $code]
             ];
 
             SmsIr::verifySend($mobile, $templateId, $parameters);
@@ -126,10 +126,16 @@ class LoginController extends Controller
             'mobile' => 'خطا در احراز هویت. لطفاً دوباره تلاش کنید.'
         ]);
     }
-
     /**
-     * مدیریت درخواست ورود استاندارد (ایمیل و رمز عبور)
+     * Reset the login step and redirect back to step 1.
      */
+    public function resetMobileLogin()
+    {
+        session()->forget(['login_step', 'login_mobile']);
+        return redirect()->route('client.login.mobile.form');
+    }
+
+
     public function authenticate(Request $request)
     {
         // اعتبار سنجی ورودی ها با پیام های فارسی

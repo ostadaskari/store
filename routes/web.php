@@ -187,7 +187,7 @@ Route::middleware('guest')->group(function () {
 
     // NEW: Standard Email/Password/Username Login
     Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('client.login.authenticate');
-
+    Route::get('/login/mobile/reset', [LoginController::class, 'resetMobileLogin'])->name('client.login.mobile.reset');
 
     // for OAth with Google
     Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
