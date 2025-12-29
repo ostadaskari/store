@@ -22,6 +22,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserInvoiceController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Http\Controllers\User\WishlistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -52,6 +53,12 @@ Route::middleware('user')->group(callback: function(){
     // Route for changing password (Form 3)
     Route::post('/user/profile/update-password', [ProfileController::class, 'updatePassword'])
         ->name('user.profile.updatePassword');
+
+    // add to wishlist
+    Route::post('/add_to_wishlist', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
 });
 
@@ -150,10 +157,10 @@ Route::delete('/user/addresses/{address}', [UserAddressController::class, 'destr
 // این مسیر توسط جاوا اسکریپت در صفحه تسویه حساب برای پر کردن دراپ‌داون استان/شهر استفاده می‌شود.
 Route::get('/api/iran/locations', [LocationController::class, 'getIranLocations'])->name('api.iran.locations');
 
-// admin authentication
-Route::get('/admin',[AuthController::class,'login_admin']);
-Route::post('/admin',[AuthController::class,'auth_login_admin']);
-Route::get('/admin/logout',[AuthController::class,'logout_admin']);
+// Admin authentication
+Route::get('/admin', [AuthController::class, 'login_admin'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'auth_login_admin'])->name('admin.auth');
+Route::get('/admin/logout', [AuthController::class, 'logout_admin'])->name('admin.logout');
 
 
 // Front Authentication Routes (Only accessible when NOT logged in)

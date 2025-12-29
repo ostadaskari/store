@@ -100,7 +100,7 @@ svg{
   .input-ltr {
     direction: ltr;
     text-align: left;
-    
+
   }
 .input-ltr::placeholder {
     direction: rtl;

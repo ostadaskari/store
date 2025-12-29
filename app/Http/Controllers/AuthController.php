@@ -8,10 +8,19 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login_admin(){
-        if(!empty(Auth::check()) && Auth::user()->is_admin == 1){
+    public function login_admin(Request $request) {
+        // If user is logged in but NOT an admin, log them out
+        // to prevent session conflicts before showing the login page
+        if (Auth::check() && Auth::user()->is_admin != 1) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
+        if (Auth::check() && Auth::user()->is_admin == 1) {
             return redirect('/admin/dashboard');
         }
+
         return view('admin.auth.login');
     }
 

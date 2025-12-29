@@ -441,6 +441,69 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// ++++++++++++++++++++++++++ add_to_wishlist ===============
+// ================= add_to_wishlist =================
+
+// Global CSRF for all AJAX
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$(document).on('click', '.wishlist-btn', function () {
+
+    const btn = $(this);
+    const productId = btn.data('product');
+    const url = btn.data('url');
+    const icon = btn.find('i');
+
+    $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            product_id: productId
+        },
+        beforeSend() {
+            icon.addClass('opacity-50');
+        },
+        success(res) {
+
+            if (res.status === 'added') {
+                icon.removeClass('bi-heart')
+                    .addClass('bi-heart-fill text-danger');
+            }
+
+            if (res.status === 'removed') {
+                icon.removeClass('bi-heart-fill text-danger')
+                    .addClass('bi-heart');
+            }
+
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                icon: 'success',
+                text: res.message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        },
+        error(xhr) {
+            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                text: 'خطا در انجام عملیات'
+            });
+        },
+        complete() {
+            icon.removeClass('opacity-50');
+        }
+    });
+});
+
+
+// ========================== end add to wishlist
+
 
 
 

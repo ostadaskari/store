@@ -13,6 +13,7 @@ class ProductPrice extends Model
         'usd_price',
         'toman_price',
         'discount_percent',
+        'original_price',
         'final_usd',
         'sell_price_toman'
     ];

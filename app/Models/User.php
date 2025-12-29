@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Warehouse\Product;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -125,5 +126,23 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(UserAddress::class);
     }
+
+    // app/Models/User.php
+
+    public function wishlists()
+    {
+        // Get the database name for the default connection (where wishlists table exists)
+        $mainDatabase = config('database.connections.mysql.database');
+
+        return $this->belongsToMany(
+            Product::class,
+            $mainDatabase . '.wishlists', // Prefix with database name: e.g. 'main_db.wishlists'
+            'user_id',
+            'product_id'
+        )->withTimestamps();
+    }
+
+
+
 }
 

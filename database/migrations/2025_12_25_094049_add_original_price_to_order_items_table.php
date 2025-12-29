@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('product_prices', function (Blueprint $table) {
-            $table->decimal('discount_percent', 5, 2)->default(0)->after('toman_price');
+        Schema::table('order_items', function (Blueprint $table) {
+            // original_price is the price BEFORE discount
+            $table->decimal('original_price', 15, 0)->after('quantity')->default(0);
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_prices', function (Blueprint $table) {
-            $table->dropColumn('discount_percent');
+        Schema::table('order_items', function (Blueprint $table) {
+            $table->dropColumn('original_price');
         });
     }
 };

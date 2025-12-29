@@ -13,7 +13,6 @@ class PriceController extends Controller
     public function index(Request $request)
     {
         $header_title = 'Product Prices';
-
         $settings = PriceSetting::first() ?? new PriceSetting([
             'dollar_rate' => 0, 'profit_percent' => 0, 'extra_percent' => 0
         ]);
@@ -35,10 +34,8 @@ class PriceController extends Controller
 
         $settings = PriceSetting::updateOrCreate(['id' => 1], $data);
 
-        // Recalculate all product_prices
         $prices = ProductPrice::cursor();
         foreach ($prices as $p) {
-            // FIXED: Now passing 4 arguments: USD, Toman, Discount, and Settings
             $calc = $this->calculateFinalPrices(
                 $p->usd_price,
                 $p->toman_price,
@@ -47,14 +44,14 @@ class PriceController extends Controller
             );
 
             $p->update([
+                'original_price' => $calc['original_price'],
                 'final_usd' => $calc['final_usd'],
                 'sell_price_toman' => $calc['sell_price_toman'],
             ]);
         }
 
-        return response()->json(['status' => 'ok', 'message' => 'تنظیمات قیمت ذخیره شد و تمام قیمت‌ها بروزرسانی شدند.']);
+        return response()->json(['status' => 'ok', 'message' => 'تنظیمات ذخیره و قیمت‌ها بروزرسانی شدند.']);
     }
-
 
     public function saveProductPrice(Request $request)
     {
@@ -65,9 +62,7 @@ class PriceController extends Controller
             'discount_percent' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $settings = PriceSetting::first() ?? new PriceSetting([
-            'dollar_rate' => 0, 'profit_percent' => 0, 'extra_percent' => 0
-        ]);
+        $settings = PriceSetting::first() ?? new PriceSetting(['dollar_rate' => 0, 'profit_percent' => 0, 'extra_percent' => 0]);
 
         $calc = $this->calculateFinalPrices(
             $data['usd_price'] ?? 0,
@@ -82,6 +77,7 @@ class PriceController extends Controller
                 'usd_price' => $data['usd_price'],
                 'toman_price' => $data['toman_price'],
                 'discount_percent' => $data['discount_percent'] ?? 0,
+                'original_price' => $calc['original_price'],
                 'final_usd' => $calc['final_usd'],
                 'sell_price_toman' => $calc['sell_price_toman'],
             ]
@@ -99,22 +95,24 @@ class PriceController extends Controller
         $costMult = 1 + (($profit + $extra) / 100);
         $discMult = 1 - (($discount ?? 0) / 100);
 
+        $originalPrice = 0; // Price WITH profit, WITHOUT discount
         $finalUsd = 0;
         $sellToman = 0;
 
         if ($usd && $usd > 0) {
-            $finalUsd = $usd * $costMult * $discMult;
+            $baseWithProfit = $usd * $costMult;
+            $originalPrice = round($baseWithProfit * $rate);
+            $finalUsd = $baseWithProfit * $discMult;
             $sellToman = round($finalUsd * $rate / 10) * 10;
         } elseif ($toman && $toman > 0) {
-            $finalUsd = 0;
-            $sellToman = round(($toman * $costMult * $discMult) / 10) * 10;
+            $originalPrice = $toman * $costMult;
+            $sellToman = round(($originalPrice * $discMult) / 10) * 10;
         }
 
         return [
+            'original_price' => $originalPrice,
             'final_usd' => $finalUsd,
             'sell_price_toman' => $sellToman,
         ];
     }
-
 }
-

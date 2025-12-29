@@ -46,10 +46,13 @@ class CartController extends Controller
             'id' => $product->id,
             'name' => $product->part_number,
             'price' => $product->display_price_toman,
+            'discount_percent' => $product->price->discount_percent ?? 0,
             'quantity' => $qty,
             'attributes' => [
                 'slug' => $product->slug,
                 'image' => $product->coverImage->url ?? '', // Safety check
+                'original_price' => $product->price->original_price ?? $product->display_price_toman, // Price BEFORE discount
+                'discount_percent' => $product->price->discount_percent ?? 0,
             ],
         ]);
 
@@ -268,7 +271,7 @@ class CartController extends Controller
                 'shipping_amount' => $shippingAmount,
                 'total_amount'    => $totalAmount,
                 'payment_method'  => $request->payment_method,
-                'status'          => 'pending',
+                'status'          => 'processing',
                 'is_payment'      => false,
             ]);
 
@@ -279,11 +282,15 @@ class CartController extends Controller
                     'order_id'    => $order->id,
                     'product_id'  => $item->id,
                     'quantity'    => $item->quantity,
-                    'price'       => $item->price,
+                    'original_price'   => $item->attributes->original_price, // Saved from cart attributes
+                    'discount_percent' => $item->attributes->discount_percent, // Saved from cart attributes
+                    'price'            => $item->price, // Final price paid
                     'total_price' => $item->quantity * $item->price,
                 ]);
 
                 // Optional: Update product stock here if needed
+                     //$product = Product::find($item->id);
+                    //$product->decrement('available_qty', $item->quantity);
             }
 
             // 5. Clear discount session data after use

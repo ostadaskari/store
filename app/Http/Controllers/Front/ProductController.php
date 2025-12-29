@@ -60,4 +60,15 @@ class ProductController extends Controller
 
         return view('front.products.single', compact('product', 'relatedProducts', 'breadcrumbs', 'header_title', 'currentCartQty' ));
     }
+
+    public function addToWishlist(Request $request)
+    {
+        try{
+            return response()->json(['success'],200);
+        } catch (\Exception $e) {
+            // This captures the exact error message
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
 }

@@ -8,6 +8,13 @@
     --main-color: #FE7743;
     --primary-blue: rgb(82, 152, 218);
 }
+@font-face {
+    font-family: 'Shabnam';
+    src: url('../font/Shabnam-Medium-FD.eot') format('eot'),
+    url('../font/Shabnam-Medium-FD.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* General & Background Styles (from previous code) */
 body {

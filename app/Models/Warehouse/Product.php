@@ -3,6 +3,7 @@
 namespace App\Models\Warehouse;
 
 use App\Models\ProductSeo;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 class Product extends Model
@@ -98,6 +99,18 @@ class Product extends Model
             ->inRandomOrder();
     }
 
+
+// app/Models/Product.php
+
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'wishlists',
+            'product_id',
+            'user_id'
+        )->withTimestamps();
+    }
 
 
 

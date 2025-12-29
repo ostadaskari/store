@@ -16,8 +16,20 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * Get the product from the Warehouse database.
+     */
     public function product()
     {
-        return $this->belongsTo(\App\Models\Warehouse\Product::class);
+        return $this->belongsTo(\App\Models\Warehouse\Product::class, 'product_id');
     }
+
+    /**
+     * Accessor for the discounted price of a single unit.
+     */
+    public function getDiscountedPriceAttribute()
+    {
+        return $this->price - ($this->price * ($this->discount_percent / 100));
+    }
+
 }

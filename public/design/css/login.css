@@ -30,7 +30,7 @@
       pointer-events: none;
       background: radial-gradient(circle at 20% 30%, #000000, #143246 70%);
   }
-  
+
   /* Main Login Container */
   .logoContainer{
       width:65%;
@@ -195,7 +195,7 @@
   .password-toggle:hover {
       color: #555;
   }
-  
+
   /* Typography and Links */
   .login h1 { font-size: 20px; margin-bottom: 20px; color: #333; }
   .login p {width: 100%; font-size: 14px; line-height: 26px; color: #666; }
@@ -206,7 +206,7 @@
   /* Utility for hiding/showing tab content (d-none/d-block in HTML) */
   .tab-pane { display: none; }
   .tab-pane.active { display: block; }
-  
+
   .message-box {
       background-color: #f0f0f0;
       color: #333;
