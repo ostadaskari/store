@@ -111,11 +111,24 @@
                         @error('code')<span class="text-danger mt-1">{{ $message }}</span>@enderror
 
 
-                        <div class="change-mobile-link">
-                            <!-- Linking back to the login form route resets the flow -->
-                            <a href="{{ route('client.login.mobile.form') }}"
-                               id="reset-mobile-link"
-                               style="color: var(--primary-blue); text-decoration: none;">تغییر شماره موبایل</a>
+                        <div class="change-mobile-link d-flex justify-content-between align-items-center mb-3">
+                            {{-- Update the link to point to the RESET route --}}
+                            <a href="{{ route('client.login.mobile.reset') }}"
+                               style="color: var(--primary-blue); text-decoration: none; font-size: 0.9rem;">
+                                <i class="fa fa-edit me-1"></i> تغییر شماره موبایل
+                            </a>
+
+                            {{-- Countdown Timer Display --}}
+                            <div id="otp-timer" class="text-muted" style="font-size: 0.9rem;">
+                                زمان باقی‌مانده: <span id="timer-counter" class="fw-bold">02:00</span>
+                            </div>
+                        </div>
+
+                        {{-- Resend Code Link (Hidden by default) --}}
+                        <div id="resend-container" class="text-center mb-3" style="display: none;">
+                            <p class="small">کد را دریافت نکردید؟
+                                <a href="{{ route('client.login.mobile.reset') }}" class="text-primary fw-bold">ارسال مجدد</a>
+                            </p>
                         </div>
 
                         <button class="btn-primary" type="submit">تایید و ورود</button>
@@ -329,6 +342,60 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. OTP Input Logic (Auto-focus next)
+        const inputs = document.querySelectorAll('.otp-input');
+        const hiddenInput = document.getElementById('hidden-otp-code');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                updateHiddenInput();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        function updateHiddenInput() {
+            let code = "";
+            inputs.forEach(input => code += input.value);
+            hiddenInput.value = code;
+        }
+
+        // 2. Countdown Timer (5 Minutes)
+        let timeLeft = 300; // 5 minutes in seconds
+        const timerDisplay = document.getElementById('timer-counter');
+        const timerContainer = document.getElementById('otp-timer');
+        const resendContainer = document.getElementById('resend-container');
+
+        const timerInterval = setInterval(function() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            timerDisplay.textContent = minutes + ':' + seconds;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerContainer.style.display = 'none';
+                resendContainer.style.display = 'block';
+            } else {
+                timeLeft--;
+            }
+        }, 1000);
+    });
+</script>
+
 
 <!-- Three.js Background Script -->
 <script type="module">
