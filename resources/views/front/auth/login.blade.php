@@ -54,6 +54,7 @@
             flex-direction: column;
             align-items: center;
             margin: 20px 0;
+            h
         }
 
         .logoContainer {
