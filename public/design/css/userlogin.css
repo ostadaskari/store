@@ -4,6 +4,7 @@
     --darkBlu-color:#143246;
     --main-color: #FE7743;
     --primary-blue: rgb(82, 152, 218);
+    --color-header-title:rgb(231 113 26);
 }
 @font-face {
     font-family: 'Shabnam';
@@ -42,15 +43,19 @@ body {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     position: relative;
     overflow: hidden;
-    width: 450px;
+    width: 440px;
     max-width: 90%;
     padding: 30px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px 0;
+    height: 595px;
 }
-
+.registration-box label{
+    font-size: 14px;
+    margin-bottom:3px;
+}
 .logoContainer {
     width: 65%;
     height: auto;
@@ -70,7 +75,7 @@ body {
     font-size: 13px;
     color: #777;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     line-height: 1.8;
 }
 
@@ -143,24 +148,12 @@ body {
 }
 
 .btn-google {
-    width: 100%;
-    background-color: #dc3545; /* Bootstrap danger red for Google */
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    font-size: 16px;
+    color: #f01f10;
+    font-size: 13px;
     transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
 }
 .btn-google:hover {
-    background-color: #c82333;
-    color: #fff;
+    color: var(--color-header-title);
 }
 
 
@@ -200,6 +193,9 @@ body {
 .create-terms-section {
     margin-top: 15px;
     text-align: center;
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
 }
 .create-terms-section p {
     font-size: 12px;
@@ -232,8 +228,8 @@ body {
     border-bottom: 3px solid transparent;
 }
 .tab-menu button.active {
-    color: var(--primary-blue);
-    border-bottom: 3px solid var(--primary-blue);
+    color: var(--color-header-title);
+    border-bottom: 3px solid var(--color-header-title);
 }
 .tab-pane {
     display: none;
@@ -260,7 +256,6 @@ body {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #fcfcfc;
-    /* Override focus style */
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .otp-input:focus {
@@ -271,8 +266,8 @@ body {
 .change-mobile-link {
     font-size: 13px;
     display: block;
-    margin-top: 10px;
     text-align: center;
+    color:var(--primary-blue);
 }
 
 /* Custom Modal/Message Box Styles */

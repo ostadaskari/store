@@ -54,7 +54,6 @@
                 <!-- STEP 1: MOBILE NUMBER INPUT (Login) -->
                 <div id="mobile-step-1" class="verify-form-container">
                     <div class="verify-header">
-                        <h3 class="verify-title">ورود به حساب کاربری</h3>
                         <div class="create-description">لطفاً شماره موبایل خود را وارد کنید تا کد تایید برای شما ارسال و وارد شوید.</div>
                     </div>
 
@@ -78,8 +77,9 @@
 
                         <button class="btn-primary" type="submit">ارسال کد تایید و ورود</button>
 
-                        <div class="create-terms-section">
-                            <p>هنوز ثبت نام نکرده‌اید؟
+                        <div class="create-terms-section" style="position: absolute;bottom: 10px;left: 34%;">
+                            <p>
+                                هنوز ثبت نام نکرده‌اید؟
                                 <a href="{{ route('client.register.mobile.form') }}" style="color: var(--primary-blue); text-decoration: none; font-weight: bold;">ثبت نام</a>
                             </p>
                         </div>
@@ -129,7 +129,6 @@
         <div id="email-tab" class="tab-pane {{ ($errors->has('email') || $errors->has('password')) ? 'active' : '' }}">
             <div class="verify-form-container">
                 <div class="verify-header">
-                    <h3 class="verify-title">ورود با ایمیل</h3>
                     <div class="create-description">با وارد کردن ایمیل و کلمه عبور خود وارد شوید.</div>
                 </div>
 
@@ -161,7 +160,7 @@
                                    placeholder="example@mail.com"
                                    required>
                         </div>
-                        @error('email')<span class="text-danger mt-1">{{ $message }}</span>@enderror
+                        {{-- @error('email')<span class="text-danger mt-1">{{ $message }}</span>@enderror --}}
                     </div>
 
                     <!-- Password Input -->
@@ -182,15 +181,14 @@
                         @error('password')<span class="text-danger mt-1">{{ $message }}</span>@enderror
                     </div>
 
-                    <a href="#" class="change-mobile-link" style="text-align: right;">فراموشی رمز عبور</a>
 
                     <button class="btn-primary" type="submit">ورود</button>
 
-                    <div class="create-terms-section">
-                        <p>یا با استفاده از حساب‌های اجتماعی وارد شوید:</p>
+                    <div class="create-terms-section mb-2" style="position: absolute;bottom: 10px;width:80%;">
                         <a href="{{ route('google.login') }}" class="btn-google">
                             <i class="fab fa-google"></i> ورود با گوگل
                         </a>
+                        <a href="#" class="change-mobile-link" style="text-align: right;">فراموشی رمز عبور</a>
                     </div>
                 </form>
             </div>
