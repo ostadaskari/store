@@ -1,6 +1,9 @@
 @extends('user.layouts.app')
 @section('style')
-
+    <style>
+        .original-price-strikethrough { text-decoration: line-through; color: #999; font-size: 0.85em; }
+        .badge-discount { background-color: #f8d7da; color: #721c24; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    </style>
 @endsection
 
 @section('content')
@@ -177,10 +180,7 @@
                         <div class="modal fade" id="invoiceModal-{{ $order->id }}" tabindex="-1" aria-labelledby="invoiceModalLabel-{{ $order->id }}" >
                             <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                                 <div class="modal-content">
-                                    <style>
-                                        .original-price-strikethrough { text-decoration: line-through; color: #999; font-size: 0.85em; }
-                                        .badge-discount { background-color: #f8d7da; color: #721c24; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
-                                    </style>
+
                                     <div class="modal-header justify-content-between">
                                         <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="بستن"></button>
                                         <h5 class="modal-title" id="invoiceModalLabel-{{ $order->id }}">فاکتور سفارش: #{{ $order->order_number }}</h5>
@@ -205,8 +205,8 @@
                                                             <p><strong>تاریخ ثبت:</strong> {{ jdate($order->created_at)->format('Y/m/d - H:i') }}</p>
                                                             <p><strong>وضعیت پرداخت:</strong>
                                                                 <span class="badge {{ $order->is_payment ? 'bg-success' : 'bg-danger' }}">
-                                {{ $order->is_payment ? 'پرداخت شده' : 'پرداخت نشده' }}
-                            </span>
+                                                                    {{ $order->is_payment ? 'پرداخت شده' : 'پرداخت نشده' }}
+                                                                </span>
                                                             </p>
                                                             <p><strong>روش پرداخت:</strong> {{ $order->payment_method == 'credit' ? 'آنلاین' : 'نقدی (COD)' }}</p>
                                                             <p><strong>وضعیت ارسال:</strong>
@@ -365,7 +365,7 @@
                     @endforeach
                 </div>
             </div>
-            <!--========= Delivered Order Section =========
+            <!--========= Delivered(COMPLETED) Order Section =========
             ===========================================-->
             <div id="delivered-order-detail" class="order-detail-content collapse orderDelivered inner-scroll" style="overflow: hidden;">
                 <div class="accordion accordion-flush" id="accordionFlushDelivered">
@@ -403,6 +403,11 @@
                                             </svg>
                                         </div>
                                         <div class="meta-item"><strong>ارسال از طریق:</strong><span>{{$order->shipping->name}}</span></div>
+                                        @if($order->status == 'completed')
+                                            <div class="meta-item">
+                                                <button class="btn btn-primary" id=""></button>
+                                            </div>
+                                        @endif
                                     </div>
 
                                     <div class="order-progress mt-4">
