@@ -6,7 +6,7 @@
 
 
     <!-- start banner -->
-    <div id="bannerCarousel" class="container carousel slide m-auto px-3" data-bs-ride="carousel" data-bs-interval="3000">
+    <div id="bannerCarousel" class="container carousel slide m-auto px-3 topPadd" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             @foreach ($banners as $index => $banner)
                 <a class="carousel-item {{ $index === 0 ? 'active' : '' }}" href="#">

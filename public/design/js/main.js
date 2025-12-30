@@ -43,17 +43,22 @@
 ================================== */
 // Function to close the ad banner
 function closeAd() {
+  // مخفی کردن بنر تبلیغاتی
   document.getElementById("adBanner").style.display = "none";
 
+  // تنظیم موقعیت هدرها
   document.querySelectorAll(".StoreHeader").forEach(function (el) {
     el.style.top = "0";
   });
 
-  if (window.innerWidth >= 992) {
-    document.getElementById("bannerCarousel").style.paddingTop = "145px";
-  } else {
-    document.getElementById("bannerCarousel").style.paddingTop = "60px";
-  }
+  // اعمال تغییرات روی کلاس topPadd
+  document.querySelectorAll(".topPadd").forEach(function (el) {
+    if (window.innerWidth >= 992) {
+      el.style.paddingTop = "145px";
+    } else {
+      el.style.paddingTop = "60px";
+    }
+  });
 }
 
 
