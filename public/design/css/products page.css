@@ -115,7 +115,7 @@
 }
 
 .topPadd{
-  padding-top: 170px;
+  padding-top: 180px;
 }
 /* Responsive Sidebar Behavior */
 @media (max-width: 768px) {
@@ -156,7 +156,7 @@
     right: 94%!important;
   }
   .topPadd{
-    padding-top: 70px;
+    padding-top: 102px;
   }
 }
 

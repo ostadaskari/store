@@ -1,69 +1,93 @@
 @extends('front.layouts.app')
 
 @section('content')
-    <div class="container row" style="padding-top:200px;">
-        <h3>سبد خرید</h3>
+    <div class="container topPadd mt-4 px-3">
+       <div class="row">
+            <div class="col-12 col-md-8">
+             <div class="d-flex align-items-center justify-content-between mb-3">
+                <h6 class="card-title m-0">سبد خرید شما</h6>
+             </div>   
+            <div id="cart-items-container">
+                @forelse ($cart as $item)
+                    <div class="styles_CartItem__grid__rZXPE border-bottom pb-4 mb-4" id="item-{{ $item->id }}">
+                        
+                        <div class="d-flex flex-column align-items-center justify-content-between">
+                            <a class="relative" href="#">
+                                <div style="width: 145px; height: 145px; line-height: 0;">
+                                    <img class="w-full inline-block" 
+                                        src="{{ $item->attributes->image }}" 
+                                        alt="{{ $item->name }}" 
+                                        style="object-fit: contain; width: 140px; height: 140px;">
+                                </div>
+                            </a>
+                            
+                            <div class="mt-1 d-flex align-items-center justify-content-between px-2 rounded border item-quantity_ItemQuantity__box__5r4FJ">
+                                <button class="btn btn-link p-0 qty-btn" data-id="{{ $item->id }}" data-type="plus">
+                                    <i class="fas fa-plus" style="font-size: 14px; color: var(--bs-primary);"></i>
+                                </button>
 
-       <div class="col-12 col-md-8">
-           <table class="table">
-               <thead class="table-success">
-               <tr>
-                   <th>محصول</th>
-                   <th>قیمت</th>
-                   <th>تعداد</th>
-                   <th>مجموع (تومان)</th>
-                   <th>حذف</th>
-               </tr>
-               </thead>
+                                <span class="d-flex flex-column align-items-center justify-content-between mx-3">
+                                    <span class="text-h5" id="qty-{{ $item->id }}">{{ $item->quantity }}</span>
+                                </span>
 
-               <tbody id="cart-body">
+                                <button class="btn btn-link p-0 qty-btn" data-id="{{ $item->id }}" data-type="minus">
+                                        <i class="fas fa-minus" style="font-size: 14px; color: var(--bs-primary);"></i>
+                                </button>
+                            </div>
+                        </div>
 
-               @forelse ($cart as $item)
-                   <tr id="item-{{ $item->id }}">
+                        <div class="overflow-x-hidden">
+                            <div>
+                                <h3 class="text-neutral-800 text-body1-strong mb-2" style="font-size: 1.1rem; font-weight: bold; color:#23254e;">
+                                    {{ $item->name }}
+                                </h3>
+                                
+                                <div class="d-flex align-items-center text-muted mb-1" style="font-size:12px;color:#62666d;">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    <span>گارانتی اصالت و سلامت فیزیکی</span>
+                                </div>
+                                
+                                <div class="d-flex align-items-center text-muted mb-2" style="font-size:12px;color:#62666d;">
+                                    <i class="fas fa-store me-2"></i>
+                                    <span>موجود در انبار</span>
+                                </div>
 
-                       <td>
-                           <img src="{{ $item->attributes->image }}" width="50">
-                           {{ $item->name }}
-                       </td>
+                                <div class="text-muted mb-3" style="font-size: 12px;color:#62666d;">
+                                    <i class="bi bi-tag-fill me-2"></i>
+                                    <span>{{ number_format($item->price) }} تومان</span>
+                                </div>
 
-                       <td>{{ number_format($item->price) }} تومان</td>
+                                <div class="d-flex align-items-center justify-content-between mt-5">
+                                    <div class="d-flex flex-column align-items-end">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="bi bi-substack"></i>
+                                            <span class="text-h4 fw-bold" id="line-total-{{ $item->id }}">
+                                                {{ number_format($item->price * $item->quantity) }}
+                                            </span>
+                                            <span style="font-size: 0.8rem; margin-right: 4px;">تومان</span>
+                                        </div>
+                                        
+                                        @if($item->quantity > 1)
+                                            <small class="text-muted" style="font-size: 0.75rem;">
+                                                مجموع برای {{ $item->quantity }} عدد
+                                            </small>
+                                        @endif
+                                    </div>
+                                    <button class="btn btn-sm text-danger cart-remove-page" data-id="{{ $item->id }}">
+                                        <i class="fas fa-trash-alt ml-1"></i> حذف
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5">
+                        <p>سبد خرید شما خالی است</p>
+                    </div>
+                @endforelse
+        </div>
 
-                       <td>
-                           <div class="d-flex align-items-center">
 
-                               <button class="btn btn-sm btn-light qty-btn" data-id="{{ $item->id }}" data-type="minus">−</button>
-
-                               <input
-                                   type="number"
-                                   id="qty-{{ $item->id }}"
-                                   class="form-control mx-2 text-center"
-                                   value="{{ $item->quantity }}"
-                                   min="1"
-                                   style="width:70px"
-                               >
-
-                               <button class="btn btn-sm btn-light qty-btn" data-id="{{ $item->id }}" data-type="plus">+</button>
-
-                           </div>
-                       </td>
-
-                       <td id="line-total-{{ $item->id }}">
-                           {{ number_format($item->price * $item->quantity) }}
-                       </td>
-
-                       <td>
-                           <button class="btn btn-danger cart-remove-page" data-id="{{ $item->id }}">×</button>
-                       </td>
-
-                   </tr>
-               @empty
-                   <tr><td colspan="5">سبد خرید خالی است</td></tr>
-               @endforelse
-
-               </tbody>
-           </table>
-
-           <h3 class="text-center mt-3">جمع کل: <span id="grand-total">{{ number_format($total) }}</span> تومان</h3>
 
        </div>
         <div class="col-12 col-md-4">
@@ -98,6 +122,7 @@
                 </div>
             </div>
         </div>
+       </div>
     </div>
 
 @endsection

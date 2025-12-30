@@ -13,3 +13,25 @@
     gap:0.5rem;
   
 }
+
+.styles_CartItem__grid__rZXPE {
+    display: grid;
+    grid-template-columns: 145px 1fr;
+    grid-column-gap: 16px;
+    grid-row-gap: 12px;
+    align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+.styles_CartItem__grid__rZXPE {
+        grid-column-gap: 24px;
+    }
+    }
+
+.item-quantity_ItemQuantity__box__5r4FJ {
+    border: 1px solid #e0e0e2;
+    padding: 4px 8px;
+    min-width: 90px;
+    }
+
+.qty-btn { text-decoration: none !important; }

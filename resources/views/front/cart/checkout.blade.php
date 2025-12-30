@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="container topPadd mt-4">
+    <div class="container topPadd mt-4 px-3">
         {{-- The entire checkout process is wrapped in a form for AJAX submission --}}
         <form id="checkoutForm" action="{{ route('checkout.place_order') }}" method="POST">
             @csrf
@@ -21,7 +21,7 @@
                     <section class="card shadow-sm bg-light mb-4">
                         <div class="card-body px-md-4 py-3">
                             <!-- Shipping options -->
-                            <div class="mt-4">
+                            <div>
                                 @foreach($shippings as $shipping)
                                     <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
                                         <input type="radio"
@@ -199,11 +199,12 @@
                                 <span class="shipping-cost">0 تومان</span>
                             </div>
                         </div>
-
+                        <!-- dividing line -->
+                            <hr class="my-2">
                         {{-- discount --}}
-                        <div class="d-flex justify-content-end flex-column mb-2">
+                        <div class="d-flex justify-content-center my-2">
                             <div class="input-group d-flex align-items-center">
-                                <span class="fw-bold fs-6" style="width: 25%;">کد تخفیف</span>
+                                <span style="width: 25%;font-size:16px;">کد تخفیف</span>
 
                                 <input type="text" id="discountCode" class="form-control py-2"
                                        placeholder="کد تخفیف خود را وارد کنید"
@@ -226,8 +227,7 @@
 
                     </div>
 
-                    <!-- dividing line -->
-                    <hr class="my-2">
+                    
 
                         <!-- dividing line -->
                         <hr class="my-2">
@@ -251,7 +251,7 @@
             <div class="row">
                 <div class="col-12 col-md-8 px-0">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="card-title m-0">شیوه پرداخت</h6>
+                        <h6 class="card-title m-0 mt-2">شیوه پرداخت</h6>
                     </div>
 
                 <!-- Payment Section -->
