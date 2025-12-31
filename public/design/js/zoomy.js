@@ -6,9 +6,11 @@
 
         if (!options) options = {};
         var maxVisibleThumbs = options.maxVisibleThumbs || 4; 
-        var isCarouselActive = urls.length > maxVisibleThumbs;
         
-        if (urls.length < 2) options.thumbHide = 1;
+        var isCarouselActive = urls.length > 1; 
+        
+        if (urls.length === 1) options.thumbHide = 1;
+
         if (options.height || options.width) {
             var st = (options.height) ? 'height:' + options.height + 'px;' : '';
             if (options.width) st += 'width:' + options.width + 'px;';
@@ -24,23 +26,16 @@
         h += '<img src="' + firstImage + '" /></span></div>';
 
         if (!options.thumbHide) {
-            var thumbClasses = 'zoom-thumb';
-            if (isCarouselActive) {
-                thumbClasses += ' owl-carousel owl-theme';
-            }
-            
+            var thumbClasses = 'zoom-thumb owl-carousel owl-theme';
             h += "<div class='" + thumbClasses + "'>";
             
             $.each(urls, function(i, url) {
                 var image = (thumbMode) ? url.image : url;
                 var thumb = (thumbMode) ? url.thumb : url;
                 
-                var itemWrapperStart = isCarouselActive ? "<div class='item'>" : "";
-                var itemWrapperEnd = isCarouselActive ? "</div>" : "";
-
-                h += itemWrapperStart; 
+                h += "<div class='item'>"; 
                 h += "<a class='zoom-click' data-url='" + image + "' data-index='" + i + "'><img src='" + thumb + "' /></a>";
-                h += itemWrapperEnd;
+                h += "</div>";
             });
             h += "</div>";
         }
@@ -53,7 +48,7 @@
                 rtl: true, 
                 loop: false,
                 margin: 5,
-                nav: true, 
+                nav: (urls.length > maxVisibleThumbs), 
                 dots: false, 
                 responsive:{
                     0:{
@@ -65,7 +60,6 @@
 
         this.on('mousemove', '.zoom-mousemove', function(e) {
             var zoomer = e.currentTarget;
-            
             var offsetX, offsetY;
             if (e.originalEvent && e.originalEvent.touches) {
                 offsetX = e.originalEvent.touches[0].pageX - $(zoomer).offset().left;
@@ -74,31 +68,23 @@
                 offsetX = e.offsetX;
                 offsetY = e.offsetY;
             }
-            
             if (typeof offsetX === 'undefined' || typeof offsetY === 'undefined') return;
-
             var x = offsetX / zoomer.offsetWidth * 100
             var y = offsetY / zoomer.offsetHeight * 100
-            
             zoomer.style.backgroundPosition = x + '% ' + y + '%';
         });
 
         var event = (options.thumbHover) ? 'mouseover' : 'click';
-        
         this.on(event, '.zoom-click', function(e) {
-            
             var $clickedElement = $(this);
             var main = $clickedElement.closest('.zoom').find('.zoom-main > span'); 
             var imageUrl = $clickedElement.attr('data-url');
-
-            if (isCarouselActive || event === 'click') {
+            if (event === 'click') {
                  e.preventDefault(); 
                  e.stopPropagation();
             }
-            
             $(main).css("background-image", "url(" + imageUrl + ")");
             $(main).find('img').attr('src', imageUrl);
-            
             $clickedElement.closest('.zoom-thumb').find('.zoom-click').removeClass('active');
             $clickedElement.addClass('active');
         });
