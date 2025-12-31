@@ -1,4 +1,4 @@
-  .product-card .pro {
+  .owl-products .product-card .pro {
     background-color: #fff;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -6,10 +6,9 @@
     flex-direction: column;
     position: relative;
     cursor: pointer;
-    margin:6px 1px;
-    border-radius: 2px;
+    border-radius: 0px;
+    margin: 10px 0;
   }
- 
   /* Hover effect for proegory */
   .product-card .pro:hover {
     box-shadow: 2px 2px 10px rgba(16, 16, 34, 0.26) !important;
@@ -41,21 +40,22 @@
   .product-card .pro .product-name {
     display: inline-block;
     font-size: 14px;
-    padding: 5px 15px;
-    white-space: nowrap;
+    padding: 5px 10px;
+    white-space: pre-line;
     overflow: hidden;
     text-align: left;
     position: relative;
-    margin-top: 30px;
-    max-width: 92%;
-    mask-image: linear-gradient(to left, transparent 2%, rgb(255, 255, 255) 40%);
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    mask-image: linear-gradient(to left, transparent 10%, rgb(255, 255, 255) 50%);
   }
   .product-card .pro .product-name:hover{
     mask-image: linear-gradient(to left, transparent 0%, white 0%);
   }
   .product-card .pro .product-name span {
     display: inline-block;
-    transform: translateX(50%);
+    transform: translateX(2%);
     transition: transform 10s linear;
   }
   .product-card .pro .product-name:hover span {
@@ -80,6 +80,7 @@
   rgb(255, 255, 255) 40%, 
   transparent 98%);
   overflow: hidden;
+  font-size: 13px;
 }
 
   /* Badge for star rating */
@@ -132,9 +133,8 @@
   }
 
   .product-card .pro .top img {
-    max-width: 85%;
+    width: 100%;
     max-height: 100%;
-    object-fit: contain;
   }
 
   .product-card .pro .down {
@@ -221,27 +221,40 @@
    .products-area .product-card .pro{
     margin: 10px;
    }
-   .product-card .pro .product-overlay {
+ .product-card .pro .product-overlay {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
-    background-color: rgba(73, 73, 73, 0.4);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    width: 20%;
     z-index: 10;
-    height: 47%;
-    width: 90%;
-    margin: 7px auto;
-  }
-  .product-card .pro:hover .product-overlay {
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(2px); 
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2); 
+    transform: translateX(0%); 
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: start;
+    padding-top: 20px;
+}
+.product-card .pro:hover .product-overlay {
+    transform: translateX(0); 
     opacity: 1;
-  }
+}
   .product-card .pro .product-overlay button {
     z-index: 11;
   }
-  
+  .btnSvg{
+    border:none;
+    background-color:transparent;
+  }
+  .wishlist-btn{
+    color:gray;
+  }
   /*========================================== 
               add style zoomy
   ==========================================*/

@@ -35,7 +35,7 @@
                 <span class="text-danger fw-bold fs-5">{{ number_format(\Cart::getSubTotal()) }} تومان</span>
             </div>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-secondary w-100" href="{{ route('cart.index') }}">مشاهده سبد</a>
+                <a class="btn btn-outline-secondary showBasket w-100" href="{{ route('cart.index') }}">مشاهده سبد</a>
                 <a class="btn btn-success w-100" href="{{ url('checkout') }}">تسویه حساب</a>
             </div>
         </li>

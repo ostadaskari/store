@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="container topPadd mt-4">
+    <div class="container topPadd mt-4 px-3">
         {{-- The entire checkout process is wrapped in a form for AJAX submission --}}
         <form id="checkoutForm" action="{{ route('checkout.place_order') }}" method="POST">
             @csrf
@@ -21,8 +21,7 @@
                     <section class="card shadow-sm bg-light mb-4">
                         <div class="card-body px-md-4 py-3">
                             <!-- Shipping options -->
-                            <div class="mt-4">
-
+                            <div>
                                 @foreach($shippings as $shipping)
                                     <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
                                         <input type="radio"
@@ -200,11 +199,12 @@
                                 <span class="shipping-cost">0 تومان</span>
                             </div>
                         </div>
-
+                        <!-- dividing line -->
+                            <hr class="my-2">
                         {{-- discount --}}
-                        <div class="d-flex justify-content-end flex-column mb-2">
+                        <div class="d-flex justify-content-center my-2">
                             <div class="input-group d-flex align-items-center">
-                                <span class="fw-bold fs-6" style="width: 25%;">کد تخفیف</span>
+                                <span style="width: 25%;font-size:16px;">کد تخفیف</span>
 
                                 <input type="text" id="discountCode" class="form-control py-2"
                                        placeholder="کد تخفیف خود را وارد کنید"
@@ -218,7 +218,7 @@
                             @endif
                         </div>
 
-                            <div id="discountMessage" class="mt-2 small text-danger"></div>
+                        <div id="discountMessage" class="mt-2 small text-danger"></div>
 
                         <div id="discountAmountDisplay"
                              class="mt-2 small text-success {{ session('cart.discount') ? '' : 'd-none' }}">
@@ -227,13 +227,7 @@
 
                     </div>
 
-
-
-
-                    <!-- dividing line -->
-                    <hr class="my-2">
-
-
+                    
 
                         <!-- dividing line -->
                         <hr class="my-2">
@@ -253,53 +247,53 @@
                 </div>
             </div>
 
-        <!-- Checkout Page -->
-        <div class="row">
-          <div class="col-12 col-md-8">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <h6 class="card-title m-0">شیوه پرداخت</h6>
-            </div>
+            <!-- Checkout Page -->
+            <div class="row">
+                <div class="col-12 col-md-8 px-0">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="card-title m-0 mt-2">شیوه پرداخت</h6>
+                    </div>
 
-                    <!-- Payment Section -->
-                    <section class="card shadow-sm mb-4">
-                        <div class="card-body px-4 py-3">
+                <!-- Payment Section -->
+                <section class="card shadow-sm mb-4">
+                    <div class="card-body px-4 py-3">
 
-                            <!-- Payment options -->
-                            <div class="mt-4">
-                                <!-- Online payment -->
-                                <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
-                                    <input type="radio" name="payment_method" value="credit" class="form-check-input mt-1 me-3" checked>
-                                    <div class="d-flex flex-grow-1">
-                                        <div class="me-3">
-                                            <svg  width="30" height="30" fill="#788fad" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
-                                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="fw-semibold mb-1 text-dark">پرداخت اینترنتی</p>
-                                            <p class="text-muted small mb-0">پرداخت آنلاین با تمامی کارت‌های بانکی</p>
-                                        </div>
+                        <!-- Payment options -->
+                        <div class="mt-4">
+                            <!-- Online payment -->
+                            <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
+                                <input type="radio" name="payment_method" value="credit" class="form-check-input mt-1 me-3" checked>
+                                <div class="d-flex flex-grow-1">
+                                    <div class="me-3">
+                                        <svg  width="30" height="30" fill="#788fad" class="bi bi-credit-card-fill" viewBox="0 0 16 16">
+                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
+                                        </svg>
                                     </div>
-                                </label>
-
-                                <!-- cash on delivery-->
-                                <label class="d-flex align-items-start py-3 cursor-pointer border-bottom">
-                                    <input type="radio" name="payment_method" value="cash" class="form-check-input mt-1 me-3">
-                                    <div class="d-flex flex-grow-1">
-                                        <div class="me-3">
-                                            <svg  width="30" height="30" fill="#788fad" class="bi bi-truck" viewBox="0 0 16 16">
-                                                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="fw-semibold mb-1 text-dark">پرداخت در محل </p>
-                                            <p class="text-muted small mb-0">پرداخت درب منزل یا محل کار شما</p>
-                                        </div>
+                                    <div>
+                                        <p class="fw-semibold mb-1 text-dark">پرداخت اینترنتی</p>
+                                        <p class="text-muted small mb-0">پرداخت آنلاین با تمامی کارت‌های بانکی</p>
                                     </div>
-                                </label>
-                            </div>
+                                </div>
+                            </label>
+
+                            <!-- cash on delivery-->
+                            <label class="d-flex align-items-start py-3 cursor-pointer">
+                                <input type="radio" name="payment_method" value="cash" class="form-check-input mt-1 me-3">
+                                <div class="d-flex flex-grow-1">
+                                    <div class="me-3">
+                                        <svg  width="30" height="30" fill="#788fad" class="bi bi-truck" viewBox="0 0 16 16">
+                                            <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="fw-semibold mb-1 text-dark">پرداخت در محل </p>
+                                        <p class="text-muted small mb-0">پرداخت درب منزل یا محل کار شما</p>
+                                    </div>
+                                </div>
+                            </label>
                         </div>
-                    </section>
+                    </div>
+                </section>
                 </div>
             </div>
         </form>

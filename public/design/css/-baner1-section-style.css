@@ -1,6 +1,6 @@
-#bannerCarousel{
+/* #bannerCarousel{
 padding-top:185px;
-}
+} */
 .carousel-item{
   cursor: pointer;
 }
@@ -54,7 +54,7 @@ left: 2%;
 /* Mobile responsiveness for bgImg-header */
 @media (max-width: 767.98px) {
   #bannerCarousel{
-    padding-top:75px;
+    /* padding-top:75px; */
     padding-left:0 !important;
     padding-right: 0!important;
   }
