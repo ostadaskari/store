@@ -3,6 +3,7 @@
 namespace App\Models\Warehouse;
 
 use App\Models\ProductSeo;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -110,6 +111,16 @@ class Product extends Model
             'product_id',
             'user_id'
         )->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function approvedReviews()
+    {
+        return $this->hasMany(Review::class)->where('status', 'approved');
     }
 
 

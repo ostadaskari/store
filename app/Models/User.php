@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Warehouse\Product;
 use Carbon\Carbon;
@@ -140,6 +141,18 @@ class User extends Authenticatable implements MustVerifyEmail
             'user_id',
             'product_id'
         )->withTimestamps();
+    }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes ) => sprintf('%s %s', $attributes['name'], $attributes['family']),
+        )->shouldCache(); // // استفاده از cache برای بهبود عملکرد در صورت فراخوانی مکرر
     }
 
 

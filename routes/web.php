@@ -19,6 +19,8 @@ use App\Http\Controllers\Front\LocationController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
 use App\Http\Controllers\Front\UserAddressController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserInvoiceController;
 use App\Http\Controllers\User\UserOrderController;
@@ -60,6 +62,12 @@ Route::middleware('user')->group(callback: function(){
 
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
+    // Review
+    Route::post('/reviews', [ReviewController::class, 'storeOrUpdate'])->name('user.reviews.store');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('user.reviews.destroy');
+
+
+
 });
 
 Route::middleware('admin')->group(callback: function(){
@@ -95,8 +103,7 @@ Route::middleware('admin')->group(callback: function(){
     Route::post('/admin/prices/save', [PriceController::class, 'saveProductPrice'])->name('admin.prices.saveProduct');
 
     Route::get('/admin/discounts/search', [DiscountController::class, 'ajaxSearch'])->name('admin.discounts.ajaxSearch');
-    Route::resource('/admin/discounts', DiscountController::class)
-        ->names('admin.discounts');
+    Route::resource('/admin/discounts', DiscountController::class)->names('admin.discounts');
 
     Route::get('/admin/shippings', [ShippingController::class, 'index'])->name('admin.shippings.index');
     Route::post('/admin/shippings', [ShippingController::class, 'store'])->name('admin.shippings.store'); // create
@@ -112,6 +119,14 @@ Route::middleware('admin')->group(callback: function(){
     Route::get('admin/customers',[CustomerController::class,'list'])->name('admin.customers.list');
     Route::get('admin/customers/{userId}/addresses', [CustomerController::class, 'showAddresses'])->name('admin.customers.addresses');
     Route::get('/admin/customers/delete/{id}',[CustomerController::class,'delete'])->name('admin.customers.delete');
+
+
+    Route::get('/admin/reviews', [AdminReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::post('/admin/reviews/update-status', [AdminReviewController::class, 'updateStatus'])->name('admin.reviews.updateStatus');
+    Route::delete('/admin/reviews/{id}', [AdminReviewController::class, 'destroy'])->name('admin.user.reviews.destroy');
+    Route::post('/admin/reviews/reply', [AdminReviewController::class, 'reply'])->name('admin.reviews.reply');
+    Route::delete('/admin/reviews/{id}/reply', [AdminReviewController::class, 'deleteReply'])->name('admin.reviews.reply.delete');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

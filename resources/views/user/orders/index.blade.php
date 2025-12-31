@@ -365,15 +365,17 @@
                     @endforeach
                 </div>
             </div>
+
+
             <!--========= Delivered(COMPLETED) Order Section =========
             ===========================================-->
+
             <div id="delivered-order-detail" class="order-detail-content collapse orderDelivered inner-scroll" style="overflow: hidden;">
                 <div class="accordion accordion-flush" id="accordionFlushDelivered">
                     @foreach($user_orders_complete as $order)
                         <!-- item (Order ID: {{ $order->id }}) -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                {{-- Dynamic target for Accordion --}}
                                 <button class="accordion-button collapsed"
                                         type="button"
                                         data-bs-toggle="collapse"
@@ -385,7 +387,7 @@
                                     <div class="meta-item"><strong>مبلغ سفارش:</strong><span> {{number_format($order->total_amount)}} تومان</span></div>
                                 </button>
                             </h2>
-                            {{-- Dynamic ID for Accordion Content (FIXED ID to be unique per loop) --}}
+
                             <div id="flush-collapse-delivered-{{ $order->id }}"
                                  class="accordion-collapse collapse"
                                  data-bs-parent="#accordionFlushDelivered">
@@ -394,24 +396,28 @@
                                         <div class="meta-item"><strong>شماره سفارش:</strong><span>{{$order->order_number}}</span></div>
                                         <div class="meta-item"><strong>تاریخ سفارش:</strong><span>{{ jdate($order->created_at)->format('%A، %d %B %Y') }}</span></div>
                                         <div class="meta-item"><strong>مبلغ سفارش:</strong><span> {{number_format($order->total_amount)}} تومان</span></div>
-                                        {{--                                                <div class="meta-item"><strong>سریال پیگیری:</strong><span>142536695847</span></div>--}}
+
                                         <div class="meta-item d-flex align-items-center gap-2">
                                             <strong>شماره پیگیری پستی:</strong>
-                                            <span class="trackingCode">71000123654789001235</span>
-                                            <svg width="16" height="16" fill="currentColor" class="bi bi-copy copy-icon" viewBox="0 0 16 16" role="button" style="cursor: pointer;">
+                                            <span class="trackingCode">{{ $order->tracking_number ?? '۷۱۰۰۰۱۲۳۶۵۴۷۸۹۰۰۱۲۳۵' }}</span>
+                                            <svg width="16" height="16" fill="currentColor" class="bi bi-copy copy-icon" viewBox="0 0 16 16" role="button" style="cursor: pointer;" onclick="copyToClipboard('{{ $order->tracking_number ?? '71000123654789001235' }}')">
                                                 <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
                                             </svg>
                                         </div>
-                                        <div class="meta-item"><strong>ارسال از طریق:</strong><span>{{$order->shipping->name}}</span></div>
-                                        @if($order->status == 'completed')
-                                            <div class="meta-item">
-                                                <button class="btn btn-primary" id=""></button>
-                                            </div>
-                                        @endif
+                                        <div class="meta-item"><strong>ارسال از طریق:</strong><span>{{$order->shipping->name ?? 'نامشخص'}}</span></div>
+
+                                        <div class="meta-item"><strong>جزییات سفارش و ثبت نظر:</strong>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#invoiceModal-completed-{{ $order->id }}" style="font-size: 14px;">
+                                                <svg width="25" height="25" fill="currentColor" class="bi bi-ticket-detailed" viewBox="0 0 16 16">
+                                                    <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M5 7a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2z"/>
+                                                    <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6zM1.5 4a.5.5 0 0 0-.5.5v1.05a2.5 2.5 0 0 1 0 4.9v1.05a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-1.05a2.5 2.5 0 0 1 0-4.9V4.5a.5.5 0 0 0-.5-.5z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div class="order-progress mt-4">
-                                        <div class="progress">
+                                        <div class="progress" style="height: 12px;">
                                             <div class="progress-bar bg-success progress-bar-striped"
                                                  role="progressbar"
                                                  style="width: 100%;">
@@ -421,16 +427,206 @@
                                     </div>
 
                                     <div class="mt-3 text-success">
-                                        {{-- Using the order number instead of a generic ID message --}}
                                         سفارش شماره <strong>{{ $order->order_number }}</strong> با موفقیت تحویل داده شده است. از خرید شما سپاسگزاریم 🌟
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- end itme -->
+
+                        <!--======== DYNAMIC MODAL FOR COMPLETED INVOICE ===============-->
+                        <div class="modal fade" id="invoiceModal-completed-{{ $order->id }}" tabindex="-1" aria-labelledby="invoiceLabel-completed-{{ $order->id }}" >
+                            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header justify-content-between">
+                                        <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="بستن"></button>
+                                        <h5 class="modal-title" id="invoiceLabel-completed-{{ $order->id }}">فاکتور نهایی سفارش: #{{ $order->order_number }}</h5>
+                                    </div>
+                                    <div class="modal-body pt-0">
+                                        <div class="container-fluid py-3" dir="rtl">
+                                            <div class="seven mt-3">
+                                                <h1>جزئیات فاکتور تحویل شده</h1>
+                                                <p class="text-muted" style="font-size: 0.9rem;">این سفارش در تاریخ {{ jdate($order->updated_at)->format('%d %B %Y') }} با موفقیت تکمیل شده است.</p>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4 mb-2">
+                                                    <div class="card shadow-sm h-100">
+                                                        <div class="card-header bg-success text-white">خلاصه نهایی</div>
+                                                        <div class="card-body">
+                                                            <p><strong>تاریخ ثبت:</strong> {{ jdate($order->created_at)->format('Y/m/d') }}</p>
+                                                            <p><strong>وضعیت:</strong> <span class="badge bg-success">تکمیل شده</span></p>
+                                                            <p><strong>روش پرداخت:</strong> {{ $order->payment_method == 'credit' ? 'آنلاین' : 'نقدی' }}</p>
+                                                            <p><strong>مبلغ کل:</strong> {{ number_format($order->total_amount) }} تومان</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-lg-8 mb-2">
+                                                    <div class="card shadow-sm h-100">
+                                                        <div class="card-header bg-info text-white">اطلاعات تحویل</div>
+                                                        <div class="card-body">
+                                                            @if($order->address)
+                                                                <p><strong>گیرنده:</strong> {{ $order->address->first_name }} {{ $order->address->last_name }}</p>
+                                                                <p><strong>آدرس:</strong> {{ $order->address->province }}، {{ $order->address->city }}، {{ $order->address->address }}</p>
+                                                                <p><strong>کد پستی:</strong> {{ $order->address->post_code }}</p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mt-3">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered text-center">
+                                                            <thead class="table-light">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>محصول</th>
+                                                                <th>قیمت واحد</th>
+                                                                <th>تعداد</th>
+                                                                <th>تخفیف</th>
+                                                                <th>جمع نهایی</th>
+                                                                <th>نظرات</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($order->items as $item)
+                                                                <tr>
+                                                                    <td>{{ $loop->iteration }}</td>
+                                                                    <td>{{ $item->product->part_number ?? 'محصول' }}</td>
+                                                                    <td>{{ number_format($item->price) }}</td>
+                                                                    <td>{{ $item->quantity }}</td>
+                                                                    <td>{{ $item->discount_percent }}%</td>
+                                                                    <td>{{ number_format($item->total_price) }}</td>
+                                                                    <td>
+                                                                        @php
+                                                                            $existingReview = \App\Models\Review::where('user_id', auth()->id())
+                                                                                ->where('product_id', $item->product_id)
+                                                                                ->where('order_id', $order->id)
+                                                                                ->first();
+                                                                        @endphp
+
+                                                                        @if(!$existingReview || $existingReview->status == 'pending')
+                                                                            <!-- This button now targets the modal outside this div -->
+                                                                            <button class="btn btn-sm btn-outline-primary"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#reviewModal-{{ $item->id }}">
+                                                                                {{ $existingReview ? 'ویرایش نظر' : 'ثبت نظر' }}
+                                                                            </button>
+                                                                        @else
+                                                                            <span class="badge bg-success">نظر تایید شده</span>
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr class="fw-bold">
+                                                                <td colspan="5" class="text-end">هزینه ارسال:</td>
+                                                                <td>{{ number_format($order->shipping_amount) }}</td>
+                                                            </tr>
+                                                            <tr class="table-primary fw-bold">
+                                                                <td colspan="5" class="text-end">مبلغ کل پرداختی:</td>
+                                                                <td>{{ number_format($order->total_amount) }} تومان</td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                                        <button type="button" class="btn btn-info text-white" onclick="printModal('invoiceModal-completed-{{ $order->id }}')">
+                                            <svg width="20" height="20" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                                                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                                                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
+                                            </svg>
+                                            چاپ فاکتور
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--======== REVIEW MODALS MOVED HERE (OUTSIDE INVOICE MODAL) ===============-->
+                        @foreach($order->items as $item)
+                            @php
+                                $existingReview = \App\Models\Review::where('user_id', auth()->id())
+                                    ->where('product_id', $item->product_id)
+                                    ->where('order_id', $order->id)
+                                    ->first();
+                            @endphp
+
+                            <div class="modal fade " id="reviewModal-{{ $item->id }}" tabindex="-1" aria-hidden="true" style="z-index: 1060;" dir="rtl">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content shadow-lg border-0">
+                                        <form action="{{ route('user.reviews.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+
+                                            <div class="modal-header bg-light">
+                                                <h6 class="modal-title">ثبت نظر برای {{ $item->product->part_number }}</h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">متن نظر:</label>
+                                                    <textarea name="comment" class="form-control" rows="4"
+                                                              placeholder="تجربه خرید خود را بنویسید..." required>{{ $existingReview->comment ?? '' }}</textarea>
+                                                </div>
+
+                                                @if($existingReview)
+                                                    <div class="alert {{ $existingReview->status == 'pending' ? 'alert-warning' : 'alert-success' }} py-2 mb-0" style="font-size: 12px;">
+                                                        <i class="fas fa-info-circle me-1"></i>
+                                                        وضعیت:
+                                                        {{ $existingReview->status == 'pending' ? 'در انتظار تایید مدیریت' : 'تایید شده و در حال نمایش' }}
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="modal-footer justify-content-between bg-light">
+                                                <div>
+                                                    {{-- Only show delete button if review exists and is still pending --}}
+                                                    @if($existingReview && $existingReview->status == 'pending')
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                                onclick="if(confirm('آیا از حذف این نظر اطمینان دارید؟')) document.getElementById('delete-review-{{ $existingReview->id }}').submit();">
+                                                            <i class="fas fa-trash-alt me-1"></i> حذف نظر
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">انصراف</button>
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        {{ $existingReview ? 'ویرایش نظر' : 'ثبت نظر' }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        {{-- Hidden Delete Form --}}
+                                        @if($existingReview && $existingReview->status == 'pending')
+                                            <form id="delete-review-{{ $existingReview->id }}"
+                                                  action="{{ route('user.reviews.destroy', $existingReview->id) }}"
+                                                  method="POST"
+                                                  class="d-none">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     @endforeach
                 </div>
+
+
             </div>
+
+
             <!--========= Returned Order Section =========
             ===========================================-->
             <div id="returned-order-detail" class="order-detail-content collapse orderReturned inner-scroll" style="overflow: hidden;">
@@ -529,6 +725,26 @@
                     });
                 });
             });
+        });
+    </script>
+    <script>
+        // Helper function for printing modals
+        function printModal(modalId) {
+            var modalContent = document.getElementById(modalId).querySelector('.modal-body').innerHTML;
+            var originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = "<div dir='rtl'>" + modalContent + "</div>";
+            window.print();
+            document.body.innerHTML = originalContent;
+            window.location.reload(); // Reload to restore JS listeners
+        }
+    </script>
+    <script>
+        // JS Fix for nested modals scrolling issue
+        document.addEventListener('hidden.bs.modal', function (event) {
+            if (document.querySelectorAll('.modal.show').length > 0) {
+                document.body.classList.add('modal-open');
+            }
         });
     </script>
 @endsection

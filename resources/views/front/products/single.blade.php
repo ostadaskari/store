@@ -533,9 +533,43 @@
                                 <div class="col-12">
                                     <section class="container px-0">
                                         <div class="">
-                                            <div class="img-send-messege border-bottom">
-                                                <img class="img-fluid" src="{{ asset('design/image/review.svg') }}" alt="">
-                                            </div>
+                                            @forelse($product->approvedReviews as $review)
+                                                <div class="review-item p-3 mb-2 border-bottom">
+                                                    <!-- اطلاعات کاربر و تاریخ -->
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="user-info">
+                                                            <i class="bi bi-person-circle me-1 text-secondary"></i>
+                                                            <strong>{{ $review->user->full_name ?? 'کاربر مهمان' }}</strong>
+                                                        </div>
+                                                        <small class="text-muted">{{ jdate($review->created_at)->format('%d %B %Y') }}</small>
+                                                    </div>
+
+                                                    <!-- متن نظر کاربر -->
+                                                    <div class="user-comment mt-2">
+                                                        <p class="mb-0 text-dark" style="line-height: 1.8;">{{ $review->comment }}</p>
+                                                    </div>
+
+                                                    <!-- بخش پاسخ مدیر (فقط در صورت وجود نمایش داده می‌شود) -->
+                                                    @if($review->admin_reply)
+                                                        <div class="admin-reply mt-3 p-3 bg-light rounded-3 border-start border-4 border-info">
+                                                            <div class="d-flex align-items-center mb-2">
+                                                                <i class="bi bi-reply-all-fill me-2 text-info"></i>
+                                                                <strong class="text-info small">پاسخ مدیریت:</strong>
+                                                            </div>
+                                                            <p class="mb-0 small text-secondary" style="line-height: 1.7;">
+                                                                {{ $review->admin_reply }}
+                                                            </p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @empty
+                                                <div class="text-center py-4">
+                                                    <p class="text-muted">هنوز نظری برای این محصول ثبت نشده است.</p>
+                                                    <div class="img-send-messege mt-3">
+                                                        <img class="img-fluid" style="max-width: 150px; opacity: 0.6;" src="{{ asset('design/image/review.svg') }}" alt="بدون نظر">
+                                                    </div>
+                                                </div>
+                                            @endforelse
                                             <div class="card-body my-4">
                                                 <form>
                                                     <div class="d-flex flex-row">
@@ -630,21 +664,6 @@
                 // Fallback if no images are found
                 $('#el').html('<p class="text-muted">تصویری موجود نیست.</p>');
             }
-
-
-            // 2. ACTION COLUMN LOGIC (UNCHANGED)
-            // heart click
-            const likeBtn = document.getElementById("like-button");
-            const icon = likeBtn.querySelector("i");
-
-            likeBtn.addEventListener("click", function () {
-                icon.classList.toggle("bi-heart");
-                icon.classList.toggle("bi-heart-fill");
-                icon.style.color = icon.classList.contains("bi-heart-fill") ? "red" : "inherit";
-                // TODO: Add AJAX call here to save to favorites
-            });
-
-            // ... (You would keep your existing share and notify modal JavaScript here) ...
 
         });
         // heart click
