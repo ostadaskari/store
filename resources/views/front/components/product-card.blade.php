@@ -11,9 +11,13 @@
 
 
 @endphp
-
+<audio id="hoverSound"
+        src="{{asset('design/sound/2568-preview.mp3') }}"
+        preload="auto">
+    </audio>
 <div class="col-12 col-md-3 px-2 product-card my-2">
-    <div class="pro position-relative"> {{-- Container for everything --}}
+    
+    <div class="pro position-relative hover-card"> {{-- Container for everything --}}
 
         {{-- 1. Wishlist Heart (OUTSIDE the main link to avoid nesting) --}}
          {{-- Hover Overlay --}}
@@ -44,13 +48,7 @@
         {{-- 2. Main Product Link --}}
         <a href="{{ route('front.product.show', ['category' => $product->category->slug, 'product' => $product->slug]) }}" class="text-decoration-none">
 
-            {{-- Discount Badge --}}
-            @if($priceModel && $priceModel->discount_percent > 0)
-                <div class="position-absolute top-0 start-0 m-2 badge bg-danger text-white shadow-sm"
-                     style="z-index: 10; border-radius: 50px; padding: 5px 10px;">
-                    {{ round($priceModel->discount_percent) }}%
-                </div>
-            @endif
+            
 
             {{-- Image --}}
             <div class="top">
@@ -69,18 +67,43 @@
                 </p>
 
                 <div class="final-price-div mb-2">
+
                     @if($display)
+
+                        {{-- Row: final price + discount badge --}}
+                        <div class="d-flex align-items-center justify-content-between gap-2 w-100">
+
+                            <span class="fw-bold text-dark" style="font-size: 14px;">
+                                {{ number_format($display) }}
+                                <span>تومان</span>
+                            </span>
+
+                            @if($priceModel && $priceModel->discount_percent > 0)
+                                <span class="badge bg-danger text-white shadow-sm"
+                                    style="border-radius: 50px; padding: 5px 10px;">
+                                    {{ round($priceModel->discount_percent) }}%
+                                </span>
+                            @endif
+
+                        </div>
+
+                        {{-- Old price (under row) --}}
                         @if($priceModel && $priceModel->discount_percent > 0)
-                            @php $oldPrice = $display / (1 - ($priceModel->discount_percent / 100)); @endphp
-                            <small class="text-muted text-decoration-line-through d-block">
-                                {{ number_format($oldPrice) }}
-                            </small>
+                            @php
+                                $oldPrice = $display / (1 - ($priceModel->discount_percent / 100));
+                            @endphp
+                            <div class="text-muted text-decoration-line-through"
+                                style="font-size:13px;">
+                                {{ number_format($oldPrice) }} تومان
+                            </div>
                         @endif
-                        <span class="fw-bold text-dark">{{ number_format($display) }} تومان</span>
+
                     @else
                         <span class="text-muted">قیمت ثبت نشده</span>
                     @endif
+
                 </div>
+
 
                 <div class="box">
                     <div class="text-danger Quantity-stock">
@@ -101,3 +124,4 @@
 
 
 </div>
+

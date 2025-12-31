@@ -513,7 +513,20 @@ $(document).on('click', '.wishlist-btn', function () {
 
 // ========================== end add to wishlist
 
+const sound = document.getElementById('hoverSound');
+let soundEnabled = false;
 
+// اولین تعامل واقعی کاربر
+document.addEventListener('click', () => {
+  soundEnabled = true;
+}, { once: true });
 
+document.addEventListener('mouseover', e => {
+  if (!soundEnabled) return;
 
+  const card = e.target.closest('.hover-card');
+  if (!card) return;
 
+  sound.currentTime = 0;
+  sound.play();
+});
