@@ -366,9 +366,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     const lineTotal = document.getElementById(`line-total-${id}`);
                     const qtyDisplay = document.getElementById(`qty-${id}`);
-                    
+
                     if (lineTotal) lineTotal.innerText = new Intl.NumberFormat().format(data.line_total);
-                    
+
                     if (qtyDisplay) {
                         if (qtyDisplay.tagName === 'INPUT') {
                             qtyDisplay.value = qty;
@@ -530,3 +530,91 @@ document.addEventListener('mouseover', e => {
   sound.currentTime = 0;
   sound.play();
 });
+
+// ==============    add to cart (increment in product-card.blade.php) ======================
+// --- Initialize Swal Toast Configuration ---
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
+// --- Main Quick Add Logic ---
+$(document).on('submit', '.quick-add-form', function(e) {
+    e.preventDefault();
+
+    const $form = $(this);
+    const url = $form.attr('action');
+    const $btn = $form.find('.quick-add-btn');
+    const originalHtml = $btn.html();
+
+    // Disable button to prevent double-clicks
+    $btn.prop('disabled', true).addClass('opacity-50');
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: $form.serialize(),
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                // 1. Update Global Header Info
+                if (response.count_html) $('#header-cart-count-container').html(response.count_html);
+                if (response.list_html) $('#header-cart-list-container').html(response.list_html);
+
+                // 2. Play the sound
+                const sound = document.getElementById('hoverSound');
+                if(sound) {
+                    sound.currentTime = 0;
+                    sound.play().catch(() => {});
+                }
+
+                // 3. Re-init Bootstrap Dropdowns
+                if (typeof bootstrap !== 'undefined') {
+                    const cartBtn = document.getElementById('cartBtn');
+                    if (cartBtn) {
+                        const existingInstance = bootstrap.Dropdown.getInstance(cartBtn);
+                        if (existingInstance) existingInstance.dispose();
+                        new bootstrap.Dropdown(cartBtn);
+                    }
+                }
+
+                // 4. Swal Toast Success
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message || 'به سبد خرید اضافه شد',
+                    direction: 'rtl'
+                });
+
+                // Update button temporarily
+                $btn.html('<i class="bi bi-check-lg text-white"></i>');
+            }
+        },
+        error: function(xhr) {
+            let message = 'خطایی رخ داد.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                message = xhr.responseJSON.message;
+            }
+
+            // Swal Toast Error
+            Toast.fire({
+                icon: 'error',
+                title: message,
+                direction: 'rtl'
+            });
+        },
+        complete: function() {
+            setTimeout(() => {
+                $btn.prop('disabled', false).removeClass('opacity-50').html(originalHtml);
+            }, 1500);
+        }
+    });
+});
+
+// ============== end   add to cart (increment in product-card.blade.php)  end ======================
