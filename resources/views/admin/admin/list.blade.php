@@ -7,7 +7,7 @@
     </div>
     <div class="card mb-4 p-3">
         <div class="card-header row justify-between-end">
-            
+
             <div class="col-12 px-0">
                 <a href="{{ url('admin/admin/add') }}" class="btn btn-primary">
                     <svg width="20" height="20" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -18,7 +18,7 @@
             </div>
 
         </div>
-        @include('admin.layouts._message')
+{{--        @include('admin.layouts._message')--}}
         <!-- /.card-header -->
         <div class="table-responsive border shadow-sm rounded bg-white" style="max-height:66vh; overflow-y: auto;" dir="ltr">
             <table class="table table-hover table-striped align-middle mb-0 text-center" dir="rtl" role="table">

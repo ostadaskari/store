@@ -249,7 +249,7 @@
 </script>
 
 <!-- js -->
-<script defer src="{{asset('design/js/main.js')}}"></script>
+<script src="{{asset('design/js/main.js')}}"></script>
 @yield('script')
 
 <!-- SweetAlert2 -->

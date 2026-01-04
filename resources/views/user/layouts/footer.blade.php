@@ -222,22 +222,18 @@
 
 
 <!-- FontAwesome -->
-<script defer src="https://kit.fontawesome.com/8202e17769.js" crossorigin="anonymous"></script>
+<script defer src="{{asset('design/js/kit.fontawesome.js')}}" crossorigin="anonymous"></script>
 
 <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<!--*********** loading ***********-->
-
-<!--*********** Ends ***********-->
+<script src="{{asset('design/js/jquery-3.7.1.min.js')}}"></script>
 
 <!-- Bootstrap 5 -->
-<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script defer src="{{asset('design/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- Owl Carousel -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{{asset('design/js/owl.carousel.min.js')}}"></script>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{{asset('design/js/aos.js')}}"></script>
 <script>
     AOS.init({
         // تنظیمات دلخواه (اختیاری)
@@ -247,12 +243,13 @@
 </script>
 
 <!-- js -->
-<script defer src="{{url('design/js/main.js')}}"></script>
-<script defer src="{{url('design/js/userAccount.js')}}"></script>
-@yield('script')
 
 <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{asset('design/js/sweetalert2.all.min.js')}}"></script>
+
+<script src="{{asset('design/js/main.js')}}"></script>
+@yield('script')
+
 @include('front.layouts.swal')
 </body>
 

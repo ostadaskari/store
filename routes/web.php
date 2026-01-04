@@ -131,6 +131,8 @@ Route::middleware('admin')->group(callback: function(){
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
 Route::get('/category/{slug}',[FrontCategoryController::class,'show'])->name('category.show');
 
 // AJAX update route (must be OUTSIDE prefix!)
@@ -154,6 +156,7 @@ Route::prefix('cart')->group(function () {
     Route::post('/coupon/remove', [CartCouponController::class, 'remove'])->name('cart.coupon.remove');
 
 });
+
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('checkout/place_order', [CartController::class, 'place_order'])->name('checkout.place_order');
 Route::get('checkout/payment', [CartController::class, 'checkout_payment']);

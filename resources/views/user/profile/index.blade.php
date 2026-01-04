@@ -118,7 +118,7 @@
         </form>
         <!-- End Edit User Info -->
 
-        <!-- 4. Address Management (Accordion Style) - NEW SECTION -->
+        <!--  Address Management (Accordion Style) - NEW SECTION -->
         <h2 class="text-title d-flex flex-row align-items-center mt-4">
             <svg width="22" height="22" fill="currentColor" class="bi bi-pin-map mx-2" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
@@ -135,11 +135,11 @@
 
             <div class="d-flex justify-content-between align-items-center mb-3 pt-3 border-top">
                 <button id="btnNew-address" class="btn btn-primary btn-sm"
-                        type="button" data-bs-toggle="collapse" data-bs-target="#new-address-form-container"
+                        type="button"  data-bs-target="#new-address-form-container"
                         aria-expanded="false" aria-controls="new-address-form-container">
                     + افزودن آدرس جدید
                 </button>
-                <small id="address-limit-text" class="text-muted">شما می‌توانید تا ۴ آدرس را ثبت کنید. (ثبت شده: ۰)</small>
+                <small id="address-limit-text" class="text-muted">شما می‌توانید تا ۴ آدرس را ثبت کنید.</small>
             </div>
 
             <!-- New Address Form (The collapsible part) -->
@@ -332,8 +332,6 @@
     </div>
 
 
-
-
 @endsection
 
 @section('script')
@@ -344,8 +342,23 @@
 
     <script>
         $(document).ready(function () {
+            let IRAN_LOCATIONS = {};
             let userAddresses = [];
             let currentEditId = null;
+
+
+            // --- Swal Toast Config ---
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
 
             // CSRF Setup
             $.ajaxSetup({
@@ -357,30 +370,26 @@
             /* =========================
                HELPERS
             ========================= */
-            function showFeedback(message, type) {
-                const feedback = $('#ajax-feedback');
-                $('#feedback-message').text(message);
-                feedback
-                    .removeClass('alert-success alert-danger')
-                    .addClass(`alert-${type}`)
-                    .fadeIn();
-
-                setTimeout(() => feedback.fadeOut(), 5000);
+            function showFeedback(message, type = 'success') {
+                Toast.fire({
+                    icon: type === 'danger' ? 'error' : type,
+                    title: message,
+                    direction: 'rtl'
+                });
             }
 
             function clearFormErrors(form) {
-                form.find('.text-danger').text('').hide();
-                form.find('input, select, textarea').each(function () {
-                    $(this).removeClass('is-invalid');
-                });
+                form.find('.text-danger').text('').addClass('d-none');
+                form.find('input, select, textarea').removeClass('is-invalid');
             }
 
             function displayErrors(form, errors) {
                 clearFormErrors(form);
                 $.each(errors, function (key, value) {
-                    const errorEl = form.find(`.${key}-error`);
+                    // Find error element by class (e.g., .address-mobile-error)
+                    const errorEl = form.find(`.address-${key}-error, .${key}-error`);
                     if (errorEl.length) {
-                        errorEl.text(value[0]).show();
+                        errorEl.text(value[0]).removeClass('d-none').show();
                     }
                     const inputEl = form.find(`[name="${key}"]`);
                     if (inputEl.length) {
@@ -534,24 +543,117 @@
             /* =========================
                ADDRESS MANAGEMENT
             ========================= */
+            // --- 1. Global Variables ---
+
+            function fetchIranLocations(selectedProvince = null, selectedCity = null) {
+                const $provinceSelect = $('#provinceSelect');
+                $provinceSelect.empty().append('<option value="" selected disabled>در حال بارگذاری...</option>');
+
+                $.ajax({
+                    url: "{{ route('api.iran.locations') }}",
+                    type: "GET",
+                    success: function (res) {
+                        if (res.status && res.locations) {
+                            IRAN_LOCATIONS = res.locations;
+                            loadProvinces(selectedProvince, selectedCity);
+                        } else {
+                            $provinceSelect.empty().append('<option value="" selected disabled>خطا در بارگذاری</option>');
+                        }
+                    },
+                    error: function () {
+                        $provinceSelect.empty().append('<option value="" selected disabled>خطا در ارتباط</option>');
+                    }
+                });
+            }
+
+            function loadProvinces(selectedProvince = null, selectedCity = null) {
+                const $provinceSelect = $('#provinceSelect');
+                $provinceSelect.empty().append('<option value="" selected disabled>انتخاب کنید</option>');
+
+                Object.keys(IRAN_LOCATIONS).forEach(province => {
+                    const isSelected = (province === selectedProvince) ? 'selected' : '';
+                    $provinceSelect.append(`<option value="${province}" ${isSelected}>${province}</option>`);
+                });
+
+                if (selectedProvince) {
+                    loadCities(selectedProvince, selectedCity);
+                }
+            }
+
+            function loadCities(provinceName, selectedCity = null) {
+                const $citySelect = $('#citySelect');
+                $citySelect.empty().prop('disabled', false);
+
+                if (IRAN_LOCATIONS[provinceName]) {
+                    $citySelect.append('<option value="" selected disabled>انتخاب شهر</option>');
+                    IRAN_LOCATIONS[provinceName].forEach(city => {
+                        const isSelected = (city === selectedCity) ? 'selected' : '';
+                        $citySelect.append(`<option value="${city}" ${isSelected}>${city}</option>`);
+                    });
+                } else {
+                    $citySelect.prop('disabled', true).append('<option value="">ابتدا استان را انتخاب کنید</option>');
+                }
+            }
+
+            $('#provinceSelect').on('change', function () {
+                loadCities($(this).val());
+            });
+
+
             const addAddressBtn = $('#btnNew-address');
-            const saveAddressBtn = $('#saveAddressBtn');
             const formContainer = $('#new-address-form-container');
             const addressForm = $('#address-form');
 
-            addAddressBtn.on('click', function () {
+            // FIX: Use .off() to clear any previous listeners and stop propagation
+            addAddressBtn.off('click').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevents Bootstrap from triggering its own toggle logic
+
                 if (formContainer.is(':visible')) {
-                    addressForm[0].reset();
-                    formContainer.slideUp(300);
-                    addAddressBtn.text('+ افزودن آدرس جدید');
+                    closeAddressForm();
                 } else {
-                    formContainer.slideDown(300);
-                    addAddressBtn.text('- لغو');
+                    openAddressForm();
                 }
             });
 
+            function openAddressForm(isEdit = false) {
+                // Force show using jQuery to override any CSS conflicts
+                formContainer.stop(true, true).slideDown(300, function() {
+                    $(this).addClass('show');
+                });
+
+                addAddressBtn.text(isEdit ? 'لغو ویرایش' : '- لغو');
+
+                if(!isEdit) {
+                    addressForm[0].reset();
+                    $('#addressFormTitle').text('افزودن آدرس جدید');
+                    $('#editAddressId').val('');
+                    currentEditId = null;
+                    // Reset location selects
+                    loadProvinces();
+                    $('#citySelect').prop('disabled', true).empty().append('<option value="">ابتدا استان را انتخاب کنید</option>');
+                }
+            }
+
+            function closeAddressForm() {
+                formContainer.stop(true, true).slideUp(300, function() {
+                    $(this).removeClass('show');
+                });
+
+                addAddressBtn.text('+ افزودن آدرس جدید');
+                addressForm[0].reset();
+                clearFormErrors(addressForm);
+                currentEditId = null;
+            }
+
+            // Ensure the specific cancel button also works
+            $('#cancelAddressBtn').off('click').on('click', function(e) {
+                e.preventDefault();
+                closeAddressForm();
+            });
+
             function loadUserAddresses() {
-                let $section = $('#address-section');
+                const $section = $('#address-section');
                 $section.html('<div class="text-center p-3 text-muted">در حال بارگذاری...</div>');
 
                 $.get("{{ route('user.addresses.index') }}")
@@ -573,23 +675,112 @@
                 }
                 userAddresses.forEach(address => {
                     container.append(`
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between">
-                                <div>
-                                    <strong>${address.first_name} ${address.last_name}</strong><br>
-                                    ${address.province}، ${address.city}<br>${address.address}
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <button class="btn btn-sm btn-outline-info edit-address" data-id="${address.id}">ویرایش</button>
-                                    <button class="btn btn-sm btn-outline-danger delete-address" data-id="${address.id}">حذف</button>
-                                </div>
-                            </div>
+                <div class="card mb-2 border-0 shadow-sm borderBg">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1"><strong>${address.first_name} ${address.last_name}</strong></h6>
+                            <p class="small text-muted mb-0">
+                                ${address.province}، ${address.city} - ${address.address} (پلاک: ${address.plate})
+                            </p>
+                            <p class="small text-muted mb-0">کد پستی: ${address.post_code} | موبایل: ${address.mobile}</p>
                         </div>
-                    `);
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-info edit-address-btn" data-id="${address.id}">ویرایش</button>
+                            <button class="btn btn-sm btn-outline-danger delete-address-btn" data-id="${address.id}">حذف</button>
+                        </div>
+                    </div>
+                </div>
+            `);
                 });
             }
 
-            // Init Addresses
+            // FIX: Event Delegation for dynamic buttons (Edit/Delete)
+            // Edit Logic
+            $(document).on('click', '.edit-address-btn', function () {
+                const id = $(this).data('id');
+                const addr = userAddresses.find(a => a.id == id);
+                if (addr) {
+                    currentEditId = id;
+                    $('#addressFormTitle').text('ویرایش آدرس');
+                    $('#editAddressId').val(addr.id);
+                    $('#first_name').val(addr.first_name);
+                    $('#last_name').val(addr.last_name);
+                    $('#new_mobile').val(addr.mobile);
+                    $('#new_fullAddress').val(addr.address);
+                    $('#new_plate').val(addr.plate);
+                    $('#new_postalCode').val(addr.post_code);
+                    $('#new_phone').val(addr.phone);
+                    $('#new_companyName').val(addr.company_name);
+
+                    // Re-fetch locations and set selections
+                    fetchIranLocations(addr.province, addr.city);
+
+                    openAddressForm(true);
+                    $('html, body').animate({ scrollTop: formContainer.offset().top - 100 }, 500);
+                }
+            });
+
+            $(document).on('click', '.delete-address-btn', function() {
+                const id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'آیا مطمئن هستید؟',
+                    text: "این آدرس برای همیشه حذف خواهد شد.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'بله، حذف شود',
+                    cancelButtonText: 'انصراف',
+                    direction: 'rtl'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/user/addresses/${id}`, // Update this to your actual DELETE route
+                            type: 'DELETE',
+                            success: function(res) {
+                                showFeedback(res.message || 'آدرس حذف شد');
+                                loadUserAddresses();
+                            },
+                            error: function() {
+                                showFeedback('خطا در حذف آدرس', 'danger');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Save/Update Address
+            // Submit Logic
+            addressForm.on('submit', function (e) {
+                e.preventDefault();
+                const btn = $('#saveAddressBtn');
+                btn.prop('disabled', true).text('در حال ذخیره...');
+
+                const url = currentEditId ? `/user/addresses/${currentEditId}` : "{{ route('user.address.store') }}";
+                const method = currentEditId ? 'PUT' : 'POST';
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        showFeedback(res.message || 'عملیات موفقیت‌آمیز بود');
+                        closeAddressForm();
+                        loadUserAddresses();
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 422) displayErrors(addressForm, xhr.responseJSON.errors);
+                        else showFeedback('خطای سرور', 'danger');
+                    },
+                    complete: function () {
+                        btn.prop('disabled', false).text('ثبت و ذخیره آدرس');
+                    }
+                });
+            });
+
+            // Initial Load
+            fetchIranLocations();
             loadUserAddresses();
         });
     </script>
