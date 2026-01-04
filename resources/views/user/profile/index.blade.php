@@ -164,6 +164,7 @@
 
             <!-- 3. Address Management (Accordion Style) - NEW SECTION -->
             <div class="row">
+                <!--  Address Management (Accordion Style) - NEW SECTION -->
                 <h2 class="text-title d-flex flex-row align-items-center mt-4">
                     <svg width="22" height="22" fill="currentColor" class="bi bi-pin-map mx-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
@@ -172,139 +173,119 @@
                     مدیریت آدرس‌ها
                 </h2>
                 <div id="addressesAccordionContainer" class="my-1 borderBg p-3" dir="rtl">
+
                     <!-- Address List will be rendered here by JS -->
                     <div id="address-section" class="mb-4">
                         <div class="text-center p-3 text-muted" id="address-loading-message">در حال بارگذاری آدرس‌ها...</div>
                     </div>
-        <!--  Address Management (Accordion Style) - NEW SECTION -->
-        <h2 class="text-title d-flex flex-row align-items-center mt-4">
-            <svg width="22" height="22" fill="currentColor" class="bi bi-pin-map mx-2" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
-                <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
-            </svg>
-            مدیریت آدرس‌ها
-        </h2>
-        <div id="addressesAccordionContainer" class="my-1 borderBg p-3" dir="rtl">
 
-            <!-- Address List will be rendered here by JS -->
-            <div id="address-section" class="mb-4">
-                <div class="text-center p-3 text-muted" id="address-loading-message">در حال بارگذاری آدرس‌ها...</div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-3 pt-3 border-top">
-                <button id="btnNew-address" class="btn btn-primary btn-sm"
-                        type="button"  data-bs-target="#new-address-form-container"
-                        aria-expanded="false" aria-controls="new-address-form-container">
-                    + افزودن آدرس جدید
-                </button>
-                <small id="address-limit-text" class="text-muted">شما می‌توانید تا ۴ آدرس را ثبت کنید.</small>
-            </div>
                     <div class="d-flex justify-content-between align-items-center mb-3 pt-3 border-top">
                         <button id="btnNew-address" class="btn btn-primary btn-sm"
-                                type="button" data-bs-toggle="collapse" data-bs-target="#new-address-form-container"
+                                type="button"  data-bs-target="#new-address-form-container"
                                 aria-expanded="false" aria-controls="new-address-form-container">
                             + افزودن آدرس جدید
                         </button>
-                        <small id="address-limit-text" class="text-muted">شما می‌توانید تا ۴ آدرس را ثبت کنید. (ثبت شده: ۰)</small>
+                        <small id="address-limit-text" class="text-muted">شما میتوانید تا ۴ آدرس را ثبت کنید.</small>
                     </div>
 
-                    <!-- New Address Form (The collapsible part) -->
-                    <div class="collapse" id="new-address-form-container">
-                        <div class="card card-body p-3 border-0">
-                            <h5 id="addressFormTitle" class="mb-3 border-bottom pb-2">افزودن آدرس جدید</h5>
-                            <form id="address-form" class="row g-3">
-                                @csrf
-                                <!-- The ID field for editing -->
-                                <input type="hidden" name="id" id="editAddressId" value="">
-                                <input type="hidden" name="full_name" id="full_name">
 
-                                <div class="col-md-6">
-                                    <label>نام گیرنده</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        name="first_name"
-                                        id="first_name"
-                                        placeholder="نام"
-                                    >
-                                    <small class="text-danger first_name-error d-none"></small>
-                                </div>
+                            <!-- New Address Form (The collapsible part) -->
+                            <div class="collapse" id="new-address-form-container">
+                                <div class="card card-body p-3 border-0">
+                                    <h5 id="addressFormTitle" class="mb-3 border-bottom pb-2">افزودن آدرس جدید</h5>
+                                    <form id="address-form" class="row g-3">
+                                        @csrf
+                                        <!-- The ID field for editing -->
+                                        <input type="hidden" name="id" id="editAddressId" value="">
+                                        <input type="hidden" name="full_name" id="full_name">
 
-                                <div class="col-md-6">
-                                    <label>نام خانوادگی گیرنده</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        name="last_name"
-                                        id="last_name"
-                                        placeholder="نام خانوادگی"
-                                    >
-                                    <small class="text-danger last_name-error d-none"></small>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="new_mobile" class="form-label">شماره موبایل گیرنده <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-ltr" id="new_mobile" name="mobile" required inputmode="numeric">
-                                    <small class="text-danger address-mobile-error d-none"></small>
-                                </div>
+                                        <div class="col-md-6">
+                                            <label>نام گیرنده</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="first_name"
+                                                id="first_name"
+                                                placeholder="نام"
+                                            >
+                                            <small class="text-danger first_name-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-6">
-                                    <label for="provinceSelect" class="form-label">استان <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="provinceSelect" name="province" required>
-                                        <option value="" selected disabled>انتخاب کنید</option>
-                                    </select>
-                                    <small class="text-danger address-province-error d-none"></small>
-                                </div>
+                                        <div class="col-md-6">
+                                            <label>نام خانوادگی گیرنده</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="last_name"
+                                                id="last_name"
+                                                placeholder="نام خانوادگی"
+                                            >
+                                            <small class="text-danger last_name-error d-none"></small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="new_mobile" class="form-label">شماره موبایل گیرنده <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control input-ltr" id="new_mobile" name="mobile" required inputmode="numeric">
+                                            <small class="text-danger address-mobile-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-6">
-                                    <label for="citySelect" class="form-label">شهر <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="citySelect" name="city" disabled required>
-                                        <option value="" selected disabled>ابتدا استان را انتخاب کنید</option>
-                                    </select>
-                                    <small class="text-danger address-city-error d-none"></small>
-                                </div>
+                                        <div class="col-md-6">
+                                            <label for="provinceSelect" class="form-label">استان <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="provinceSelect" name="province" required>
+                                                <option value="" selected disabled>انتخاب کنید</option>
+                                            </select>
+                                            <small class="text-danger address-province-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-12">
-                                    <label for="new_fullAddress" class="form-label">آدرس کامل <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="new_fullAddress" name="address" rows="2" required></textarea>
-                                    <small class="text-danger address-address-error d-none"></small>
-                                </div>
+                                        <div class="col-md-6">
+                                            <label for="citySelect" class="form-label">شهر <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="citySelect" name="city" disabled required>
+                                                <option value="" selected disabled>ابتدا استان را انتخاب کنید</option>
+                                            </select>
+                                            <small class="text-danger address-city-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <label for="new_plate" class="form-label">پلاک <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-ltr" id="new_plate" name="plate" required inputmode="numeric">
-                                    <small class="text-danger address-plate-error d-none"></small>
-                                </div>
+                                        <div class="col-md-12">
+                                            <label for="new_fullAddress" class="form-label">آدرس کامل <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" id="new_fullAddress" name="address" rows="2" required></textarea>
+                                            <small class="text-danger address-address-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <label for="new_postalCode" class="form-label">کد پستی <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-ltr" id="new_postalCode" name="post_code" required inputmode="numeric" maxlength="10">
-                                    <small class="text-danger address-post_code-error d-none"></small>
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="new_plate" class="form-label">پلاک <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control input-ltr" id="new_plate" name="plate" required inputmode="numeric">
+                                            <small class="text-danger address-plate-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <label for="new_phone" class="form-label">تلفن ثابت (اختیاری)</label>
-                                    <input type="text" class="form-control input-ltr" id="new_phone" name="phone" inputmode="numeric">
-                                    <small class="text-danger address-phone-error d-none"></small>
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="new_postalCode" class="form-label">کد پستی <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control input-ltr" id="new_postalCode" name="post_code" required inputmode="numeric" maxlength="10">
+                                            <small class="text-danger address-post_code-error d-none"></small>
+                                        </div>
 
-                                <div class="col-md-12">
-                                    <label for="new_companyName" class="form-label">نام شرکت (اختیاری)</label>
-                                    <input type="text" class="form-control" id="new_companyName" name="company_name">
-                                    <small class="text-danger address-company_name-error d-none"></small>
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="new_phone" class="form-label">تلفن ثابت (اختیاری)</label>
+                                            <input type="text" class="form-control input-ltr" id="new_phone" name="phone" inputmode="numeric">
+                                            <small class="text-danger address-phone-error d-none"></small>
+                                        </div>
 
-                                <div class="col-12 d-flex justify-content-end mt-4">
-                                    <button type="button" class="btn btn-secondary mx-2" id="cancelAddressBtn">لغو</button>
-                                    <button type="submit" class="btn btn-success" id="saveAddressBtn">ثبت و ذخیره آدرس</button>
-                                </div>
+                                        <div class="col-md-12">
+                                            <label for="new_companyName" class="form-label">نام شرکت (اختیاری)</label>
+                                            <input type="text" class="form-control" id="new_companyName" name="company_name">
+                                            <small class="text-danger address-company_name-error d-none"></small>
+                                        </div>
 
-                                <div class="col-12 mt-2">
-                                    <div id="new-address-error-message" class="alert alert-danger d-none" role="alert"></div>
+                                        <div class="col-12 d-flex justify-content-end mt-4">
+                                            <button type="button" class="btn btn-secondary mx-2" id="cancelAddressBtn">لغو</button>
+                                            <button type="submit" class="btn btn-success" id="saveAddressBtn">ثبت و ذخیره آدرس</button>
+                                        </div>
+
+                                        <div class="col-12 mt-2">
+                                            <div id="new-address-error-message" class="alert alert-danger d-none" role="alert"></div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                </div>
             </div>
             <!-- End Address Management -->
 
