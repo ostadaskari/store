@@ -281,7 +281,7 @@
 @include('user.layouts.mobile_header')
 
 <!-- user account -->
-<div class="container user-account" style="padding-top:70px;">
+<div class="container user-account" style="padding-top:90px;">
     <div class="row" style="height: 100%;" >
 
         @include('user.layouts.sidebar')

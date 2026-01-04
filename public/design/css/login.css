@@ -46,8 +46,8 @@
       width: 420px;
       max-width: 90%;
       min-height: 560px;
-      display: flex;
-      flex-direction: column;
+      text-align: center;
+     padding: 40px 0;
       transition: all 0.5s ease-in-out;
   }
 
@@ -91,7 +91,17 @@
   .form-container {
       padding: 20px 40px;
   }
-
+  .form-container .alert.alert-danger{
+    background-color: #ffeaea!important;
+    color: #d63031!important;
+    padding: 7px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: right;
+    font-size: 13px!important;
+    width: 100%;
+    border: 1px solid #ffcece;
+  }
   /* Form Styling */
   .custom-form {
       display: flex;
@@ -104,7 +114,7 @@
   .login .form-control {
       width: 100%;
       padding: 12px 15px;
-      font-size: 15px;
+      font-size: 14px;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
       transition: all 0.3s ease;

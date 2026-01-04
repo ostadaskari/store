@@ -13,6 +13,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('design/css/style.css') }}">
     <link rel="stylesheet" href="{{asset('design/css/login.css')}}">
+    
 
     <link rel="icon" href="{{asset('design/image/logo (4).png')}}" type="image/png">
 
@@ -22,28 +23,36 @@
 
     <canvas id="bg"></canvas>
 
-    <div class="login" id="mainLoginContainer" style="min-height: 460px;">
-
-        <div class="form-container">
+    <div class="login" id="mainLoginContainer">
+        <a class="logoContainer text-center my-4" href="\">
+            <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" style="max-height: 80px;">
+        </a>
+        <div class="form-container mt-3">
 
             {{--show errors--}}
             @include('admin.layouts._message')
 
-            <div id="username-tab" class="tab-pane active w-100 mt-4">
-                <a class="mb-4" href="\">
-                   <img src="{{ asset('design/image/logo (4).png') }}" alt="شیرازچیپ" title="شیرازچیپ" class="img-fluid mb-4">
-                </a>
-
+            <div id="username-tab" class="tab-pane active">
+                
                 <form class="custom-form"  method="POST" action="{{ route('admin.auth') }}">
                     @csrf
 
-                    <input type="text" id="usernameInput" name="email" placeholder="Email" class="form-control" required>
-
-                    <div class="password-container">
-                        <input class="form-control passwordId" type="password" id="passwordInput" name="password" placeholder="کلمه عبور..." required>
-                        <span class="password-toggle" data-target="passwordInput">
-                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                        </span>
+                     <div class="w-100 text-start mb-3">
+                        <label for="email" style="font-size: 14px;margin-bottom: 3px;">آدرس ایمیل</label>
+                        <div class="position-relative d-flex align-items-center">
+                            <i class="fa fa-envelope" style="position: absolute;left: 15px;color: #ccc;font-size: 16px;z-index: 10;"></i>
+                            <input type="text" id="usernameInput" name="email" placeholder="Email" class="form-control my-0" required>
+                        </div>
+                    </div>    
+                    
+                    <div class="w-100 text-start mb-3">
+                        <label for="password" style="font-size: 14px;margin-bottom: 3px;">کلمه عبور</label>
+                        <div class="password-container">
+                            <input class="form-control passwordId my-0" type="password" id="passwordInput" name="password" placeholder="کلمه عبور..." required>
+                            <span class="password-toggle" data-target="passwordInput">
+                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                            </span>
+                        </div>
                     </div>
 
                     <button class="btn-primary" type="submit">ورود</button>

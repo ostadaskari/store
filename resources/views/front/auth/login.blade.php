@@ -14,7 +14,6 @@
 
 </head>
 <body>
-
 <canvas id="bg"></canvas>
 
 <div class="registration-box" id="mainLoginContainer">
@@ -22,7 +21,7 @@
     <div class="w-100">
         <div class="logoContainer">
             <!-- Replace with your actual logo path -->
-            <img src="{{asset('design/image/logo (4)-assets/logo (4).png')}}" alt="Logo" style="max-height: 50px;">
+            <img src="{{asset('design/image/logo (4).png')}}" alt="Logo" style="max-height: 80px;">
         </div>
 
         <!-- Tab Menu -->
@@ -36,18 +35,7 @@
         <!-- MOBILE TAB -->
         <div id="mobile-tab" class="tab-pane {{ ($errors->has('email') || $errors->has('password')) ? '' : 'active' }}">
 
-            <!-- Error Handling for Mobile/OTP -->
-            @if ($errors->has('mobile') || $errors->has('code'))
-                <div class="message-box">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            @if ($error != 'The email field is required.' && $error != 'The password field is required.')
-                                <li>{{ $error }}</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            
 
             <!-- Mobile Steps (Step 1 and Step 2) -->
             @if ($step == 1)
@@ -56,6 +44,18 @@
                     <div class="verify-header">
                         <div class="create-description">لطفاً شماره موبایل خود را وارد کنید تا کد تایید برای شما ارسال و وارد شوید.</div>
                     </div>
+                    <!-- Error Handling for Mobile/OTP -->
+                    @if ($errors->has('mobile') || $errors->has('code'))
+                        <div class="message-box">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    @if ($error != 'The email field is required.' && $error != 'The password field is required.')
+                                        <li>{{ $error }}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <form action="{{ route('client.login.send.code') }}" method="POST">
                         @csrf
@@ -72,7 +72,6 @@
                                        placeholder="مثال: 09123456789"
                                        required autofocus>
                             </div>
-                            @error('mobile')<span class="text-danger mt-1">{{ $message }}</span>@enderror
                         </div>
 
                         <button class="btn-primary" type="submit">ارسال کد تایید و ورود</button>
@@ -182,7 +181,7 @@
                         <div class="input-wrapper">
                             <i class="fa fa-lock login-input-icon"></i>
                             <input type="password"
-                                   class="form-control input-ltr @error('password') is-invalid @enderror"
+                                   class="form-control @error('password') is-invalid @enderror"
                                    name="password"
                                    id="password_input"
                                    placeholder="کلمه عبور"

@@ -12,7 +12,6 @@
 =========================== */
 .user-account {
   margin-top:110px;
-  /* padding-top: 110px; */
 }
 .user-account h5 {
   font-size: 18px;
@@ -23,6 +22,7 @@
 .user-account .card .form-label {
   font-size: 14px;
 }
+
 .user-profile {
   position: sticky;
   top:13%;
@@ -33,6 +33,7 @@
   box-shadow: 0 4px 5px #4f6c8f86;
   border: 1px solid #f3f3f3;
 }
+
 .user-profile h5 {
   margin-bottom: 10px;
   padding-bottom: 10px;
@@ -40,7 +41,7 @@
   font-weight: bold;
 }
 .user-info-item {
-  padding: 18px 0;
+  padding: 15px 0;
   border-bottom: 1px dashed #ddd;
   font-size: 16px;
   color: #6f6f6f;
@@ -55,6 +56,7 @@ position: relative;
 .avatar-div .avatar-img{
   border-radius:50%;
   width:120px;
+  height: 120px;
   object-fit: cover;
 }
 .change-avatar-btn {
@@ -217,12 +219,13 @@ position: relative;
   height: 100%;
   background-color: #ffc107;
 }
-.car svg {
+.car .truck-img {
   transform: scaleX(-1);
 }
+
 .car {
   position: absolute;
-  top: -35%;
+  top: -50%;
   right: 0;
   width: 30px;
   height: 30px;
@@ -234,7 +237,7 @@ position: relative;
 }
 @keyframes moveCar {
   0% { right: 0; }
-  100% { right: calc(50% - 30px); }
+  /* 100% { right: calc(50% - 30px); } */
 }
 @keyframes rockyRide {
   0% { transform: translate(-50%, -50%); }
@@ -254,24 +257,77 @@ position: relative;
   left: 0;
 }
 
+.carCanceled {
+  position: absolute;
+  right: 0%;
+  animation: carMoveSlow 8s linear infinite;
+}
+
+/* SVG */
+.carCanceled .truck-img {
+  transform: scaleX(-1);
+  animation: carFlipSlow 8s ease-in-out infinite;
+}
+
+/* حرکت تا انتها */
+@keyframes carMoveSlow {
+  0% {
+    right: 0%;
+  }
+
+  65% {
+    right: 10%;
+  }
+
+  75% {
+    right: 10%;
+  }
+
+  100% {
+    right: 0%;
+  }
+}
+
+/* دور زدن در انتها */
+@keyframes carFlipSlow {
+  5% {
+    transform: scaleX(-1);
+  }
+
+  65% {
+    transform: scaleX(-1);
+  }
+
+  75% {
+    transform: scaleX(1);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+
+
 /* ===========================
    Edit Profile / Change Password
 =========================== */
-#edit-profile-section .edit-profile-section{
-  direction:ltr;
-}
-#edit-profile-section input::placeholder,
+#user-profile-editor input::placeholder,
 textarea::placeholder {
   color: #999;
   opacity: 1;
 }
-#edit-profile-section h5{
+#user-profile-editor h5{
   background-color:#232f3eec;
   padding: 10px 0;
 }
-#edit-profile-section .form-select{
+#user-profile-editor .form-select{
   font-size: 12px;
-  padding:.25rem 1.75rem;
+  padding: .375rem .75rem;
+}
+
+#user-profile-editor .form-control{
+  font-size: 13px;
 }
 #changePasswordBox{
   background-color:#f3f8fb3b;
@@ -282,31 +338,31 @@ textarea::placeholder {
   font-size: 12px;
   font-weight: lighter;
 }
-#edit-profile-section form{
+#user-profile-editor form{
   font-size: 14px;
 }
 /* bank info */
-#edit-profile-section .text-title{
+#user-profile-editor .text-title{
   font-size: 16px;
   color:rgb(241, 241, 241); 
   background-color:#232f3ede;
   padding: 10px!important;
   border-radius:8px 8px 0 0;
  }
- #edit-profile-section .borderBg{
+ #user-profile-editor .borderBg{
   border:1px solid #232f3e67;
   background-color:#e9eff759;
   border-radius:0 0 8px 8px;
   padding: 10px;
  }
- #edit-profile-section .bank-icon {
+ #user-profile-editor .bank-icon {
     width: 24px;
     height: 24px;
   }
-  #edit-profile-section #cardNumber{
+  #user-profile-editor #cardNumber{
     padding-left: 50px;
   }
-  #edit-profile-section #bankLogo{
+  #user-profile-editor #bankLogo{
     position: absolute;
     top: 36px;
     left: 9px;
@@ -479,11 +535,6 @@ textarea::placeholder {
    Invoice Section
 =========================== */
 
-#user-invoice-section #invoice-section{
-  max-height:73vh;
-  overflow-y: auto;
-  direction:ltr;
-}
 #user-invoice-section .searchbarInvoice{
   width: 50%;
 }
@@ -515,11 +566,11 @@ textarea::placeholder {
   border: 1px solid #f3f3f3;
 }
 #invoice-section .logo {
-  height: 40px;
+  width: 150px;
 }
 .table th, .table td {
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 12px;
 }
 .info-box {
   border: 1px solid #ccc;
@@ -536,7 +587,6 @@ textarea::placeholder {
   border-radius: 4px;
 }
 .headerInvoice {
-  width:100%;
   font-size: 16px;
   border-radius: 5px;
   background-color: #232f3e17;
@@ -544,12 +594,10 @@ textarea::placeholder {
   justify-content: space-between;
 }
 .invoice-summary-box {
-  background-color: #f8f9fa;
+  background-color: #fff6e15e;
   border: 1px solid #dee2e6; 
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 15px #4f6c8f;
-
+  padding: 10px 20px;
+  box-shadow: 0 0 15px #4f6c8f4d;
 }
 .summary-item{
   display: flex;
@@ -563,6 +611,10 @@ textarea::placeholder {
 .btn-accordion:hover{
   color:#c4deff; 
   background-color:#48596e;
+}
+.invoice { 
+    direction: rtl;
+    text-align: right;
 }
 
 /* =================
@@ -666,7 +718,7 @@ textarea::placeholder {
   .wallet-balance {
     font-size: 22px;
     font-weight: bold;
-    color:#ccb321;
+    color:#994a25;
     margin-bottom:7px;
   }
 
@@ -738,25 +790,24 @@ textarea::placeholder {
   margin: auto;
   opacity: .5;
   width: 100%;
-  height:160px;
+  height:100%;
 }
 
 .gift-card-box {
-  background: linear-gradient(135deg, rgba(248, 237, 174, 0.4), rgba(175, 140, 76, 0.4));
-  padding: 20px;
+  background: linear-gradient(135deg, rgb(246 231 217), rgb(243 166 122 / 54%));  /* padding: 20px; */
   border-radius: 12px;
   transition: all 0.3s ease;
   position: relative;
   z-index:2;
   width: 48%;
-  height: 200px;
+  height: 240px;
   box-shadow: 0 0 15px #afa077;
 }
 .gift-card-box:hover{
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .gift-card-header {
-  width: 100%;
+  width: 93%;
   font-weight: bold;
   font-size:16px;
   display: flex;
@@ -872,9 +923,6 @@ textarea::placeholder {
     }
     .gift-card-box{
       width: 100%;
-    }
-    .img-gift{
-      width:280px;
     }
     .currency-input-wrapper input {
       width: 100%;
