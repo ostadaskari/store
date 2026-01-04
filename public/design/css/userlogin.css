@@ -113,7 +113,7 @@ body {
 .input-ltr {
     direction: ltr !important;
     text-align: left !important;
-    padding: 12px 15px 12px 40px;
+    padding: 12px 15px;
 }
 
 /* Password Toggle */
@@ -160,7 +160,7 @@ body {
 .message-box {
     background-color: #ffeaea;
     color: #d63031;
-    padding: 15px;
+    padding: 7px;
     border-radius: 6px;
     margin-bottom: 15px;
     text-align: right;

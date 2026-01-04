@@ -1,5 +1,5 @@
 <!-- Start Mobile Store Header -->
-<div class="container-fluid custom-bg-color px-0 d-md-none StoreHeader pt-2">
+<div class="container-fluid custom-bg-color px-0 d-md-none StoreHeader py-2">
     <div class="row d-flex flex-row justify-content-between align-items-center">
         <!-- btn humbergerMenu -->
         <div class="col-2">
