@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductSEOController;
 use App\Http\Controllers\Admin\ShippingController;
@@ -97,6 +98,9 @@ Route::middleware('admin')->group(callback: function(){
 
     Route::get('/admin/product-seo', [ProductSEOController::class,'index'])->name('product_seo.index');
     Route::post('/admin/product-seo/save', [ProductSEOController::class, 'storeOrUpdate'])->name('product_seo.save');
+
+    Route::get('/admin/information', [InformationController::class,'index'])->name('information.index');
+    Route::post('/admin/information/save', [InformationController::class, 'storeOrUpdate'])->name('information.save');
 
     Route::get('/admin/prices', [PriceController::class, 'index'])->name('admin.prices.index');
     Route::post('/admin/prices/settings', [PriceController::class, 'saveSettings'])->name('admin.prices.saveSettings');

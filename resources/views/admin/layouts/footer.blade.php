@@ -4,7 +4,42 @@
 {{--    <strong>Copyright &copy; {{date('Y')}} shirazhip.ir</strong> All rights reserved.--}}
 {{--</footer>--}}
 </div>
+{{-- date and time --}}
+<script>
+    function updateIranDateTime() {
+        const now = new Date();
 
+        const timeOptions = {
+            timeZone: 'Asia/Tehran',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
+
+        // تنظیمات برای تاریخ شمسی
+        const dateOptions = {
+            timeZone: 'Asia/Tehran',
+            calendar: 'persian',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        };
+
+        const timeString = new Intl.DateTimeFormat('fa-IR', timeOptions).format(now);
+        let dateString = new Intl.DateTimeFormat('fa-IR', dateOptions).format(now);
+
+        const englishDate = dateString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+        const englishTime = timeString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+
+        document.getElementById('live-time').innerText = englishTime;
+        document.getElementById('live-date').innerText = englishDate;
+    }
+
+    setInterval(updateIranDateTime, 1000);
+
+    updateIranDateTime();
+</script>
 <!-- jQuery -->
 <script src="{{asset('design/js/jquery-3.7.1.min.js')}}"></script>
 

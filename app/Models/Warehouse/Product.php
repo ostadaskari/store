@@ -2,6 +2,7 @@
 
 namespace App\Models\Warehouse;
 
+use App\Models\Information;
 use App\Models\ProductSeo;
 use App\Models\Review;
 use App\Models\User;
@@ -46,6 +47,10 @@ class Product extends Model
     public function seo()
     {
         return $this->hasOne(ProductSeo::class, 'product_part_number', 'part_number');
+    }
+    public function information()
+    {
+        return $this->hasOne(Information::class, 'product_part_number', 'part_number');
     }
     public function price()
     {

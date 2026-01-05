@@ -118,7 +118,7 @@
             <!-- PRODUCT FEATURES -->
             <div class="col-12 col-md-6 col-lg-4 d-flex flex-column mt-3 mt-md-0 p-3">
 
-                <p class="partNumber">{{ $product->part_number }}</p>
+                <p class="partNumber">{{ $product->information->title ?? ($product->part_number ?? '') }}</p>
 
                 <p class="title-mylist-product-single">ویژگی‌ها</p>
                 <ul class="mylist-product-single" dir="ltr">
@@ -398,7 +398,7 @@
                                 </div>
 
                             </div>
-                            
+
 
                         </div>
                     </div>

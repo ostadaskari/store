@@ -44,6 +44,7 @@
                         <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif"><i class="bi bi-grid-1x2 mx-2 EditorSvg"></i>دسته ها</a></li>
                         <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif"><i class="bi bi-box-seam mx-2 EditorSvg"></i>محصولات</a></li>
                         <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif"><i class="bi bi-rainbow mx-2 EditorSvg"></i>بنر ها</a></li>
+                        <li><a href="{{ url('admin/information') }}" class="nav-link px-0 @if(Request::segment(2) == 'information') active @endif"><i class="bi bi-meta mx-2 EditorSvg"></i>اطلاعات محصولات</a></li>
                         <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif"><i class="bi bi-meta mx-2 EditorSvg"></i>meta's</a></li>
                         <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif"><i class="bi bi-cash-coin mx-2 EditorSvg"></i>قیمت ها</a></li>
                         <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
@@ -101,39 +102,4 @@
             </nav>
 
 
- {{-- date and time --}}
-    <script>
-        function updateIranDateTime() {
-        const now = new Date();
 
-        const timeOptions = {
-            timeZone: 'Asia/Tehran',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
-        };
-
-        // تنظیمات برای تاریخ شمسی
-        const dateOptions = {
-            timeZone: 'Asia/Tehran',
-            calendar: 'persian',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        };
-
-        const timeString = new Intl.DateTimeFormat('fa-IR', timeOptions).format(now);
-        let dateString = new Intl.DateTimeFormat('fa-IR', dateOptions).format(now);
-
-        const englishDate = dateString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
-        const englishTime = timeString.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
-
-        document.getElementById('live-time').innerText = englishTime;
-        document.getElementById('live-date').innerText = englishDate;
-        }
-
-        setInterval(updateIranDateTime, 1000);
-
-        updateIranDateTime();
-    </script>
