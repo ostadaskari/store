@@ -55,7 +55,7 @@
             padding: 10px 20px;
         }
         .text-contact{
-            color:rgb(203 203 203);
+            color:rgb(24 24 24);
         }
         .imgFollow{
             width: 180px;

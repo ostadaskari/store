@@ -80,7 +80,7 @@
                                             <button type="button" class="btn-close m-0" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body modalTextColor">
-                                            <div class="p-3 bg-light rounded mb-3">
+                                            <div class="p-3 bg-light border rounded mb-3">
                                                 <strong>نظر کاربر:</strong>
                                                 <p class="mt-2 mb-0">{{ $review->comment }}</p>
                                             </div>
