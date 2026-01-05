@@ -280,71 +280,16 @@
                                             <span class="ruby-dropdown-toggle"></span>
                                         </li>
 
-                                        <!-- ابزار -->
-                                        <li class="ruby-menu-mega-shop">
-                                            <a href="#">
-                                                <svg width="17" height="17" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
-                                                    <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
-                                                </svg>
-                                                ابزار & تجهیزات</a>
-                                            <div style="height: 263px;">
-                                                <ul>
-                                                    <li><a href="#">ابزار لحیم‌کاری</a>
-                                                        <div class="ruby-grid ruby-grid-lined">
-                                                            <div class="ruby-row">
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/soldering-iron.png" alt="soldering">
-                                                                        هویه</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">هویه قلمی</a></li>
-                                                                        <li><a href="#">هویه صنعتی</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/soldering-iron (1).png" alt="soldering">
-                                                                        سیم لحیم</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">سیم لحیم نقره‌ای</a></li>
-                                                                        <li><a href="#">سیم لحیم بدون سرب</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                                <div class="ruby-col-4">
-                                                                    <h3 class="ruby-list-heading">
-                                                                        <img class="iconImg" src="./design/image/workpiece.png" alt="fixture">
-                                                                        فیکسچر</h3>
-                                                                    <ul>
-                                                                        <li><a href="#">گیره برد</a></li>
-                                                                        <li><a href="#">پایه هویه</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
 
                                         <!-- other items-->
-                                        <li class="nav-item">
-                                            <a class="nav-link" title="عضویت" href="./registration.html">
-                                                <svg width="18" height="18" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
-                                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                                                    <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
-                                                </svg>
-                                                عضویت</a>
-                                        </li>
+                                        
                                         <li class="nav-item">
                                             <a class="nav-link" title="بلاگ" href="./blog.html">
                                                 <svg width="18" height="18" fill="currentColor" class="bi bi-blockquote-left" viewBox="0 0 16 16">
                                                     <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1zm.79-5.373q.168-.117.444-.275L3.524 6q-.183.111-.452.287-.27.176-.51.428a2.4 2.4 0 0 0-.398.562Q2 7.587 2 7.969q0 .54.217.873.217.328.72.328.322 0 .504-.211a.7.7 0 0 0 .188-.463q0-.345-.211-.521-.205-.182-.568-.182h-.282q.036-.305.123-.498a1.4 1.4 0 0 1 .252-.37 2 2 0 0 1 .346-.298zm2.167 0q.17-.117.445-.275L5.692 6q-.183.111-.452.287-.27.176-.51.428a2.4 2.4 0 0 0-.398.562q-.165.31-.164.692 0 .54.217.873.217.328.72.328.322 0 .504-.211a.7.7 0 0 0 .188-.463q0-.345-.211-.521-.205-.182-.568-.182h-.282a1.8 1.8 0 0 1 .118-.492q.087-.194.257-.375a2 2 0 0 1 .346-.3z"/>
                                                 </svg>
-                                                بلاگ</a>
+                                                بلاگ
+                                            </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" title="درباره ما" href="{{route('about')}}">
@@ -353,6 +298,14 @@
                                                     <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                                                 </svg>
                                                 درباره ما
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" title="عضویت" href="{{route('contact')}}">
+                                                <svg width="18" height="18" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
+                                                    <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
+                                                </svg>
+                                                تماس با ما
                                             </a>
                                         </li>
                                         @auth

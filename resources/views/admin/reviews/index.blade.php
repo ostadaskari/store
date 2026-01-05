@@ -2,22 +2,22 @@
 
 @section('content')
     <div class="container-fluid" dir="rtl">
+         <div class="seven mt-3">
+            <h1>مدیریت نظرات کاربران</h1>
+        </div>
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 fw-bold">مدیریت نظرات کاربران</h5>
-            </div>
-            <div class="card-body">
+            <div class="card-body p-2">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+                    <table class="table table-hover align-middle mb-0 text-center">
+                        <thead class="table-blue">
                         <tr>
-                            <th>تاریخ</th>
-                            <th>کاربر</th>
-                            <th>محصول</th>
-                            <th>شماره سفارش</th>
-                            <th>وضعیت</th>
-                            <th>پاسخ مدیر</th>
-                            <th>عملیات</th>
+                            <th style="width:10%;">تاریخ</th>
+                            <th style="width:10%;">کاربر</th>
+                            <th style="width:10%;">محصول</th>
+                            <th style="width:10%;">شماره سفارش</th>
+                            <th style="width:10%;">وضعیت</th>
+                            <th style="width:10%;">پاسخ مدیر</th>
+                            <th style="width:10%;">عملیات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -42,24 +42,30 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-outline-primary btn-sm px-3"
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <button class="btn btn-outline-primary btn-sm "
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#viewModal{{ $review->id }}">
-                                            مشاهده
+                                                data-bs-target="#viewModal{{ $review->id }}" title="مشاهده نظر">
+                                           <svg width="18" height="18" fill="#0d6efd" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                            </svg>
                                         </button>
 
-                                        <button class="btn btn-outline-info btn-sm px-3 open-reply-modal"
+                                        <button class="btn btn-outline-info btn-sm open-reply-modal"
                                                 data-id="{{ $review->id }}"
                                                 data-reply="{{ $review->admin_reply }}"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#replyModal">
+                                                data-bs-target="#replyModal" title="پاسخ مدیر">
                                             پاسخ مدیر
                                         </button>
 
-                                        <button class="btn btn-outline-danger btn-sm px-3 delete-review"
-                                                data-id="{{ $review->id }}">
-                                            حذف
+                                        <button class="btn btn-outline-danger btn-sm delete-review"
+                                                data-id="{{ $review->id }}" title="حذف">
+                                           <svg width="18" height="18" fill="#dc3545" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>
                                         </button>
                                     </div>
                                 </td>
@@ -70,11 +76,11 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h6 class="modal-title">متن نظر - {{ $review->user->name }}</h6>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            <h6 class="modal-title modalTextColor">متن نظر - {{ $review->user->name }}</h6>
+                                            <button type="button" class="btn-close m-0" data-bs-dismiss="modal"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="p-3 bg-light rounded mb-3">
+                                        <div class="modal-body modalTextColor">
+                                            <div class="p-3 bg-light border rounded mb-3">
                                                 <strong>نظر کاربر:</strong>
                                                 <p class="mt-2 mb-0">{{ $review->comment }}</p>
                                             </div>
@@ -106,18 +112,18 @@
     </div>
 
     <!-- Universal Reply Modal -->
-    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true" dir="rtl">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="replyModalLabel">مدیریت پاسخ مدیر</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title modalTextColor" id="replyModalLabel">مدیریت پاسخ مدیر</h5>
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="replyForm">
                         <input type="hidden" id="reply_review_id">
                         <div class="mb-3">
-                            <label for="admin_reply_text" class="form-label">متن پاسخ شما:</label>
+                            <label for="admin_reply_text" class="modalTextColor" class="form-label">متن پاسخ شما:</label>
                             <textarea class="form-control" id="admin_reply_text" rows="5" placeholder="پاسخ خود را اینجا بنویسید..."></textarea>
                         </div>
                     </form>

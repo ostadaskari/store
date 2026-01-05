@@ -45,7 +45,7 @@
                         </svg>
                         ویرایش اطلاعات کاربری
                     </h2>
-                    <form class="row g-3 mb-1 borderBg" dir="rtl" style="min-height: 276px;">
+                    <form class="row g-3 borderBg" dir="rtl" style="min-height: 276px;">
 
                         <div class="col-md-4 mt-0 px-0">
                             <label class="form-label">نام:</label>
@@ -127,7 +127,7 @@
                         </svg>
                         اطلاعات بانکی
                     </h2>
-                    <form id="bankInfoForm" class="row g-3 mb-1 borderBg" dir="rtl">
+                    <form id="bankInfoForm" class="row g-3 borderBg" dir="rtl">
 
                         <div class="col-12 mt-0 px-0">
                         <div class="mb-3 mx-1">
@@ -165,14 +165,14 @@
             <!-- 3. Address Management (Accordion Style) - NEW SECTION -->
             <div class="row">
                 <!--  Address Management (Accordion Style) - NEW SECTION -->
-                <h2 class="text-title d-flex flex-row align-items-center mt-4">
+                <h2 class="text-title d-flex flex-row align-items-center mt-2 mb-0">
                     <svg width="22" height="22" fill="currentColor" class="bi bi-pin-map mx-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
                         <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
                     </svg>
                     مدیریت آدرس‌ها
                 </h2>
-                <div id="addressesAccordionContainer" class="my-1 borderBg p-3" dir="rtl">
+                <div id="addressesAccordionContainer" class="borderBg p-3" dir="rtl">
 
                     <!-- Address List will be rendered here by JS -->
                     <div id="address-section" class="mb-4">
@@ -192,7 +192,7 @@
                             <!-- New Address Form (The collapsible part) -->
                             <div class="collapse" id="new-address-form-container">
                                 <div class="card card-body p-3 border-0">
-                                    <h5 id="addressFormTitle" class="mb-3 border-bottom pb-2">افزودن آدرس جدید</h5>
+                                    <h5 id="addressFormTitle" class="mb-3 border-bottom pb-2 text-title ">افزودن آدرس جدید</h5>
                                     <form id="address-form" class="row g-3">
                                         @csrf
                                         <!-- The ID field for editing -->
@@ -292,13 +292,13 @@
 
             <!-- 4. Change Password -->
             <div class="row">
-                <h2 class="text-title d-flex flex-row align-items-center mt-4">
+                <h2 class="text-title d-flex flex-row align-items-center mt-2 mb-0">
                     <svg width="22" height="22" fill="currentColor" class="bi bi-unlock2-fill mx-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 0c1.07 0 2.041.42 2.759 1.104l.14.14.062.08a.5.5 0 0 1-.71.675l-.076-.066-.216-.205A3 3 0 0 0 5 4v2h6.5A2.5 2.5 0 0 1 14 8.5v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4"/>
                     </svg>
                     تغییر رمز عبور
                 </h2>
-                <form id="changePasswordForm" class="my-1 borderBg" dir="rtl">
+                <form id="changePasswordForm" class="borderBg" dir="rtl">
                     @csrf
                     <div class="row">
                         <div class="col-12 col-md-4 mb-2">
@@ -686,18 +686,26 @@
                 }
                 userAddresses.forEach(address => {
                     container.append(`
-                <div class="card mb-2 border-0 shadow-sm borderBg">
-                    <div class="card-body d-flex justify-content-between align-items-center">
+                <div class="card mb-2 border-0 shadow-sm borderBg p-3">
+                    <div class="card-body d-flex justify-content-between flex-row p-0">
                         <div>
-                            <h6 class="mb-1"><strong>${address.first_name} ${address.last_name}</strong></h6>
-                            <p class="small text-muted mb-0">
-                                ${address.province}، ${address.city} - ${address.address} (پلاک: ${address.plate})
-                            </p>
-                            <p class="small text-muted mb-0">کد پستی: ${address.post_code} | موبایل: ${address.mobile}</p>
+                            <h6 class="mb-2"><strong>${address.first_name} ${address.last_name}</strong></h6>
+                            <div class="d-flex flex-row align-items-center">
+                                <svg width="16" height="16" fill=" rgb(220, 53, 69)" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                </svg>  
+                                <div class="ps-2 ms-1" style="border-right:1px solid #d5d5d5;">
+                                    <p class="small text-muted mb-0">
+                                    ${address.province}، ${address.city} - ${address.address} (پلاک: ${address.plate})
+                                    </p>
+                                    <p class="small text-muted mb-0">کد پستی: ${address.post_code} | موبایل: ${address.mobile}</p>  
+                                </div>    
+                            </div>
                         </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-sm btn-outline-info edit-address-btn" data-id="${address.id}">ویرایش</button>
-                            <button class="btn btn-sm btn-outline-danger delete-address-btn" data-id="${address.id}">حذف</button>
+                        <div class="d-flex align-items-end gap-2">
+                            <button class="btn btn-sm btn-outline-info edit-address-btn" style="height: 35px;" data-id="${address.id}">ویرایش</button>
+                            <button class="btn btn-sm btn-outline-danger delete-address-btn" style="height: 35px;" data-id="${address.id}">حذف</button>
                         </div>
                     </div>
                 </div>
