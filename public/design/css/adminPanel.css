@@ -14,12 +14,6 @@
     --border-color: #343a40;
   }
   
-  html, body {
-    font-family: 'Shabnam';
-    font-weight: 400;
-  }
-  
-  
   *{
       text-decoration: none;
       list-style: none;
@@ -31,10 +25,13 @@
     text-decoration: none;
     list-style: none;
   }
-  html ,body{
+  html,body{
     padding: 0;
     margin: 0;
-    height: 100vh;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Shabnam';
+    font-weight: 400;
   }
   body {
     background-color:rgba(18, 24, 27, 0.959);
@@ -45,7 +42,7 @@
   
   .EditorSvg {
     font-size: 20px;
-    color:#d4af37;
+    color:#e08d10;
   }
   /* =====================
      General input style
@@ -82,7 +79,7 @@
 
   .panel{
     background-color:rgb(18, 24, 27);
-    min-height: 100vh;
+    height: 100%;
   }
   .bg-panel{
     background-color: var(--sidebar-bg)!important;
@@ -109,7 +106,6 @@
   }
   .offcanvas-lg{
     background-color: var(--sidebar-bg)!important;
-    height: 100vh;
   }
   
   .sidebar .nav-link {
@@ -214,7 +210,6 @@
     display: flex;
     align-items:center;
     justify-content: center;
-
   }
 
   .icon-yellow {
@@ -1308,7 +1303,9 @@ manageOrder
     right: 10px;
     filter: invert(100%);
 }
-
+.modalTextColor{
+  color:#335069;
+}
 /* ********************* customers ******************** */
 .addCustomer i{
   color:#4d2c00;

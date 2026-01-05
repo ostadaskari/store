@@ -36,7 +36,7 @@
                             <img src="{{asset('design/image/logo (4).png')}}" class="img-fluid">
                         </a>
                     </div>
-                    <hr class="border-light">
+                    <hr class="border-light" style="margin: 8.5px 0;">
                     <!-- Sidebar Navigation -->
                     <ul class="nav nav-pills flex-column mb-auto" >
                          <li><a href="{{ url('admin/dashboard') }}" class="nav-link px-0 @if(Request::segment(2) == 'dashboard') active @endif"><i class='bx bxs-dashboard mx-2 EditorSvg'></i> داشبورد</a></li>
@@ -51,7 +51,7 @@
                         <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-truck-front mx-2 EditorSvg'></i>باربری</a></li>
                         <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif"><i class="bi bi-card-list mx-2 EditorSvg"></i>سفارشات</a></li>
                         <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
-                        <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>نظرات خریداران</a></li>
+                        <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>نظرات مشتریان</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>

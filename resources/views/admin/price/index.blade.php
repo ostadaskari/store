@@ -31,19 +31,19 @@
             </div>
         </div>
 
-        <div class="card p-3">
-            <div class="table-responsive border shadow-sm rounded bg-white" style="max-height:66vh; overflow-y: auto;" dir="ltr">
+        <div class="card p-2">
+            <div class="table-responsive border shadow-sm rounded" style="max-height:66vh; overflow-y: auto;" dir="ltr">
                 <table class="table table-hover align-middle mb-0 text-center" dir="rtl">
                     <thead class="table-blue">
                     <tr>
-                        <th>Part Number</th>
-                        <th class="text-success">قیمت به دلار $</th>
-                        <th>نهایی USD</th>
-                        <th>قیمت به تومان</th>
-                        <th>تخفیف %</th>
-                        <th style="color: #666; font-size: 0.85rem;">قبل از تخفیف</th>
-                        <th style="background:#43897a; color:white;">قیمت فروش</th>
-                        <th>عملیات</th>
+                        <th style="width:20%;">Part Number</th>
+                        <th style="width:12%;">قیمت به دلار $</th>
+                        <th style="width:12%;">نهایی USD</th>
+                        <th style="width:12%;">قیمت به تومان</th>
+                        <th style="width:12%;">تخفیف %</th>
+                        <th style="color: #f36161;width:12%;">قبل از تخفیف</th>
+                        <th style="background:#43897a; color:white;width:12%;">قیمت فروش</th>
+                        <th style="width:5%;">عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
