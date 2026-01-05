@@ -44,15 +44,15 @@
                         <li><a href="{{ url('admin/category/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'category') active @endif"><i class="bi bi-grid-1x2 mx-2 EditorSvg"></i>دسته ها</a></li>
                         <li><a href="{{ url('admin/product/list') }}" class="nav-link px-0 @if(Request::segment(2) == 'product') active @endif"><i class="bi bi-box-seam mx-2 EditorSvg"></i>محصولات</a></li>
                         <li><a href="{{ url('admin/banners') }}" class="nav-link px-0 @if(Request::segment(2) == 'banners') active @endif"><i class="bi bi-rainbow mx-2 EditorSvg"></i>بنر ها</a></li>
-                        <li><a href="{{ url('admin/information') }}" class="nav-link px-0 @if(Request::segment(2) == 'information') active @endif"><i class="bi bi-meta mx-2 EditorSvg"></i>اطلاعات محصولات</a></li>
+                        <li><a href="{{ url('admin/information') }}" class="nav-link px-0 @if(Request::segment(2) == 'information') active @endif"><i class="bi bi-info-square mx-2 EditorSvg"></i>اطلاعات محصولات</a></li>
                         <li><a href="{{ url('admin/product-seo') }}" class="nav-link px-0 @if(Request::segment(2) == 'product-seo') active @endif"><i class="bi bi-meta mx-2 EditorSvg"></i>meta's</a></li>
                         <li><a href="{{ url('/admin/prices') }}" class="nav-link px-0 @if(Request::segment(2) == 'price') active @endif"><i class="bi bi-cash-coin mx-2 EditorSvg"></i>قیمت ها</a></li>
-                        <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif" ><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
+                        <li><a href="{{ url('/admin/discounts') }}" class="nav-link px-0 @if(Request::segment(2) == 'discounts') active @endif"><i class='bi bi-tags-fill mx-2 EditorSvg'></i> تخفیف</a></li>
 
-                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif" ><i class='bi bi-truck-front mx-2 EditorSvg'></i>باربری</a></li>
+                        <li><a href="{{ url('/admin/shippings') }}" class="nav-link px-0 @if(Request::segment(2) == 'shippings') active @endif"><i class='bi bi-truck-front mx-2 EditorSvg'></i>باربری</a></li>
                         <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif"><i class="bi bi-card-list mx-2 EditorSvg"></i>سفارشات</a></li>
-                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
-                        <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif" ><i class='bi bi-people mx-2 EditorSvg'></i>نظرات مشتریان</a></li>
+                        <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif"><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
+                        <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif"><i class="bi bi-card-checklist mx-2 EditorSvg"></i>نظرات مشتریان</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
                         <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
