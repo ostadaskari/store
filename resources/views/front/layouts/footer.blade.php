@@ -248,12 +248,12 @@
   });
 </script>
 
+<!-- SweetAlert2 -->
+<script src="{{asset('design/js/sweetalert2.all.min.js')}}"></script>
 <!-- js -->
 <script src="{{asset('design/js/main.js')}}"></script>
 @yield('script')
 
-<!-- SweetAlert2 -->
-<script src="{{asset('design/js/sweetalert2.all.min.js')}}"></script>
 
 @include('front.layouts.swal')
 

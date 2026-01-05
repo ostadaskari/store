@@ -445,7 +445,7 @@
                             <svg class="mx-2" width="16" height="16" fill="#0099ff" viewBox="0 0 16 16">
                                 <path d="M14 4.5V9h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v7H2V2a2 2 0 0 1 2-2h5.5zM13 12h1v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2h1v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zM.5 10a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1z"/>
                             </svg>
-                            نقد و بررسی
+                            توضیحات
                         </a>
                     </li>
                     <li class="nav-item nav-product">
@@ -474,8 +474,11 @@
                         <div class="container p-2 bg-aliceblue">
                             <div class="border-0 p-5">
                                 <div class="card-body">
-                                    <h2 class="card-title mb-4">بررسی و نقدی هنوز صورت نگرفته است..</h2>
-
+                                    @if($product->information->description)
+                                        <p>{!! $product->information->description !!}</p>
+                                        @else
+                                    <p class="card-title mb-4">بررسی و نقدی هنوز صورت نگرفته است..</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
