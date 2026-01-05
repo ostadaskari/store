@@ -344,14 +344,19 @@ textarea::placeholder {
 /* bank info */
 #user-profile-editor .text-title{
   font-size: 16px;
-  color:rgb(241, 241, 241); 
-  background-color:#232f3ede;
-  padding: 10px!important;
-  border-radius:8px 8px 0 0;
+  color: rgb(27 32 59);
+  background-color: #97a6bb17;
+  padding: 10px !important;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid #97a6bb2e;
  }
+ #user-profile-editor .text-title svg{
+  fill:#23436f;
+ }
+ 
  #user-profile-editor .borderBg{
-  border:1px solid #232f3e67;
-  background-color:#e9eff759;
+  border:1px solid #232f3e21;
+  background-color:#e9eff705;
   border-radius:0 0 8px 8px;
   padding: 10px;
  }
