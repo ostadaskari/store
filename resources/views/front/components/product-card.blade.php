@@ -46,12 +46,12 @@
 
             {{-- Image --}}
             <div class="top">
-                <img src="{{ $image }}" alt="{{ $product->name }}">
+                <img src="{{ $image }}" alt="{{ $product->part_number }}">
             </div>
 
             {{-- Product Name --}}
             <div class="product-name">
-                <span class="text-dark">P/N : {{ $product->part_number }}</span>
+                <span class="text-dark">P/N : {{ $product->information->title ?? ($product->part_number ?? '') }}</span>
             </div>
 
             {{-- Bottom Content --}}
