@@ -95,7 +95,7 @@
                             </div>
 
                             <!-- Captcha Section -->
-                            <div class="mb-3 px-2">
+                            <div class="px-2 d-flex flex-row align-items-center">
                                 <label class="form-label text-contact fw-medium">کد امنیتی:</label>
                                 <div class="captcha-container">
                                     <img src="{{ route('captcha.image') }}" alt="captcha" class="captcha-img" id="captchaImg">
@@ -119,16 +119,48 @@
                 <div class="col-lg-6 pt-5 position-relative">
                     <img class="imgFollow" src="{{ asset('design/image/iconFollow.png') }}" alt="follow us">
                     <div class="ps-lg-4">
-                        <!-- Contact Info Blocks (Same as your original) -->
                         <div class="d-flex flex-column gap-3 mb-5">
-                            <div class="d-flex align-items-start gap-3">
-                                <div class="icon-circle flex-shrink-0"><i class="bi bi-geo-alt-fill"></i></div>
+                            <div class="d-flex align-items-start gap-3 icon-box-wrapper">
+                                <div class="icon-circle flex-shrink-0">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
                                 <div>
                                     <h6 class="fw-bold text-dark mb-1">آدرس دفتر مرکزی</h6>
-                                    <p class="text-contact mb-0 lh-base">شیراز، چهارراه پارامونت، خیابان قصرالدشت ،کوچه 2 , ساختمان داور</p>
+                                    <p class="text-contact mb-0 lh-base">
+                                      شیراز، چهارراه پارامونت، خیابان قصرالدشت ،کوچه 2 , ساختمان داور
+                                    </p>
                                 </div>
                             </div>
-                            <!-- ... rest of your info blocks ... -->
+
+                            <div class="d-flex align-items-start gap-3 icon-box-wrapper">
+                                <div class="icon-circle flex-shrink-0">
+                                    <i class="bi bi-telephone-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1">تلفن تماس</h6>
+                                    <p class="text-contact mb-0" dir="ltr">071 - 8888 1234</p>
+                                    <p class="text-contact mb-0" dir="ltr">071 - 8888 5678</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3 icon-box-wrapper">
+                                <div class="icon-circle flex-shrink-0">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1">پست الکترونیک</h6>
+                                    <p class="text-contact mb-0 font-monospace">info@shirazchip.ir</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-top pt-5 text-center">
+                            <h6 class="fw-bold text-dark mb-3">شبکه‌های اجتماعی</h6>
+                            <div class="d-flex gap-3 justify-content-center">
+                                <a href="#" class="social-link"><i class="bi bi-instagram fs-5"></i></a>
+                                <a href="#" class="social-link"><i class="bi bi-twitter-x fs-5"></i></a>
+                                <a href="#" class="social-link"><i class="bi bi-linkedin fs-5"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>

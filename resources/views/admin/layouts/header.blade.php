@@ -25,7 +25,7 @@
 <div class="container panel">
     <div class="row" dir="rtl">
         <!-- right sidebar -->
-        <div class="col-2 px-0" style="width: 15%;">
+        <div class="col-2 px-0" style="width: 15%;height: 100vh;">
             <div class="offcanvas-lg offcanvas-start sidebar px-2 d-flex flex-column" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarLabel">
                 <div class="offcanvas-header d-lg-none d-flex justify-content-end">
                     <button class="btn-close btn-close-white m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"></button>
@@ -53,17 +53,8 @@
                         <li><a href="{{ url('/admin/orders') }}" class="nav-link px-0 @if(Request::segment(2) == 'orders') active @endif"><i class="bi bi-card-list mx-2 EditorSvg"></i>سفارشات</a></li>
                         <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif"><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
                         <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif"><i class="bi bi-card-checklist mx-2 EditorSvg"></i>نظرات مشتریان</a></li>
-                        <li><a href="{{ url('/admin/messages') }}" class="nav-link px-0 @if(Request::segment(2) == 'messages') active @endif"><i class="bi bi-card-checklist mx-2 EditorSvg"></i>درخواست تماس</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-rainbow mx-2 EditorSvg"></i>Themes</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-doughnut-chart mx-2 EditorSvg'></i> آنالیز</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-message-dots mx-2 EditorSvg'></i> پیام‌ها <span class="badgeMess" style="color:var(--sidebar-bg);">4</span></a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-shopping-bag mx-2 EditorSvg'></i>اطلاعات خرید</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bx-message-edit mx-2 EditorSvg'></i> مدیریت SMS</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-pencil-square mx-2 EditorSvg"></i>Editor</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-kanban mx-2 EditorSvg"></i>مدیریت سفارشات</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت تبلیغات</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class="bi bi-badge-ad mx-2 EditorSvg"></i>مدیریت برندها</a></li>
-                        <li><a href="#" class="nav-link px-0" ><i class='bx bxs-cog bx-spin-hover mx-2 EditorSvg'></i> تنظیمات</a></li>
+                        <li><a href="{{ url('/admin/messages') }}" class="nav-link px-0 @if(Request::segment(2) == 'messages') active @endif"><i class='bx bxs-message-dots mx-2 EditorSvg'></i>پیام های تماس با ما</a></li>
+            
                         <hr class="border-light my-0">
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-person-check mx-2 EditorSvg"></i> {{ Auth::user()->name }}</a></li>
                     </ul>
@@ -89,11 +80,6 @@
                                 <span id="live-date">0000/00/00</span>
                             </div>
 
-                            <!-- Notification icon with badge -->
-                            <a href="" class="position-relative me-3 text-white">
-                                <i class='bx bxs-bell bx-tada-hover fs-5'></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">8</span>
-                            </a>
 
                             <a href="{{url('admin/logout')}}" class="nav-link px-0"><i class='bx bx-power-off bx-burst-hover mx-2'></i></a>
                         </div>

@@ -79,7 +79,7 @@
 
   .panel{
     background-color:rgb(18, 24, 27);
-    height: 100%;
+    height: 100vh;
   }
   .bg-panel{
     background-color: var(--sidebar-bg)!important;
