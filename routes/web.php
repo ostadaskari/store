@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\InformationController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductSEOController;
 use App\Http\Controllers\Admin\ShippingController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Auth\PasswordController;
 
 use App\Http\Controllers\Auth\RegisterController;
 
+use App\Http\Controllers\Front\CaptchaController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CartCouponController;
 use App\Http\Controllers\Front\HomeController;
@@ -131,11 +133,22 @@ Route::middleware('admin')->group(callback: function(){
     Route::post('/admin/reviews/reply', [AdminReviewController::class, 'reply'])->name('admin.reviews.reply');
     Route::delete('/admin/reviews/{id}/reply', [AdminReviewController::class, 'deleteReply'])->name('admin.reviews.reply.delete');
 
+    //messages
+    Route::get('/admin/messages', [MessageController::class, 'index'])->name('admin.messages.index');
+    Route::get('/admin/messages/{id}', [MessageController::class, 'show'])->name('admin.messages.show');
+    Route::delete('/admin/messages/{id}', [MessageController::class, 'destroy'])->name('admin.messages.destroy');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+// Display CONTACT page
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+// Generate Captcha Image
+Route::get('/captcha/image', [CaptchaController::class, 'generate'])->name('captcha.image');
+// Handle Form Submission
+Route::post('/contact/send', [HomeController::class, 'sendContact'])->name('contact.send');
 
 Route::get('/category/{slug}',[FrontCategoryController::class,'show'])->name('category.show');
 
