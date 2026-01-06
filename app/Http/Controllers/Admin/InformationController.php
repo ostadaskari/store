@@ -79,29 +79,73 @@ class InformationController extends Controller
         ]);
     }
 
+    /**
+     * Saves or updates product information with robust error handling.
+     * * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeOrUpdate(Request $request)
     {
-        // Single row save (AJAX)
-        $data = $request->validate([
-            'product_part_number' => 'required|string',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable',
+        try {
+            // 1. Validation Logic
+            // We use a try-catch for validation to return custom JSON if it fails
+            $data = $request->validate([
+                'product_part_number' => 'required|string|max:100',
+                'title'               => 'nullable|string|max:255',
+                'description'         => 'nullable|string',
+            ], [
+                // Custom Persian validation messages (Optional)
+                'product_part_number.required' => 'وارد کردن پارت نامبر الزامی است.',
+                'title.max' => 'عنوان نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+            ]);
 
-        ]);
+            // 2. Database Transaction
+            // Use a transaction to ensure that if something goes wrong, no partial data is saved
+            return \DB::transaction(function () use ($data) {
 
-        // Find or create by product_part_number
-        $information = Information::updateOrCreate(
-            ['product_part_number' => $data['product_part_number']],
-            [
-                'title' => $data['title'],
-                'description' => $data['description'],
-            ]
-        );
+                // 3. Execution Logic
+                $information = Information::updateOrCreate(
+                    ['product_part_number' => $data['product_part_number']],
+                    [
+                        'title'       => $data['title'],
+                        'description' => $data['description'],
+                    ]
+                );
 
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'اطلاعات محصول با موفقیت ذخیره شد ✅',
-            'information' => $information
-        ]);
+                // 4. Success Response
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => 'اطلاعات محصول با موفقیت ذخیره شد ✅',
+                    'information' => $information
+                ], 200);
+            });
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Handle Validation Errors
+            return response()->json([
+                'status' => 'validation_error',
+                'message' => 'خطا در داده‌های ورودی',
+                'errors' => $e->errors()
+            ], 422);
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle Database Errors (e.g. unique constraint violation, connection issue)
+            \Log::error("Database Error in storeOrUpdate: " . $e->getMessage());
+
+            return response()->json([
+                'status' => 'db_error',
+                'message' => 'خطا در برقراری ارتباط با پایگاه داده. لطفا مجددا تلاش کنید.'
+            ], 500);
+
+        } catch (\Exception $e) {
+            // Handle any other unexpected exceptions
+            \Log::error("General Error in storeOrUpdate: " . $e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'متأسفانه مشکلی پیش آمد. مدیر سیستم را مطلع کنید.',
+                'debug' => config('app.debug') ? $e->getMessage() : null // Show error detail only in local/dev
+            ], 500);
+        }
     }
 }
