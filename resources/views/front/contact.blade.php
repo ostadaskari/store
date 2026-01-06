@@ -6,10 +6,11 @@
         /* --- تنظیمات محتوای اصلی (لایه رویی) --- */
         .main-content {
             position: relative;
-            margin-bottom: 300px;
+            margin-top:40px;
+            margin-bottom: 456px;
             background: #507596;
             background: radial-gradient(circle, rgba(80, 117, 150, 1) 0%, rgba(0, 49, 83, 1) 100%);
-            min-height: 355px;
+            min-height: 459px;
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
@@ -30,10 +31,7 @@
             border-radius: 20px 20px 0 0; 
             color: #333; 
         }
-        .bgheader {
-            width: 100vw;
-            height:355px;
-        }
+
         .topPadd {
             padding-top: 163px;
         }
@@ -72,20 +70,14 @@
             top: 10vh;
             width: 90%;
         }
-        .bgheader{
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
+
         }
     </style>
 @endsection
 
 @section('content')
      <main class="main-content container-fluid topPadd">
-        <img class="imgFollow" src="{{ asset('design/image/iconFollow.png') }}" alt="follow us">
-        <div class="bgheader text-center"></div>
+       
         <div class="container py-2 contactContainer">
             <div class="mt-3">
                 <p class="lh-lg text-center m-0" style="color:#021010;">
