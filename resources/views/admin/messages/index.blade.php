@@ -61,7 +61,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-4 text-muted">هیچ پیامی یافت نشد.</td>
+                                <td colspan="6" class="py-4">هیچ پیامی یافت نشد.</td>
                             </tr>
                         @endforelse
                         </tbody>
@@ -79,11 +79,11 @@
     <div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-light">
+                <div class="modal-header modalTextColor">
+                    <button type="button" class="btn-close mx-0" data-bs-dismiss="modal" aria-label="Close" style="margin-right: auto; margin-left: 0;"></button>
                     <h5 class="modal-title">جزئیات پیام</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: auto; margin-left: 0;"></button>
                 </div>
-                <div class="modal-body text-end" dir="rtl">
+                <div class="modal-body text-end modalTextColor" dir="rtl">
                     <div class="mb-2">
                         <label class="fw-bold text-primary">فرستنده:</label>
                         <span id="modal-sender-name"></span>

@@ -65,6 +65,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="card" style="height: 100px;">
                                 <div class="card-body d-flex align-items-center justify-content-around">
@@ -78,6 +79,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="card" style="height: 100px;">
                                 <div class="card-body d-flex align-items-center justify-content-around">
@@ -130,7 +132,7 @@
                         <!-- Orders Table & Todos -->
 
                         <!-- Orders Table -->
-                        <div class="col-lg-8">
+                        <div class="col-12">
                             <div class="card shadow-sm">
                                 <div class="card-header d-flex align-items-center">
                                     <svg class="mx-2" width="18" height="18" fill="#fff" class="bi bi-archive-fill" viewBox="0 0 16 16">
@@ -143,7 +145,7 @@
                                     <table class="table table-hover align-middle border-panel">
                                         <thead>
                                         <tr>
-                                            <th># شماره سفارش</th>
+                                            <th>شماره سفارش</th>
                                             <th>تاریخ سفارش</th>
                                             <th>وضعیت</th>
                                             <th>جزییات</th>
@@ -178,66 +180,29 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- CHART A: Orders + Customers --}}
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h5 class="mb-0">آمار تعداد سفارشات و مشتریان</h5>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="chartCounts" height="120"></canvas>
-                            </div>
-                        </div>
-
-                        {{-- CHART B: Sales --}}
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h5 class="mb-0">نمودار فروش سالانه (تومان)</h5>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="chartSales" height="120"></canvas>
-                            </div>
-                        </div>
-
-
-                        <!-- Todos / Reminders -->
-                        <div class="col-lg-4" >
-                            <div class="card shadow-sm">
-                                <div class="card-header d-flex align-items-center">
-                                    <svg width="20" height="20" fill="currentColor" class="bi bi-journal-check mx-2" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
-                                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
-                                    </svg>
-                                    <h5 class="mb-0">یادآوری ها</h5>
+                        
+                        <div class="col-lg-6">
+                            {{-- CHART A: Orders + Customers --}}
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">آمار تعداد سفارشات و مشتریان</h5>
                                 </div>
-
                                 <div class="card-body">
-                                    <ul class="list-group bg-panel border-panel">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-panel">
-                                            <div>
-                                                <strong>بررسی سفارشات جدید</strong><br>
-                                                <small class="">۲۰۲۳/۰۴/۰۵</small>
-                                            </div>
-                                            <span class="badge bg-primary rounded-pill">امروز</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-panel">
-                                            <div>
-                                                <strong>بررسی ایمیل ها</strong><br>
-                                                <small class="">۲۰۲۳/۰۴/۰۶</small>
-                                            </div>
-                                            <span class="badge bg-warning rounded-pill">فردا</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-panel">
-                                            <div>
-                                                <strong>جلسه با تامین کننده</strong><br>
-                                                <small class="">۲۰۲۳/۰۴/۰۸</small>
-                                            </div>
-                                            <span class="badge bg-danger rounded-pill">در 3 روز</span>
-                                        </li>
-                                    </ul>
+                                    <canvas id="chartCounts" height="120"></canvas>
                                 </div>
                             </div>
                         </div>
+                        {{-- CHART B: Sales --}}
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">نمودار فروش سالانه (تومان)</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartSales" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>    
                     </div>
                     <!-- end row -->
                 </div>
