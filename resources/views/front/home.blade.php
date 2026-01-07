@@ -9,7 +9,7 @@
     <div id="bannerCarousel" class="container carousel slide m-auto px-3 topPadd" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             @foreach ($banners as $index => $banner)
-                <a class="carousel-item {{ $index === 0 ? 'active' : '' }}" href="#">
+                <a class="carousel-item {{ $index === 0 ? 'active' : '' }}" href="{{ $banner->link ?? '/' }}" target="_blank">
                     <img src="{{ asset( $banner->image_path) }}"
                          alt="{{ $banner->alt_text ?? 'Banner image' }}"
                          class="d-block w-100">
@@ -38,7 +38,7 @@
 
 <!-- end banner -->
 
-<!-- start baner1 section -->
+<!-- start banner1 section -->
 <section class="container mt-3 d-none d-md-block">
     <div class="row px-1">
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
@@ -1489,7 +1489,7 @@
         محصولات</p>
     <div class="row m-auto my-5">
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1503,7 +1503,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1537,7 +1537,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1551,7 +1551,7 @@
                         </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1585,7 +1585,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1599,7 +1599,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1634,7 +1634,7 @@
         </div>
 
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1648,7 +1648,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">

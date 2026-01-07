@@ -19,41 +19,56 @@ class BannerController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
-            'alts.*' => 'nullable|string|max:255',
-        ]);
+        $rules = [
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'alts.*'   => 'required|string|max:255',
+            'links.*'  => 'nullable|url|max:500',
+        ];
+
+        $messages = [
+            'images.*.required' => 'انتخاب تصویر برای تمامی بنرها الزامی است.',
+            'images.*.image'    => 'فایل انتخاب شده باید از نوع تصویر باشد.',
+            'images.*.mimes'    => 'فرمت‌های مجاز تصویر: jpeg, png, jpg, gif',
+            'images.*.max'      => 'حداکثر حجم مجاز برای هر تصویر ۵ مگابایت است.',
+
+            'alts.*.required'   => 'وارد کردن متن جایگزین (Alt) الزامی است.',
+            'alts.*.string'     => 'متن جایگزین باید به صورت رشته متنی باشد.',
+            'alts.*.max'        => 'متن جایگزین نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+
+            'links.*.url'       => 'فرمت لینک وارد شده معتبر نیست (باید با http یا https شروع شود).',
+            'links.*.max'       => 'لینک نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد.',
+        ];
+
+        $attributes = [
+            'images.*' => 'تصویر بنر',
+            'alts.*'   => 'متن جایگزین',
+            'links.*'  => 'لینک بنر',
+        ];
+
+        $validated = $request->validate($rules, $messages, $attributes);
 
         $images = $request->file('images', []);
         $alts = $request->input('alts', []);
+        $links = $request->input('links', []);
 
-        // target Directory path to save banner images
         $destinationPath = 'images/banners';
-        // create directory if not exist
         if (!File::exists($destinationPath)) {
-            File::makeDirectory($destinationPath,0777,true,true);
+            File::makeDirectory($destinationPath, 0777, true, true);
         }
 
         foreach ($images as $index => $file) {
-            // Generate a unique file name
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Move the file directly to the public/images/banners folder
             $file->move($destinationPath, $fileName);
-
-            // Store the path relative to the public folder in the database
-            // This will save as: 'images/banners/filename.ext'
             $path = 'images/banners/' . $fileName;
-
-            $altText = $alts[$index] ?? null;
 
             Banner::create([
                 'image_path' => $path,
-                'alt_text' => $altText,
+                'alt_text' => $alts[$index] ?? null,
+                'link' => $links[$index] ?? null, // ذخیره لینک
             ]);
         }
 
-        return back()->with('success', 'Banners uploaded successfully.');
+        return back()->with('success', 'بنرها با موفقیت آپلود شدند.');
     }
 
 
