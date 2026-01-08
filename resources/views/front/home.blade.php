@@ -200,12 +200,12 @@
                             <h2 class="title-header-owl pt-2 px-1 m-0">پرفروش ترین ها</h2>
                         </div>
 
-                        <div class="owl-carousel best-seller-carousel p-3">
+                        <div class="owl-carousel best-seller-carousel product-card">
                             @foreach($best_sellers as $product)
-                                <div class="item">
+                                
                                     {{-- استفاده از همان کامپوننت کارت محصول برای یکپارچگی --}}
                                     @include('front.components.product-card', ['product' => $product])
-                                </div>
+                               
                             @endforeach
                         </div>
                     </div>
@@ -657,17 +657,17 @@
             {{-- بخش جدیدترین ها --}}
             <section class="container owl-products owl-3 position-relative mt-5">
                 <div class="row m-auto">
-                    <div class="col-sm-12 p-0 shadow-sm" style="background-color: #f8f9fa; border-radius: 15px; overflow: hidden; border: 1px solid #eee;">
+                    <div class="col-sm-12 p-0 shadow-sm">
                         <div class="bg-header-owl">
                             <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon.png') }}" width="80" height="80" alt="جدیدترین ها" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0 text-dark">جدیدترین ها</h2>
                         </div>
 
-                        <div class="owl-carousel newest-products-carousel p-3">
+                        <div class="owl-carousel newest-products-carousel product-card">
                             @foreach($newest_products as $product)
-                                <div class="item">
+                                
                                     @include('front.components.product-card', ['product' => $product])
-                                </div>
+                           
                             @endforeach
                         </div>
                     </div>
