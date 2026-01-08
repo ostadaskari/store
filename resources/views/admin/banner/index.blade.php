@@ -95,7 +95,7 @@
             <form action="{{ route('banners.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div id="banner-inputs">
-                    <div class="banner-upload mb-4 p-3 border rounded bg-light position-relative">
+                    <div class="banner-upload mb-4 p-3 border rounded position-relative">
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">تصویر بنر:</label>
@@ -136,11 +136,11 @@
                         <div class="d-flex align-items-center">
                             <i class="bi bi-grip-vertical fs-4 text-muted me-2"></i>
                             <img src="{{ asset($banner->image_path) }}" class="rounded me-3" style="width: 120px; height: 60px; object-fit: cover;">
-                            <div>
-                                <div class="fw-bold">Alt: <span class="text-muted fw-normal">{{ $banner->alt_text ?? '-' }}</span></div>
-                                <div class="fw-bold">Link: <a href="{{ $banner->link }}" target="_blank" class="text-primary fw-normal small">{{ $banner->link ?? 'بدون لینک' }}</a></div>
-                            </div>
                         </div>
+                        <div class="d-flex d-flex align-items-center justify-content-between modalTextColor">
+                                <div class="fw-bold mx-2">Alt: <span class="text-muted fw-normal">{{ $banner->alt_text ?? '-' }}</span></div>
+                                <div class="fw-bold mx-2">Link: <a href="{{ $banner->link }}" target="_blank" class="text-primary fw-normal small">{{ $banner->link ?? 'بدون لینک' }}</a></div>
+                            </div>
                         <form method="POST" action="{{ route('banners.destroy', $banner->id) }}" class="delete-form">
                             @csrf @method('DELETE')
                             <button type="button" class="btn btn-sm btn-outline-danger delete-btn">
