@@ -15,6 +15,7 @@
         src="{{asset('design/sound/2568-preview.mp3') }}"
         preload="auto">
     </audio>
+<div class="col-12 col-md-3 px-2 product-card my-2">
 
     <div class="pro position-relative hover-card"> {{-- Container for everything --}}
 
@@ -127,4 +128,5 @@
     </div>
 
 
+</div>
 
