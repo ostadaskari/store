@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 
 use App\Models\Message;
+use App\Models\ProductPrice;
+use App\Models\Warehouse\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
@@ -15,8 +17,22 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['banners'] = Banner::orderBy('sort_order','asc')->get();
         $data['header_title'] = 'خانه';
+
+        // 1. دریافت بنرها
+        $data['banners'] = Banner::orderBy('sort_order', 'asc')->get();
+
+        // 2. دریافت پارت‌نامبر محصولاتی که تخفیف دارند از دیتابیس mysql
+        $discountedPartNumbers = ProductPrice::where('discount_percent', '>', 0)
+            ->pluck('product_part_number')
+            ->toArray();
+
+        // 3. واکشی خود محصولات از دیتابیس warehouse بر اساس پارت‌نامبرهای مرحله قبل
+        // با این روش خطای Base table not found برطرف می‌شود
+        $data['discounted_products'] = Product::whereIn('part_number', $discountedPartNumbers)
+            ->with(['coverImage', 'price', 'category', 'information'])
+            ->take(12)
+            ->get();
 
         return view('front.home', $data);
     }

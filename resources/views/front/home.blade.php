@@ -1,6 +1,7 @@
 @extends('front.layouts.app')
 @section('style')
 
+
 @endsection
 @section('content')
 
@@ -9,7 +10,7 @@
     <div id="bannerCarousel" class="container carousel slide m-auto px-3 topPadd" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             @foreach ($banners as $index => $banner)
-                <a class="carousel-item {{ $index === 0 ? 'active' : '' }}" href="#">
+                <a class="carousel-item {{ $index === 0 ? 'active' : '' }}" href="{{ $banner->link ?? '/' }}" target="_blank">
                     <img src="{{ asset( $banner->image_path) }}"
                          alt="{{ $banner->alt_text ?? 'Banner image' }}"
                          class="d-block w-100">
@@ -38,7 +39,7 @@
 
 <!-- end banner -->
 
-<!-- start baner1 section -->
+<!-- start banner1 section -->
 <section class="container mt-3 d-none d-md-block">
     <div class="row px-1">
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
@@ -117,40 +118,20 @@
                 <div class="row">
                     <div class="col-sm-12 p-0 position-relative">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5" src="./design/image/favicon.png" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0">تخفیف روز</h2>
                         </div>
+
                         <div class="owl-carousel product-card">
 
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">120,000,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-
+                            @foreach($discounted_products as $product)
+                                {{--
+                                   نکته: اگر استایل کارت‌های اسلایدر با صفحات معمولی متفاوت است،
+                                   می‌توانید کدهای داخل کامپوننت را اینجا کپی کنید.
+                                   در اینجا ما از کامپوننت فعلی شما استفاده می‌کنیم:
+                                --}}
+                                @include('front.components.product-card', ['product' => $product])
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -1193,7 +1174,7 @@
         محصولات</p>
     <div class="row m-auto my-5">
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1207,7 +1188,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1241,7 +1222,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1255,7 +1236,7 @@
                         </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1289,7 +1270,7 @@
             </div>
         </div>
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1303,7 +1284,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
@@ -1338,7 +1319,7 @@
         </div>
 
         <div class="col-12 col-md-3 product-card">
-            <div class="pro position-relative"> 
+            <div class="pro position-relative">
                 <div class="product-overlay">
                     <button class="btnSvg">
                         <svg width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1352,7 +1333,7 @@
                        </a>
                     </div>
                 </div>
-        
+
                 <a href="" class="text-decoration-none">
 
                     <div class="top">
