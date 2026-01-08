@@ -177,7 +177,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">لینک بنر (Link):</label>
-                            <input type="url" name="links[]" class="form-control" placeholder="https://example.com">
+                            <input type="url" name="links[]" class="form-control">
                         </div>
                     </div>
                 `;

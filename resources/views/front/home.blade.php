@@ -1,6 +1,21 @@
 @extends('front.layouts.app')
 @section('style')
 
+    <style>
+        /* خنثی کردن کلاس‌های ستون‌بندی داخل اسلایدر برای نمایش درست */
+        .product-card-carousel .product-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+            margin: 0 !important;
+        }
+
+        /* تنظیم فاصله آیتم‌ها در اسلایدر */
+        .product-card-carousel .item {
+            padding: 10px;
+        }
+    </style>
+
 @endsection
 @section('content')
 
@@ -117,336 +132,19 @@
                 <div class="row">
                     <div class="col-sm-12 p-0 position-relative">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5" src="./design/image/favicon.png" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0">تخفیف روز</h2>
                         </div>
+
                         <div class="owl-carousel product-card">
-
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">120,000,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                     <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pro">
-                                <div class="triangle-badge">
-                                    <span class="sale">تخفیف</span>
-                                </div>
-                                <span class="position-absolute translate-middle badge badge-star d-flex flex-row align-items-center">
-                                    <p class="">3.4</p>
-                                    <svg width="16" height="16" fill="#161313" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                    </svg>
-                                </span>
-                                <div class="top">
-                                    <img src="design/image/PM-AD40.png" loading="lazy" alt="PM-AD40">
-                                </div>
-                                <div class="product-name">
-                                    <span>ترانسمیتر آنالوگ ورودی 4 کانال PM-AD40</span>
-                                </div>
-                                <div class="down">
-                                    <div class="box">
-                                        <div class="orginal">985,000 تومان</div>
-                                        <div class="off">40% -</div>
-                                    </div>
-                                    <div class="final-price-div">
-                                        <div class="mx-1">540,000</div>
-                                        <div>تومان</div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            @foreach($discounted_products as $product)
+                                {{--
+                                   نکته: اگر استایل کارت‌های اسلایدر با صفحات معمولی متفاوت است،
+                                   می‌توانید کدهای داخل کامپوننت را اینجا کپی کنید.
+                                   در اینجا ما از کامپوننت فعلی شما استفاده می‌کنیم:
+                                --}}
+                                @include('front.components.product-card', ['product' => $product])
+                            @endforeach
                         </div>
                     </div>
                 </div>
