@@ -130,7 +130,7 @@
                                    می‌توانید کدهای داخل کامپوننت را اینجا کپی کنید.
                                    در اینجا ما از کامپوننت فعلی شما استفاده می‌کنیم:
                                 --}}
-                                @include('front.components.product-card', ['product' => $product])
+                                @include('front.components.product-card-home', ['product' => $product])
                             @endforeach
                         </div>
                     </div>
@@ -202,10 +202,10 @@
 
                         <div class="owl-carousel best-seller-carousel product-card">
                             @foreach($best_sellers as $product)
-                                
+
                                     {{-- استفاده از همان کامپوننت کارت محصول برای یکپارچگی --}}
-                                    @include('front.components.product-card', ['product' => $product])
-                               
+                                    @include('front.components.product-card-home', ['product' => $product])
+
                             @endforeach
                         </div>
                     </div>
@@ -665,9 +665,9 @@
 
                         <div class="owl-carousel newest-products-carousel product-card">
                             @foreach($newest_products as $product)
-                                
-                                    @include('front.components.product-card', ['product' => $product])
-                           
+
+                                    @include('front.components.product-card-home', ['product' => $product])
+
                             @endforeach
                         </div>
                     </div>
