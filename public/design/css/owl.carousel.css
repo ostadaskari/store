@@ -51,6 +51,7 @@
   min-height: 1px;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  /* height: 450px; */
 }
 
 .owl-carousel .owl-item img {
@@ -118,7 +119,7 @@
 
 .owl-carousel.owl-rtl .owl-item {
   float:right;
-  margin: 0 3.75px!important;
+  margin: 0 1.75px!important;
 }
 
 /* === Fallback for No JS === */

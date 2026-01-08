@@ -1,20 +1,6 @@
 @extends('front.layouts.app')
 @section('style')
 
-    <style>
-        /* خنثی کردن کلاس‌های ستون‌بندی داخل اسلایدر برای نمایش درست */
-        .product-card-carousel .product-card {
-            width: 100% !important;
-            max-width: 100% !important;
-            flex: 0 0 100% !important;
-            margin: 0 !important;
-        }
-
-        /* تنظیم فاصله آیتم‌ها در اسلایدر */
-        .product-card-carousel .item {
-            padding: 10px;
-        }
-    </style>
 
 @endsection
 @section('content')
@@ -137,6 +123,7 @@
                         </div>
 
                         <div class="owl-carousel product-card">
+
                             @foreach($discounted_products as $product)
                                 {{--
                                    نکته: اگر استایل کارت‌های اسلایدر با صفحات معمولی متفاوت است،

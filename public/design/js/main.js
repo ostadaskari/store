@@ -170,6 +170,9 @@ $(document).ready(function() {
     autoplay: true,
     autoplayTimeout: 3000,
     autoplayHoverPause: true,
+     autoWidth: true,
+    autoHeight: true ,
+    slideBy: 6,
     responsive: {
       0: { items: 2 },
       600: { items: 3 },
@@ -185,6 +188,9 @@ $(document).ready(function() {
     autoplay: true,
     autoplayTimeout: 4000,
     autoplayHoverPause: true,
+     autoWidth: true,
+    autoHeight: true ,
+    slideBy: 6,
     responsive: {
       0: { items: 2 },
       600: { items: 3 },
@@ -200,6 +206,9 @@ $(document).ready(function() {
     autoplay: true,
     autoplayTimeout: 3000,
     autoplayHoverPause: true,
+     autoWidth: true,
+    autoHeight: true ,
+    slideBy: 6,
     responsive: {
       0: { items: 2 },
       600: { items: 3 },

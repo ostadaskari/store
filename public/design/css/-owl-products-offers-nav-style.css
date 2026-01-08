@@ -136,7 +136,9 @@
   height: 100%;
   padding-top: 70px;
 }
-
+.bg-header-owl img{
+  filter: drop-shadow(2px 4px 6px black);
+}
 /* === Responsive Styles === */
 @media (max-width: 768px) {
   .mt-60 {
