@@ -232,9 +232,9 @@
                         @endphp
 
                         @if($hasDiscount)
-                            <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="right: -10px; top: 0;">
-                {{ round($priceModel->discount_percent) }}% -
-            </span>
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="right: 24px; top: -10px;">
+                                {{ round($priceModel->discount_percent) }}% -
+                            </span>
 
                             @php
                                 $oldPrice = $display / (1 - ($priceModel->discount_percent / 100));
@@ -474,7 +474,7 @@
                         <div class="container p-2 bg-aliceblue">
                             <div class="border-0 p-5">
                                 <div class="card-body">
-                                    @if($product->information->description)
+                                    @if(!empty($product->information->description))
                                         <p>{!! $product->information->description !!}</p>
                                         @else
                                     <p class="card-title mb-4">بررسی و نقدی هنوز صورت نگرفته است..</p>
