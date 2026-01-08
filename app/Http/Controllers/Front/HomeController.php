@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 
 use App\Models\Message;
+use App\Models\OrderItem;
 use App\Models\ProductPrice;
 use App\Models\Warehouse\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -19,19 +21,36 @@ class HomeController extends Controller
     {
         $data['header_title'] = 'خانه';
 
-        // 1. دریافت بنرها
+        // 1. بنرها
         $data['banners'] = Banner::orderBy('sort_order', 'asc')->get();
 
-        // 2. دریافت پارت‌نامبر محصولاتی که تخفیف دارند از دیتابیس mysql
+        // 2. محصولات دارای تخفیف
         $discountedPartNumbers = ProductPrice::where('discount_percent', '>', 0)
             ->pluck('product_part_number')
             ->toArray();
 
-        // 3. واکشی خود محصولات از دیتابیس warehouse بر اساس پارت‌نامبرهای مرحله قبل
-        // با این روش خطای Base table not found برطرف می‌شود
         $data['discounted_products'] = Product::whereIn('part_number', $discountedPartNumbers)
-            ->with(['coverImage', 'price', 'category', 'information'])
-            ->take(12)
+            ->with(['coverImage', 'price'])
+            ->take(10)
+            ->get();
+
+        // 3. پرفروش‌ترین‌ها
+        $bestSellingIds = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_sales'))
+            ->groupBy('product_id')
+            ->orderBy('total_sales', 'desc')
+            ->take(10)
+            ->pluck('product_id')
+            ->toArray();
+
+        $data['best_sellers'] = Product::whereIn('id', $bestSellingIds)
+            ->with(['coverImage', 'price'])
+            ->get()
+            ->sortBy(fn($product) => array_search($product->id, $bestSellingIds));
+
+        // 4. جدیدترین محصولات
+        $data['newest_products'] = Product::with(['coverImage', 'price'])
+            ->orderBy('created_at', 'desc')
+            ->take(10)
             ->get();
 
         return view('front.home', $data);
