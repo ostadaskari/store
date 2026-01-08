@@ -139,6 +139,20 @@
 .bg-header-owl img{
   filter: drop-shadow(2px 4px 6px black);
 }
+
+.owl-products .product-card .pro .product-name {
+    display: inline-block;
+    font-size: 14px;
+    padding: 5px 10px;
+    white-space: pre-line;
+    overflow: hidden;
+    text-align: left;
+    position: relative;
+    margin-top: 0px;
+    width: 100%;
+    height: auto;
+    mask-image: linear-gradient(to left, transparent 10%, rgb)
+}
 /* === Responsive Styles === */
 @media (max-width: 768px) {
   .mt-60 {
