@@ -6,8 +6,8 @@
     <title>{{ !empty($header_title) ? $header_title : '' }} - ShirazChip.ir</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="{{asset('design/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('design/css/bootstrap-icons.css')}}">
 
 
     <!-- Boxicons -->
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{asset('design/css/adminPanel.css')}}">
     <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
     <!-- for editor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+
     @yield('style')
 </head>
 <body>
@@ -54,7 +54,7 @@
                         <li><a href="{{ url('/admin/customers') }}" class="nav-link px-0 @if(Request::segment(2) == 'customers') active @endif"><i class='bi bi-people mx-2 EditorSvg'></i>مشتریان</a></li>
                         <li><a href="{{ url('/admin/reviews') }}" class="nav-link px-0 @if(Request::segment(2) == 'reviews') active @endif"><i class="bi bi-card-checklist mx-2 EditorSvg"></i>نظرات مشتریان</a></li>
                         <li><a href="{{ url('/admin/messages') }}" class="nav-link px-0 @if(Request::segment(2) == 'messages') active @endif"><i class='bx bxs-message-dots mx-2 EditorSvg'></i>پیام های تماس با ما</a></li>
-            
+
                         <hr class="border-light my-0">
                         <li><a href="#" class="nav-link px-0" ><i class="bi bi-person-check mx-2 EditorSvg"></i> {{ Auth::user()->name }}</a></li>
                     </ul>

@@ -45,7 +45,7 @@
 
 <!-- Bootstrap 5 -->
 <script defer src="{{asset('design/js/bootstrap.bundle.min.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('design/js/chart.js') }}"></script>
 
 <!-- for drag and drop -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

@@ -225,12 +225,7 @@
 <script src="{{asset('design/js/jquery-3.7.1.min.js')}}"></script>
 
 <!--*********** loading ***********-->
-<div class="se-pre-con"></div>
-<script defer>
-    window.addEventListener('load', function() {
-        $(".se-pre-con").fadeOut("slow");
-    });
-</script>
+
 <!--*********** Ends ***********-->
 
 <!-- Bootstrap 5 -->

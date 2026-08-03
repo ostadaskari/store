@@ -659,7 +659,7 @@
                 <div class="row m-auto">
                     <div class="col-sm-12 p-0 shadow-sm">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon.png') }}" width="80" height="80" alt="جدیدترین ها" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="جدیدترین ها" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0 text-dark">جدیدترین ها</h2>
                         </div>
 
