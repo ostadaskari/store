@@ -4,6 +4,29 @@
     <link rel="stylesheet" href="{{ asset('design/css/zoomy.css') }}">
     <link rel="stylesheet" href="{{ asset('design/css/style.css') }}">
 
+    <style>
+        .mylist-product-single {
+            max-height: 280px;          /* Adjust height to fit your layout */
+            overflow-y: auto;           /* Enable vertical scrollbar */
+            padding-right: 8px;         /* Prevent content clipping */
+        }
+
+        /* Modern thin scrollbar styling */
+        .mylist-product-single::-webkit-scrollbar {
+            width: 6px;
+        }
+        .mylist-product-single::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .mylist-product-single::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        .mylist-product-single::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
 @endsection
 
 

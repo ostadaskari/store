@@ -27,7 +27,7 @@
 </ul>
 
 
-{{-- The styles for this page have been moved to file "products page.css",
+{{-- The styles for this page have been moved to file "products-page.css",
  You will find it with the comment " style category-tree "--}}
 
 <script>
