@@ -340,10 +340,9 @@
         </div>
         @if($relatedProducts->count() > 0)
             <div class="row mt-2">
-                @foreach($relatedProducts as $product)
-                    @include('front.components.product-card', ['product' => $product])
+                @foreach($relatedProducts as $relatedProduct)
+                    @include('front.components.product-card', ['product' => $relatedProduct])
                 @endforeach
-
             </div>
         @endif
     </div>

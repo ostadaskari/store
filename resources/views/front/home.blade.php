@@ -125,11 +125,6 @@
                         <div class="owl-carousel product-card">
 
                             @foreach($discounted_products as $product)
-                                {{--
-                                   نکته: اگر استایل کارت‌های اسلایدر با صفحات معمولی متفاوت است،
-                                   می‌توانید کدهای داخل کامپوننت را اینجا کپی کنید.
-                                   در اینجا ما از کامپوننت فعلی شما استفاده می‌کنیم:
-                                --}}
                                 @include('front.components.product-card-home', ['product' => $product])
                             @endforeach
                         </div>

@@ -205,80 +205,80 @@
                                         </li>
 
                                         <!-- IC & میکروکنترلر -->
-                                        <li class="ruby-menu-mega">
-                                            <a href="#">
-                                                <svg width="18" height="18" fill="currentColor" class="bi bi-cpu" viewBox="0 0 16 16">
-                                                    <path d="M5 0a.5.5 0 0 1 .5.5V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2A2.5 2.5 0 0 1 14 4.5h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14a2.5 2.5 0 0 1-2.5 2.5v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14A2.5 2.5 0 0 1 2 11.5H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2A2.5 2.5 0 0 1 4.5 2V.5A.5.5 0 0 1 5 0m-.5 3A1.5 1.5 0 0 0 3 4.5v7A1.5 1.5 0 0 0 4.5 13h7a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 11.5 3zM5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5zM6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
-                                                </svg>
-                                                IC & میکروکنترلر</a>
-                                            <div class="ruby-grid ruby-grid-lined">
-                                                <div class="ruby-row">
-                                                    <div class="ruby-col-2">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/hardware.png" alt="ic">
-                                                            آی‌سی‌ها</h3>
-                                                        <ul>
-                                                            <li><a href="#">آی‌سی دیجیتال</a></li>
-                                                            <li><a href="#">آی‌سی آنالوگ</a></li>
-                                                            <li><a href="#">آی‌سی حافظه</a></li>
-                                                            <li><a href="#">آی‌سی منطق</a></li>
-                                                            <li><a href="#">آی‌سی تغذیه</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-2 hidden-md">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/microcontroller-technology.png" alt="microcontroller">
-                                                            میکروکنترلرها</h3>
-                                                        <ul>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>AVR</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ARM</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ESP32</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>STM32</a></li>
-                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>PIC</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-3">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/sensor.png" alt="sensor">
-                                                            حسگرها</h3>
-                                                        <ul class="ruby-list-with-images">
-                                                            <li><a href="#"><img src="./design/image/L351-min.png">حسگر دما</a><span class="ruby-list-desc">Temperature Sensor</span></li>
-                                                            <li><a href="#"><img src="./design/image/ldr-5mm-removebg-preview.png">حسگر نور</a><span class="ruby-list-desc">Light Sensor</span></li>
-                                                            <li><a href="#"><img src="./design/image/images-removebg-preview.png">حسگر فاصله</a><span class="ruby-list-desc">Distance Sensor</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ruby-col-5">
-                                                        <h3 class="ruby-list-heading">
-                                                            <img class="iconImg" src="./design/image/3d-cube.png" alt="modules">
-                                                            ماژول‌ها</h3>
-                                                        <div class="ruby-row">
-                                                            <div class="ruby-col-4 ruby-col-6-md">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-wifi" aria-hidden="true"></i>ماژول WiFi</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bluetooth" aria-hidden="true"></i>ماژول Bluetooth</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول برق</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:10px">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-thermometer-half" aria-hidden="true"></i>ماژول دما</a></li>
-                                                                    <li><a href="#"><i class="fa fa-lightbulb-o" aria-hidden="true"></i>ماژول نور</a></li>
-                                                                    <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>ماژول کنترل</a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:15px">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fa fa-motorcycle" aria-hidden="true"></i>ماژول موتور</a></li>
-                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول قدرت</a></li>
-                                                                    <li><a href="#"><i class="fa fa-battery-full" aria-hidden="true"></i>ماژول باتری</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="ruby-dropdown-toggle"></span>
-                                        </li>
+{{--                                        <li class="ruby-menu-mega">--}}
+{{--                                            <a href="#">--}}
+{{--                                                <svg width="18" height="18" fill="currentColor" class="bi bi-cpu" viewBox="0 0 16 16">--}}
+{{--                                                    <path d="M5 0a.5.5 0 0 1 .5.5V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2A2.5 2.5 0 0 1 14 4.5h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14a2.5 2.5 0 0 1-2.5 2.5v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14A2.5 2.5 0 0 1 2 11.5H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2A2.5 2.5 0 0 1 4.5 2V.5A.5.5 0 0 1 5 0m-.5 3A1.5 1.5 0 0 0 3 4.5v7A1.5 1.5 0 0 0 4.5 13h7a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 11.5 3zM5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5zM6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>--}}
+{{--                                                </svg>--}}
+{{--                                                IC & میکروکنترلر</a>--}}
+{{--                                            <div class="ruby-grid ruby-grid-lined">--}}
+{{--                                                <div class="ruby-row">--}}
+{{--                                                    <div class="ruby-col-2">--}}
+{{--                                                        <h3 class="ruby-list-heading">--}}
+{{--                                                            <img class="iconImg" src="./design/image/hardware.png" alt="ic">--}}
+{{--                                                            آی‌سی‌ها</h3>--}}
+{{--                                                        <ul>--}}
+{{--                                                            <li><a href="#">آی‌سی دیجیتال</a></li>--}}
+{{--                                                            <li><a href="#">آی‌سی آنالوگ</a></li>--}}
+{{--                                                            <li><a href="#">آی‌سی حافظه</a></li>--}}
+{{--                                                            <li><a href="#">آی‌سی منطق</a></li>--}}
+{{--                                                            <li><a href="#">آی‌سی تغذیه</a></li>--}}
+{{--                                                        </ul>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="ruby-col-2 hidden-md">--}}
+{{--                                                        <h3 class="ruby-list-heading">--}}
+{{--                                                            <img class="iconImg" src="./design/image/microcontroller-technology.png" alt="microcontroller">--}}
+{{--                                                            میکروکنترلرها</h3>--}}
+{{--                                                        <ul>--}}
+{{--                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>AVR</a></li>--}}
+{{--                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ARM</a></li>--}}
+{{--                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>ESP32</a></li>--}}
+{{--                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>STM32</a></li>--}}
+{{--                                                            <li><a href="#"><i class="fa fa-microchip" aria-hidden="true"></i>PIC</a></li>--}}
+{{--                                                        </ul>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="ruby-col-3">--}}
+{{--                                                        <h3 class="ruby-list-heading">--}}
+{{--                                                            <img class="iconImg" src="./design/image/sensor.png" alt="sensor">--}}
+{{--                                                            حسگرها</h3>--}}
+{{--                                                        <ul class="ruby-list-with-images">--}}
+{{--                                                            <li><a href="#"><img src="./design/image/L351-min.png">حسگر دما</a><span class="ruby-list-desc">Temperature Sensor</span></li>--}}
+{{--                                                            <li><a href="#"><img src="./design/image/ldr-5mm-removebg-preview.png">حسگر نور</a><span class="ruby-list-desc">Light Sensor</span></li>--}}
+{{--                                                            <li><a href="#"><img src="./design/image/images-removebg-preview.png">حسگر فاصله</a><span class="ruby-list-desc">Distance Sensor</span></li>--}}
+{{--                                                        </ul>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="ruby-col-5">--}}
+{{--                                                        <h3 class="ruby-list-heading">--}}
+{{--                                                            <img class="iconImg" src="./design/image/3d-cube.png" alt="modules">--}}
+{{--                                                            ماژول‌ها</h3>--}}
+{{--                                                        <div class="ruby-row">--}}
+{{--                                                            <div class="ruby-col-4 ruby-col-6-md">--}}
+{{--                                                                <ul>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-wifi" aria-hidden="true"></i>ماژول WiFi</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-bluetooth" aria-hidden="true"></i>ماژول Bluetooth</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول برق</a></li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:10px">--}}
+{{--                                                                <ul>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-thermometer-half" aria-hidden="true"></i>ماژول دما</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-lightbulb-o" aria-hidden="true"></i>ماژول نور</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>ماژول کنترل</a></li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="ruby-col-4 ruby-col-6-md" style="padding-left:15px">--}}
+{{--                                                                <ul>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-motorcycle" aria-hidden="true"></i>ماژول موتور</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i>ماژول قدرت</a></li>--}}
+{{--                                                                    <li><a href="#"><i class="fa fa-battery-full" aria-hidden="true"></i>ماژول باتری</a></li>--}}
+{{--                                                                </ul>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <span class="ruby-dropdown-toggle"></span>--}}
+{{--                                        </li>--}}
 
 
                                         <!-- other items-->
