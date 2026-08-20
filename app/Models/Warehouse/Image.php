@@ -31,6 +31,10 @@ class Image extends Model
 
     public function getUrlAttribute()
     {
-        return url('http://localhost/megabag/'.$this->file_path); //will change to megabag.ir
+        $path = ltrim($this->file_path, '/');
+
+        $baseUrl = rtrim(env('MEGABAG_URL', 'http://localhost/megabag'), '/');
+
+        return "{$baseUrl}/{$path}";
     }
 }
