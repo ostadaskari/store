@@ -57,7 +57,6 @@
 <script src="{{asset('design/js/applyNumberFormat.js')}}"></script>
 
 @yield('script')
-<script src="{{asset('design/js/adminPanel.js')}}"></script>
 
 </body>
 </html>

@@ -13,16 +13,74 @@ class PriceController extends Controller
     public function index(Request $request)
     {
         $header_title = 'Product Prices';
+
         $settings = PriceSetting::first() ?? new PriceSetting([
-            'dollar_rate' => 0, 'profit_percent' => 0, 'extra_percent' => 0
+            'dollar_rate' => 0,
+            'profit_percent' => 0,
+            'extra_percent' => 0
         ]);
 
-        $products = Product::with('price')
-            ->orderByDesc('id')
-            ->paginate(25);
+        /*
+        |--------------------------------------------------------------------------
+        | Product Search
+        |--------------------------------------------------------------------------
+        */
 
-        return view('admin.price.index', compact('header_title', 'settings', 'products'));
+        $search = trim($request->input('search', ''));
+
+        $productsQuery = Product::with('price');
+
+        if ($search !== '') {
+
+            // Escape LIKE wildcards so user-entered % and _ don't act as wildcards.
+            $escapedSearch = addcslashes($search, '%_\\');
+
+            $productsQuery->where(
+                'part_number',
+                'LIKE',
+                '%' . $escapedSearch . '%'
+            );
+        }
+
+        $products = $productsQuery
+            ->orderByDesc('id')
+            ->paginate(25)
+            ->withQueryString();
+
+        /*
+        |--------------------------------------------------------------------------
+        | AJAX Request
+        |--------------------------------------------------------------------------
+        |
+        | When search/pagination is requested through AJAX,
+        | return table partial, rendered pagination links, and search meta data.
+        |
+        */
+
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 'ok',
+                'html' => view(
+                    'admin.price._products_table',
+                    compact('products')
+                )->render(),
+                'pagination' => $products->links()->toHtml(),
+                'search' => $search,
+                'total' => $products->total(),
+            ]);
+        }
+
+        return view(
+            'admin.price.index',
+            compact(
+                'header_title',
+                'settings',
+                'products',
+                'search'
+            )
+        );
     }
+
 
     public function saveSettings(Request $request)
     {
@@ -32,10 +90,15 @@ class PriceController extends Controller
             'extra_percent' => 'required|numeric|min:0',
         ]);
 
-        $settings = PriceSetting::updateOrCreate(['id' => 1], $data);
+        $settings = PriceSetting::updateOrCreate(
+            ['id' => 1],
+            $data
+        );
 
         $prices = ProductPrice::cursor();
+
         foreach ($prices as $p) {
+
             $calc = $this->calculateFinalPrices(
                 $p->usd_price,
                 $p->toman_price,
@@ -50,8 +113,12 @@ class PriceController extends Controller
             ]);
         }
 
-        return response()->json(['status' => 'ok', 'message' => 'تنظیمات ذخیره و قیمت‌ها بروزرسانی شدند.']);
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'تنظیمات ذخیره و قیمت‌ها بروزرسانی شدند.'
+        ]);
     }
+
 
     public function saveProductPrice(Request $request)
     {
@@ -62,7 +129,11 @@ class PriceController extends Controller
             'discount_percent' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $settings = PriceSetting::first() ?? new PriceSetting(['dollar_rate' => 0, 'profit_percent' => 0, 'extra_percent' => 0]);
+        $settings = PriceSetting::first() ?? new PriceSetting([
+            'dollar_rate' => 0,
+            'profit_percent' => 0,
+            'extra_percent' => 0
+        ]);
 
         $calc = $this->calculateFinalPrices(
             $data['usd_price'] ?? 0,
@@ -72,7 +143,9 @@ class PriceController extends Controller
         );
 
         $price = ProductPrice::updateOrCreate(
-            ['product_part_number' => $data['product_part_number']],
+            [
+                'product_part_number' => $data['product_part_number']
+            ],
             [
                 'usd_price' => $data['usd_price'],
                 'toman_price' => $data['toman_price'],
@@ -83,10 +156,20 @@ class PriceController extends Controller
             ]
         );
 
-        return response()->json(['status' => 'ok', 'message' => 'قیمت محصول ذخیره شد.', 'price' => $price]);
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'قیمت محصول ذخیره شد.',
+            'price' => $price
+        ]);
     }
 
-    protected function calculateFinalPrices(?float $usd, ?float $toman, ?float $discount, PriceSetting $settings): array
+
+    protected function calculateFinalPrices(
+        ?float $usd,
+        ?float $toman,
+        ?float $discount,
+        PriceSetting $settings
+    ): array
     {
         $rate = (float) $settings->dollar_rate;
         $profit = (float) $settings->profit_percent;
@@ -95,18 +178,31 @@ class PriceController extends Controller
         $costMult = 1 + (($profit + $extra) / 100);
         $discMult = 1 - (($discount ?? 0) / 100);
 
-        $originalPrice = 0; // Price WITH profit, WITHOUT discount
+        $originalPrice = 0;
         $finalUsd = 0;
         $sellToman = 0;
 
         if ($usd && $usd > 0) {
+
             $baseWithProfit = $usd * $costMult;
-            $originalPrice = round($baseWithProfit * $rate);
+
+            $originalPrice = round(
+                $baseWithProfit * $rate
+            );
+
             $finalUsd = $baseWithProfit * $discMult;
-            $sellToman = round($finalUsd * $rate / 10) * 10;
+
+            $sellToman = round(
+                    $finalUsd * $rate / 10
+                ) * 10;
+
         } elseif ($toman && $toman > 0) {
+
             $originalPrice = $toman * $costMult;
-            $sellToman = round(($originalPrice * $discMult) / 10) * 10;
+
+            $sellToman = round(
+                    ($originalPrice * $discMult) / 10
+                ) * 10;
         }
 
         return [
