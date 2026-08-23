@@ -52,6 +52,11 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(10)
             ->get();
+        // 5. دیگر محصولات (به صورت تصادفی)
+        $data['random_products'] = Product::inRandomOrder()
+            ->with(['coverImage', 'price'])
+            ->take(10)
+            ->get();
 
         return view('front.home', $data);
     }
