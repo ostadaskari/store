@@ -13,11 +13,43 @@
             {{-- Sidebar --}}
             <div class="col-md-3">
                 <div class="card cardCategoris">
+
                     <h5 class="mb-3 cardH5">دسته‌ بندی‌ ها</h5>
+
                     @include('front.partials.sidebar_categories', [
                         'categories' => $allCategories,
                         'currentCategory' => $category
                     ])
+
+                    <hr>
+
+                    {{-- Product Filters --}}
+                    <div class="product-filters mt-3">
+
+                        <h5 class="cardH5 mb-3">فیلتر محصولات</h5>
+
+                        <form method="GET" action="{{ route('category.show', $category->slug) }}">
+
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="in_stock"
+                                    value="1"
+                                    id="inStockFilter"
+                                    {{ request('in_stock') ? 'checked' : '' }}
+                                    onchange="this.form.submit()"
+                                >
+
+                                <label class="form-check-label" for="inStockFilter">
+                                    فقط کالاهای موجود
+                                </label>
+                            </div>
+
+                        </form>
+
+                    </div>
+
                 </div>
             </div>
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $header_title = $slug;
         // Find the current category by slug
@@ -32,9 +32,19 @@ class CategoryController extends Controller
         $categoryIds = $category->allDescendantIds();
 
         //  Get products that belong to any of those leaf categories
-        $products = Product::whereIn('category_id', $categoryIds)
-            ->with(['coverImage']) // load cover image with product
-            ->paginate(12);
+        $productQuery = Product::whereIn('category_id', $categoryIds)
+            ->with(['coverImage']);
+
+        if ($request->boolean('in_stock')) {
+            $productQuery->whereHas('lots', function ($query) {
+                $query->where('lock', 0)
+                    ->where('qty_available', '>', 0);
+            });
+        }
+
+        $products = $productQuery
+            ->paginate(12)
+            ->withQueryString();
 
         // Full category tree for sidebar
         $allCategories = Category::whereNull('parent_id')->with('childrenRecursive')->get();
