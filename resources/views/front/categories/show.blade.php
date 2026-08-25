@@ -31,13 +31,14 @@
                         <form method="GET" action="{{ route('category.show', $category->slug) }}">
 
                             <div class="form-check">
+                                <input type="hidden" name="in_stock" value="0">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
                                     name="in_stock"
                                     value="1"
                                     id="inStockFilter"
-                                    {{ request('in_stock') ? 'checked' : '' }}
+                                    {{ request('in_stock', '1') === '1' ? 'checked' : '' }}
                                     onchange="this.form.submit()"
                                 >
 

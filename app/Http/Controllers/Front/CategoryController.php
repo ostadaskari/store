@@ -35,7 +35,7 @@ class CategoryController extends Controller
         $productQuery = Product::whereIn('category_id', $categoryIds)
             ->with(['coverImage']);
 
-        if ($request->boolean('in_stock')) {
+        if ($request->input('in_stock', '1') === '1') {
             $productQuery->whereHas('lots', function ($query) {
                 $query->where('lock', 0)
                     ->where('qty_available', '>', 0);
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         }
 
         $products = $productQuery
-            ->paginate(12)
+            ->paginate(15)
             ->withQueryString();
 
         // Full category tree for sidebar
