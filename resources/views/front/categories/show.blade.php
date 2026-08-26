@@ -93,3 +93,62 @@
     </div>
 
 @endsection
+
+@section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            document.querySelectorAll('.category-node .toggle').forEach(function (toggle) {
+
+                toggle.addEventListener('click', function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const categoryNode = this.closest('.category-node');
+                    const childList = categoryNode.querySelector(':scope > .child-list');
+
+                    if (!childList) {
+                        return;
+                    }
+
+                    const isOpen = !childList.classList.contains('d-none');
+
+                    childList.classList.toggle('d-none', isOpen);
+
+                    this.textContent = isOpen ? '+' : '−';
+                });
+
+            });
+
+
+            // Auto-open active category branch
+            const activeLink = document.querySelector('.category-node a.text-danger');
+
+            if (activeLink) {
+
+                let childList = activeLink.closest('.child-list');
+
+                while (childList) {
+
+                    childList.classList.remove('d-none');
+
+                    const parentNode = childList.closest('.category-node');
+
+                    if (parentNode) {
+                        const toggle = parentNode.querySelector(':scope > div .toggle');
+
+                        if (toggle) {
+                            toggle.textContent = '−';
+                        }
+                    }
+
+                    childList = parentNode
+                        ? parentNode.parentElement.closest('.child-list')
+                        : null;
+                }
+            }
+
+        });
+    </script>
+@endsection

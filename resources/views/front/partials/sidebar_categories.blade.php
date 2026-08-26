@@ -30,30 +30,4 @@
 {{-- The styles for this page have been moved to file "products-page.css",
  You will find it with the comment " style category-tree "--}}
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.category-node .toggle').forEach(toggle => {
-            toggle.addEventListener('click', e => {
-                e.stopPropagation();
-                const childList = e.target.closest('.category-node').querySelector('.child-list');
-                if (childList) {
-                    const isOpen = !childList.classList.contains('d-none');
-                    childList.classList.toggle('d-none');
-                    e.target.textContent = isOpen ? '+' : '−';
-                }
-            });
-        });
 
-        // Auto-open active branch
-        const activeLink = document.querySelector('.category-node a.text-danger');
-        if (activeLink) {
-            let parent = activeLink.closest('.child-list');
-            while (parent) {
-                parent.classList.remove('d-none');
-                const toggle = parent.previousElementSibling?.querySelector('.toggle');
-                if (toggle) toggle.textContent = '−';
-                parent = parent.closest('.child-list')?.parentElement?.closest('.child-list');
-            }
-        }
-    });
-</script>
