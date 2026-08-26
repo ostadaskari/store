@@ -2,323 +2,1494 @@
 
 @section('style')
 
+    <style>
+        /* =========================================================
+           ABOUT PAGE
+           ========================================================= */
+
+        .about-page {
+            --about-primary: #ffb301;
+            --about-primary-dark: #d99300;
+            --about-dark: #101828;
+            --about-text: #475467;
+            --about-muted: #667085;
+            --about-light: #f8fafc;
+            --about-border: #eaecf0;
+            direction: rtl;
+        }
+
+        .about-page *,
+        .about-page *::before,
+        .about-page *::after {
+            box-sizing: border-box;
+        }
+
+        /* ---------------------------------------------------------
+           Breadcrumb
+           --------------------------------------------------------- */
+
+        .about-breadcrumb-wrapper {
+            padding-top: 115px;
+            margin-bottom: 25px;
+        }
+
+        .about-breadcrumb {
+            background: #fff;
+            border: 1px solid var(--about-border);
+            border-radius: 14px;
+            padding: 12px 18px;
+            display: inline-flex;
+            margin: 0;
+            box-shadow: 0 5px 20px rgba(16, 24, 40, 0.04);
+        }
+
+        .about-breadcrumb a {
+            color: var(--about-muted);
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .about-breadcrumb a:hover {
+            color: var(--about-primary-dark);
+        }
+
+        .about-breadcrumb .active {
+            color: var(--about-dark);
+            font-weight: 600;
+        }
+
+        /* ---------------------------------------------------------
+           Hero
+           --------------------------------------------------------- */
+
+        .about-hero {
+            position: relative;
+            min-height: 520px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 80px;
+
+            background:
+                radial-gradient(
+                    circle at 80% 25%,
+                    rgba(255, 179, 1, .20),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 15% 80%,
+                    rgba(255, 255, 255, .08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #101828 0%,
+                    #182230 50%,
+                    #0b111b 100%
+                );
+
+            box-shadow:
+                0 25px 70px rgba(16, 24, 40, .18);
+        }
+
+        .about-hero::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            left: -170px;
+            bottom: -250px;
+        }
+
+        .about-hero::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(255,179,1,.18);
+            border-radius: 50%;
+            right: -120px;
+            top: -130px;
+        }
+
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            padding: 70px;
+        }
+
+        .about-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--about-primary);
+            background: rgba(255,179,1,.10);
+            border: 1px solid rgba(255,179,1,.25);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .about-hero-badge span {
+            width: 7px;
+            height: 7px;
+            background: var(--about-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(255,179,1,.8);
+        }
+
+        .about-hero h1 {
+            color: #fff;
+            font-size: clamp(38px, 5vw, 68px);
+            line-height: 1.25;
+            font-weight: 800;
+            margin: 0 0 22px;
+            letter-spacing: -1.5px;
+        }
+
+        .about-hero h1 strong {
+            color: var(--about-primary);
+        }
+
+        .about-hero-description {
+            color: #d0d5dd;
+            max-width: 650px;
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .about-hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .about-btn-primary {
+            background: var(--about-primary);
+            color: #111;
+            border: none;
+            border-radius: 12px;
+            padding: 13px 25px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-btn-primary:hover {
+            background: #ffc43d;
+            color: #111;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,179,1,.25);
+        }
+
+        .about-btn-outline {
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.22);
+            background: rgba(255,255,255,.05);
+            border-radius: 12px;
+            padding: 13px 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .25s ease;
+        }
+
+        .about-btn-outline:hover {
+            color: #fff;
+            background: rgba(255,255,255,.1);
+        }
+
+        /* Decorative circuit */
+
+        .about-hero-visual {
+            position: absolute;
+            left: 7%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,179,1,.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-hero-visual::before {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255,255,255,.18);
+        }
+
+        .about-hero-visual::after {
+            content: "";
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 24px;
+            background: rgba(255,179,1,.12);
+            border: 1px solid rgba(255,179,1,.4);
+            transform: rotate(45deg);
+        }
+
+        .about-hero-icon {
+            position: relative;
+            z-index: 2;
+            width: 75px;
+            height: 75px;
+            border-radius: 22px;
+            background: var(--about-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            font-size: 30px;
+            box-shadow: 0 15px 45px rgba(255,179,1,.25);
+        }
+
+        /* ---------------------------------------------------------
+           Stats
+           --------------------------------------------------------- */
+
+        .about-stats {
+            margin-top: -35px;
+            position: relative;
+            z-index: 5;
+            margin-bottom: 90px;
+        }
+
+        .about-stat-card {
+            background: #fff;
+            border: 1px solid var(--about-border);
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+            height: 100%;
+            box-shadow: 0 12px 35px rgba(16,24,40,.07);
+            transition: .25s ease;
+        }
+
+        .about-stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(16,24,40,.11);
+        }
+
+        .about-stat-number {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--about-dark);
+            margin-bottom: 5px;
+        }
+
+        .about-stat-number span {
+            color: var(--about-primary);
+        }
+
+        .about-stat-title {
+            color: var(--about-muted);
+            font-size: 14px;
+        }
+
+        /* ---------------------------------------------------------
+           Section heading
+           --------------------------------------------------------- */
+
+        .about-section {
+            margin-bottom: 100px;
+        }
+
+        .about-section-heading {
+            margin-bottom: 45px;
+        }
+
+        .about-section-label {
+            color: var(--about-primary-dark);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .about-section-heading h2 {
+            color: var(--about-dark);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .about-section-heading p {
+            color: var(--about-muted);
+            max-width: 700px;
+            line-height: 2;
+            margin: 0;
+        }
+
+        /* ---------------------------------------------------------
+           Story
+           --------------------------------------------------------- */
+
+        .about-story-card {
+            background: #fff;
+            border: 1px solid var(--about-border);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(16,24,40,.06);
+        }
+
+        .about-story-accent {
+            min-height: 100%;
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255,179,1,.25),
+                    transparent 35%
+                ),
+                linear-gradient(145deg, #111827, #1d2939);
+            padding: 45px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-story-year {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--about-primary);
+            margin-bottom: 15px;
+        }
+
+        .about-story-accent h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .about-story-accent p {
+            color: #d0d5dd;
+            line-height: 2;
+            margin: 0;
+        }
+
+        .about-story-content {
+            padding: 45px;
+        }
+
+        .about-story-content h3 {
+            color: var(--about-dark);
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .about-story-content p {
+            color: var(--about-text);
+            line-height: 2.2;
+            margin: 0;
+        }
+
+        /* ---------------------------------------------------------
+           Mission cards
+           --------------------------------------------------------- */
+
+        .about-values {
+            background: var(--about-light);
+            border-radius: 30px;
+            padding: 70px 35px;
+            margin-bottom: 100px;
+        }
+
+        .about-value-card {
+            background: #fff;
+            border: 1px solid var(--about-border);
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+            transition: .25s ease;
+        }
+
+        .about-value-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(16,24,40,.08);
+        }
+
+        .about-value-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            background: rgba(255,179,1,.13);
+            color: var(--about-primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .about-value-card h3 {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--about-dark);
+            margin-bottom: 12px;
+        }
+
+        .about-value-card p {
+            color: var(--about-muted);
+            line-height: 2;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* ---------------------------------------------------------
+           Timeline
+           --------------------------------------------------------- */
+
+        .about-timeline {
+            position: relative;
+            padding: 15px 0;
+        }
+
+        .about-timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 50%;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                #e4e7ec 8%,
+                #e4e7ec 92%,
+                transparent
+            );
+            transform: translateX(50%);
+        }
+
+        .about-timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 15px 45px;
+            margin-bottom: 35px;
+        }
+
+        .about-timeline-item:nth-child(odd) {
+            margin-left: 50%;
+        }
+
+        .about-timeline-item:nth-child(even) {
+            margin-right: 50%;
+        }
+
+        .about-timeline-dot {
+            position: absolute;
+            top: 40px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: var(--about-primary);
+            border: 4px solid #fff;
+            box-shadow:
+                0 0 0 3px rgba(255,179,1,.25),
+                0 5px 15px rgba(255,179,1,.25);
+            z-index: 3;
+        }
+
+        .about-timeline-item:nth-child(odd) .about-timeline-dot {
+            right: -9px;
+        }
+
+        .about-timeline-item:nth-child(even) .about-timeline-dot {
+            left: -9px;
+        }
+
+        .about-timeline-card {
+            background: #fff;
+            border: 1px solid var(--about-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(16,24,40,.05);
+            transition: .25s ease;
+        }
+
+        .about-timeline-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(16,24,40,.09);
+        }
+
+        .about-timeline-year {
+            display: inline-block;
+            background: rgba(255,179,1,.12);
+            color: var(--about-primary-dark);
+            border-radius: 50px;
+            padding: 6px 13px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .about-timeline-card h3 {
+            color: var(--about-dark);
+            font-size: 19px;
+            line-height: 1.7;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .about-timeline-card p {
+            color: var(--about-muted);
+            line-height: 2;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* ---------------------------------------------------------
+           Products / capabilities
+           --------------------------------------------------------- */
+
+        .about-products-box {
+            background: #101828;
+            border-radius: 30px;
+            padding: 55px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-products-box::after {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,179,1,.18);
+            left: -150px;
+            bottom: -180px;
+        }
+
+        .about-products-box h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-products-box > p {
+            color: #d0d5dd;
+            line-height: 2;
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-product-tag {
+            padding: 9px 15px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.05);
+            border-radius: 50px;
+            color: #eaecf0;
+            font-size: 13px;
+        }
+
+        /* ---------------------------------------------------------
+           Final CTA
+           --------------------------------------------------------- */
+
+        .about-final-cta {
+            text-align: center;
+            padding: 90px 25px;
+        }
+
+        .about-final-cta h2 {
+            color: var(--about-dark);
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .about-final-cta p {
+            color: var(--about-muted);
+            max-width: 650px;
+            margin: 0 auto 25px;
+            line-height: 2;
+        }
+
+        /* ---------------------------------------------------------
+           Responsive
+           --------------------------------------------------------- */
+
+        @media (max-width: 991px) {
+
+            .about-hero {
+                min-height: 480px;
+            }
+
+            .about-hero-content {
+                min-height: 480px;
+                padding: 45px;
+            }
+
+            .about-hero-visual {
+                opacity: .18;
+                left: 0;
+            }
+
+            .about-timeline::before {
+                right: 20px;
+                transform: none;
+            }
+
+            .about-timeline-item,
+            .about-timeline-item:nth-child(odd),
+            .about-timeline-item:nth-child(even) {
+                width: 100%;
+                margin-right: 0;
+                margin-left: 0;
+                padding-right: 60px;
+                padding-left: 0;
+            }
+
+            .about-timeline-item:nth-child(odd) .about-timeline-dot,
+            .about-timeline-item:nth-child(even) .about-timeline-dot {
+                right: 12px;
+                left: auto;
+            }
+
+            .about-timeline-card {
+                text-align: right;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            .about-breadcrumb-wrapper {
+                padding-top: 95px;
+            }
+
+            .about-hero {
+                border-radius: 20px;
+                margin-bottom: 65px;
+            }
+
+            .about-hero-content {
+                padding: 35px 25px;
+            }
+
+            .about-hero h1 {
+                font-size: 38px;
+            }
+
+            .about-hero-description {
+                font-size: 15px;
+            }
+
+            .about-hero-visual {
+                display: none;
+            }
+
+            .about-stats {
+                margin-top: -25px;
+                margin-bottom: 65px;
+            }
+
+            .about-stat-card {
+                margin-bottom: 12px;
+            }
+
+            .about-section,
+            .about-values {
+                margin-bottom: 65px;
+            }
+
+            .about-story-accent,
+            .about-story-content {
+                padding: 30px 25px;
+            }
+
+            .about-story-year {
+                font-size: 55px;
+            }
+
+            .about-values {
+                padding: 45px 20px;
+            }
+
+            .about-products-box {
+                padding: 40px 25px;
+                border-radius: 22px;
+            }
+
+            .about-products-box h2 {
+                font-size: 27px;
+            }
+
+            .about-final-cta {
+                padding: 65px 20px;
+            }
+        }
+    </style>
+
 @endsection
+
 
 @section('content')
-    <!-- header -->
-    <div class="container my-4" style="padding-top:120px;">
-        <div class="row">
-            <div class="col-sm-12 ">
-                <nav class="" aria-label="breadcrumb">
-                    <ol class="breadcrumb aboutBreadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('/')}}">خانه </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">درباره ما</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!-- Parallax Section -->
-    <div class="container-fluid p-0 mt-190">
-        <div class="row m-auto">
-            <div class="col-12 p-0">
-                <div class="parallax-section1">
-                    <div class="parallax-content ">
-                        <h2>نوآوری در طراحی</h2>
-                        <p>با NOVA، یک قدم جلوتر باشید</p>
-                        <a href="./products page.html" class="btn mt-3 glow-on-hover" style="background: rgb(255, 179, 1);">مشاهده محصولات
+
+    <div class="about-page">
+
+        {{-- =====================================================
+             Breadcrumb
+        ====================================================== --}}
+        <div class="container about-breadcrumb-wrapper">
+
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb about-breadcrumb">
+
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">
+                            خانه
                         </a>
+                    </li>
+
+                    <li class="breadcrumb-item active" aria-current="page">
+                        درباره ما
+                    </li>
+
+                </ol>
+
+            </nav>
+
+        </div>
+
+
+        {{-- =====================================================
+             HERO
+        ====================================================== --}}
+        <div class="container">
+
+            <section class="about-hero">
+
+                <div class="about-hero-content">
+
+                    <div>
+
+                        <div class="about-hero-badge">
+                            <span></span>
+                            شیرازچیپ؛ مهندسی برای آینده صنعت
+                        </div>
+
+                        <h1>
+                            نوآوری،
+                            <strong>مهندسی</strong>
+                            و اتوماسیون صنعتی
+                        </h1>
+
+                        <p class="about-hero-description">
+                            شیرازچیپ فعالیت خود را با هدف ارائه خدمات الکترونیک
+                            و اتوماسیون صنعتی آغاز کرد و با توسعه دانش فنی،
+                            طراحی و تولید تجهیزات صنعتی، مسیر خود را ادامه داده است.
+                        </p>
+
+                        <div class="about-hero-actions">
+
+                            <a href="{{ url('/products') }}" class="about-btn-primary">
+                                مشاهده محصولات
+                                <span>←</span>
+                            </a>
+
+                            <a href="#our-story" class="about-btn-outline">
+                                داستان شیرازچیپ
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="about-hero-visual">
+
+                    <div class="about-hero-icon">
+                        ⚙
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        {{-- =====================================================
+             STATS
+        ====================================================== --}}
+        <div class="container about-stats">
+
+            <div class="row g-3">
+
+                <div class="col-6 col-lg-3">
+                    <div class="about-stat-card">
+
+                        <div class="about-stat-number">
+                            ۱۳۹۰<span>+</span>
+                        </div>
+
+                        <div class="about-stat-title">
+                            آغاز مسیر فعالیت
+                        </div>
+
                     </div>
                 </div>
+
+
+                <div class="col-6 col-lg-3">
+                    <div class="about-stat-card">
+
+                        <div class="about-stat-number">
+                            ۱۳۹۴
+                        </div>
+
+                        <div class="about-stat-title">
+                            تولید اولین محصول
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-lg-3">
+                    <div class="about-stat-card">
+
+                        <div class="about-stat-number">
+                            ۱۴۰۳
+                        </div>
+
+                        <div class="about-stat-title">
+                            توسعه محصولات دما و آنالوگ
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-6 col-lg-3">
+                    <div class="about-stat-card">
+
+                        <div class="about-stat-number">
+                            ۱۰<span>+</span>
+                        </div>
+
+                        <div class="about-stat-title">
+                            سال تجربه و توسعه
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
+
         </div>
-    </div>
-    <!-- end Parallax Section -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="about-page__sub-title">
-                    داستان شروع نوا شاپ
+
+
+        {{-- =====================================================
+             STORY
+        ====================================================== --}}
+        <section id="our-story" class="container about-section">
+
+            <div class="about-section-heading">
+
+            <span class="about-section-label">
+                داستان ما
+            </span>
+
+                <h2>
+                    داستان شروع شیرازچیپ
                 </h2>
-                <div class="about-page__contents">
-                    شرکت کهربا (نوا شاپ) فعالیت خود را به
-                    صورت جدی از سال 1392 در زمینه تولید تجهیزات اتوماسیون صنعتی و
-                    ترانسمیترهای الکترونیکی آغاز نمود و هم اکنون از تولیدکنندگان
-                    قابل اعتماد تجهیزات اتوماسیون صنعتی در ایران می‌باشد. کهربا (نوا شاپ)
-                    طیف گسترده‌ای از محصولات اتوماسیون صنعتی شامل ترانسمیترهای
-                    وزن، نمایشگرهای وزن، ماژول‌های ورودی و خروجی دیجیتال و آنالوگ،
-                    ایزولاتورهای سیگنال، مبدل‌ها و موارد دیگر را تولید و به بازار
-                    عرضه می‌کند. در ضمن محصولات این شرکت توسط مهندسان خبره کشور در
-                    کاربردهای مختلف صنعتی آزموده و مورد تایید قرار گرفته‌ است.
-                </div>
+
+                <p>
+                    مسیری از خدمات مهندسی و اتوماسیون صنعتی
+                    تا طراحی و تولید تجهیزات تخصصی
+                </p>
+
             </div>
-            <div class="col-12 my-5">
-                <h2 class="about-page__sub-title">
-                    چشم‌اندازها و ماموریت‌های کهربا (نوا شاپ)
+
+
+            <div class="about-story-card">
+
+                <div class="row g-0">
+
+                    <div class="col-lg-4">
+
+                        <div class="about-story-accent">
+
+                            <div class="about-story-year">
+                                ۱۳۹۲
+                            </div>
+
+                            <h3>
+                                شروع جدی فعالیت
+                            </h3>
+
+                            <p>
+                                فعالیت جدی شیرازچیپ در زمینه تولید تجهیزات
+                                اتوماسیون صنعتی و ترانسمیترهای الکترونیکی.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-8">
+
+                        <div class="about-story-content">
+
+                            <h3>
+                                از ایده تا تولید
+                            </h3>
+
+                            <p>
+                                شرکت شیرازچیپ فعالیت خود را به صورت جدی از سال
+                                1392 در زمینه تولید تجهیزات اتوماسیون صنعتی و
+                                ترانسمیترهای الکترونیکی آغاز نمود و هم اکنون از
+                                تولیدکنندگان قابل اعتماد تجهیزات اتوماسیون صنعتی
+                                در ایران می‌باشد.
+
+                                <br><br>
+
+                                شیرازچیپ طیف گسترده‌ای از محصولات اتوماسیون صنعتی
+                                شامل ترانسمیترهای وزن، نمایشگرهای وزن، ماژول‌های
+                                ورودی و خروجی دیجیتال و آنالوگ، ایزولاتورهای
+                                سیگنال، مبدل‌ها و موارد دیگر را تولید و به بازار
+                                عرضه می‌کند.
+
+                                <br><br>
+
+                                محصولات این شرکت توسط مهندسان خبره کشور در
+                                کاربردهای مختلف صنعتی آزموده و مورد تایید
+                                قرار گرفته‌ است.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {{-- =====================================================
+             MISSION / VISION
+        ====================================================== --}}
+        <section class="container">
+
+            <div class="about-values">
+
+                <div class="about-section-heading text-center">
+
+                <span class="about-section-label">
+                    چشم‌انداز و ماموریت
+                </span>
+
+                    <h2>
+                        آینده‌ای که برای آن مهندسی می‌کنیم
+                    </h2>
+
+                    <p class="mx-auto">
+                        هدف شیرازچیپ توسعه محصولات با کیفیت، قیمت رقابتی
+                        و ارائه ارزش جدید در حوزه اتوماسیون صنعتی است.
+                    </p>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-4">
+
+                        <div class="about-value-card">
+
+                            <div class="about-value-icon">
+                                ◈
+                            </div>
+
+                            <h3>
+                                توسعه بازار
+                            </h3>
+
+                            <p>
+                                چشم‌انداز شیرازچیپ به دست آوردن سهم حداکثری
+                                از بازار ایران و عرضه محصولات به سایر کشورهای
+                                همسایه و جهان است.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="about-value-card">
+
+                            <div class="about-value-icon">
+                                ✓
+                            </div>
+
+                            <h3>
+                                کیفیت و رضایت مشتری
+                            </h3>
+
+                            <p>
+                                ارائه محصولاتی با کیفیت در سطح محصولات صاحب‌نام
+                                و معتبر جهانی، همراه با قیمت رقابتی و تمرکز
+                                بر رضایتمندی مشتریان.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="about-value-card">
+
+                            <div class="about-value-icon">
+                                ✦
+                            </div>
+
+                            <h3>
+                                ارزش‌آفرینی
+                            </h3>
+
+                            <p>
+                                ادامه ارائه محصولات و خدمات اتوماسیون با کیفیت
+                                بالا و تلاش برای غنی‌سازی کیفیت زندگی انسان‌ها
+                                با ارائه ارزش‌های جدید.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {{-- =====================================================
+             INDUSTRIES / PRODUCTS
+        ====================================================== --}}
+        <section class="container about-section">
+
+            <div class="about-products-box">
+
+                <h2>
+                    راهکارهایی برای صنایع مختلف
                 </h2>
-                <div class="about-page__contents">
-                    شرکت کهربا (نوا شاپ) چشم انداز خود را بدست آوردن سهم
-                    حداکثري از بازار ایران و عرضه
-                    محصولات خود به سایر کشورهای همسایه
-                    و جهان می‌داند. محصولات شرکت با
-                    دارا بودن کیفیتی در سطح محصولات
-                    صاحب نام و معتبر جهانی و همچنین
-                    قیمت رقابتی همواره مورد رضایتمندی
-                    مشتریان خود بوده است. افتخار ما فروش
-                    انواع محصولات به شرکت‌های مختلف صنعتی
-                    در زمینه‌های ماشین آلات بسته‌بندی و
-                    دستگاه‌های اندازه گیري و آزمایشگاهی
-                    و کارخانجات تولید سیمان و بتن و آر
-                    د و مواد غذایی و طیف وسیعی از صنایع
-                    دیگر می‌باشد. با ادامه ارائه محصولات
-                    و خدمات اتوماسیون با کیفیت بالا،
-                    امیدواریم که بتوانیم رسالت خود که
-                    غنی‌سازی کیفیت زندگی انسان‌ها با ارائه
-                    ارزش‌های جدید است را به انجام برسانیم.
+
+                <p>
+                    افتخار شیرازچیپ فروش محصولات به شرکت‌های مختلف صنعتی
+                    در زمینه‌های ماشین‌آلات بسته‌بندی، دستگاه‌های اندازه‌گیری
+                    و آزمایشگاهی، کارخانجات تولید سیمان و بتن، آرد و مواد غذایی
+                    و طیف وسیعی از صنایع دیگر است.
+                </p>
+
+
+                <div class="about-product-tags">
+
+                <span class="about-product-tag">
+                    ترانسمیتر وزن
+                </span>
+
+                    <span class="about-product-tag">
+                    نمایشگر وزن
+                </span>
+
+                    <span class="about-product-tag">
+                    ماژول ورودی و خروجی
+                </span>
+
+                    <span class="about-product-tag">
+                    ایزولاتور سیگنال
+                </span>
+
+                    <span class="about-product-tag">
+                    مبدل‌ها
+                </span>
+
+                    <span class="about-product-tag">
+                    ترانسمیتر جریان
+                </span>
+
+                    <span class="about-product-tag">
+                    ترانسمیتر دما
+                </span>
+
+                    <span class="about-product-tag">
+                    محصولات آنالوگ
+                </span>
+
                 </div>
+
             </div>
-        </div>
+
+        </section>
+
+
+        {{-- =====================================================
+             TIMELINE
+        ====================================================== --}}
+        <section class="container about-section">
+
+            <div class="about-section-heading text-center">
+
+            <span class="about-section-label">
+                مسیر رشد
+            </span>
+
+                <h2>
+                    سال‌ها تجربه، توسعه و نوآوری
+                </h2>
+
+                <p class="mx-auto">
+                    نگاهی به مهم‌ترین مراحل شکل‌گیری و توسعه شیرازچیپ
+                </p>
+
+            </div>
+
+
+            <div class="about-timeline">
+
+
+                {{-- 1 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۰ تا ۱۳۹۵
+                    </span>
+
+                        <h3>
+                            ایده اولیه شیرازچیپ
+                        </h3>
+
+                        <p>
+                            فعالیت گروه مهندسی کهربا (شیرازچیپ) در ابتدا با هدف
+                            ارائه خدمات الکترونیک و اتوماسیون صنعتی آغاز شد.
+                            انجام انواع پروژه‌های اتوماسیون صنعتی در حوزه‌های
+                            مختلف و پروژه‌های برون‌سپاری شده الکترونیک از جمله
+                            تجارب آن سال‌ها می‌باشد.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 2 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۴
+                    </span>
+
+                        <h3>
+                            تولید اولین محصول
+                        </h3>
+
+                        <p>
+                            از ابتدای سال 1394 با توجه به تخصص و سابقه گروه
+                            و نیازسنجی بازار، تحقیق و طراحی برای تولید محصولات
+                            اتوماسیون صنعتی شروع شد. پس از چندین ماه تلاش،
+                            اولین محصول با عنوان ترانسمیتر وزن تک کانال
+                            PM-LT01 تکمیل و آماده ارائه شد.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 3 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۴ تا ۱۳۹۵
+                    </span>
+
+                        <h3>
+                            تکمیل محصولات حوزه توزین
+                        </h3>
+
+                        <p>
+                            پس از جلب رضایت مشتریان و اطمینان از پایداری
+                            PM-LT01، ترانسمیترهای PM-LT01A و PM-LT02
+                            و PM-LT02A به سبد محصولات شیرازچیپ اضافه شد.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 4 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۵
+                    </span>
+
+                        <h3>
+                            بروزرسانی، تولید و موفقیت
+                        </h3>
+
+                        <p>
+                            بازنگری و بروزرسانی طراحی محصولات جهت افزایش کیفیت
+                            و کاربری بهتر که منجر به تولید ترانسمیترهای
+                            PM-LT11T، PM-LT11A، PM-LT12 و ... شد.
+                            طراحی و تولید مبدل آنالوگ PM-AT13 و نمایشگر وزن
+                            PM-LD01 نیز از دستاوردهای این دوره بود.
+
+                            <br><br>
+
+                            تایید دانش‌بنیان بودن محصولات شرکت شیرازچیپ
+                            از سوی کارگروه تشخیص و ارزیابی شرکت‌ها و مؤسسات
+                            دانش‌بنیان نیز دستاورد مهمی برای شرکت در این سال بود.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 5 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۶ تا ۱۴۰۲
+                    </span>
+
+                        <h3>
+                            حضور در جمع بزرگان صنعت ایران
+                        </h3>
+
+                        <p>
+                            اولین حضور شرکت در هجدهمین نمایشگاه بین‌المللی
+                            صنعت تهران در این سال رقم خورد که باعث معرفی رسمی
+                            شیرازچیپ به عنوان یک تولیدکننده خوش‌آتیه تجهیزات
+                            اتوماسیون صنعتی شد.
+
+                            <br><br>
+
+                            ارتباط مستقیم با فعالین این حوزه و آشنایی هرچه بیشتر
+                            متخصصین با محصولات شرکت از دستاوردهای این نمایشگاه بود.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 6 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۶ تا ۱۴۰۲
+                    </span>
+
+                        <h3>
+                            افزایش سبد محصولات
+                        </h3>
+
+                        <p>
+                            شرکت در نمایشگاه تهران به مدت 4 سال متوالی،
+                            ارائه محصول جدید کنترلر و نمایشگر وزن PM-WI01
+                            و اضافه شدن سه نمایشگر ثانویه به سبد محصولات
+                            شیرازچیپ.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 7 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۶ تا ۱۴۰۲
+                    </span>
+
+                        <h3>
+                            گسترش بخش فنی و پشتیبانی
+                        </h3>
+
+                        <p>
+                            خرید دستگاه مونتاژ پیشرفته موجب افزایش سرعت و دقت
+                            بخش فنی در مونتاژ محصولات شد. همچنین حضور دوباره
+                            در نمایشگاه تهران و افزودن بخش پشتیبانی فنی باعث
+                            رضایت هرچه بیشتر مشتریان شد.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 8 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۳۹۶ تا ۱۴۰۲
+                    </span>
+
+                        <h3>
+                            توسعه ترانسمیتر جریان و دما
+                        </h3>
+
+                        <p>
+                            توسعه تنوع محصولات شیرازچیپ و اضافه کردن محصولات
+                            PM-SS12، سری AD11ها، سری PM-CT11،
+                            PM-CT11A، PM-CTR11 و PM-CTR11A.
+
+                            <br><br>
+
+                            همچنین تولید اولین ترانسمیتر دمای شرکت PM-TT1X
+                            و شرکت در دو نمایشگاه اصفهان و تهران.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- 9 --}}
+                <div class="about-timeline-item">
+
+                    <span class="about-timeline-dot"></span>
+
+                    <div class="about-timeline-card">
+
+                    <span class="about-timeline-year">
+                        ۱۴۰۳
+                    </span>
+
+                        <h3>
+                            گسترش محصولات دما و ترانسمیترهای آنالوگ
+                        </h3>
+
+                        <p>
+                            شرکت در نمایشگاه تهران و اصفهان، افزودن سه محصول
+                            ترانسمیتر دما PM-TT4K، PM-TT1R و PM-TT4R،
+                            افزودن دو ترانسمیتر آنالوگ با خروجی و ورودی آنالوگ
+                            PM-AD04 و PM-AD40 و همچنین افزودن ترانسمیتر جریان
+                            سه کانال PM-CT13.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {{-- =====================================================
+             FINAL CTA
+        ====================================================== --}}
+        <section class="container">
+
+            <div class="about-final-cta">
+
+            <span class="about-section-label">
+                شیرازچیپ
+            </span>
+
+                <h2>
+                    با ما یک قدم جلوتر باشید
+                </h2>
+
+                <p>
+                    محصولات اتوماسیون صنعتی شیرازچیپ را بررسی کنید
+                    و راهکار مناسب برای نیاز صنعتی خود را پیدا کنید.
+                </p>
+
+                <a href="{{ url('/products') }}" class="about-btn-primary">
+                    مشاهده محصولات
+                    <span>←</span>
+                </a>
+
+            </div>
+
+        </section>
+
     </div>
-    <!-- end header -->
 
-    <!-- about us roedMap-->
-    <div id="infographic" class="container d-flex flex-column align-items-center py-2">
-        <!-- Step 1: Beginner Stage -->
-        <div class="row step-one text-danger m-0 d-flex justify-content-between">
-            <div class="col-2 year">
-                <h4>سال ۱۳۹۰ تا ۱۳۹۵</h4>
-            </div>
-            <div class="col-10 w-100 d-flex flex-column justify-content-center">
-                <article data-step="1">
-                    <header class="d-flex align-items-center bg-danger bg-opacity-10 justify-content-between">
-                        <i class="bg-danger">
-                            <svg width="26" height="26" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                                <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                            </svg>
-                        </i>
-                        <h6 class="text-uppercase m-4 ps-4">ایده اولیه نوا شاپ</h6>
-                    </header>
-                    <div class="about-body">
-                        <small>فعالیت گروه مهندسی کهربا(نوا شاپ) در ابتدا با هدف ارائه
-                            خدمات الکترونیک و اتوماسیون صنعتی آغاز شد.
-                            انجام انواع پروژه‌های اتوماسیون صنعتی
-                            در حوزه‌های مختلف و پروژه‌های برون‌سپاری شده الکترونیک از جمله تجارب آن سال‌ها می‌باشد.
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-danger invisible" href="#">قبلی</a>
-                            <a class="btn btn-outline-danger" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="2">
-                    <header class="d-flex align-items-center bg-danger bg-opacity-10 justify-content-between">
-                        <i class="bg-danger">
-                            <svg width="26" height="26" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                                <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                            </svg>
-                        </i>
-                        <h6 class="text-uppercase m-4 ps-4">تولید اولین محصول</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>از ابتدای سال 1394 با توجه به تخصص و سابقه گروه و
-                            نیازسنجی بازار تحقیق و طراحی برای تولید محصولات
-                            اتوماسیون صنعتی شروع شد.
-                            پس از چندین ماه تلاش و
-                            کوشش اولین محصول با عنوان ترانسمیتر وزن تک کانال PM-LT01 تکمیل و آماده ارائه شد.
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-danger" href="#">قبلی</a>
-                            <a class="btn btn-outline-danger" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="3">
-                    <header class="d-flex align-items-center bg-danger bg-opacity-10 justify-content-between">
-                        <i class="bg-danger">
-                            <svg width="26" height="26" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                                <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                            </svg>
-                        </i>
-                        <h6 class="text-uppercase m-4 ps-4">تکمیل محصولات حوزه توزین</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>پس از جلب رضایت مشتریان و اطمینان از پایداری PM-LT01 ،
-                            ترانسمیترهای PM-LT01A و PM-LT02 و PM-LT02A به سبد محصولات کهربا (نوا شاپ) اضافه شد.
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-danger" href="#">قبلی</a>
-                            <a class="btn btn-outline-danger" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="4">
-                    <header class="d-flex align-items-center bg-danger bg-opacity-10 justify-content-between">
-                        <i class="bg-danger">
-                            <svg width="26" height="26" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                                <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                            </svg>
-                        </i>
-                        <h6 class="text-uppercase m-4 ps-4">بروزرسانی، تولید، موفقیت</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>بازنگری و بروز رسانی طراحی محصولات جهت
-                            افزایش کیفیت و کاربری بهتر که منجر به تولید ترانسمیترهای
-                            PM-LT11T و PM-LT11A و PM-LT12 و ... شد. طراحی و
-                            تولید محصولات مبدل آنالوگ PM-AT13 و نمایشگر وزن PM-LD01
-                            تایید دانش بنیان بودن محصولات شرکت کهربا (نوا شاپ) از سوی کارگروه تشخیص و ارزیابی شرکت‌ها
-                            و مؤسسات دانش‌بنیان دست آورد مهمی برای شرکت در این سال بود.
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-danger" href="#">قبلی</a>
-                            <a class="btn btn-outline-danger" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-
-        <!-- Step 2: Intermediate Stage -->
-        <div class="row step-one text-warning m-0 d-flex justify-content-between">
-            <div class="col-2 year">
-                <h4>سال ۱۳۹۶ تا ۱۴۰۲</h4>
-            </div>
-            <div class="col-10 w-100 d-flex flex-column justify-content-center">
-                <article data-step="5">
-                    <header class="d-flex align-items-center text-warning bg-warning bg-opacity-10 justify-content-between">
-                        <i class="fa-solid fa-code bg-warning">
-                            <svg  width="26" height="26" fill="currentColor" class="bi bi-flower3" viewBox="0 0 16 16">
-                                <path d="M11.424 8c.437-.052.811-.136 1.04-.268a2 2 0 0 0-2-3.464c-.229.132-.489.414-.752.767C9.886 4.63 10 4.264 10 4a2 2 0 1 0-4 0c0 .264.114.63.288 1.035-.263-.353-.523-.635-.752-.767a2 2 0 0 0-2 3.464c.229.132.603.216 1.04.268-.437.052-.811.136-1.04.268a2 2 0 1 0 2 3.464c.229-.132.489-.414.752-.767C6.114 11.37 6 11.736 6 12a2 2 0 1 0 4 0c0-.264-.114-.63-.288-1.035.263.353.523.635.752.767a2 2 0 1 0 2-3.464c-.229-.132-.603-.216-1.04-.268M9 4a2 2 0 0 1-.045.205q-.059.2-.183.484a13 13 0 0 1-.637 1.223L8 6.142l-.135-.23a13 13 0 0 1-.637-1.223 4 4 0 0 1-.183-.484A2 2 0 0 1 7 4a1 1 0 1 1 2 0M3.67 5.5a1 1 0 0 1 1.366-.366 2 2 0 0 1 .156.142q.142.15.326.4c.245.333.502.747.742 1.163l.13.232-.265.002a13 13 0 0 1-1.379-.06 4 4 0 0 1-.51-.083 2 2 0 0 1-.2-.064A1 1 0 0 1 3.67 5.5m1.366 5.366a1 1 0 0 1-1-1.732l.047-.02q.055-.02.153-.044.202-.048.51-.083a13 13 0 0 1 1.379-.06q.135 0 .266.002l-.131.232c-.24.416-.497.83-.742 1.163a4 4 0 0 1-.327.4 2 2 0 0 1-.155.142M9 12a1 1 0 0 1-2 0 2 2 0 0 1 .045-.206q.058-.198.183-.483c.166-.378.396-.808.637-1.223L8 9.858l.135.23c.241.415.47.845.637 1.223q.124.285.183.484A1.3 1.3 0 0 1 9 12m3.33-6.5a1 1 0 0 1-.366 1.366 2 2 0 0 1-.2.064q-.202.048-.51.083c-.412.045-.898.061-1.379.06q-.135 0-.266-.002l.131-.232c.24-.416.497-.83.742-1.163a4 4 0 0 1 .327-.4q.07-.074.114-.11l.041-.032a1 1 0 0 1 1.366.366m-1.366 5.366a2 2 0 0 1-.155-.141 4 4 0 0 1-.327-.4A13 13 0 0 1 9.74 9.16l-.13-.232.265-.002c.48-.001.967.015 1.379.06q.308.035.51.083.098.024.153.044l.048.02a1 1 0 1 1-1 1.732zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                            </svg></i>
-                        <h6 class="text-uppercase m-4 ps-4">حضور در جمع بزرگان صنعت ایران</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>اولین حضور شرکت در هجدهمین نمایشگاه بین المللی
-                            صنعت تهران در این سال رقم خورد که باعث معرفی
-                            رسمی کهربا (نوا شاپ)‌ به عنوان یک تولید کننده خوش آتیه
-                            تجهیرات اتوماسیون صنعتی شد. ارتباط مستقیم با
-                            فعالین این حوزه و آشنایی هرچه بیشتر متخصصین
-                            با محصولات شرکت از دستاوردهای این نمایشگاه بود.
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-warning" href="#">قبلی</a>
-                            <a class="btn btn-outline-warning" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="6">
-                    <header class="d-flex align-items-center text-warning bg-warning bg-opacity-10 justify-content-between">
-                        <i class="fa-solid fa-code bg-warning">
-                            <svg  width="26" height="26" fill="currentColor" class="bi bi-flower3" viewBox="0 0 16 16">
-                                <path d="M11.424 8c.437-.052.811-.136 1.04-.268a2 2 0 0 0-2-3.464c-.229.132-.489.414-.752.767C9.886 4.63 10 4.264 10 4a2 2 0 1 0-4 0c0 .264.114.63.288 1.035-.263-.353-.523-.635-.752-.767a2 2 0 0 0-2 3.464c.229.132.603.216 1.04.268-.437.052-.811.136-1.04.268a2 2 0 1 0 2 3.464c.229-.132.489-.414.752-.767C6.114 11.37 6 11.736 6 12a2 2 0 1 0 4 0c0-.264-.114-.63-.288-1.035.263.353.523.635.752.767a2 2 0 1 0 2-3.464c-.229-.132-.603-.216-1.04-.268M9 4a2 2 0 0 1-.045.205q-.059.2-.183.484a13 13 0 0 1-.637 1.223L8 6.142l-.135-.23a13 13 0 0 1-.637-1.223 4 4 0 0 1-.183-.484A2 2 0 0 1 7 4a1 1 0 1 1 2 0M3.67 5.5a1 1 0 0 1 1.366-.366 2 2 0 0 1 .156.142q.142.15.326.4c.245.333.502.747.742 1.163l.13.232-.265.002a13 13 0 0 1-1.379-.06 4 4 0 0 1-.51-.083 2 2 0 0 1-.2-.064A1 1 0 0 1 3.67 5.5m1.366 5.366a1 1 0 0 1-1-1.732l.047-.02q.055-.02.153-.044.202-.048.51-.083a13 13 0 0 1 1.379-.06q.135 0 .266.002l-.131.232c-.24.416-.497.83-.742 1.163a4 4 0 0 1-.327.4 2 2 0 0 1-.155.142M9 12a1 1 0 0 1-2 0 2 2 0 0 1 .045-.206q.058-.198.183-.483c.166-.378.396-.808.637-1.223L8 9.858l.135.23c.241.415.47.845.637 1.223q.124.285.183.484A1.3 1.3 0 0 1 9 12m3.33-6.5a1 1 0 0 1-.366 1.366 2 2 0 0 1-.2.064q-.202.048-.51.083c-.412.045-.898.061-1.379.06q-.135 0-.266-.002l.131-.232c.24-.416.497-.83.742-1.163a4 4 0 0 1 .327-.4q.07-.074.114-.11l.041-.032a1 1 0 0 1 1.366.366m-1.366 5.366a2 2 0 0 1-.155-.141 4 4 0 0 1-.327-.4A13 13 0 0 1 9.74 9.16l-.13-.232.265-.002c.48-.001.967.015 1.379.06q.308.035.51.083.098.024.153.044l.048.02a1 1 0 1 1-1 1.732zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                            </svg></i>
-                        <h6 class="text-uppercase m-4 ps-4">افزایش سبد محصولات</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>شرکت در نمایشگاه تهران 4 سال
-                            متوالی و ارئه محصول جدید کنترلر و نمایشگر وزن
-                            PM-WI01 ، اضافه شدن سه نمایشگر ثانویه به سبد محصولات کهربا (نوا شاپ)
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-warning" href="#">قبلی</a>
-                            <a class="btn btn-outline-warning" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="7">
-                    <header class="d-flex align-items-center text-warning bg-warning bg-opacity-10 justify-content-between">
-                        <i class="fa-solid fa-code bg-warning">
-                            <svg  width="26" height="26" fill="currentColor" class="bi bi-flower3" viewBox="0 0 16 16">
-                                <path d="M11.424 8c.437-.052.811-.136 1.04-.268a2 2 0 0 0-2-3.464c-.229.132-.489.414-.752.767C9.886 4.63 10 4.264 10 4a2 2 0 1 0-4 0c0 .264.114.63.288 1.035-.263-.353-.523-.635-.752-.767a2 2 0 0 0-2 3.464c.229.132.603.216 1.04.268-.437.052-.811.136-1.04.268a2 2 0 1 0 2 3.464c.229-.132.489-.414.752-.767C6.114 11.37 6 11.736 6 12a2 2 0 1 0 4 0c0-.264-.114-.63-.288-1.035.263.353.523.635.752.767a2 2 0 1 0 2-3.464c-.229-.132-.603-.216-1.04-.268M9 4a2 2 0 0 1-.045.205q-.059.2-.183.484a13 13 0 0 1-.637 1.223L8 6.142l-.135-.23a13 13 0 0 1-.637-1.223 4 4 0 0 1-.183-.484A2 2 0 0 1 7 4a1 1 0 1 1 2 0M3.67 5.5a1 1 0 0 1 1.366-.366 2 2 0 0 1 .156.142q.142.15.326.4c.245.333.502.747.742 1.163l.13.232-.265.002a13 13 0 0 1-1.379-.06 4 4 0 0 1-.51-.083 2 2 0 0 1-.2-.064A1 1 0 0 1 3.67 5.5m1.366 5.366a1 1 0 0 1-1-1.732l.047-.02q.055-.02.153-.044.202-.048.51-.083a13 13 0 0 1 1.379-.06q.135 0 .266.002l-.131.232c-.24.416-.497.83-.742 1.163a4 4 0 0 1-.327.4 2 2 0 0 1-.155.142M9 12a1 1 0 0 1-2 0 2 2 0 0 1 .045-.206q.058-.198.183-.483c.166-.378.396-.808.637-1.223L8 9.858l.135.23c.241.415.47.845.637 1.223q.124.285.183.484A1.3 1.3 0 0 1 9 12m3.33-6.5a1 1 0 0 1-.366 1.366 2 2 0 0 1-.2.064q-.202.048-.51.083c-.412.045-.898.061-1.379.06q-.135 0-.266-.002l.131-.232c.24-.416.497-.83.742-1.163a4 4 0 0 1 .327-.4q.07-.074.114-.11l.041-.032a1 1 0 0 1 1.366.366m-1.366 5.366a2 2 0 0 1-.155-.141 4 4 0 0 1-.327-.4A13 13 0 0 1 9.74 9.16l-.13-.232.265-.002c.48-.001.967.015 1.379.06q.308.035.51.083.098.024.153.044l.048.02a1 1 0 1 1-1 1.732zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                            </svg></i>
-                        <h6 class="text-uppercase m-4 ps-4">گسترش بخش فنی و پشتیبانی</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>خرید دستگاه مونتاژ پیشرفته در
-                            این سال موجب افزایش سرعت و دقت بخش فنی
-                            در مونتاژ محصولات شد. همچنین شرکت دوباره
-                            در نمایشگاه تهران و افزودن بخش پشتیبانی
-                            فنی باعث رضایت هر چه بیشتر مشتریان گرامی بود
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-warning" href="#">قبلی</a>
-                            <a class="btn btn-outline-warning" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-                <article data-step="8">
-                    <header class="d-flex align-items-center text-warning bg-warning bg-opacity-10 justify-content-between">
-                        <i class="fa-solid fa-code bg-warning">
-                            <svg  width="26" height="26" fill="currentColor" class="bi bi-flower3" viewBox="0 0 16 16">
-                                <path d="M11.424 8c.437-.052.811-.136 1.04-.268a2 2 0 0 0-2-3.464c-.229.132-.489.414-.752.767C9.886 4.63 10 4.264 10 4a2 2 0 1 0-4 0c0 .264.114.63.288 1.035-.263-.353-.523-.635-.752-.767a2 2 0 0 0-2 3.464c.229.132.603.216 1.04.268-.437.052-.811.136-1.04.268a2 2 0 1 0 2 3.464c.229-.132.489-.414.752-.767C6.114 11.37 6 11.736 6 12a2 2 0 1 0 4 0c0-.264-.114-.63-.288-1.035.263.353.523.635.752.767a2 2 0 1 0 2-3.464c-.229-.132-.603-.216-1.04-.268M9 4a2 2 0 0 1-.045.205q-.059.2-.183.484a13 13 0 0 1-.637 1.223L8 6.142l-.135-.23a13 13 0 0 1-.637-1.223 4 4 0 0 1-.183-.484A2 2 0 0 1 7 4a1 1 0 1 1 2 0M3.67 5.5a1 1 0 0 1 1.366-.366 2 2 0 0 1 .156.142q.142.15.326.4c.245.333.502.747.742 1.163l.13.232-.265.002a13 13 0 0 1-1.379-.06 4 4 0 0 1-.51-.083 2 2 0 0 1-.2-.064A1 1 0 0 1 3.67 5.5m1.366 5.366a1 1 0 0 1-1-1.732l.047-.02q.055-.02.153-.044.202-.048.51-.083a13 13 0 0 1 1.379-.06q.135 0 .266.002l-.131.232c-.24.416-.497.83-.742 1.163a4 4 0 0 1-.327.4 2 2 0 0 1-.155.142M9 12a1 1 0 0 1-2 0 2 2 0 0 1 .045-.206q.058-.198.183-.483c.166-.378.396-.808.637-1.223L8 9.858l.135.23c.241.415.47.845.637 1.223q.124.285.183.484A1.3 1.3 0 0 1 9 12m3.33-6.5a1 1 0 0 1-.366 1.366 2 2 0 0 1-.2.064q-.202.048-.51.083c-.412.045-.898.061-1.379.06q-.135 0-.266-.002l.131-.232c.24-.416.497-.83.742-1.163a4 4 0 0 1 .327-.4q.07-.074.114-.11l.041-.032a1 1 0 0 1 1.366.366m-1.366 5.366a2 2 0 0 1-.155-.141 4 4 0 0 1-.327-.4A13 13 0 0 1 9.74 9.16l-.13-.232.265-.002c.48-.001.967.015 1.379.06q.308.035.51.083.098.024.153.044l.048.02a1 1 0 1 1-1 1.732zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                            </svg></i>
-                        <h6 class="text-uppercase m-4 ps-4">افزایش محصولات در حوزه ترانسمیتر جریان و ترانسمیتر دما</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>
-                            توسعه تنوع محصولات نوا شاپ و اضافه کردن محصولات PM-SS12<br>
-                            , سری AD11ها , سری PM-CT11 ,PM-CT11A, PM-CTR11 , PM-CTR11A<br>
-                            ، تولید اولین ترانسمیتر دمای شرکت PM-TT1X <br>
-                            ، شرکت در دو نمایشگاه اصفهان و تهران
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-warning" href="#">قبلی</a>
-                            <a class="btn btn-outline-warning" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-
-        <!-- Step 3: Advanced Stage -->
-        <div class="row step-one text-success m-0 d-flex justify-content-between">
-            <div class="col-2 year">
-                <h4>سال ۱۴۰۳</h4>
-            </div>
-            <div class="col-10 w-100 d-flex flex-column justify-content-center">
-                <article data-step="9">
-                    <header class="d-flex align-items-center text-success bg-success bg-opacity-10  justify-content-between">
-                        <i class="fa-solid fa-server bg-success">
-                            <svg  width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
-                                <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/>
-                            </svg>
-                        </i>
-                        <h6 class="text-uppercase m-4 ps-4">گسترش محصولات دما و ترانسمیترهای آنالوگ</h6>
-                    </header>
-
-                    <div class="about-body">
-                        <small>
-                            شرکت در نمایشگاه تهران و اصفهان
-                            ، افزودن سه محصول ترانسمیتر دما PM-TT4K
-                            ، PM-TT1R ، PM-TT4R ، افزودن دو ترانسمیتر
-                            آنالوگ با خروجی و ورودی آنالوگ PM-AD04 ، PM-AD40
-                            افزودن ترانسمیتر جریان سه کانال PM-CT13
-                        </small>
-
-                        <div class="d-flex justify-content-between mt-3 controls">
-                            <a class="btn btn-outline-success" href="#">قبلی</a>
-                            <a class="btn btn-outline-success" href="#">بعدی</a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </div>
 @endsection
+
 
 @section('script')
 

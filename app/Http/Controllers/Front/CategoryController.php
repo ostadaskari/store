@@ -43,7 +43,7 @@ class CategoryController extends Controller
         }
 
         $products = $productQuery
-            ->paginate(15)
+            ->paginate(16)
             ->withQueryString();
 
         // Full category tree for sidebar
