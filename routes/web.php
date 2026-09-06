@@ -38,6 +38,8 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PriceController;
 
+use App\Http\Controllers\Front\SearchController;
+
 Route::middleware('user')->group(callback: function(){
     Route::get('/user/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/orders', [UserOrderController::class, 'orders'])->name('user.orders');
@@ -228,6 +230,11 @@ Route::middleware('guest')->group(function () {
     Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('google.login');
     Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 });
+
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
 
 // Route definitions needed for the new flow
 Route::get('/social-complete-mobile', [LoginController::class, 'showMobileRegistrationForSocial'])->name('client.social.complete.mobile');

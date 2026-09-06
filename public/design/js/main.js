@@ -625,3 +625,493 @@ $(document).on('submit', '.quick-add-form', function(e) {
 });
 
 // ============== end   add to cart (increment in product-card.blade.php)  end ======================
+// =====================================================
+// Global Search
+// =====================================================
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const input = document.getElementById('globalSearchInput');
+    const button = document.getElementById('globalSearchButton');
+    const results = document.getElementById('globalSearchResults');
+
+    // Header search may not exist on every page
+    if (!input || !results) {
+        return;
+    }
+
+
+    let searchTimer = null;
+    let controller = null;
+
+
+    // =====================================================
+    // Helpers
+    // =====================================================
+
+    function hideResults() {
+        results.classList.add('d-none');
+        results.innerHTML = '';
+    }
+
+
+    function showResults() {
+        results.classList.remove('d-none');
+    }
+
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return '';
+        }
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+
+    // =====================================================
+    // Render Search Results
+    // =====================================================
+
+    function renderResults(data) {
+
+        let html = '';
+
+
+        // =====================================================
+        // Products
+        // =====================================================
+
+        if (data.products && data.products.length) {
+
+            html += `
+                <div class="global-search-section">
+
+                    <div class="global-search-section-title">
+                        کالاها
+                    </div>
+            `;
+
+
+            data.products.forEach(product => {
+
+                /*
+                 * Product image
+                 *
+                 * Controller already returns the final image URL.
+                 * If no image exists, use the same fallback image
+                 * used by product-card.blade.php.
+                 */
+                const image = product.image
+                    ? product.image
+                    : '/images/300x300.webp';
+
+
+                /*
+                 * Product title
+                 *
+                 * The products table does NOT have a "name" column.
+                 *
+                 * Information.title is therefore preferred when
+                 * available. Otherwise show part number.
+                 */
+                const title = product.information_title
+                    ? product.information_title
+                    : `P/N : ${product.part_number}`;
+
+
+                /*
+                 * MFG
+                 */
+                const mfg = product.mfg
+                    ? `MFG: ${product.mfg}`
+                    : '';
+
+
+                /*
+                 * Only create clickable result when product URL exists.
+                 */
+                if (product.url) {
+
+                    html += `
+                        <a
+                            href="${escapeHtml(product.url)}"
+                            class="global-search-item"
+                        >
+
+                            <img
+                                src="${escapeHtml(image)}"
+                                class="global-search-item-image"
+                                alt="${escapeHtml(product.part_number)}"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='/images/300x300.webp';"
+                            >
+
+
+                            <div class="global-search-item-content">
+
+                                <div class="global-search-item-title">
+                                    ${escapeHtml(title)}
+                                </div>
+
+
+                                <div class="global-search-item-part">
+                                    P/N:
+                                    ${escapeHtml(product.part_number)}
+                                </div>
+
+
+                                ${mfg ? `
+                                    <div class="global-search-item-mfg">
+                                        ${escapeHtml(mfg)}
+                                    </div>
+                                ` : ''}
+
+                            </div>
+
+                        </a>
+                    `;
+                }
+
+            });
+
+
+            html += `
+                </div>
+            `;
+        }
+
+
+        // =====================================================
+        // Categories
+        // =====================================================
+
+        if (data.categories && data.categories.length) {
+
+            html += `
+                <div class="global-search-section">
+
+                    <div class="global-search-section-title">
+                        دسته‌بندی‌ها
+                    </div>
+            `;
+
+
+            data.categories.forEach(category => {
+
+                html += `
+                    <a
+                        href="${escapeHtml(category.url)}"
+                        class="global-search-item"
+                    >
+
+                        <div class="global-search-item-icon">
+                            <i class="bi bi-folder2-open"></i>
+                        </div>
+
+
+                        <div class="global-search-item-content">
+
+                            <div class="global-search-item-title">
+                                ${escapeHtml(category.name)}
+                            </div>
+
+                            <div class="global-search-item-part">
+                                دسته‌بندی
+                            </div>
+
+                        </div>
+
+                    </a>
+                `;
+
+            });
+
+
+            html += `
+                </div>
+            `;
+        }
+
+
+        // =====================================================
+        // Information
+        // =====================================================
+
+        if (data.information && data.information.length) {
+
+            html += `
+                <div class="global-search-section">
+
+                    <div class="global-search-section-title">
+                        اطلاعات کالا
+                    </div>
+            `;
+
+
+            data.information.forEach(item => {
+
+                html += `
+                    <div class="global-search-item">
+
+                        <div class="global-search-item-icon">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+
+
+                        <div class="global-search-item-content">
+
+                            <div class="global-search-item-title">
+                                ${escapeHtml(
+                    item.title || 'اطلاعات محصول'
+                )}
+                            </div>
+
+
+                            <div class="global-search-item-part">
+                                P/N:
+                                ${escapeHtml(item.part_number)}
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+
+            html += `
+                </div>
+            `;
+        }
+
+
+        // =====================================================
+        // No Results
+        // =====================================================
+
+        if (!html) {
+
+            results.innerHTML = `
+                <div class="global-search-empty">
+
+                    <i
+                        class="bi bi-search mb-2 d-block"
+                        style="font-size: 25px;"
+                    ></i>
+
+                    <div>
+                        نتیجه‌ای پیدا نشد
+                    </div>
+
+                </div>
+            `;
+
+            showResults();
+
+            return;
+        }
+
+
+        // =====================================================
+        // Show All Results
+        // =====================================================
+
+        html += `
+            <div class="global-search-footer">
+
+                <a href="${escapeHtml(data.search_url)}">
+                    نمایش همه نتایج
+                </a>
+
+            </div>
+        `;
+
+
+        results.innerHTML = html;
+
+        showResults();
+    }
+
+
+    // =====================================================
+    // AJAX Search
+    // =====================================================
+
+    async function searchSuggestions(query) {
+
+        if (query.length < 2) {
+            hideResults();
+            return;
+        }
+
+
+        // Cancel previous request
+        if (controller) {
+            controller.abort();
+        }
+
+
+        controller = new AbortController();
+
+
+        try {
+
+            const url =
+                `/search/suggestions?q=${encodeURIComponent(query)}`;
+
+
+            const response = await fetch(url, {
+
+                method: 'GET',
+
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+
+                signal: controller.signal
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Search request failed.');
+            }
+
+
+            const data = await response.json();
+
+
+            renderResults(data);
+
+
+        } catch (error) {
+
+            // Ignore aborted requests
+            if (error.name === 'AbortError') {
+                return;
+            }
+
+
+            console.error(
+                'Global Search Error:',
+                error
+            );
+
+
+            hideResults();
+        }
+    }
+
+
+    // =====================================================
+    // Input
+    // =====================================================
+
+    input.addEventListener('input', function () {
+
+        const query = this.value.trim();
+
+        clearTimeout(searchTimer);
+
+
+        searchTimer = setTimeout(function () {
+
+            searchSuggestions(query);
+
+        }, 300);
+    });
+
+
+    // =====================================================
+    // Search Button
+    // =====================================================
+
+    if (button) {
+
+        button.addEventListener('click', function () {
+
+            const query = input.value.trim();
+
+
+            if (!query.length) {
+
+                input.focus();
+
+                return;
+            }
+
+
+            window.location.href =
+                `/search?q=${encodeURIComponent(query)}`;
+        });
+    }
+
+
+    // =====================================================
+    // Enter Key
+    // =====================================================
+
+    input.addEventListener('keydown', function (event) {
+
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+
+        event.preventDefault();
+
+
+        const query = this.value.trim();
+
+
+        if (!query.length) {
+            return;
+        }
+
+
+        window.location.href =
+            `/search?q=${encodeURIComponent(query)}`;
+    });
+
+
+    // =====================================================
+    // Click Outside
+    // =====================================================
+
+    document.addEventListener('click', function (event) {
+
+        if (
+            !input.contains(event.target) &&
+            !results.contains(event.target)
+        ) {
+            hideResults();
+        }
+    });
+
+
+    // =====================================================
+    // Focus Input Again
+    // =====================================================
+
+    input.addEventListener('focus', function () {
+
+        const query = this.value.trim();
+
+
+        if (
+            query.length >= 2 &&
+            results.innerHTML.trim() !== ''
+        ) {
+            showResults();
+        }
+    });
+
+});
