@@ -104,7 +104,8 @@
                         {{ $product->available_qty ? 'موجودی: '.$product->available_qty.' عدد' : 'ناموجود' }}
                     </div>
 
-                    @if($product->available_qty > 0)
+                    {{-- محصول هم باید موجودی داشته باشد هم قیمت معتبر (> 0) --}}
+                    @if($product->available_qty > 0 && $display && $display > 0)
                         <form action="{{ route('cart.add', $product->id) }}" method="POST" class="quick-add-form">
                             @csrf
                             <input type="hidden" name="qty" value="1">
@@ -116,7 +117,7 @@
                             </button>
                         </form>
                     @else
-                        <button class="btnSvg opacity-50" disabled>
+                        <button class="btnSvg opacity-50" disabled title="غیرقابل سفارش">
                             <i class="bi bi-slash-circle text-secondary"></i>
                         </button>
                     @endif

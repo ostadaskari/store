@@ -136,7 +136,7 @@
                     <div>
 
                         <h4 class="fw-bold mb-1">
-                            کالاها
+                            محصولات سرچ شده
                         </h4>
 
                         @if($products->total() > 0)

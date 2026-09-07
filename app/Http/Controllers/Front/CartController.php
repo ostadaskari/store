@@ -20,6 +20,16 @@ class CartController extends Controller
     {
         $qty = request('qty', 1);
 
+        // بررسی ثبت بودن قیمت معتبر برای محصول
+        $price = $product->display_price_toman;
+        if (empty($price) || $price <= 0) {
+            $errorMsg = 'این محصول در حال حاضر قیمت‌گذاری نشده و امکان افزودن آن به سبد خرید وجود ندارد.';
+            if (request()->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $errorMsg], 422);
+            }
+            return back()->with('error', $errorMsg);
+        }
+
         // 1. Check if the requested quantity exists in stock
         if ($qty > $product->available_qty) {
             $errorMsg = 'تعداد انتخاب شده بیشتر از موجودی انبار است. موجودی فعلی: ' . $product->available_qty;
@@ -45,13 +55,13 @@ class CartController extends Controller
         \Cart::add([
             'id' => $product->id,
             'name' => $product->part_number,
-            'price' => $product->display_price_toman,
+            'price' => $price,
             'discount_percent' => $product->price->discount_percent ?? 0,
             'quantity' => $qty,
             'attributes' => [
                 'slug' => $product->slug,
-                'image' => $product->coverImage->url ?? '', // Safety check
-                'original_price' => $product->price->original_price ?? $product->display_price_toman, // Price BEFORE discount
+                'image' => $product->coverImage->url ?? '',
+                'original_price' => $product->price->original_price ?? $price,
                 'discount_percent' => $product->price->discount_percent ?? 0,
             ],
         ]);

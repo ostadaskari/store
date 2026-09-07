@@ -9,7 +9,6 @@
             <h1>مدیریت قیمت ها</h1>
         </div>
 
-
         {{-- Settings Card --}}
         <div class="card mb-2 p-3">
 
@@ -388,160 +387,96 @@
             |--------------------------------------------------------------------------
             */
 
-            document.addEventListener(
-                'click',
-                async function (event) {
+            document.addEventListener('click', async function (event) {
 
-                    const button =
-                        event.target.closest(
-                            '.btn-save'
-                        );
+                const button = event.target.closest('.btn-save');
+                if (!button) return;
 
-                    if (!button) {
-                        return;
+                const tr = button.closest('tr');
+                if (!tr) return;
+
+                const originalText = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+                try {
+
+                    const response = await fetch('{{ route("admin.prices.saveProduct") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_part_number: tr.dataset.part,
+                            usd_price: tr.querySelector('.usd-price').value,
+                            toman_price: tr.querySelector('.toman-price').value,
+                            discount_percent: tr.querySelector('.discount-percent').value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'خطا در ذخیره قیمت');
                     }
 
-                    const tr =
-                        button.closest('tr');
+                    if (data.status === 'ok') {
 
-                    if (!tr) {
-                        return;
-                    }
+                        const p = data.price;
 
-                    const originalText =
-                        button.innerHTML;
+                        // اگر p نال بود (یعنی قیمت پاک شد)، مقدار صفر بگذار
+                        tr.querySelector('.final-usd-text').innerText =
+                            (p && p.final_usd)
+                                ? Number(p.final_usd).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                : '0';
 
-                    button.disabled = true;
+                        tr.querySelector('.original-price-text').innerText =
+                            (p && p.original_price)
+                                ? Number(p.original_price).toLocaleString()
+                                : '0';
 
-                    button.innerHTML =
-                        '<span class="spinner-border spinner-border-sm"></span>';
+                        tr.querySelector('.sell-price-text').innerText =
+                            (p && p.sell_price_toman)
+                                ? Number(p.sell_price_toman).toLocaleString()
+                                : '0';
 
-                    try {
-
-                        const response =
-                            await fetch(
-                                '{{ route("admin.prices.saveProduct") }}',
-                                {
-                                    method: 'POST',
-
-                                    headers: {
-
-                                        'X-CSRF-TOKEN':
-                                            '{{ csrf_token() }}',
-
-                                        'Content-Type':
-                                            'application/json',
-
-                                        'Accept':
-                                            'application/json'
-
-                                    },
-
-                                    body: JSON.stringify({
-
-                                        product_part_number:
-                                        tr.dataset.part,
-
-                                        usd_price:
-                                        tr.querySelector(
-                                            '.usd-price'
-                                        ).value,
-
-                                        toman_price:
-                                        tr.querySelector(
-                                            '.toman-price'
-                                        ).value,
-
-                                        discount_percent:
-                                        tr.querySelector(
-                                            '.discount-percent'
-                                        ).value
-
-                                    })
-                                }
-                            );
-
-                        const data = await response.json();
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                data.message ||
-                                'خطا در ذخیره قیمت'
-                            );
-
+                        // اگر قیمت کلاً پاک شده بود، اینپوت‌ها رو هم خالی کن
+                        if (!p) {
+                            tr.querySelector('.usd-price').value = '';
+                            tr.querySelector('.toman-price').value = '';
+                            tr.querySelector('.discount-percent').value = '0';
                         }
-
-                        if (data.status === 'ok') {
-
-                            const p = data.price;
-
-                            tr.querySelector(
-                                '.final-usd-text'
-                            ).innerText =
-                                p.final_usd
-                                    ? Number(
-                                        p.final_usd
-                                    ).toLocaleString(
-                                        undefined,
-                                        {
-                                            minimumFractionDigits: 2
-                                        }
-                                    )
-                                    : '0';
-
-                            tr.querySelector(
-                                '.original-price-text'
-                            ).innerText =
-                                p.original_price
-                                    ? Number(
-                                        p.original_price
-                                    ).toLocaleString()
-                                    : '0';
-
-                            tr.querySelector(
-                                '.sell-price-text'
-                            ).innerText =
-                                p.sell_price_toman
-                                    ? Number(
-                                        p.sell_price_toman
-                                    ).toLocaleString()
-                                    : '0';
-
-                            Swal.fire({
-                                icon: 'success',
-                                text:
-                                    data.message ||
-                                    'قیمت ذخیره شد.',
-                                timer: 1000,
-                                showConfirmButton: false
-                            });
-
-                        }
-
-                    } catch (error) {
-
-                        console.error(error);
 
                         Swal.fire({
-                            icon: 'error',
-                            title: 'خطا',
-                            text:
-                                error.message ||
-                                'ذخیره قیمت انجام نشد.',
-                            confirmButtonText: 'باشه'
+                            icon: 'success',
+                            text: data.message || 'قیمت ذخیره شد.',
+                            timer: 1000,
+                            showConfirmButton: false
                         });
-
-                    } finally {
-
-                        button.disabled = false;
-
-                        button.innerHTML = originalText;
 
                     }
 
+                } catch (error) {
+
+                    console.error(error);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطا',
+                        text: error.message || 'ذخیره قیمت انجام نشد.',
+                        confirmButtonText: 'باشه'
+                    });
+
+                } finally {
+
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+
                 }
-            );
+
+            });
 
         });
 

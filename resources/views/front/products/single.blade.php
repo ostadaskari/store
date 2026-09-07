@@ -237,27 +237,27 @@
 
                 <div class="title-sub-nav-product-single d-flex flex-row align-items-center jus border-bottom w-100">
                     <svg width="20" height="20" fill="green" class="bi bi-bag-check mx-2" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-                        </svg>
-                    {{ $product->available_qty ? 'موجودی :  '.$product->available_qty.' عدد' : 'ناموجود' }}
+                        <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                    </svg>
+                    {{ $product->available_qty ? 'موجودی : '.$product->available_qty.' عدد' : 'ناموجود' }}
                 </div>
 
                 <!-- PRICE -->
+                @php
+                    $display = $product->display_price_toman;
+                    $priceModel = $product->price;
+                    // تخفیف فقط زمانی معنی دارد که قیمت اصلی هم ثبت شده و معتبر باشد
+                    $hasDiscount = $display && $display > 0 && $priceModel && $priceModel->discount_percent > 0;
+                @endphp
 
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 my-4 ">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 my-4">
                     <div class="offer-price-product-single d-flex flex-row justify-content-between w-100 position-relative">
-
-                        @php
-                            $display = $product->display_price_toman;
-                            $priceModel = $product->price;
-                            $hasDiscount = $priceModel && $priceModel->discount_percent > 0;
-                        @endphp
 
                         @if($hasDiscount)
                             <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="right: -10px; top: 0;">
-                {{ round($priceModel->discount_percent) }}% -
-            </span>
+                    {{ round($priceModel->discount_percent) }}% -
+                </span>
 
                             @php
                                 $oldPrice = $display / (1 - ($priceModel->discount_percent / 100));
@@ -265,65 +265,65 @@
                             <s class="me-2 text-muted">{{ number_format($oldPrice) }} تومان</s>
                         @endif
 
-                        @if($display)
+                        @if($display && $display > 0)
                             <p class="m-0 fw-bold" style="font-size: 1.25rem;">{{ number_format($display) }} تومان</p>
                         @else
-                            <span class="text-muted">قیمت ثبت نشده</span>
+                            <span class="text-muted fw-bold">قیمت ثبت نشده</span>
                         @endif
 
                     </div>
                 </div>
 
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart">
-                    @csrf
+                {{-- بررسی شرط امکان افزودن به سبد خرید --}}
+                @if($product->available_qty > 0 && $display && $display > 0)
 
-                    {{-- Hidden input field to hold the actual quantity value for form submission.
-                        This value is dynamically updated by the visible quantity control buttons (JS). --}}
-                    <div class="qty-wrapper" style="display: none;">
-                        <input type="number"
-                               name="qty"
-                               min="1"
-                               max="{{ $product->available_qty }}"
-                               value="{{ $currentCartQty }}"
-                               autocomplete="off"
-                               class="product-qty-input-js">
-                    </div>
+                    <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart w-100">
+                        @csrf
 
-                    {{-- Visible Quantity Control Interface: Uses two buttons and a display span. --}}
-                    <div class="cart-control d-flex justify-content-center align-items-center gap-2 mx-0">
+                        <div class="qty-wrapper" style="display: none;">
+                            <input type="number"
+                                   name="qty"
+                                   min="1"
+                                   max="{{ $product->available_qty }}"
+                                   value="{{ $currentCartQty }}"
+                                   autocomplete="off"
+                                   class="product-qty-input-js">
+                        </div>
 
-                        {{-- Increase Quantity Button --}}
-                        <button type="button" class="increase-btn btn btn-sm btn-outline-secondary qty-plus-js">+</button>
+                        <div class="cart-control d-flex justify-content-center align-items-center gap-2 mx-0">
+                            <button type="button" class="increase-btn btn btn-sm btn-outline-secondary qty-plus-js">+</button>
+                            <span class="quantity fs-6 fw-bold qty-display-js">{{ $currentCartQty }}</span>
+                            <button type="button" class="decrease-btn btn btn-sm btn-outline-secondary qty-minus-js">
+                                <svg width="16" height="16" fill="currentColor" class="bi bi-dash icon-minus-js" viewBox="0 0 16 16">
+                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                                </svg>
+                                <svg width="16" height="16" fill="rgb(206, 33, 33)" class="bi bi-trash icon-trash-js" style="display:none;" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                </svg>
+                            </button>
+                        </div>
 
-                        {{-- Quantity Display Span: Shows the current quantity to the user. --}}
-                        <span class="quantity fs-6 fw-bold qty-display-js">{{ $currentCartQty }}</span>
-
-                        {{-- Decrease/Remove Button: Switches between Minus (-) and Trash icons based on qty (JS controlled). --}}
-                        <button type="button" class="decrease-btn btn btn-sm btn-outline-secondary qty-minus-js">
-
-                            {{-- Minus icon: Visible when quantity is > 1 --}}
-                            <svg width="16" height="16" fill="currentColor" class="bi bi-dash icon-minus-js" viewBox="0 0 16 16">
-                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                        <button type="submit" class="addToCart-js addtocartProduct">
+                            <svg width="22" height="22" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+                                <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1z"/>
                             </svg>
-
-                            {{-- Trash icon: Visible when quantity is 1 (signals removal from cart logic) --}}
-                            <svg width="16" height="16" fill="rgb(206, 33, 33)" class="bi bi-trash icon-trash-js" style="display:none;" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
-                            </svg>
+                            افزودن به سبد خرید
                         </button>
+                    </form>
 
+                @else
+
+                    <div class="alert alert-secondary text-center w-100 my-3" role="alert">
+                        @if(!$display || $display <= 0)
+                            <i class="bi bi-exclamation-circle me-1"></i> امکان سفارش این محصول به علت عدم ثبت قیمت وجود ندارد.
+                        @else
+                            <i class="bi bi-slash-circle me-1"></i> این محصول در حال حاضر ناموجود است.
+                        @endif
                     </div>
 
-                    {{-- Main Submit Button: Adds the product (with the hidden qty value) to the cart. --}}
-                    <button type="submit" class="addToCart-js addtocartProduct">
-                        <svg width="22" height="22" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
-                            <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
-                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1z"/>
-                        </svg>
-                        افزودن به سبد خرید
-                    </button>
-                </form>
+                @endif
 
             </div>
 

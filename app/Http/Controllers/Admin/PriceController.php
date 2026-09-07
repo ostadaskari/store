@@ -129,16 +129,32 @@ class PriceController extends Controller
             'discount_percent' => 'nullable|numeric|min:0|max:100',
         ]);
 
+        $usd = (isset($data['usd_price']) && $data['usd_price'] > 0) ? (float)$data['usd_price'] : null;
+        $toman = (isset($data['toman_price']) && $data['toman_price'] > 0) ? (float)$data['toman_price'] : null;
+
+        // اگر کاربر هر دو قیمت را خالی یا صفر گذاشته بود، رکورد قیمت را کلاً پاک می‌کنیم
+        if (is_null($usd) && is_null($toman)) {
+            ProductPrice::where('product_part_number', $data['product_part_number'])->delete();
+
+            return response()->json([
+                'status' => 'ok',
+                'message' => 'قیمت محصول پاک شد و به حالت قیمت ثبت نشده برگشت.',
+                'price' => null
+            ]);
+        }
+
         $settings = PriceSetting::first() ?? new PriceSetting([
             'dollar_rate' => 0,
             'profit_percent' => 0,
             'extra_percent' => 0
         ]);
 
+        $discount = (isset($data['discount_percent']) && $data['discount_percent'] > 0) ? (float)$data['discount_percent'] : 0;
+
         $calc = $this->calculateFinalPrices(
-            $data['usd_price'] ?? 0,
-            $data['toman_price'] ?? 0,
-            $data['discount_percent'] ?? 0,
+            $usd,
+            $toman,
+            $discount,
             $settings
         );
 
@@ -147,9 +163,9 @@ class PriceController extends Controller
                 'product_part_number' => $data['product_part_number']
             ],
             [
-                'usd_price' => $data['usd_price'],
-                'toman_price' => $data['toman_price'],
-                'discount_percent' => $data['discount_percent'] ?? 0,
+                'usd_price' => $usd,
+                'toman_price' => $toman,
+                'discount_percent' => $discount,
                 'original_price' => $calc['original_price'],
                 'final_usd' => $calc['final_usd'],
                 'sell_price_toman' => $calc['sell_price_toman'],
@@ -158,11 +174,10 @@ class PriceController extends Controller
 
         return response()->json([
             'status' => 'ok',
-            'message' => 'قیمت محصول ذخیره شد.',
+            'message' => 'قیمت محصول با موفقیت ذخیره شد.',
             'price' => $price
         ]);
     }
-
 
     protected function calculateFinalPrices(
         ?float $usd,
@@ -178,31 +193,18 @@ class PriceController extends Controller
         $costMult = 1 + (($profit + $extra) / 100);
         $discMult = 1 - (($discount ?? 0) / 100);
 
-        $originalPrice = 0;
-        $finalUsd = 0;
-        $sellToman = 0;
+        $originalPrice = null;
+        $finalUsd = null;
+        $sellToman = null;
 
         if ($usd && $usd > 0) {
-
             $baseWithProfit = $usd * $costMult;
-
-            $originalPrice = round(
-                $baseWithProfit * $rate
-            );
-
+            $originalPrice = round($baseWithProfit * $rate);
             $finalUsd = $baseWithProfit * $discMult;
-
-            $sellToman = round(
-                    $finalUsd * $rate / 10
-                ) * 10;
-
+            $sellToman = round(($finalUsd * $rate) / 10) * 10;
         } elseif ($toman && $toman > 0) {
-
             $originalPrice = $toman * $costMult;
-
-            $sellToman = round(
-                    ($originalPrice * $discMult) / 10
-                ) * 10;
+            $sellToman = round(($originalPrice * $discMult) / 10) * 10;
         }
 
         return [
