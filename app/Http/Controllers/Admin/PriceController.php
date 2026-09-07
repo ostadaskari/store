@@ -99,6 +99,12 @@ class PriceController extends Controller
 
         foreach ($prices as $p) {
 
+            // اگر محصولی هیچ قیمت دلاری یا تومانی ندارد، رکورد اضافی آن را پاک کن
+            if (is_null($p->usd_price) && is_null($p->toman_price)) {
+                $p->delete();
+                continue;
+            }
+
             $calc = $this->calculateFinalPrices(
                 $p->usd_price,
                 $p->toman_price,
@@ -107,9 +113,9 @@ class PriceController extends Controller
             );
 
             $p->update([
-                'original_price' => $calc['original_price'],
-                'final_usd' => $calc['final_usd'],
-                'sell_price_toman' => $calc['sell_price_toman'],
+                'original_price'   => $calc['original_price'] ?? 0,
+                'final_usd'        => $calc['final_usd'] ?? 0,
+                'sell_price_toman' => $calc['sell_price_toman'] ?? 0,
             ]);
         }
 
