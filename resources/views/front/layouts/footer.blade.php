@@ -193,7 +193,17 @@
                         <h5>نمادها</h5>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
-                        <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=680372&Code=9Z0QvMUwmtzqqmLYIlM6IoJWI9SYAdXh'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=680372&Code=9Z0QvMUwmtzqqmLYIlM6IoJWI9SYAdXh' alt='' style='cursor:pointer' code='9Z0QvMUwmtzqqmLYIlM6IoJWI9SYAdXh'></a>
+                        <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=680372&Code=9Z0QvMUwmtzqqmLYIlM6IoJWI9SYAdXh'>
+                            <img
+                                referrerpolicy="origin"
+                                src="https://trustseal.enamad.ir/logo.aspx?id=680372&Code=9Z0QvMUwmtzqqmLYIlM6IoJWI9SYAdXh"
+                                alt="نماد اعتماد الکترونیکی"
+                                loading="lazy"
+                                width="..."
+                                height="..."
+                                style="cursor:pointer"
+                            >
+                        </a>
                         <img class="img-fluid img-enamad" src="{{ asset('design/image/samandehi.png') }}">
                     </div>
                 </div>

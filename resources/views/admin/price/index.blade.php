@@ -184,6 +184,7 @@
                     <thead class="table-blue">
 
                     <tr>
+                        <th style="width:5%;">#</th>
 
                         <th style="width:20%;">
                             Part Number

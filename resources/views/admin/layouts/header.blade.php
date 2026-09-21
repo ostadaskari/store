@@ -75,9 +75,26 @@
                         <!-- Notifications and profile menu -->
                         <div class="col-12 d-flex align-items-center justify-content-end px-0">
 
-                            <div class="d-flex flex-row align-items-center ms-3" dir="rtl">
-                                <p class="mb-0 ms-3" id="live-time">00:00:00</p>
-                                <span id="live-date">0000/00/00</span>
+                            <div class="d-flex flex-row align-items-center ms-3" dir="rtl"
+                                                     style="gap: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+                                                    <p class="mb-0" id="live-time"
+                                                       style="font-weight: 700; font-size: 1.15rem;
+                                  color: #ffffff; letter-spacing: 0.8px;
+                                  text-shadow: 0 0 10px rgba(99, 179, 237, 0.5);">
+                                                        00:00:00
+                                                    </p>
+
+                                                    <span id="live-date"
+                                                          style="font-weight: 500; font-size: 0.9rem;
+                                     color: #a0aec0;
+                                     background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+                                     padding: 6px 14px;
+                                     border-radius: 8px;
+                                     border: 1px solid #4a5568;
+                                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">
+                            0000/00/00
+                        </span>
                             </div>
 
 
