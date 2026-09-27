@@ -39,6 +39,13 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\PriceController;
 
 use App\Http\Controllers\Front\SearchController;
+use App\Http\Controllers\Front\FilterSearchController;
+
+Route::prefix('filter-search')->group(function () {
+    Route::get('/', [FilterSearchController::class, 'index'])->name('filter.search.index');
+    Route::get('/features/{category_id?}', [FilterSearchController::class, 'getFeatures'])->name('filter.search.features');
+    Route::get('/results', [FilterSearchController::class, 'getResults'])->name('filter.search.results');
+});
 
 Route::middleware('user')->group(callback: function(){
     Route::get('/user/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
