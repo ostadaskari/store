@@ -7,6 +7,7 @@
 
     <!-- Bootstrap 5 CSS -->
     <link href="{{asset('design/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    <link href="{{asset('design/css/pagination.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('design/css/bootstrap-icons.css')}}">
 
 
