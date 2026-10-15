@@ -17,7 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => Adminmiddleware::class,
             'user' => Usermiddleware::class,
         ]);
-        //
+
+        // استثنا کردن روت بازگشت بانک ملت از بررسی CSRF Token
+        $middleware->validateCsrfTokens(except: [
+            'payment/behpardasht/callback',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

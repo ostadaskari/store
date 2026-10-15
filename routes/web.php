@@ -183,9 +183,16 @@ Route::prefix('cart')->group(function () {
 
 });
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('checkout/place_order', [CartController::class, 'place_order'])->name('checkout.place_order');
-Route::get('checkout/payment', [CartController::class, 'checkout_payment']);
+// روت‌های خرید و پرداخت (نیازمند لاگین)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/checkout/place_order', [CartController::class, 'place_order'])->name('checkout.place_order');
+    Route::get('/checkout/payment', [CartController::class, 'checkout_payment'])->name('checkout.payment');
+});
+
+// روت بازگشت از درگاه بانک ملت (عمومی و بدون CSRF)
+Route::post('/payment/behpardasht/callback', [CartController::class, 'behpardashtCallback'])->name('payment.behpardasht.callback');
+
 // GET request to fetch all saved addresses (Used by loadUserAddresses in JS)
 Route::get('/user/addresses', [UserAddressController::class, 'index'])
     ->name('user.addresses.index');

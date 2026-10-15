@@ -23,6 +23,13 @@ return [
         'secret'  => env('SMSIR_SECRET'),
         'base_url'=> env('SMSIR_BASE_URL'), // e.g. https://api.sms.ir
     ],
+    'behpardasht' => [
+        'terminal_id' => env('BEHPARDASHT_TERMINAL_ID'),
+        'username'    => env('BEHPARDASHT_USERNAME'),
+        'password'    => env('BEHPARDASHT_PASSWORD'),
+        'wsdl'          => env('BEHPARDASHT_WSDL', 'https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl'),
+        'start_pay_url' => env('BEHPARDASHT_START_PAY_URL', 'https://bpm.shaparak.ir/pgwchannel/startpay.mellat'),
+    ],
 
 
 

@@ -3,24 +3,35 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order; // Import Order Model
-use App\Models\OrderItem; // Import OrderItem Model
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Shipping;
 use App\Models\UserAddress;
 use App\Models\Warehouse\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Gloudemans\Shoppingcart\Facades\Cart; // Ensure this package is correctly imported
+use Illuminate\Support\Facades\Log;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use SoapClient;
+use Exception;
 
 class CartController extends Controller
 {
-    // Add product to cart
+    protected function getWsdlUrl(): string
+    {
+        return config('services.behpardasht.wsdl', 'https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl');
+    }
+
+    protected function getStartPayUrl(): string
+    {
+        return config('services.behpardasht.start_pay_url', 'https://bpm.shaparak.ir/pgwchannel/startpay.mellat');
+    }
+
     public function add(Product $product)
     {
         $qty = request('qty', 1);
 
-        // بررسی ثبت بودن قیمت معتبر برای محصول
         $price = $product->display_price_toman;
         if (empty($price) || $price <= 0) {
             $errorMsg = 'این محصول در حال حاضر قیمت‌گذاری نشده و امکان افزودن آن به سبد خرید وجود ندارد.';
@@ -30,7 +41,6 @@ class CartController extends Controller
             return back()->with('error', $errorMsg);
         }
 
-        // 1. Check if the requested quantity exists in stock
         if ($qty > $product->available_qty) {
             $errorMsg = 'تعداد انتخاب شده بیشتر از موجودی انبار است. موجودی فعلی: ' . $product->available_qty;
             if (request()->ajax()) {
@@ -39,7 +49,6 @@ class CartController extends Controller
             return back()->with('error', $errorMsg);
         }
 
-        // 2. Check if item is already in cart, then check the COMBINED total against stock
         $existingItem = \Cart::get($product->id);
         if ($existingItem) {
             $totalInCart = $existingItem->quantity + $qty;
@@ -78,7 +87,6 @@ class CartController extends Controller
         return back()->with('success', 'محصول به سبد اضافه شد.');
     }
 
-    // Show cart
     public function index()
     {
         $header_title = 'سبد خرید';
@@ -89,7 +97,6 @@ class CartController extends Controller
         ]);
     }
 
-    // Update quantity
     public function update($id)
     {
         $item = \Cart::get($id);
@@ -109,7 +116,6 @@ class CartController extends Controller
         return back()->with('success', 'بروزرسانی انجام شد.');
     }
 
-    //update AJAX
     public function ajaxUpdate($id)
     {
         $item = \Cart::get($id);
@@ -118,7 +124,6 @@ class CartController extends Controller
         $newQty = (int)request('qty');
         $product = Product::find($item->id);
 
-        // Server-side validation against DB
         if ($newQty > $product->available_qty) {
             return response()->json([
                 'error' => 'تعداد انتخاب شده بیشتر از موجودی انبار است. حداکثر: ' . $product->available_qty
@@ -151,15 +156,12 @@ class CartController extends Controller
         ]);
     }
 
-
-    // Remove item
     public function remove($id)
     {
         \Cart::remove($id);
         return back()->with('success', 'محصول حذف شد.');
     }
 
-    // Clear cart
     public function clear()
     {
         \Cart::clear();
@@ -173,7 +175,6 @@ class CartController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        // Ensure user is authenticated before checkout
         if (!Auth::check()) {
             return redirect()->route('client.login.mobile.form')->with('error', 'برای ادامه فرآیند خرید، ابتدا وارد حساب کاربری خود شوید.');
         }
@@ -181,46 +182,30 @@ class CartController extends Controller
         return view('front.cart.checkout', compact('header_title', 'shippings'));
     }
 
-    /**
-     * Helper function to generate a unique 9-digit order number.
-     * Uses random_int which is cryptographically secure (better than mt_rand).
-     * @return string
-     */
     protected function generateUniqueOrderNumber(): string
     {
         do {
-            // Generate a random 9-digit number
-            // Using random_int is generally preferred for security/unpredictability
             $orderNumber = (string) random_int(100000000, 999999999);
         } while (Order::where('order_number', $orderNumber)->exists());
 
         return $orderNumber;
     }
 
-    /**
-     * Process the checkout form and create the Order and OrderItems.
-     */
-
     public function place_order(Request $request)
     {
-        // 1. Validation
-        // اکنون تنها به ID آدرس انتخابی نیاز داریم، نه تمام جزئیات آدرس
         $request->validate([
-            'user_address_id' => 'required|integer|exists:user_addresses,id', // مطمئن شوید آدرس وجود دارد
-
-            'email'           => 'required|email|max:255',  // نگهداری برای گزارش‌دهی
+            'user_address_id' => 'required|integer|exists:user_addresses,id',
+            'email'           => 'required|email|max:255',
             'shipping_slug'   => 'required|string|exists:shippings,slug',
             'payment_method'  => 'required|string|in:credit,cash',
-            'company_name'    => 'nullable|string|max:100', // اختیاری
-            'note'            => 'nullable|string', // اختیاری
+            'company_name'    => 'nullable|string|max:100',
+            'note'            => 'nullable|string',
         ]);
 
-        // Check if cart is empty
         if (\Cart::getContent()->isEmpty()) {
             return response()->json(['status' => false, 'message' => 'سبد خرید شما خالی است.']);
         }
 
-        // Fetch selected address to ensure it belongs to the user (extra security)
         $address = UserAddress::where('id', $request->user_address_id)
             ->where('user_id', Auth::id())
             ->first();
@@ -229,28 +214,21 @@ class CartController extends Controller
             return response()->json(['status' => false, 'message' => 'آدرس انتخابی معتبر نیست یا متعلق به شما نمی‌باشد.']);
         }
 
-
-        // Get shipping info
         $shipping = Shipping::where('slug', $request->shipping_slug)->firstOrFail();
 
-        // Calculate final amounts
         $cartTotal = \Cart::getTotal();
         $discountAmount = session('cart.discount.amount') ?? 0;
         $shippingAmount = $shipping->price;
-        $totalAmount = $cartTotal + $shippingAmount - $discountAmount;
+        $totalAmount = ($cartTotal + $shippingAmount) - $discountAmount;
         $discountCode = session('cart.discount.code') ?? null;
 
-
-        // 2. Transaction for atomic operations
         try {
             DB::beginTransaction();
 
-            // 1. PRE-CHECK STOCK AGAIN: Prevent race condition right before order
             foreach (\Cart::getContent() as $item) {
                 $product = Product::find($item->id);
 
                 if (!$product || $item->quantity > $product->available_qty) {
-                    // برگرداندن پاسخ به صورت JSON برای نمایش در Swal
                     return response()->json([
                         'status' => false,
                         'message' => "متأسفانه موجودی محصول «{$item->name}» به پایان رسیده یا کمتر از مقدار درخواستی شماست. (موجودی فعلی: {$product->available_qty} عدد)"
@@ -258,21 +236,15 @@ class CartController extends Controller
                 }
             }
 
-            // --- Generate Unique Order Number ---
             $orderNumber = $this->generateUniqueOrderNumber();
 
-            // 3. Create Order
             $order = Order::create([
                 'user_id'         => Auth::id(),
-                'order_number'    => $orderNumber, // ADDED: Save the unique order number
-                'user_address_id' => $address->id, // <<--- لینک کردن به آدرس ذخیره شده
-
-                // حفظ فیلدهای فردی در جدول Order برای سوابق و گزارش‌دهی
+                'order_number'    => $orderNumber,
+                'user_address_id' => $address->id,
                 'first_name'      => $request->first_name,
                 'last_name'       => $request->last_name,
                 'email'           => $request->email,
-
-                // سایر فیلدها
                 'company_name'    => $request->company_name,
                 'note'            => $request->note,
                 'shipping_id'     => $shipping->id,
@@ -281,93 +253,289 @@ class CartController extends Controller
                 'shipping_amount' => $shippingAmount,
                 'total_amount'    => $totalAmount,
                 'payment_method'  => $request->payment_method,
-                'status'          => 'processing',
+                'status'          => 'pending',
                 'is_payment'      => false,
             ]);
 
-            // 4. Create Order Items
             foreach (\Cart::getContent() as $item) {
-                // فرض می‌شود مدل OrderItem قبلاً تعریف شده است
                 OrderItem::create([
-                    'order_id'    => $order->id,
-                    'product_id'  => $item->id,
-                    'quantity'    => $item->quantity,
-                    'original_price'   => $item->attributes->original_price, // Saved from cart attributes
-                    'discount_percent' => $item->attributes->discount_percent, // Saved from cart attributes
-                    'price'            => $item->price, // Final price paid
-                    'total_price' => $item->quantity * $item->price,
+                    'order_id'         => $order->id,
+                    'product_id'       => $item->id,
+                    'quantity'         => $item->quantity,
+                    'original_price'   => $item->attributes->original_price,
+                    'discount_percent' => $item->attributes->discount_percent,
+                    'price'            => $item->price,
+                    'total_price'      => $item->quantity * $item->price,
                 ]);
-
-                // Optional: Update product stock here if needed
-                     //$product = Product::find($item->id);
-                    //$product->decrement('available_qty', $item->quantity);
             }
 
-            // 5. Clear discount session data after use
             session()->forget('cart.discount');
 
             DB::commit();
 
-            // 6. Redirect to payment step
-            $json['status'] = true;
-            $json['message'] = "سفارش با موفقیت ثبت شد.";
-            $json['redirect'] = url('checkout/payment?order_id=' . base64_encode($order->id));
-            return response()->json($json);
+            return response()->json([
+                'status'   => true,
+                'message'  => "سفارش با موفقیت ثبت شد.",
+                'redirect' => url('checkout/payment?order_id=' . base64_encode($order->id))
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // Log the error for debugging
             Log::error('Order Placement Failed: ' . $e->getMessage());
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => 'خطا در ثبت نهایی سفارش. لطفا مجددا تلاش کنید.',
             ]);
         }
     }
 
-    // ... Other methods like checkout_payment (No change needed here as it uses Order::find)
     public function checkout_payment(Request $request)
     {
-        // ... (The provided code for checkout_payment is correct as it relies only on order_id)
-        if (\Cart::getSubTotal() > 0 && !empty($request->order_id)) {
-            $order_id = base64_decode($request->order_id);
-            $order = Order::find($order_id);
+        if (empty($request->order_id)) {
+            return redirect('cart')->with('error', "پارامتر سفارش نامعتبر است.");
+        }
 
-            if (!empty($order)) {
+        $order_id = base64_decode($request->order_id);
+        $order = Order::find($order_id);
 
-                // Ensure order belongs to the current user (security check)
-                if ($order->user_id !== Auth::id()) {
-                    return redirect('cart')->with('error', "خطای امنیتی: سفارش برای کاربر فعلی نیست.");
+        if (!$order) {
+            return redirect('cart')->with('error', "سفارش مورد نظر یافت نشد.");
+        }
+
+        if ($order->user_id !== Auth::id()) {
+            return redirect('cart')->with('error', "خطای امنیتی: سفارش برای کاربر فعلی نیست.");
+        }
+
+        // 1. پرداخت در محل (Cash)
+        if ($order->payment_method === 'cash') {
+            $order->status = 'processing';
+            $order->is_payment = true;
+            $order->save();
+
+            \Cart::clear();
+
+            return redirect('cart')->with('success', "سفارش شما با موفقیت ثبت شد و به صورت پرداخت در محل است.");
+        }
+
+        // 2. پرداخت آنلاین به پرداخت ملت (Credit)
+        if ($order->payment_method === 'credit') {
+            try {
+                $terminalId   = config('services.behpardasht.terminal_id');
+                $userName     = config('services.behpardasht.username');
+                $userPassword = config('services.behpardasht.password');
+                $orderId      = (int) $order->order_number; // شماره یکتای خرید
+                $amountRial   = (int) ($order->total_amount * 10); // تبدیل تومان به ریال
+                $localDate    = date('Ymd');
+                $localTime    = date('His');
+                $additionalData = '';
+                $callBackUrl  = route('payment.behpardasht.callback');
+                $payerId      = 0;
+
+                $client = new SoapClient($this->getWsdlUrl(), [
+                    'encoding' => 'UTF-8',
+                    'trace'    => 1,
+                    'exceptions' => true,
+                    'connection_timeout' => 15
+                ]);
+
+                $parameters = [
+                    'terminalId'     => $terminalId,
+                    'userName'       => $userName,
+                    'userPassword'   => $userPassword,
+                    'orderId'        => $orderId,
+                    'amount'         => $amountRial,
+                    'localDate'      => $localDate,
+                    'localTime'      => $localTime,
+                    'additionalData' => $additionalData,
+                    'callBackUrl'    => $callBackUrl,
+                    'payerId'        => $payerId,
+                ];
+
+                $result = $client->bpPayRequest($parameters);
+                $resData = explode(',', $result->return);
+
+                $resCode = $resData[0];
+
+                if ($resCode == '0') {
+                    $refId = $resData[1];
+
+                    // فرم خودکار انتقال کاربر به درگاه به پرداخت ملت
+                    return view('front.cart.behpardasht_redirect', [
+                        'startPayUrl' => $this->getStartPayUrl(),
+                        'refId'       => $refId
+                    ]);
+                } else {
+                    $errorMessage = $this->getBehpardashtErrorMessage($resCode);
+                    Log::error("Behpardasht PayRequest Error Code {$resCode}: {$errorMessage}");
+                    return redirect('cart')->with('error', 'خطا در اتصال به درگاه به پرداخت: ' . $errorMessage);
                 }
 
-                // 2. Cash on Delivery (COD) logic
-                if ($order->payment_method === 'cash') {
-
-                    // Update order status and clear cart
-                    $order->status = 'processing';
-                    $order->is_payment = true; // Payment confirmed for COD
-                    $order->save();
-
-                    \Cart::clear();
-
-                    return redirect('cart')->with('success', "سفارش شما با موفقیت ثبت شد و به صورت پرداخت در محل است.");
-
-                }
-                // 3. Online Payment (Gateway Redirect) logic
-                elseif ($order->payment_method === 'credit') {
-
-                    // Implement actual payment gateway logic here
-                    // $gateway = new PaymentGateway();
-                    // return $gateway->pay($order->total_amount, $order->id);
-
-                    // For now, redirect to cart with a message about payment setup
-                    return redirect('cart')->with('info', "سفارش ثبت شد. درگاه پرداخت هنوز فعال نیست.");
-
-                }
+            } catch (Exception $e) {
+                Log::error('Behpardasht Connection Exception: ' . $e->getMessage());
+                return redirect('cart')->with('error', 'خطایی در ارتباط با سرور به پرداخت ملت رخ داده است. لطفاً بعداً تلاش کنید.');
             }
         }
 
-        // Fallback for invalid request or empty cart
         return redirect('cart')->with('error', "خطا در فرآیند پرداخت. لطفا دوباره تلاش کنید.");
+    }
+
+    public function behpardashtCallback(Request $request)
+    {
+        $refId           = $request->input('RefId');
+        $resCode         = $request->input('ResCode');
+        $saleOrderId     = $request->input('SaleOrderId');
+        $saleReferenceId = $request->input('SaleReferenceId');
+
+        $order = Order::where('order_number', $saleOrderId)->first();
+
+        if (!$order) {
+            return view('front.cart.payment_result', [
+                'status'  => 'error',
+                'message' => 'سفارش متناظر یافت نشد.',
+                'order'   => null
+            ]);
+        }
+
+        // بررسی انصراف یا خطای اولیه کاربر در صفحه پرداخت
+        if ($resCode != '0') {
+            $errorMessage = $this->getBehpardashtErrorMessage($resCode);
+            $order->status = 'canceled';
+            $order->save();
+
+            return view('front.cart.payment_result', [
+                'status'          => 'error',
+                'message'         => $errorMessage,
+                'order'           => $order,
+                'saleReferenceId' => $saleReferenceId
+            ]);
+        }
+
+        // اجرای عملیات تایید و واریز (bpVerifySettleRequest) طبق مستندات
+        try {
+            $terminalId   = config('services.behpardasht.terminal_id');
+            $userName     = config('services.behpardasht.username');
+            $userPassword = config('services.behpardasht.password');
+
+            $client = new SoapClient($this->getWsdlUrl(), [
+                'encoding' => 'UTF-8',
+                'trace'    => 1,
+                'exceptions' => true,
+            ]);
+
+            $parameters = [
+                'terminalId'      => $terminalId,
+                'userName'        => $userName,
+                'userPassword'    => $userPassword,
+                'orderId'         => (int) $order->order_number,
+                'saleOrderId'     => (int) $saleOrderId,
+                'saleReferenceId' => (int) $saleReferenceId
+            ];
+
+            $verifySettleResult = $client->bpVerifySettleRequest($parameters);
+            $verifyResCode = $verifySettleResult->return;
+
+            // کد 0 یا 43 (قبلا verify شده) و 45 (قبلا settle شده)
+            if ($verifyResCode == '0' || $verifyResCode == '43' || $verifyResCode == '45') {
+
+                // بروزرسانی وضعیت سفارش به صورت موفق
+                $order->is_payment      = true;
+                $order->status          = 'processing';
+                $order->transaction_id  = $saleReferenceId;
+                $order->save();
+
+                // کاهش موجودی انبار
+                foreach ($order->items as $item) {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->decrement('available_qty', $item->quantity);
+                    }
+                }
+
+                // خالی کردن سبد خرید
+                \Cart::clear();
+
+                return view('front.cart.payment_result', [
+                    'status'          => 'success',
+                    'message'         => 'پرداخت با موفقیت انجام شد و سفارش شما به جریان افتاد.',
+                    'order'           => $order,
+                    'saleReferenceId' => $saleReferenceId
+                ]);
+
+            } else {
+                // تایید تراکنش ناموفق بود
+                $errorMessage = $this->getBehpardashtErrorMessage($verifyResCode);
+                $order->status = 'failed';
+                $order->save();
+
+                return view('front.cart.payment_result', [
+                    'status'          => 'error',
+                    'message'         => 'خطا در تایید نهایی تراکنش: ' . $errorMessage,
+                    'order'           => $order,
+                    'saleReferenceId' => $saleReferenceId
+                ]);
+            }
+
+        } catch (Exception $e) {
+            Log::error('Behpardasht VerifySettle Exception: ' . $e->getMessage());
+            return view('front.cart.payment_result', [
+                'status'  => 'error',
+                'message' => 'خطای غیرمنتظره در تایید تراکنش بانکی. در صورت کسر وجه ظرف ۷۲ ساعت به حساب شما بازخواهد گشت.',
+                'order'   => $order
+            ]);
+        }
+    }
+
+    private function getBehpardashtErrorMessage($code)
+    {
+        $errors = [
+            '0'   => 'تراکنش با موفقیت انجام شد.',
+            '11'  => 'شماره کارت نامعتبر است.',
+            '12'  => 'موجودی کافی نیست.',
+            '13'  => 'رمز کارت نادرست است.',
+            '14'  => 'تعداد دفعات وارد کردن رمز بیش از حد مجاز است.',
+            '15'  => 'کارت نامعتبر است.',
+            '16'  => 'دفعات برداشت وجه بیش از حد مجاز است.',
+            '17'  => 'کاربر از انجام تراکنش منصرف شده است.',
+            '18'  => 'تاریخ انقضای کارت گذشته است.',
+            '19'  => 'مبلغ برداشت وجه بیش از حد مجاز است.',
+            '21'  => 'پذیرنده نامعتبر است.',
+            '23'  => 'خطای امنیتی رخ داده است.',
+            '24'  => 'اطلاعات کاربری پذیرنده نامعتبر است.',
+            '25'  => 'مبلغ نامعتبر است.',
+            '31'  => 'پاسخ نامعتبر است.',
+            '32'  => 'فرمت اطلاعات وارد شده صحیح نمی‌باشد.',
+            '33'  => 'حساب نامعتبر است.',
+            '34'  => 'خطای سیستمی درگاه بانک.',
+            '35'  => 'تاریخ نامعتبر است.',
+            '41'  => 'شماره درخواست تکراری است.',
+            '42'  => 'تراکنش خرید یافت نشد.',
+            '43'  => 'قبلا درخواست Verify داده شده است.',
+            '44'  => 'درخواست Verify یافت نشد.',
+            '45'  => 'تراکنش Settle شده است.',
+            '46'  => 'تراکنش Settle نشده است.',
+            '47'  => 'تراکنش Settle یافت نشد.',
+            '48'  => 'تراکنش Reverse (برگشت داده) شده است.',
+            '51'  => 'تراکنش تکراری است.',
+            '54'  => 'تراکنش مرجع موجود نیست.',
+            '55'  => 'تراکنش نامعتبر است.',
+            '56'  => 'خطا در تاییدیه مالک کارت (مانا).',
+            '57'  => 'خطا در استعلام هویت دارنده کارت (احراز هویت قوی).',
+            '61'  => 'خطا در واریز وجه.',
+            '62'  => 'مسیر بازگشت به سایت در دامنه ثبت شده برای پذیرنده قرار ندارد.',
+            '98'  => 'سقف استفاده از رمز ایستا به پایان رسیده است.',
+            '111' => 'صادر کننده کارت نامعتبر است.',
+            '112' => 'خطای سوییچ صادر کننده کارت.',
+            '113' => 'پاسخی از سامانه مقصد دریافت نشد.',
+            '114' => 'دارنده کارت مجاز به انجام این تراکنش نیست.',
+            '115' => 'شما امکان انجام این تراکنش را ندارید.',
+            '116' => 'صادر کننده کارت قادر به پاسخگویی نیست.',
+            '117' => 'صادر کننده کارت در حال حاضر قادر به پاسخگویی نیست.',
+            '412' => 'شناسه قبض نادرست است.',
+            '413' => 'شناسه پرداخت نادرست است.',
+            '415' => 'زمان جلسه کاری به پایان رسیده است.',
+            '417' => 'شناسه پرداخت کننده نامعتبر است.',
+        ];
+
+        return $errors[$code] ?? "خطای ناشناخته بانکی (کد خطا: {$code})";
     }
 }
