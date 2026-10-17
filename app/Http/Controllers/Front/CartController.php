@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use SoapClient;
 use Exception;
 
@@ -221,7 +220,9 @@ class CartController extends Controller
         $shippingAmount = $shipping->price;
         $totalAmount = ($cartTotal + $shippingAmount) - $discountAmount;
         $discountCode = session('cart.discount.code') ?? null;
+
         $userEmail = $request->input('email') ?? Auth::user()->email ?? 'no-email@example.com';
+
         try {
             DB::beginTransaction();
 
@@ -242,8 +243,8 @@ class CartController extends Controller
                 'user_id'         => Auth::id(),
                 'order_number'    => $orderNumber,
                 'user_address_id' => $address->id,
-                'first_name'      => $request->first_name,
-                'last_name'       => $request->last_name,
+                'first_name'      => $request->first_name ?? Auth::user()->first_name ?? '',
+                'last_name'       => $request->last_name ?? Auth::user()->last_name ?? '',
                 'email'           => $userEmail,
                 'company_name'    => $request->company_name,
                 'note'            => $request->note,
@@ -292,18 +293,18 @@ class CartController extends Controller
     public function checkout_payment(Request $request)
     {
         if (empty($request->order_id)) {
-            return redirect('cart')->with('error', "پارامتر سفارش نامعتبر است.");
+            return redirect()->route('cart.checkout')->with('error', "پارامتر سفارش نامعتبر است.");
         }
 
         $order_id = base64_decode($request->order_id);
         $order = Order::find($order_id);
 
         if (!$order) {
-            return redirect('cart')->with('error', "سفارش مورد نظر یافت نشد.");
+            return redirect()->route('cart.checkout')->with('error', "سفارش مورد نظر یافت نشد.");
         }
 
         if ($order->user_id !== Auth::id()) {
-            return redirect('cart')->with('error', "خطای امنیتی: سفارش برای کاربر فعلی نیست.");
+            return redirect()->route('cart.checkout')->with('error', "خطای امنیتی: سفارش برای کاربر فعلی نیست.");
         }
 
         // 1. پرداخت در محل (Cash)
@@ -323,8 +324,8 @@ class CartController extends Controller
                 $terminalId   = config('services.behpardasht.terminal_id');
                 $userName     = config('services.behpardasht.username');
                 $userPassword = config('services.behpardasht.password');
-                $orderId      = (int) $order->order_number; // شماره یکتای خرید
-                $amountRial   = (int) ($order->total_amount * 10); // تبدیل تومان به ریال
+                $orderId      = (int) $order->order_number;
+                $amountRial   = (int) ($order->total_amount * 10); // تومان به ریال
                 $localDate    = date('Ymd');
                 $localTime    = date('His');
                 $additionalData = '';
@@ -359,7 +360,6 @@ class CartController extends Controller
                 if ($resCode == '0') {
                     $refId = $resData[1];
 
-                    // فرم خودکار انتقال کاربر به درگاه به پرداخت ملت
                     return view('front.cart.behpardasht_redirect', [
                         'startPayUrl' => $this->getStartPayUrl(),
                         'refId'       => $refId
@@ -367,16 +367,26 @@ class CartController extends Controller
                 } else {
                     $errorMessage = $this->getBehpardashtErrorMessage($resCode);
                     Log::error("Behpardasht PayRequest Error Code {$resCode}: {$errorMessage}");
-                    return redirect('cart')->with('error', 'خطا در اتصال به درگاه به پرداخت: ' . $errorMessage);
+
+                    // تغییر وضعیت سفارش به failed
+                    $order->status = 'failed';
+                    $order->save();
+
+                    // بازگشت به صفحه تسویه‌حساب (checkout) به جای سبد خرید
+                    return redirect()->route('cart.checkout')->with('error', 'خطا در اتصال به درگاه به پرداخت: ' . $errorMessage);
                 }
 
             } catch (Exception $e) {
                 Log::error('Behpardasht Connection Exception: ' . $e->getMessage());
-                return redirect('cart')->with('error', 'خطایی در ارتباط با سرور به پرداخت ملت رخ داده است. لطفاً بعداً تلاش کنید.');
+
+                $order->status = 'failed';
+                $order->save();
+
+                return redirect()->route('cart.checkout')->with('error', 'خطایی در ارتباط با سرور به پرداخت ملت رخ داده است. لطفاً تنظیمات درگاه و شبکه را بررسی نمایید.');
             }
         }
 
-        return redirect('cart')->with('error', "خطا در فرآیند پرداخت. لطفا دوباره تلاش کنید.");
+        return redirect()->route('cart.checkout')->with('error', "خطا در فرآیند پرداخت. لطفا دوباره تلاش کنید.");
     }
 
     public function behpardashtCallback(Request $request)
@@ -396,7 +406,6 @@ class CartController extends Controller
             ]);
         }
 
-        // بررسی انصراف یا خطای اولیه کاربر در صفحه پرداخت
         if ($resCode != '0') {
             $errorMessage = $this->getBehpardashtErrorMessage($resCode);
             $order->status = 'canceled';
@@ -410,7 +419,6 @@ class CartController extends Controller
             ]);
         }
 
-        // اجرای عملیات تایید و واریز (bpVerifySettleRequest) طبق مستندات
         try {
             $terminalId   = config('services.behpardasht.terminal_id');
             $userName     = config('services.behpardasht.username');
@@ -434,16 +442,13 @@ class CartController extends Controller
             $verifySettleResult = $client->bpVerifySettleRequest($parameters);
             $verifyResCode = $verifySettleResult->return;
 
-            // کد 0 یا 43 (قبلا verify شده) و 45 (قبلا settle شده)
             if ($verifyResCode == '0' || $verifyResCode == '43' || $verifyResCode == '45') {
 
-                // بروزرسانی وضعیت سفارش به صورت موفق
                 $order->is_payment      = true;
                 $order->status          = 'processing';
                 $order->transaction_id  = $saleReferenceId;
                 $order->save();
 
-                // کاهش موجودی انبار
                 foreach ($order->items as $item) {
                     $product = Product::find($item->product_id);
                     if ($product) {
@@ -451,7 +456,6 @@ class CartController extends Controller
                     }
                 }
 
-                // خالی کردن سبد خرید
                 \Cart::clear();
 
                 return view('front.cart.payment_result', [
@@ -462,7 +466,6 @@ class CartController extends Controller
                 ]);
 
             } else {
-                // تایید تراکنش ناموفق بود
                 $errorMessage = $this->getBehpardashtErrorMessage($verifyResCode);
                 $order->status = 'failed';
                 $order->save();

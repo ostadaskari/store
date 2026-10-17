@@ -227,7 +227,7 @@
 
                     </div>
 
-                    
+
 
                         <!-- dividing line -->
                         <hr class="my-2">
@@ -802,14 +802,10 @@
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         success: function (res) {
                             if (res.status && res.redirect) {
-                                // --- SWEETALERT LOGIC IS HERE ---
-                                $statusMsg.addClass('d-none'); // Hide local status message
+                                $statusMsg.removeClass('text-danger').addClass('text-success').text('سفارش ثبت شد. در حال انتقال به درگاه پرداخت...');
 
-                                const message = res.message || 'سفارش شما با موفقیت ثبت شد.';
-
-                                // Display SweetAlert and redirect after confirmation/timeout
-                                showSweetAlert('موفقیت!', message, 'success', res.redirect);
-
+                                // هدایت بلافاصله و مستقیم کاربر بدون نمایش SweetAlert موفقیت
+                                window.location.href = res.redirect;
                             } else {
                                 // Server returned status: false
                                 $statusMsg.removeClass('text-success').addClass('text-danger').text(res.message || 'خطا در ثبت سفارش نهایی.');
