@@ -195,7 +195,7 @@ class CartController extends Controller
     {
         $request->validate([
             'user_address_id' => 'required|integer|exists:user_addresses,id',
-            'email'           => 'required|email|max:255',
+            'email'           => 'nullable|email|max:255',
             'shipping_slug'   => 'required|string|exists:shippings,slug',
             'payment_method'  => 'required|string|in:credit,cash',
             'company_name'    => 'nullable|string|max:100',
