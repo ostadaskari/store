@@ -17,11 +17,17 @@ use Exception;
 
 class CartController extends Controller
 {
+    /**
+     * Get WSDL URL dynamically from configuration.
+     */
     protected function getWsdlUrl(): string
     {
         return config('services.behpardasht.wsdl', 'https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl');
     }
 
+    /**
+     * Get Start Pay URL dynamically from configuration.
+     */
     protected function getStartPayUrl(): string
     {
         return config('services.behpardasht.start_pay_url', 'https://bpm.shaparak.ir/pgwchannel/startpay.mellat');
@@ -226,6 +232,7 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
+            // بررسی موجودی انبار
             foreach (\Cart::getContent() as $item) {
                 $product = Product::find($item->id);
 
@@ -237,27 +244,58 @@ class CartController extends Controller
                 }
             }
 
-            $orderNumber = $this->generateUniqueOrderNumber();
+            // چک کردن اینکه آیا کاربر یک سفارش معلق (pending) اخیر پرداحت‌نشده دارد یا خیر
+            $existingPendingOrder = Order::where('user_id', Auth::id())
+                ->where('status', 'pending')
+                ->where('is_payment', false)
+                ->orderBy('id', 'desc')
+                ->first();
 
-            $order = Order::create([
-                'user_id'         => Auth::id(),
-                'order_number'    => $orderNumber,
-                'user_address_id' => $address->id,
-                'first_name'      => $request->first_name ?? Auth::user()->first_name ?? '',
-                'last_name'       => $request->last_name ?? Auth::user()->last_name ?? '',
-                'email'           => $userEmail,
-                'company_name'    => $request->company_name,
-                'note'            => $request->note,
-                'shipping_id'     => $shipping->id,
-                'discount_code'   => $discountCode,
-                'discount_amount' => $discountAmount,
-                'shipping_amount' => $shippingAmount,
-                'total_amount'    => $totalAmount,
-                'payment_method'  => $request->payment_method,
-                'status'          => 'pending',
-                'is_payment'      => false,
-            ]);
+            if ($existingPendingOrder) {
+                // آپدیت همان سفارش قبلی به‌جای ساخت سفارش جدید
+                $order = $existingPendingOrder;
+                $order->update([
+                    'user_address_id' => $address->id,
+                    'first_name'      => $request->first_name ?? Auth::user()->first_name ?? '',
+                    'last_name'       => $request->last_name ?? Auth::user()->last_name ?? '',
+                    'email'           => $userEmail,
+                    'company_name'    => $request->company_name,
+                    'note'            => $request->note,
+                    'shipping_id'     => $shipping->id,
+                    'discount_code'   => $discountCode,
+                    'discount_amount' => $discountAmount,
+                    'shipping_amount' => $shippingAmount,
+                    'total_amount'    => $totalAmount,
+                    'payment_method'  => $request->payment_method,
+                ]);
 
+                // حذف آیتم‌های قبلی سفارش و ثبت مجدد اقلام سبد خرید
+                OrderItem::where('order_id', $order->id)->delete();
+            } else {
+                // اگر سفارش معلقی نداشت، سفارش جدید ثبت می‌شود
+                $orderNumber = $this->generateUniqueOrderNumber();
+
+                $order = Order::create([
+                    'user_id'         => Auth::id(),
+                    'order_number'    => $orderNumber,
+                    'user_address_id' => $address->id,
+                    'first_name'      => $request->first_name ?? Auth::user()->first_name ?? '',
+                    'last_name'       => $request->last_name ?? Auth::user()->last_name ?? '',
+                    'email'           => $userEmail,
+                    'company_name'    => $request->company_name,
+                    'note'            => $request->note,
+                    'shipping_id'     => $shipping->id,
+                    'discount_code'   => $discountCode,
+                    'discount_amount' => $discountAmount,
+                    'shipping_amount' => $shippingAmount,
+                    'total_amount'    => $totalAmount,
+                    'payment_method'  => $request->payment_method,
+                    'status'          => 'pending',
+                    'is_payment'      => false,
+                ]);
+            }
+
+            // ثبت آیتم‌های سفارش
             foreach (\Cart::getContent() as $item) {
                 OrderItem::create([
                     'order_id'         => $order->id,
@@ -372,7 +410,7 @@ class CartController extends Controller
                     $order->status = 'failed';
                     $order->save();
 
-                    // بازگشت به صفحه تسویه‌حساب (checkout) به جای سبد خرید
+                    // بازگشت به صفحه تسویه‌حساب (checkout)
                     return redirect()->route('cart.checkout')->with('error', 'خطا در اتصال به درگاه به پرداخت: ' . $errorMessage);
                 }
 
