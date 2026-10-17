@@ -221,7 +221,7 @@ class CartController extends Controller
         $shippingAmount = $shipping->price;
         $totalAmount = ($cartTotal + $shippingAmount) - $discountAmount;
         $discountCode = session('cart.discount.code') ?? null;
-
+        $userEmail = $request->input('email') ?? Auth::user()->email ?? 'no-email@example.com';
         try {
             DB::beginTransaction();
 
@@ -244,7 +244,7 @@ class CartController extends Controller
                 'user_address_id' => $address->id,
                 'first_name'      => $request->first_name,
                 'last_name'       => $request->last_name,
-                'email'           => $request->email,
+                'email'           => $userEmail,
                 'company_name'    => $request->company_name,
                 'note'            => $request->note,
                 'shipping_id'     => $shipping->id,
