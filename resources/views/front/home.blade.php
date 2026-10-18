@@ -234,7 +234,7 @@
                 </svg>
                 <div  class="property__title">
                     گارانتی
-                    <p>گارانتی 18 ماهه پارس مگا</p>
+                    <p>گارانتی 18 ماهه شیرازچیپ</p>
                 </div>
             </div>
         </div>
@@ -690,7 +690,7 @@
         <div class="row">
             <div class="col-12">
                 {{-- بخش دیگر محصولات --}}
-                <section class="container owl-products owl-3 position-relative mt-5">
+                <section class="container owl-products owl-4 position-relative mt-5">
                     <div class="row m-auto">
                         <div class="col-sm-12 p-0 shadow-sm">
                             <div class="bg-header-owl">
@@ -706,7 +706,7 @@
                         </div>
                     </div>
                 </section>
-                <div class="custom-owl-controls text-center my-4 position-absolute owl-3">
+                <div class="custom-owl-controls text-center my-4 position-absolute owl-4">
                     <button class="btn btn-outline-dark mx-2 custom-prev">
                         <svg width="22" height="22" fill="#fff" class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
@@ -769,31 +769,6 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function(){
-            var owl4 = $('.random-products-carousel');
-            owl4.owlCarousel({
-                rtl: true,
-                loop: true,
-                margin: 15,
-                nav: false,
-                dots: false,
-                responsive: {
-                    0: { items: 1 },
-                    576: { items: 2 },
-                    768: { items: 3 },
-                    992: { items: 9 }
-                }
-            });
 
-            // تنظیم دکمه‌های بعدی و قبلی اختصاصی
-            $('.owl-4 .custom-next').click(function() {
-                owl4.trigger('next.owl.carousel');
-            });
-            $('.owl-4 .custom-prev').click(function() {
-                owl4.trigger('prev.owl.carousel');
-            });
-        });
-    </script>
 @endsection
 

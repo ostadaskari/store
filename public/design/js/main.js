@@ -168,7 +168,7 @@ $(document).ready(function() {
     loop: true,
     margin: 8,
     autoplay: true,
-    autoplayTimeout: 6000,
+    autoplayTimeout: 5000,
     autoplayHoverPause: true,
      autoWidth: true,
     autoHeight: true ,
@@ -176,7 +176,7 @@ $(document).ready(function() {
     responsive: {
       0: { items: 2 },
       600: { items: 3 },
-      1000: { items: 6 }
+      1270: { items: 10 }
     }
   });
 
@@ -194,7 +194,7 @@ $(document).ready(function() {
     responsive: {
       0: { items: 2 },
       600: { items: 3 },
-      1000: { items: 6 }
+      1270: { items: 10 }
     }
   });
 
@@ -212,9 +212,26 @@ $(document).ready(function() {
     responsive: {
       0: { items: 2 },
       600: { items: 3 },
-      1000: { items: 6 }
+      1270: { items: 10 }
     }
   });
+    //forth slider
+    $(".owl-4 .owl-carousel").owlCarousel({
+        rtl: true,
+        loop: true,
+        margin: 8,
+        autoplay: true,
+        autoplayTimeout: 30000,
+        autoplayHoverPause: true,
+        autoWidth: true,
+        autoHeight: true ,
+        slideBy: 6,
+        responsive: {
+            0: { items: 2 },
+            600: { items: 3 },
+            1270: { items: 10 }
+        }
+    });
 
   // btns next and prev
   $(".owl-1 .custom-next").click(function() {
@@ -236,6 +253,12 @@ $(document).ready(function() {
   });
   $(".owl-3 .custom-prev").click(function() {
     $(".owl-3 .owl-carousel").trigger('prev.owl.carousel');
+  });
+  $(".owl-4 .custom-next").click(function() {
+    $(".owl-4 .owl-carousel").trigger('next.owl.carousel');
+  });
+  $(".owl-4 .custom-prev").click(function() {
+    $(".owl-4 .owl-carousel").trigger('prev.owl.carousel');
   });
 });
 
