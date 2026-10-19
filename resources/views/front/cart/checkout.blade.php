@@ -240,7 +240,7 @@
 
                         <!-- Actions - Submit button now linked to form -->
                         <button type="submit" id="submitOrderBtn" class="btn btn-payment mt-4 w-100 py-2">
-                            ثبت نهایی سفارش
+                             پرداخت
                         </button>
                         <div id="orderStatusMessage" class="mt-2 small text-center d-none"></div>
                     </div>
