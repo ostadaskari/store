@@ -16,8 +16,16 @@ class FilterSearchController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('name', 'asc')->get();
-        return view('front.search.filter', compact('categories'));
+        // دریافت فقط دسته‌بندی‌های ریشه (والد) همراه با فرزندان به صورت تو در تو
+        $categories = Category::whereNull('parent_id')
+            ->with('childrenRecursive') // فرض بر این است که این رفرش/ریلیشن را در مدل Category دارید
+            ->orderBy('name', 'asc')
+            ->get();
+
+        // اگر متد بالا را ندارید، از روش زیر برای بارگذاری درخت استفاده کنید:
+        $allCategories = Category::with('children')->whereNull('parent_id')->orderBy('name', 'asc')->get();
+
+        return view('front.search.filter', compact('allCategories'));
     }
 
     /**

@@ -12,17 +12,20 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        {{-- Category Selector --}}
+                        {{-- Category Selector (Tree View) --}}
                         <div class="mb-3">
-                            <label class="form-label fw-bold">انتخاب دسته‌بندی</label>
-                            <select id="category-select" class="form-select">
-                                <option value="">-- یک دسته‌بندی انتخاب کنید --</option>
-                                @if(isset($categories) && count($categories) > 0)
-                                    @foreach($categories as $cat)
-                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <label class="form-label fw-bold mb-2">انتخاب دسته‌بندی</label>
+
+                            {{-- فیلد مخفی برای نگهداری آی‌دی دسته‌بندی انتخاب شده جهت ارسال به اژاکس --}}
+                            <input type="hidden" id="category-select" value="">
+
+                            {{-- کانتینر نمایش درخت دسته‌بندی‌ها --}}
+                            <div class="category-tree-container border rounded p-2" style="max-height: 250px; overflow-y: auto; background: #fdfdfd;">
+                                @include('front.partials.sidebar_categories', [
+                                    'categories' => $allCategories,
+                                    'currentCategory' => null
+                                ])
+                            </div>
                         </div>
 
                         {{-- Dynamic Filters Container --}}
@@ -71,7 +74,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const categoryEl = document.getElementById("category-select");
+            const categoryInput = document.getElementById("category-select");
             const filtersEl = document.getElementById("dynamic-filters");
             const searchBtn = document.getElementById("search-btn");
             const loaderEl = document.getElementById("loader");
@@ -83,7 +86,41 @@
             let currentView = 'list';
             let rawProductsData = [];
 
-            // محاسبه ضریب واحد در سمت JS برای به‌روزرسانی زنده Placeholderها
+            // مدیریت کلیک روی لینک‌های دسته‌بندی درخت برای انتخاب و بارگذاری ویژگی‌ها
+            document.querySelectorAll('.category-node a').forEach(catLink => {
+                catLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // حذف کلاس اکتیو از بقیه و افزودن به این مورد
+                    document.querySelectorAll('.category-node a').forEach(l => l.classList.remove('text-danger', 'fw-bold'));
+                    this.classList.add('text-danger', 'fw-bold');
+
+                    // خواندن آی‌دی مستقیماً از data-id در تگ li والد (category-node)
+                    const categoryNode = this.closest('.category-node');
+                    if (categoryNode) {
+                        const catId = categoryNode.getAttribute('data-id');
+                        if (catId) {
+                            categoryInput.value = catId;
+                            fetchFeaturesForCategory(catId);
+                        }
+                    }
+                });
+            });
+
+            // تابع باز و بسته کردن درخت
+            document.querySelectorAll('.category-node .toggle').forEach(function (toggle) {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const categoryNode = this.closest('.category-node');
+                    const childList = categoryNode.querySelector(':scope > .child-list');
+                    if (!childList) return;
+                    const isOpen = !childList.classList.contains('d-none');
+                    childList.classList.toggle('d-none', isOpen);
+                    this.textContent = isOpen ? '+' : '−';
+                });
+            });
+
             function getMultiplierJS(unit) {
                 if (!unit) return 1.0;
                 unit = unit.trim();
@@ -97,7 +134,6 @@
                 return 1.0;
             }
 
-            // فرمت دهی تمیز اعداد (جلوگیری از اعشارهای طولانی مثل 0.0000001)
             function formatNumber(num) {
                 if (num === null || num === undefined || isNaN(num)) return '';
                 if (num === 0) return '0';
@@ -123,9 +159,8 @@
                 }
             }
 
-            // بارگذاری فیلترهای پویا
-            categoryEl.addEventListener("change", function () {
-                const catId = categoryEl.value;
+            // تابع بارگذاری فیلترها بر اساس دسته‌بندی انتخابی
+            function fetchFeaturesForCategory(catId) {
                 filtersEl.innerHTML = "";
                 productListEl.innerHTML = "";
                 productTableContainerEl.innerHTML = "";
@@ -146,7 +181,6 @@
                             const maxName  = `feature_${f.id}_max`;
                             const unitName = `feature_${f.id}_unit`;
 
-                            // فیلتر بازه‌ای (Min/Max Range) برای انواع داده عددی
                             if (f.data_type === "decimal(15,7)" || f.data_type === "range") {
                                 let unitSelector = '';
                                 let defaultUnit = '';
@@ -164,45 +198,40 @@
                                 const maxBase = f.max_value !== undefined ? f.max_value : 0;
                                 const initialMultiplier = getMultiplierJS(defaultUnit);
 
-                                const initialMinFormatted = formatNumber(minBase / initialMultiplier);
-                                const initialMaxFormatted = formatNumber(maxBase / initialMultiplier);
-
                                 inputHtml = `
-                        <div class="row g-1 align-items-center">
-                            <div class="col">
-                                <input type="number" step="any" id="min_input_${f.id}" name="${minName}"
-                                       data-min-base="${minBase}"
-                                       class="form-control form-control-sm"
-                                       placeholder="از: ${initialMinFormatted}">
-                            </div>
-                            <div class="col">
-                                <input type="number" step="any" id="max_input_${f.id}" name="${maxName}"
-                                       data-max-base="${maxBase}"
-                                       class="form-control form-control-sm"
-                                       placeholder="تا: ${initialMaxFormatted}">
-                            </div>
-                            ${unitSelector ? `<div class="col-auto">${unitSelector}</div>` : ''}
-                        </div>`;
+                                <div class="row g-1 align-items-center">
+                                    <div class="col">
+                                        <input type="number" step="any" id="min_input_${f.id}" name="${minName}"
+                                               data-min-base="${minBase}"
+                                               class="form-control form-control-sm"
+                                               placeholder="از: ${formatNumber(minBase / initialMultiplier)}">
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" step="any" id="max_input_${f.id}" name="${maxName}"
+                                               data-max-base="${maxBase}"
+                                               class="form-control form-control-sm"
+                                               placeholder="تا: ${formatNumber(maxBase / initialMultiplier)}">
+                                    </div>
+                                    ${unitSelector ? `<div class="col-auto">${unitSelector}</div>` : ''}
+                                </div>`;
                             } else if (f.data_type === "varchar(50)" || f.data_type === "TEXT") {
                                 inputHtml = `<input type="text" name="feature_${f.id}" class="form-control form-control-sm" placeholder="متن...">`;
                             } else if (f.data_type === "boolean") {
                                 inputHtml = `<select name="feature_${f.id}" class="form-select form-select-sm">
-                            <option value="">-- همه --</option>
-                            <option value="true">بله</option>
-                            <option value="false">خیر</option>
-                        </select>`;
+                                    <option value="">-- همه --</option>
+                                    <option value="true">بله</option>
+                                    <option value="false">خیر</option>
+                                </select>`;
                             } else if (f.data_type === "multiselect") {
                                 try {
                                     const meta = typeof f.metadata === 'string' ? JSON.parse(f.metadata) : (f.metadata || {});
                                     if (meta.options) {
                                         inputHtml = `<select name="feature_${f.id}" class="form-select form-select-sm">
-                                    <option value="">-- همه --</option>
-                                    ${meta.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                                </select>`;
+                                            <option value="">-- همه --</option>
+                                            ${meta.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                                        </select>`;
                                     }
-                                } catch (e) {
-                                    console.error("خطا در پردازش JSON", e);
-                                }
+                                } catch (e) { console.error(e); }
                             }
 
                             filterBox.innerHTML = `<label class="form-label small fw-bold mb-1 d-block text-dark">${f.name}</label>${inputHtml}`;
@@ -211,7 +240,6 @@
                             }
                         });
 
-                        // به‌روزرسانی زنده Placeholderهای Min و Max با تغییر واحد Dropdown
                         document.querySelectorAll('.unit-select').forEach(selectEl => {
                             selectEl.addEventListener('change', function () {
                                 const featureId = this.getAttribute('data-feature-id');
@@ -235,15 +263,18 @@
                         showLoader(false);
                     })
                     .catch(err => {
-                        console.error("خطا در بارگذاری فیلترها:", err);
+                        console.error("خطا:", err);
                         showLoader(false);
                     });
-            });
+            }
 
             // دکمه اعمال فیلتر
             searchBtn.addEventListener("click", function () {
-                const catId = categoryEl.value;
-                if (!catId) return;
+                const catId = categoryInput.value;
+                if (!catId) {
+                    alert('لطفاً یک دسته‌بندی را از منوی درختی انتخاب کنید.');
+                    return;
+                }
 
                 const params = new URLSearchParams();
                 params.set('category_id', catId);
@@ -264,50 +295,27 @@
                         if (currentView === 'table') {
                             renderTableView(rawProductsData);
                         }
-
                         showLoader(false);
                     })
                     .catch(err => {
-                        console.error("خطا در دریافت محصولات:", err);
-                        productListEl.innerHTML = '<div class="col-12 text-center text-danger py-4">خطایی در دریافت اطلاعات رخ داد.</div>';
+                        console.error(err);
                         showLoader(false);
                     });
             });
 
-            // رندر نمای جدول
             function renderTableView(products) {
                 if (products.length === 0) {
                     productTableContainerEl.innerHTML = "<p class='text-center text-muted my-4'>هیچ محصولی پیدا نشد.</p>";
                     return;
                 }
-
-                let tableHtml = `
-        <table class="table table-bordered table-hover align-middle mb-0 text-center small">
-            <thead class="table-primary">
-                <tr>
-                    <th>#</th>
-                    <th>شماره فنی (Part Number)</th>
-                    <th>سازنده</th>
-                    <th>موجودی</th>
-                </tr>
-            </thead>
-            <tbody>`;
-
+                let tableHtml = `<table class="table table-bordered table-hover align-middle mb-0 text-center small"><thead class="table-primary"><tr><th>#</th><th>شماره فنی</th><th>سازنده</th><th>موجودی</th></tr></thead><tbody>`;
                 products.forEach((p, i) => {
-                    tableHtml += `
-            <tr>
-                <td>${i + 1}</td>
-                <td class="fw-bold">${p.part_number}</td>
-                <td>${p.mfg || 'N/A'}</td>
-                <td>${p.available_qty || 0}</td>
-            </tr>`;
+                    tableHtml += `<tr><td>${i + 1}</td><td class="fw-bold">${p.part_number}</td><td>${p.mfg || 'N/A'}</td><td>${p.available_qty || 0}</td></tr>`;
                 });
-
                 tableHtml += `</tbody></table>`;
                 productTableContainerEl.innerHTML = tableHtml;
             }
 
-            // تغییر نماها
             listViewBtn.addEventListener('click', function () {
                 currentView = 'list';
                 listViewBtn.className = 'btn btn-primary';
