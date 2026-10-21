@@ -184,7 +184,7 @@ Route::prefix('cart')->group(function () {
 });
 
 // روت‌های خرید و پرداخت (نیازمند لاگین)
-Route::middleware(['auth'])->group(function () {
+Route::middleware('user')->group(function () {
     Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/checkout/place_order', [CartController::class, 'place_order'])->name('checkout.place_order');
     Route::get('/checkout/payment', [CartController::class, 'checkout_payment'])->name('checkout.payment');

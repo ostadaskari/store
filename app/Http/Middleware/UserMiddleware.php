@@ -16,11 +16,10 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!empty(Auth::check())){
+        if (Auth::check()) {
             return $next($request);
-        }else{
-            Auth::logout();
-            return redirect('/login');
         }
+
+        return redirect()->route('client.login.mobile.form')->with('error', 'برای ادامه فرآیند خرید، ابتدا وارد حساب کاربری خود شوید.');
     }
 }
