@@ -7,6 +7,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Warehouse\Product;
 use App\Models\Warehouse\Category;
+use Carbon\Carbon;
 
 class GenerateSitemap extends Command
 {
@@ -38,25 +39,27 @@ class GenerateSitemap extends Command
         });
 
         // ۳. اضافه کردن تمام ۲۰۰۰+ قطعه / پارت‌نامبر
-        // لود همزمان رابطه category برای ساخت آدرس دو پارامتری محصول
         Product::with('category')
             ->select('id', 'category_id', 'slug', 'part_number', 'updated_at')
             ->chunk(500, function ($products) use ($sitemap) {
                 foreach ($products as $product) {
-                    // مطمئن می‌شویم دسته و اسلاگ وجود دارند
                     $categorySlug = $product->category->slug ?? 'uncategorized';
                     $productSlug  = $product->slug ?? $product->id;
 
                     if ($productSlug) {
-                        $sitemap->add(
-                            Url::create(route('front.product.show', [
-                                'category' => $categorySlug,
-                                'product'  => $productSlug
-                            ]))
-                                ->setLastModificationDate($product->updated_at)
-                                ->setPriority(0.9)
-                                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                        );
+                        $url = Url::create(route('front.product.show', [
+                            'category' => $categorySlug,
+                            'product'  => $productSlug
+                        ]))
+                            ->setPriority(0.9)
+                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY);
+
+                        // تبدیل تاریخ متنی به Carbon DateTime برای جلوگیری از خطا
+                        if ($product->updated_at) {
+                            $url->setLastModificationDate(Carbon::parse($product->updated_at));
+                        }
+
+                        $sitemap->add($url);
                     }
                 }
             });
