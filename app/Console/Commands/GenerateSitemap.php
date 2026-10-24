@@ -17,7 +17,7 @@ class GenerateSitemap extends Command
     {
         $sitemap = Sitemap::create();
 
-        // ۱. صفحات اصلی و ثابت سایت
+        // ۱. صفحه اصلی سایت
         $sitemap->add(
             Url::create('/')
                 ->setPriority(1.0)
@@ -27,24 +27,37 @@ class GenerateSitemap extends Command
         // ۲. اضافه کردن تمام دسته‌بندی‌ها
         Category::chunk(100, function ($categories) use ($sitemap) {
             foreach ($categories as $category) {
-                $sitemap->add(
-                    Url::create(route('categories.show', $category->slug ?? $category->id))
-                        ->setPriority(0.8)
-                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-                );
+                if ($category->slug) {
+                    $sitemap->add(
+                        Url::create(route('category.show', $category->slug))
+                            ->setPriority(0.8)
+                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                    );
+                }
             }
         });
 
         // ۳. اضافه کردن تمام ۲۰۰۰+ قطعه / پارت‌نامبر
-        Product::select('id', 'part_number', 'updated_at')
+        // لود همزمان رابطه category برای ساخت آدرس دو پارامتری محصول
+        Product::with('category')
+            ->select('id', 'category_id', 'slug', 'part_number', 'updated_at')
             ->chunk(500, function ($products) use ($sitemap) {
                 foreach ($products as $product) {
-                    $sitemap->add(
-                        Url::create(route('products.show', $product->id))
-                            ->setLastModificationDate($product->updated_at)
-                            ->setPriority(0.9) // priority بالا برای صفحات قطعات
-                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                    );
+                    // مطمئن می‌شویم دسته و اسلاگ وجود دارند
+                    $categorySlug = $product->category->slug ?? 'uncategorized';
+                    $productSlug  = $product->slug ?? $product->id;
+
+                    if ($productSlug) {
+                        $sitemap->add(
+                            Url::create(route('front.product.show', [
+                                'category' => $categorySlug,
+                                'product'  => $productSlug
+                            ]))
+                                ->setLastModificationDate($product->updated_at)
+                                ->setPriority(0.9)
+                                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+                        );
+                    }
                 }
             });
 
