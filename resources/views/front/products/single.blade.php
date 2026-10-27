@@ -599,27 +599,42 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // 1. DYNAMIC IMAGE URLS FOR ZOOMY
-            var urls = [
+            // 1. اضافه کردن عکس کاور و تصاویر گالری به آرایه urls
 
-                    @foreach($product->images as $image)
-                    '{{ asset( $image->url) }}',
-                @endforeach
-            ];
+            var urls = [];
+            var seenImages = new Set();
+
+// اضافه کردن عکس کاور در ابتدای گالری
+            @if($product->coverImage)
+            var coverUrl = @json(asset($product->coverImage->url));
+            urls.push(coverUrl);
+            seenImages.add(coverUrl);
+            @endif
+
+            // اضافه کردن تصاویر گالری، بدون تکرار عکس کاور
+            @foreach($product->images as $image)
+            var imageUrl = @json(asset($image->url));
+
+            if (!seenImages.has(imageUrl)) {
+                urls.push(imageUrl);
+                seenImages.add(imageUrl);
+            }
+            @endforeach
+
+
+            // اگر فقط یک تصویر وجود دارد، تومنیل‌ها را مخفی کن تا کادر به هم نریزد
+            var hasMultipleImages = urls.length > 1;
 
             var options = {
-                // thumbLeft:true,
-                // thumbRight:true,
-                // thumbHide:true,
-                // width:300,
-                // height:500,
+                thumbHide: !hasMultipleImages, // اگر عکس تک بود تومنیل مخفی شود
+                // width: 300,
+                // height: 500,
             };
 
             // Only initialize zoomy if there are images
             if (urls.length > 0) {
                 $('#el').zoomy(urls, options);
             } else {
-                // Fallback if no images are found
                 $('#el').html('<p class="text-muted">تصویری موجود نیست.</p>');
             }
 

@@ -12,20 +12,20 @@ use Carbon\Carbon;
 class GenerateSitemap extends Command
 {
     protected $signature = 'sitemap:generate';
-    protected $description = 'تولید خودکار فایل سایت‌مپ برای محصولات و دسته‌بندی‌ها';
+    protected $description = 'Automatically generate sitemap XML for products and categories';
 
     public function handle()
     {
         $sitemap = Sitemap::create();
 
-        // ۱. صفحه اصلی سایت
+        // 1. Homepage
         $sitemap->add(
             Url::create('/')
                 ->setPriority(1.0)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
         );
 
-        // ۲. اضافه کردن تمام دسته‌بندی‌ها
+        // 2. Add all categories
         Category::chunk(100, function ($categories) use ($sitemap) {
             foreach ($categories as $category) {
                 if ($category->slug) {
@@ -38,7 +38,7 @@ class GenerateSitemap extends Command
             }
         });
 
-        // ۳. اضافه کردن تمام ۲۰۰۰+ قطعه / پارت‌نامبر
+        // 3. Add all products / part numbers
         Product::with('category')
             ->select('id', 'category_id', 'slug', 'part_number', 'updated_at')
             ->chunk(500, function ($products) use ($sitemap) {
@@ -54,7 +54,6 @@ class GenerateSitemap extends Command
                             ->setPriority(0.9)
                             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY);
 
-                        // تبدیل تاریخ متنی به Carbon DateTime برای جلوگیری از خطا
                         if ($product->updated_at) {
                             $url->setLastModificationDate(Carbon::parse($product->updated_at));
                         }
@@ -64,9 +63,9 @@ class GenerateSitemap extends Command
                 }
             });
 
-        // ذخیره فایل در مسیر public/sitemap.xml
+        // Save file to public/sitemap.xml
         $sitemap->writeToFile(public_path('sitemap.xml'));
 
-        $this->info('سایت‌مپ با موفقیت در مسیر public/sitemap.xml ساخته شد.');
+        $this->info('Sitemap successfully generated at public/sitemap.xml');
     }
 }
