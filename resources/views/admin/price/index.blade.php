@@ -29,18 +29,18 @@
             <div class="row g-2">
 
                 <div class="col-md-3">
-
                     <label class="form-label">
                         نرخ دلار (تومان)
                     </label>
 
                     <input
-                        type="number"
+                        type="text"
                         id="rate"
                         class="form-control input-ltr"
                         value="{{ $settings->dollar_rate }}"
+                        inputmode="decimal"
+                        autocomplete="off"
                     >
-
                 </div>
 
 
@@ -63,7 +63,7 @@
                 <div class="col-md-3">
 
                     <label class="form-label">
-                        درصد هزینه اضافه (%)
+                        درصد هزینه حمل و نقل و ترخیص (%)
                     </label>
 
                     <input
@@ -271,7 +271,55 @@
 
             const saveSettingsButton =
                 document.getElementById('save-settings');
+            /*
+            |--------------------------------------------------------------------------
+            | Dollar Rate Formatting
+            |--------------------------------------------------------------------------
+            */
 
+            const rateInput = document.getElementById('rate');
+
+            function formatRate(value) {
+                value = value.replace(/,/g, '').replace(/[^\d.]/g, '');
+
+                const parts = value.split('.');
+                const integerPart = parts[0];
+                const decimalPart = parts.slice(1).join('').slice(0, 2);
+
+                const formattedInteger = integerPart.replace(
+                    /\B(?=(\d{3})+(?!\d))/g,
+                    ','
+                );
+
+                return parts.length > 1
+                    ? formattedInteger + '.' + decimalPart
+                    : formattedInteger;
+            }
+
+            if (rateInput) {
+                rateInput.value = formatRate(rateInput.value);
+
+                rateInput.addEventListener('input', function () {
+                    const cursor = this.selectionStart;
+                    const beforeCursor = this.value.slice(0, cursor);
+                    const digitsBeforeCursor = beforeCursor.replace(/,/g, '').length;
+
+                    this.value = formatRate(this.value);
+
+                    // حفظ تقریبی موقعیت مکان‌نما
+                    let position = 0;
+                    let digitsFound = 0;
+
+                    while (position < this.value.length && digitsFound < digitsBeforeCursor) {
+                        if (this.value[position] !== ',') {
+                            digitsFound++;
+                        }
+                        position++;
+                    }
+
+                    this.setSelectionRange(position, position);
+                });
+            }
 
             /*
             |--------------------------------------------------------------------------
@@ -314,9 +362,7 @@
                                     body: JSON.stringify({
 
                                         dollar_rate:
-                                        document.getElementById(
-                                            'rate'
-                                        ).value,
+                                            document.getElementById('rate').value.replace(/,/g, ''),
 
                                         profit_percent:
                                         document.getElementById(
