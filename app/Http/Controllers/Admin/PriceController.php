@@ -32,7 +32,6 @@ class PriceController extends Controller
 
         if ($search !== '') {
 
-            // Escape LIKE wildcards so user-entered % and _ don't act as wildcards.
             $escapedSearch = addcslashes($search, '%_\\');
 
             $productsQuery->where(
@@ -51,10 +50,6 @@ class PriceController extends Controller
         |--------------------------------------------------------------------------
         | AJAX Request
         |--------------------------------------------------------------------------
-        |
-        | When search/pagination is requested through AJAX,
-        | return table partial, rendered pagination links, and search meta data.
-        |
         */
 
         if ($request->ajax()) {
@@ -82,6 +77,12 @@ class PriceController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Save Global Settings
+    |--------------------------------------------------------------------------
+    */
+
     public function saveSettings(Request $request)
     {
         $data = $request->validate([
@@ -99,7 +100,6 @@ class PriceController extends Controller
 
         foreach ($prices as $p) {
 
-            // اگر محصولی هیچ قیمت دلاری یا تومانی ندارد، رکورد اضافی آن را پاک کن
             if (is_null($p->usd_price) && is_null($p->toman_price)) {
                 $p->delete();
                 continue;
@@ -109,6 +109,7 @@ class PriceController extends Controller
                 $p->usd_price,
                 $p->toman_price,
                 $p->discount_percent,
+                $p->special_profit_percent,
                 $settings
             );
 
@@ -126,6 +127,12 @@ class PriceController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Save Single Product Price
+    |--------------------------------------------------------------------------
+    */
+
     public function saveProductPrice(Request $request)
     {
         $data = $request->validate([
@@ -133,14 +140,32 @@ class PriceController extends Controller
             'usd_price' => 'nullable|numeric|min:0',
             'toman_price' => 'nullable|numeric|min:0',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'special_profit_percent' => 'nullable|numeric|min:0',
         ]);
 
-        $usd = (isset($data['usd_price']) && $data['usd_price'] > 0) ? (float)$data['usd_price'] : null;
-        $toman = (isset($data['toman_price']) && $data['toman_price'] > 0) ? (float)$data['toman_price'] : null;
+        $usd = (isset($data['usd_price']) && $data['usd_price'] > 0)
+            ? (float) $data['usd_price']
+            : null;
 
-        // اگر کاربر هر دو قیمت را خالی یا صفر گذاشته بود، رکورد قیمت را کلاً پاک می‌کنیم
+        $toman = (isset($data['toman_price']) && $data['toman_price'] > 0)
+            ? (float) $data['toman_price']
+            : null;
+
+        $discount = (isset($data['discount_percent']) && $data['discount_percent'] > 0)
+            ? (float) $data['discount_percent']
+            : 0;
+
+        $specialProfit = (isset($data['special_profit_percent']) && $data['special_profit_percent'] > 0)
+            ? (float) $data['special_profit_percent']
+            : 0;
+
+        // اگر هر دو قیمت خالی یا صفر باشند، رکورد قیمت حذف شود
         if (is_null($usd) && is_null($toman)) {
-            ProductPrice::where('product_part_number', $data['product_part_number'])->delete();
+
+            ProductPrice::where(
+                'product_part_number',
+                $data['product_part_number']
+            )->delete();
 
             return response()->json([
                 'status' => 'ok',
@@ -155,12 +180,11 @@ class PriceController extends Controller
             'extra_percent' => 0
         ]);
 
-        $discount = (isset($data['discount_percent']) && $data['discount_percent'] > 0) ? (float)$data['discount_percent'] : 0;
-
         $calc = $this->calculateFinalPrices(
             $usd,
             $toman,
             $discount,
+            $specialProfit,
             $settings
         );
 
@@ -172,6 +196,8 @@ class PriceController extends Controller
                 'usd_price' => $usd,
                 'toman_price' => $toman,
                 'discount_percent' => $discount,
+                'special_profit_percent' => $specialProfit,
+
                 'original_price' => $calc['original_price'],
                 'final_usd' => $calc['final_usd'],
                 'sell_price_toman' => $calc['sell_price_toman'],
@@ -185,18 +211,34 @@ class PriceController extends Controller
         ]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Calculate Final Prices
+    |--------------------------------------------------------------------------
+    */
+
     protected function calculateFinalPrices(
         ?float $usd,
         ?float $toman,
         ?float $discount,
+        ?float $specialProfit,
         PriceSetting $settings
-    ): array
-    {
+    ): array {
+
         $rate = (float) $settings->dollar_rate;
+
         $profit = (float) $settings->profit_percent;
+
         $extra = (float) $settings->extra_percent;
 
-        $costMult = 1 + (($profit + $extra) / 100);
+        $specialProfit = $specialProfit ?? 0;
+
+        // مجموع سود عمومی، اضافی و سود خاص محصول
+        $totalProfit = $profit + $extra + $specialProfit;
+
+        $costMult = 1 + ($totalProfit / 100);
+
         $discMult = 1 - (($discount ?? 0) / 100);
 
         $originalPrice = null;
@@ -204,13 +246,21 @@ class PriceController extends Controller
         $sellToman = null;
 
         if ($usd && $usd > 0) {
+
             $baseWithProfit = $usd * $costMult;
+
             $originalPrice = round($baseWithProfit * $rate);
+
             $finalUsd = $baseWithProfit * $discMult;
+
             $sellToman = round(($finalUsd * $rate) / 10) * 10;
+
         } elseif ($toman && $toman > 0) {
+
             $originalPrice = $toman * $costMult;
+
             $sellToman = round(($originalPrice * $discMult) / 10) * 10;
+
         }
 
         return [

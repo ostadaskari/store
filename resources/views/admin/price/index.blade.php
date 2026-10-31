@@ -205,6 +205,9 @@
                         <th style="width:12%;">
                             تخفیف %
                         </th>
+                        <th style="width:12%;">
+                            سود خاص %
+                        </th>
 
                         <th
                             style="
@@ -257,6 +260,7 @@
 @endsection
 
 
+
 @section('script')
 
     <script>
@@ -271,6 +275,8 @@
 
             const saveSettingsButton =
                 document.getElementById('save-settings');
+
+
             /*
             |--------------------------------------------------------------------------
             | Dollar Rate Formatting
@@ -280,6 +286,7 @@
             const rateInput = document.getElementById('rate');
 
             function formatRate(value) {
+
                 value = value.replace(/,/g, '').replace(/[^\d.]/g, '');
 
                 const parts = value.split('.');
@@ -297,9 +304,11 @@
             }
 
             if (rateInput) {
+
                 rateInput.value = formatRate(rateInput.value);
 
                 rateInput.addEventListener('input', function () {
+
                     const cursor = this.selectionStart;
                     const beforeCursor = this.value.slice(0, cursor);
                     const digitsBeforeCursor = beforeCursor.replace(/,/g, '').length;
@@ -310,16 +319,74 @@
                     let position = 0;
                     let digitsFound = 0;
 
-                    while (position < this.value.length && digitsFound < digitsBeforeCursor) {
+                    while (
+                        position < this.value.length &&
+                        digitsFound < digitsBeforeCursor
+                        ) {
                         if (this.value[position] !== ',') {
                             digitsFound++;
                         }
+
                         position++;
                     }
 
                     this.setSelectionRange(position, position);
+
                 });
+
             }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | USD / Toman Price Mutual Exclusion
+            |--------------------------------------------------------------------------
+            */
+
+            function updatePriceInputs(tr) {
+
+                const usdInput = tr.querySelector('.usd-price');
+                const tomanInput = tr.querySelector('.toman-price');
+
+                if (!usdInput || !tomanInput) return;
+
+                const hasUsd = usdInput.value.trim() !== '';
+                const hasToman = tomanInput.value.trim() !== '';
+
+                // اگر قیمت دلار وجود داشته باشد، تومان قفل شود
+                tomanInput.disabled = hasUsd;
+                tomanInput.classList.toggle('price-locked', hasUsd);
+
+                // اگر قیمت تومان وجود داشته باشد، دلار قفل شود
+                usdInput.disabled = hasToman;
+                usdInput.classList.toggle('price-locked', hasToman);
+
+            }
+
+
+            // بررسی اولیه تمام ردیف‌ها
+            document.querySelectorAll('tr[data-part]').forEach(function (tr) {
+
+                updatePriceInputs(tr);
+
+            });
+
+
+            // بررسی تغییرات ورودی‌ها
+            document.addEventListener('input', function (event) {
+
+                if (!event.target.matches('.usd-price, .toman-price')) {
+                    return;
+                }
+
+                const tr = event.target.closest('tr[data-part]');
+
+                if (tr) {
+                    updatePriceInputs(tr);
+                }
+
+            });
+
 
             /*
             |--------------------------------------------------------------------------
@@ -365,14 +432,10 @@
                                             document.getElementById('rate').value.replace(/,/g, ''),
 
                                         profit_percent:
-                                        document.getElementById(
-                                            'profit'
-                                        ).value,
+                                        document.getElementById('profit').value,
 
                                         extra_percent:
-                                        document.getElementById(
-                                            'extra'
-                                        ).value
+                                        document.getElementById('extra').value
 
                                     })
                                 }
@@ -434,6 +497,13 @@
             |--------------------------------------------------------------------------
             */
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Save Single Product
+            |--------------------------------------------------------------------------
+            */
+
             document.addEventListener('click', async function (event) {
 
                 const button = event.target.closest('.btn-save');
@@ -443,25 +513,45 @@
                 if (!tr) return;
 
                 const originalText = button.innerHTML;
+
                 button.disabled = true;
-                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+                button.innerHTML =
+                    '<span class="spinner-border spinner-border-sm"></span>';
 
                 try {
 
-                    const response = await fetch('{{ route("admin.prices.saveProduct") }}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            product_part_number: tr.dataset.part,
-                            usd_price: tr.querySelector('.usd-price').value,
-                            toman_price: tr.querySelector('.toman-price').value,
-                            discount_percent: tr.querySelector('.discount-percent').value
-                        })
-                    });
+                    const usdInput = tr.querySelector('.usd-price');
+                    const tomanInput = tr.querySelector('.toman-price');
+
+                    const response = await fetch(
+                        '{{ route("admin.prices.saveProduct") }}',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+
+                            body: JSON.stringify({
+
+                                product_part_number: tr.dataset.part,
+
+                                usd_price: usdInput.value.trim(),
+
+                                toman_price: tomanInput.value.trim(),
+
+                                discount_percent:
+                                tr.querySelector('.discount-percent').value,
+
+                                special_profit_percent:
+                                tr.querySelector('.special-profit-percent').value
+
+                            })
+                        }
+                    );
 
                     const data = await response.json();
 
@@ -473,10 +563,12 @@
 
                         const p = data.price;
 
-                        // اگر p نال بود (یعنی قیمت پاک شد)، مقدار صفر بگذار
                         tr.querySelector('.final-usd-text').innerText =
                             (p && p.final_usd)
-                                ? Number(p.final_usd).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                ? Number(p.final_usd).toLocaleString(
+                                    undefined,
+                                    { minimumFractionDigits: 2 }
+                                )
                                 : '0';
 
                         tr.querySelector('.original-price-text').innerText =
@@ -489,16 +581,29 @@
                                 ? Number(p.sell_price_toman).toLocaleString()
                                 : '0';
 
-                        // اگر قیمت کلاً پاک شده بود، اینپوت‌ها رو هم خالی کن
                         if (!p) {
-                            tr.querySelector('.usd-price').value = '';
-                            tr.querySelector('.toman-price').value = '';
+
+                            usdInput.value = '';
+                            tomanInput.value = '';
+
                             tr.querySelector('.discount-percent').value = '0';
+
+                            tr.querySelector('.special-profit-percent').value = '0';
+
+                        } else {
+
+                            // مقدار سود خاص ذخیره‌شده از سرور
+                            tr.querySelector('.special-profit-percent').value =
+                                p.special_profit_percent ?? '0';
+
                         }
+
+                        // بروزرسانی وضعیت قفل فیلدهای USD و Toman
+                        updatePriceInputs(tr);
 
                         Swal.fire({
                             icon: 'success',
-                            text: data.message || 'قیمت ذخیره شد.',
+                            text: data.message || 'قیمت محصول ذخیره شد.',
                             timer: 1000,
                             showConfirmButton: false
                         });
@@ -530,3 +635,4 @@
     </script>
 
 @endsection
+

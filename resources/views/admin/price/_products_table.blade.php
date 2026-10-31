@@ -55,6 +55,17 @@
             >
         </td>
 
+        {{-- Special Profit --}}
+        <td>
+            <input
+                type="number"
+                step="any"
+                min="0"
+                class="form-control special-profit-percent input-ltr"
+                value="{{ $p->price->special_profit_percent ?? '0' }}"
+            >
+        </td>
+
         {{-- Original Price --}}
         <td class="original-price-text" style="font-size:0.9rem;color:#666;">
             {{
@@ -86,7 +97,7 @@
 
     <tr>
         {{-- مقدار colspan به 9 تغییر پیدا کرد --}}
-        <td colspan="9">
+        <td colspan="10">
             <div class="text-center py-5">
                 <i class="bi bi-search" style="font-size:40px;opacity:.35;"></i>
                 <div class="mt-2 text-muted">
