@@ -26,7 +26,7 @@ class OrderController extends Controller
             $ordersQuery->where('order_number', 'LIKE', '%' . $request->order_number . '%');
         }
         if ($request->filled('status')) {
-            $ordersQuery->where('status', $request->status);
+            $ordersQuery->where('orders.status', $request->status);
         }
         if ($request->filled('discount_code')) {
             $ordersQuery->where('discount_code', 'LIKE', '%' . $request->discount_code . '%');
