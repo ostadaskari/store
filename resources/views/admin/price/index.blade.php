@@ -98,6 +98,40 @@
         {{-- Products Card --}}
         <div class="card p-2">
 
+            {{-- بخش دکمه‌های اکسل (Export و Import) --}}
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="mb-0 text-secondary" style="font-size: 15px;">مدیریت قیمت‌ها و مقایسه</h5>
+                </div>
+
+                <div class="d-flex gap-2">
+                    {{-- دکمه Export Excel --}}
+                    <form action="{{ route('admin.prices.export') }}" method="GET" class="d-flex align-items-center gap-2">
+                        {{-- فیلد وارد کردن نرخ تبدیل یوان به دلار توسط اپراتور --}}
+                        <div class="input-group input-group-sm" style="width: 220px;">
+                            <span class="input-group-text bg-light" style="font-size: 12px;">نرخ دلار به یوان:</span>
+                            <input type="number" step="any" name="cny_usd_rate" class="form-control input-ltr" value="7.2" required title="نرخ تبدیل یوان به دلار را وارد کنید">
+                        </div>
+
+                        {{-- دکمه خروجی اکسل با آیکون SVG --}}
+                        <button type="submit" class="btn btn-success btn-sm d-flex align-items-center gap-2 shadow-sm" style="background-color: #107c41; border-color: #107c41;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel-fill" viewBox="0 0 16 16">
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"/>
+                            </svg>
+                            <span>خروجی اکسل</span>
+                        </button>
+                    </form>
+
+                    {{-- دکمه Import Excel (آماده برای مرحله بعد) --}}
+                    <button type="button" class="btn btn-outline-success d-flex align-items-center gap-2 shadow-sm" id="btn-import-trigger" style="border-color: #107c41; color: #107c41;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
+                        </svg>
+                        <span>آپلود و ایمپورت اکسل</span>
+                    </button>
+                </div>
+            </div>
+
 
             {{-- Search Form --}}
             <div class="mb-3">

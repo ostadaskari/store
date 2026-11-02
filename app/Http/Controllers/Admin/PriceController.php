@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Warehouse\Product;
 use App\Models\PriceSetting;
 use App\Models\ProductPrice;
+use App\Exports\ProductsPriceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PriceController extends Controller
 {
@@ -268,5 +270,13 @@ class PriceController extends Controller
             'final_usd' => $finalUsd,
             'sell_price_toman' => $sellToman,
         ];
+    }
+
+    public function exportExcel(Request $request)
+    {
+        // دریافت نرخ تبدیل از اینپوت کاربر (پیش‌فرض 7.2 اگر خالی بود)
+        $cnyUsdRate = $request->input('cny_usd_rate', 7.2);
+
+        return Excel::download(new ProductsPriceExport($cnyUsdRate), 'products-price-comparison.xlsx');
     }
 }
