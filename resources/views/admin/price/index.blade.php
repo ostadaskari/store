@@ -122,12 +122,15 @@
                         </button>
                     </form>
 
-                    {{-- دکمه Import Excel (آماده برای مرحله بعد) --}}
-                    <button type="button" class="btn btn-outline-success d-flex align-items-center gap-2 shadow-sm" id="btn-import-trigger" style="border-color: #107c41; color: #107c41;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                    {{-- فرم مخفی برای انتخاب و آپدیت فایل اکسل --}}
+                    <input type="file" id="excel-file-input" name="excel_file" accept=".xlsx, .xls, .csv" style="display: none;">
+
+                    {{-- دکمه Import Excel --}}
+                    <button type="button" class="btn btn-outline-success btn-sm d-flex align-items-center gap-2 shadow-sm" id="btn-import-trigger" style="border-color: #107c41; color: #107c41;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
                             <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"/>
                         </svg>
-                        <span>آپلود و ایمپورت اکسل</span>
+                        <span>ایمپورت اکسل</span>
                     </button>
                 </div>
             </div>
@@ -298,248 +301,120 @@
 @section('script')
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
 
-            /*
-            |--------------------------------------------------------------------------
-            | Elements
-            |--------------------------------------------------------------------------
-            */
-
-            const saveSettingsButton =
-                document.getElementById('save-settings');
-
+            const saveSettingsButton = document.getElementById('save-settings');
+            const rateInput = document.getElementById('rate');
 
             /*
             |--------------------------------------------------------------------------
             | Dollar Rate Formatting
             |--------------------------------------------------------------------------
             */
-
-            const rateInput = document.getElementById('rate');
-
             function formatRate(value) {
-
                 value = value.replace(/,/g, '').replace(/[^\d.]/g, '');
-
                 const parts = value.split('.');
                 const integerPart = parts[0];
                 const decimalPart = parts.slice(1).join('').slice(0, 2);
-
-                const formattedInteger = integerPart.replace(
-                    /\B(?=(\d{3})+(?!\d))/g,
-                    ','
-                );
-
-                return parts.length > 1
-                    ? formattedInteger + '.' + decimalPart
-                    : formattedInteger;
+                const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return parts.length > 1 ? formattedInteger + '.' + decimalPart : formattedInteger;
             }
 
             if (rateInput) {
-
                 rateInput.value = formatRate(rateInput.value);
-
                 rateInput.addEventListener('input', function () {
-
                     const cursor = this.selectionStart;
                     const beforeCursor = this.value.slice(0, cursor);
                     const digitsBeforeCursor = beforeCursor.replace(/,/g, '').length;
-
                     this.value = formatRate(this.value);
-
-                    // حفظ تقریبی موقعیت مکان‌نما
                     let position = 0;
                     let digitsFound = 0;
-
-                    while (
-                        position < this.value.length &&
-                        digitsFound < digitsBeforeCursor
-                        ) {
-                        if (this.value[position] !== ',') {
-                            digitsFound++;
-                        }
-
+                    while (position < this.value.length && digitsFound < digitsBeforeCursor) {
+                        if (this.value[position] !== ',') { digitsFound++; }
                         position++;
                     }
-
                     this.setSelectionRange(position, position);
-
                 });
-
             }
-
 
             /*
             |--------------------------------------------------------------------------
             | USD / Toman Price Mutual Exclusion
             |--------------------------------------------------------------------------
             */
-
             function updatePriceInputs(tr) {
-
                 const usdInput = tr.querySelector('.usd-price');
                 const tomanInput = tr.querySelector('.toman-price');
-
                 if (!usdInput || !tomanInput) return;
 
                 const hasUsd = usdInput.value.trim() !== '';
                 const hasToman = tomanInput.value.trim() !== '';
 
-                // اگر قیمت دلار وجود داشته باشد، تومان قفل شود
                 tomanInput.disabled = hasUsd;
                 tomanInput.classList.toggle('price-locked', hasUsd);
 
-                // اگر قیمت تومان وجود داشته باشد، دلار قفل شود
                 usdInput.disabled = hasToman;
                 usdInput.classList.toggle('price-locked', hasToman);
-
             }
 
-
-            // بررسی اولیه تمام ردیف‌ها
             document.querySelectorAll('tr[data-part]').forEach(function (tr) {
-
                 updatePriceInputs(tr);
-
             });
 
-
-            // بررسی تغییرات ورودی‌ها
             document.addEventListener('input', function (event) {
-
-                if (!event.target.matches('.usd-price, .toman-price')) {
-                    return;
-                }
-
+                if (!event.target.matches('.usd-price, .toman-price')) return;
                 const tr = event.target.closest('tr[data-part]');
-
-                if (tr) {
-                    updatePriceInputs(tr);
-                }
-
+                if (tr) { updatePriceInputs(tr); }
             });
-
 
             /*
             |--------------------------------------------------------------------------
             | Save Settings
             |--------------------------------------------------------------------------
             */
-
             if (saveSettingsButton) {
+                saveSettingsButton.addEventListener('click', async function () {
+                    const button = this;
+                    button.disabled = true;
+                    button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> در حال ذخیره...';
 
-                saveSettingsButton.addEventListener(
-                    'click',
-                    async function () {
+                    try {
+                        const response = await fetch('{{ route("admin.prices.saveSettings") }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                dollar_rate: document.getElementById('rate').value.replace(/,/g, ''),
+                                profit_percent: document.getElementById('profit').value,
+                                extra_percent: document.getElementById('extra').value
+                            })
+                        });
 
-                        const button = this;
+                        const data = await response.json();
+                        if (!response.ok) throw new Error(data.message || 'خطا در ذخیره تنظیمات');
 
-                        button.disabled = true;
+                        Swal.fire({ icon: 'success', text: data.message, timer: 1500, showConfirmButton: false });
+                        setTimeout(() => { location.reload(); }, 1500);
 
-                        button.innerHTML =
-                            '<span class="spinner-border spinner-border-sm me-1"></span>' +
-                            ' در حال ذخیره...';
-
-                        try {
-
-                            const response = await fetch(
-                                '{{ route("admin.prices.saveSettings") }}',
-                                {
-                                    method: 'POST',
-
-                                    headers: {
-                                        'X-CSRF-TOKEN':
-                                            '{{ csrf_token() }}',
-
-                                        'Content-Type':
-                                            'application/json',
-
-                                        'Accept':
-                                            'application/json'
-                                    },
-
-                                    body: JSON.stringify({
-
-                                        dollar_rate:
-                                            document.getElementById('rate').value.replace(/,/g, ''),
-
-                                        profit_percent:
-                                        document.getElementById('profit').value,
-
-                                        extra_percent:
-                                        document.getElementById('extra').value
-
-                                    })
-                                }
-                            );
-
-                            const data = await response.json();
-
-                            if (!response.ok) {
-                                throw new Error(
-                                    data.message ||
-                                    'خطا در ذخیره تنظیمات'
-                                );
-                            }
-
-                            Swal.fire({
-                                icon: 'success',
-                                text: data.message,
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-
-                            setTimeout(
-                                function () {
-                                    location.reload();
-                                },
-                                1500
-                            );
-
-                        } catch (error) {
-
-                            console.error(error);
-
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'خطا',
-                                text:
-                                    error.message ||
-                                    'ذخیره تنظیمات انجام نشد.',
-                                confirmButtonText: 'باشه'
-                            });
-
-                        } finally {
-
-                            button.disabled = false;
-
-                            button.innerHTML = 'ثبت تنظیمات';
-
-                        }
-
+                    } catch (error) {
+                        console.error(error);
+                        Swal.fire({ icon: 'error', title: 'خطا', text: error.message || 'ذخیره تنظیمات انجام نشد.', confirmButtonText: 'باشه' });
+                    } finally {
+                        button.disabled = false;
+                        button.innerHTML = 'ثبت تنظیمات';
                     }
-                );
-
+                });
             }
 
-
             /*
             |--------------------------------------------------------------------------
             | Save Single Product
             |--------------------------------------------------------------------------
             */
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Save Single Product
-            |--------------------------------------------------------------------------
-            */
-
             document.addEventListener('click', async function (event) {
-
                 const button = event.target.closest('.btn-save');
                 if (!button) return;
 
@@ -547,126 +422,167 @@
                 if (!tr) return;
 
                 const originalText = button.innerHTML;
-
                 button.disabled = true;
-
-                button.innerHTML =
-                    '<span class="spinner-border spinner-border-sm"></span>';
+                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
 
                 try {
-
                     const usdInput = tr.querySelector('.usd-price');
                     const tomanInput = tr.querySelector('.toman-price');
 
-                    const response = await fetch(
-                        '{{ route("admin.prices.saveProduct") }}',
-                        {
-                            method: 'POST',
-
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-
-                            body: JSON.stringify({
-
-                                product_part_number: tr.dataset.part,
-
-                                usd_price: usdInput.value.trim(),
-
-                                toman_price: tomanInput.value.trim(),
-
-                                discount_percent:
-                                tr.querySelector('.discount-percent').value,
-
-                                special_profit_percent:
-                                tr.querySelector('.special-profit-percent').value
-
-                            })
-                        }
-                    );
+                    const response = await fetch('{{ route("admin.prices.saveProduct") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            product_part_number: tr.dataset.part,
+                            usd_price: usdInput.value.trim(),
+                            toman_price: tomanInput.value.trim(),
+                            discount_percent: tr.querySelector('.discount-percent').value,
+                            special_profit_percent: tr.querySelector('.special-profit-percent').value
+                        })
+                    });
 
                     const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'خطا در ذخیره قیمت');
-                    }
+                    if (!response.ok) throw new Error(data.message || 'خطا در ذخیره قیمت');
 
                     if (data.status === 'ok') {
-
                         const p = data.price;
-
-                        tr.querySelector('.final-usd-text').innerText =
-                            (p && p.final_usd)
-                                ? Number(p.final_usd).toLocaleString(
-                                    undefined,
-                                    { minimumFractionDigits: 2 }
-                                )
-                                : '0';
-
-                        tr.querySelector('.original-price-text').innerText =
-                            (p && p.original_price)
-                                ? Number(p.original_price).toLocaleString()
-                                : '0';
-
-                        tr.querySelector('.sell-price-text').innerText =
-                            (p && p.sell_price_toman)
-                                ? Number(p.sell_price_toman).toLocaleString()
-                                : '0';
+                        tr.querySelector('.final-usd-text').innerText = (p && p.final_usd) ? Number(p.final_usd).toLocaleString(undefined, { minimumFractionDigits: 2 }) : '0';
+                        tr.querySelector('.original-price-text').innerText = (p && p.original_price) ? Number(p.original_price).toLocaleString() : '0';
+                        tr.querySelector('.sell-price-text').innerText = (p && p.sell_price_toman) ? Number(p.sell_price_toman).toLocaleString() : '0';
 
                         if (!p) {
-
                             usdInput.value = '';
                             tomanInput.value = '';
-
                             tr.querySelector('.discount-percent').value = '0';
-
                             tr.querySelector('.special-profit-percent').value = '0';
-
                         } else {
-
-                            // مقدار سود خاص ذخیره‌شده از سرور
-                            tr.querySelector('.special-profit-percent').value =
-                                p.special_profit_percent ?? '0';
-
+                            tr.querySelector('.special-profit-percent').value = p.special_profit_percent ?? '0';
                         }
 
-                        // بروزرسانی وضعیت قفل فیلدهای USD و Toman
                         updatePriceInputs(tr);
-
-                        Swal.fire({
-                            icon: 'success',
-                            text: data.message || 'قیمت محصول ذخیره شد.',
-                            timer: 1000,
-                            showConfirmButton: false
-                        });
-
+                        Swal.fire({ icon: 'success', text: data.message || 'قیمت محصول ذخیره شد.', timer: 1000, showConfirmButton: false });
                     }
 
                 } catch (error) {
-
                     console.error(error);
-
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'خطا',
-                        text: error.message || 'ذخیره قیمت انجام نشد.',
-                        confirmButtonText: 'باشه'
-                    });
-
+                    Swal.fire({ icon: 'error', title: 'خطا', text: error.message || 'ذخیره قیمت انجام نشد.', confirmButtonText: 'باشه' });
                 } finally {
-
                     button.disabled = false;
                     button.innerHTML = originalText;
-
                 }
-
             });
+
+            /*
+            |--------------------------------------------------------------------------
+            | Excel Import Logic (Vanilla JS)
+            |--------------------------------------------------------------------------
+            */
+            const importTrigger = document.getElementById('btn-import-trigger');
+            const fileInput = document.getElementById('excel-file-input');
+
+            if (importTrigger && fileInput) {
+                importTrigger.addEventListener('click', function() {
+                    fileInput.value = '';
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', function(e) {
+                    let file = e.target.files[0];
+                    if (!file) return;
+
+                    let formData = new FormData();
+                    formData.append('excel_file', file);
+                    formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+                    Swal.fire({
+                        title: 'در حال بررسی فایل اکسل...',
+                        text: 'لطفاً کمی صبر کنید تا تغییرات مقایسه شوند.',
+                        allowOutsideClick: false,
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+
+                    fetch("{{ route('admin.prices.import.preview') }}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    })
+                        .then(async response => {
+                            Swal.close();
+                            let data = await response.json();
+                            if (!response.ok) throw new Error(data.message || 'خطایی در پردازش فایل اکسل رخ داد.');
+                            return data;
+                        })
+                        .then(data => {
+                            if (data.status === 'ok') {
+                                Swal.fire({
+                                    title: 'تایید بروزرسانی قیمت‌ها',
+                                    html: `ستون <strong>قیمت به دلار ($)</strong> و تخفیف‌ها در <b>${data.changed_count}</b> پارت‌نامبر تغییر کرده است.<br>آیا از اعمال این تغییرات و محاسبه مجدد قیمت‌ها اطمینان دارید؟`,
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#107c41',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'بله، بروزرسانی شود',
+                                    cancelButtonText: 'انصراف'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        confirmImportExecution(data.cache_key);
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.close();
+                            Swal.fire('خطا!', error.message || 'خطایی رخ داد.', 'error');
+                        });
+                });
+            }
 
         });
 
+        // مرحله ۲: تایید نهایی برای اعمال در دیتابیس
+        function confirmImportExecution(cacheKey) {
+            Swal.fire({
+                title: 'در حال اعمال تغییرات...',
+                text: 'لطفاً صبر کنید تا قیمت‌های نهایی محاسبه و ذخیره شوند.',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            fetch("{{ route('admin.prices.import.confirm') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ cache_key: cacheKey })
+            })
+                .then(async response => {
+                    let data = await response.json();
+                    if (!response.ok) throw new Error(data.message || 'خطایی در ذخیره‌سازی اطلاعات رخ داد.');
+                    return data;
+                })
+                .then(data => {
+                    Swal.fire({
+                        title: 'موفقیت‌آمیز!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'باشه'
+                    }).then(() => {
+                        location.reload();
+                    });
+                })
+                .catch(error => {
+                    Swal.fire('خطا!', error.message || 'خطایی رخ داد.', 'error');
+                });
+        }
     </script>
+
+
 
 @endsection
 

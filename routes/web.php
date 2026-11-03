@@ -118,6 +118,8 @@ Route::middleware('admin')->group(callback: function(){
     Route::post('/admin/prices/save', [PriceController::class, 'saveProductPrice'])->name('admin.prices.saveProduct');
 
     Route::get('/admin/prices/export', [PriceController::class, 'exportExcel'])->name('admin.prices.export');
+    Route::post('/admin/prices/import-preview', [PriceController::class, 'importPreview'])->name('admin.prices.import.preview');
+    Route::post('/admin/prices/import-confirm', [PriceController::class, 'importConfirm'])->name('admin.prices.import.confirm');
 
     Route::get('/admin/discounts/search', [DiscountController::class, 'ajaxSearch'])->name('admin.discounts.ajaxSearch');
     Route::resource('/admin/discounts', DiscountController::class)->names('admin.discounts');

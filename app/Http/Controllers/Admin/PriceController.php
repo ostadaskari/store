@@ -9,6 +9,8 @@ use App\Models\PriceSetting;
 use App\Models\ProductPrice;
 use App\Exports\ProductsPriceExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PriceController extends Controller
 {
@@ -278,5 +280,160 @@ class PriceController extends Controller
         $cnyUsdRate = $request->input('cny_usd_rate', 7.2);
 
         return Excel::download(new ProductsPriceExport($cnyUsdRate), 'products-price-comparison.xlsx');
+    }
+
+
+    /**
+     * مرحله اول: خواندن فایل اکسل و شمارش تغییرات (Preview)
+     */
+    public function importPreview(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls,csv',
+        ]);
+
+        $file = $request->file('excel_file');
+
+        // اصلاح نحوه خواندن فایل اکسل به صورت آرایه
+        $data = Excel::toArray(new class implements \Maatwebsite\Excel\Concerns\ToArray {
+            public function array(array $array): void {}
+        }, $file);
+
+        $rows = $data[0] ?? [];
+
+        if (empty($rows) || count($rows) <= 1) {
+            return response()->json([
+                $status = 'error',
+                'message' => 'فایل اکسل خالی است یا فرمت آن نامعتبر است.'
+            ], 422);
+        }
+
+        // ردیف اول هدر است، آن را حذف می‌کنیم
+        $header = array_shift($rows);
+
+        $changedCount = 0;
+        $preparedData = [];
+
+        foreach ($rows as $row) {
+            $partNumber = trim($row[0] ?? '');
+            if ($partNumber === '') continue;
+
+            $excelUsd = isset($row[4]) && $row[4] !== '' ? (float) $row[4] : null;
+            $excelDiscount = isset($row[5]) && $row[5] !== '' ? (float) $row[5] : 0;
+            $excelSpecialProfit = isset($row[6]) && $row[6] !== '' ? (float) $row[6] : 0;
+
+            // دریافت قیمت فعلی محصول از دیتابیس برای مقایسه
+            $currentPrice = ProductPrice::where('product_part_number', $partNumber)->first();
+
+            $currentUsd = $currentPrice ? $currentPrice->usd_price : null;
+            $currentDiscount = $currentPrice ? $currentPrice->discount_percent : 0;
+            $currentSpecialProfit = $currentPrice ? $currentPrice->special_profit_percent : 0;
+
+            // بررسی اینکه آیا تغییری ایجاد شده است یا خیر
+            if (
+                $excelUsd !== $currentUsd ||
+                $excelDiscount !== $currentDiscount ||
+                $excelSpecialProfit !== $currentSpecialProfit
+            ) {
+                $changedCount++;
+            }
+
+            // ذخیره موقت داده‌ها برای مرحله تایید
+            $prep = [
+                'part_number' => $partNumber,
+                'usd_price' => $excelUsd,
+                'discount_percent' => $excelDiscount,
+                'special_profit_percent' => $excelSpecialProfit,
+                'toman_price' => $currentPrice ? $currentPrice->toman_price : null
+            ];
+
+            $preparedData[] = $prep;
+        }
+
+        // ذخیره موقت در کش برای ۵ دقیقه آینده
+        $cacheKey = 'import_prices_' . auth()->id() . '_' . time();
+        Cache::put($cacheKey, $preparedData, now()->addMinutes(5));
+
+        return response()->json([
+            'status' => 'ok',
+            'changed_count' => $changedCount,
+            'cache_key' => $cacheKey,
+            'message' => "تعداد {$changedCount} تغییر در قیمت‌ها شناسایی شد."
+        ]);
+    }
+
+    /**
+     * مرحله دوم: تایید نهایی و اعمال تغییرات در دیتابیس + محاسبه قیمت‌های نهایی
+     */
+    public function importConfirm(Request $request)
+    {
+        $request->validate([
+            'cache_key' => 'required|string',
+        ]);
+
+        $cacheKey = $request->input('cache_key');
+        $rows = Cache::get($cacheKey);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'اطلاعات منقضی شده است. لطفاً دوباره فایل را آپلود کنید.'
+            ], 422);
+        }
+
+        $settings = PriceSetting::first() ?? new PriceSetting([
+            'dollar_rate' => 0,
+            'profit_percent' => 0,
+            'extra_percent' => 0
+        ]);
+
+        $updatedCount = 0;
+
+        foreach ($rows as $row) {
+            $partNumber = $row['part_number'];
+            $usd = $row['usd_price'];
+            $toman = $row['toman_price'];
+            $discount = $row['discount_percent'];
+            $specialProfit = $row['special_profit_percent'];
+
+            // اگر هم دلار و هم تومان خالی بودند، رکورد قیمت را حذف می‌کنیم
+            if (is_null($usd) && is_null($toman)) {
+                ProductPrice::where('product_part_number', $partNumber)->delete();
+                continue;
+            }
+
+            // محاسبه قیمت‌های جدید با استفاده از متد داخلی شما
+            $calc = $this->calculateFinalPrices(
+                $usd,
+                $toman,
+                $discount,
+                $specialProfit,
+                $settings
+            );
+
+            // بروزرسانی یا ایجاد رکورد در دیتابیس
+            ProductPrice::updateOrCreate(
+                ['product_part_number' => $partNumber],
+                [
+                    'usd_price' => $usd,
+                    'toman_price' => $toman,
+                    'discount_percent' => $discount,
+                    'special_profit_percent' => $specialProfit,
+                    'original_price' => $calc['original_price'],
+                    'final_usd' => $calc['final_usd'],
+                    'sell_price_toman' => $calc['sell_price_toman'],
+                ]
+            );
+
+            $updatedCount++;
+        }
+
+        // پاک کردن کش پس از اتمام کار
+        Cache::forget($cacheKey);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => "با موفقیت تعداد {$updatedCount} محصول بروزرسانی و قیمت‌ها محاسبه شدند."
+        ]);
     }
 }
