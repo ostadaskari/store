@@ -294,7 +294,6 @@ class PriceController extends Controller
 
         $file = $request->file('excel_file');
 
-        // اصلاح نحوه خواندن فایل اکسل به صورت آرایه
         $data = Excel::toArray(new class implements \Maatwebsite\Excel\Concerns\ToArray {
             public function array(array $array): void {}
         }, $file);
@@ -303,62 +302,72 @@ class PriceController extends Controller
 
         if (empty($rows) || count($rows) <= 1) {
             return response()->json([
-                $status = 'error',
+                'status' => 'error',
                 'message' => 'فایل اکسل خالی است یا فرمت آن نامعتبر است.'
             ], 422);
         }
 
-        // ردیف اول هدر است، آن را حذف می‌کنیم
         $header = array_shift($rows);
 
         $changedCount = 0;
-        $preparedData = [];
+        $changedPartsList = [];
+        $preparedData = []; // فقط پارت‌نامبرهای تغییریافته اینجا ذخیره می‌شوند
 
         foreach ($rows as $row) {
             $partNumber = trim($row[0] ?? '');
             if ($partNumber === '') continue;
 
+            $excelCny = isset($row[2]) && $row[2] !== '' ? (float) $row[2] : null;
             $excelUsd = isset($row[4]) && $row[4] !== '' ? (float) $row[4] : null;
-            $excelDiscount = isset($row[5]) && $row[5] !== '' ? (float) $row[5] : 0;
-            $excelSpecialProfit = isset($row[6]) && $row[6] !== '' ? (float) $row[6] : 0;
+            $excelDiscount = isset($row[5]) && $row[5] !== '' ? (float) $row[5] : 0.0;
+            $excelSpecialProfit = isset($row[6]) && $row[6] !== '' ? (float) $row[6] : 0.0;
 
-            // دریافت قیمت فعلی محصول از دیتابیس برای مقایسه
             $currentPrice = ProductPrice::where('product_part_number', $partNumber)->first();
 
-            $currentUsd = $currentPrice ? $currentPrice->usd_price : null;
-            $currentDiscount = $currentPrice ? $currentPrice->discount_percent : 0;
-            $currentSpecialProfit = $currentPrice ? $currentPrice->special_profit_percent : 0;
+            $currentCny = ($currentPrice && $currentPrice->cny_price !== null) ? (float) $currentPrice->cny_price : null;
+            $currentUsd = ($currentPrice && $currentPrice->usd_price !== null) ? (float) $currentPrice->usd_price : null;
+            $currentDiscount = $currentPrice ? (float) $currentPrice->discount_percent : 0.0;
+            $currentSpecialProfit = $currentPrice ? (float) $currentPrice->special_profit_percent : 0.0;
 
-            // بررسی اینکه آیا تغییری ایجاد شده است یا خیر
-            if (
-                $excelUsd !== $currentUsd ||
-                $excelDiscount !== $currentDiscount ||
-                $excelSpecialProfit !== $currentSpecialProfit
-            ) {
+            $isCnyChanged = (string)$excelCny !== (string)$currentCny;
+            $isUsdChanged = (string)$excelUsd !== (string)$currentUsd;
+            $isDiscountChanged = (float)$excelDiscount !== (float)$currentDiscount;
+            $isSpecialProfitChanged = (float)$excelSpecialProfit !== (float)$currentSpecialProfit;
+
+            $hasChanged = $isCnyChanged || $isUsdChanged || $isDiscountChanged || $isSpecialProfitChanged;
+
+            if ($hasChanged) {
+                $isNewRecord = is_null($currentPrice);
+
                 $changedCount++;
+                $changedPartsList[] = [
+                    'part_number' => $partNumber,
+                    'old_usd' => $currentUsd ?? 'ثبت نشده',
+                    'new_usd' => $excelUsd ?? 'خالی',
+                    'is_new' => $isNewRecord
+                ];
+
+                // نکته کلیدی: فقط رکوردهایی که تغییر کرده‌اند را برای آپدیت نهایی نگه می‌داریم
+                $preparedData[] = [
+                    'part_number' => $partNumber,
+                    'cny_price' => $excelCny,
+                    'usd_price' => $excelUsd,
+                    'discount_percent' => $excelDiscount,
+                    'special_profit_percent' => $excelSpecialProfit,
+                    'toman_price' => $currentPrice ? $currentPrice->toman_price : null
+                ];
             }
-
-            // ذخیره موقت داده‌ها برای مرحله تایید
-            $prep = [
-                'part_number' => $partNumber,
-                'usd_price' => $excelUsd,
-                'discount_percent' => $excelDiscount,
-                'special_profit_percent' => $excelSpecialProfit,
-                'toman_price' => $currentPrice ? $currentPrice->toman_price : null
-            ];
-
-            $preparedData[] = $prep;
         }
 
-        // ذخیره موقت در کش برای ۵ دقیقه آینده
         $cacheKey = 'import_prices_' . auth()->id() . '_' . time();
         Cache::put($cacheKey, $preparedData, now()->addMinutes(5));
 
         return response()->json([
             'status' => 'ok',
             'changed_count' => $changedCount,
+            'changed_parts' => $changedPartsList,
             'cache_key' => $cacheKey,
-            'message' => "تعداد {$changedCount} تغییر در قیمت‌ها شناسایی شد."
+            'message' => "تعداد {$changedCount} تغییر شناسایی شد."
         ]);
     }
 
@@ -391,6 +400,7 @@ class PriceController extends Controller
 
         foreach ($rows as $row) {
             $partNumber = $row['part_number'];
+            $cny = $row['cny_price'];
             $usd = $row['usd_price'];
             $toman = $row['toman_price'];
             $discount = $row['discount_percent'];
@@ -415,6 +425,7 @@ class PriceController extends Controller
             ProductPrice::updateOrCreate(
                 ['product_part_number' => $partNumber],
                 [
+                    'cny_price' => $cny,
                     'usd_price' => $usd,
                     'toman_price' => $toman,
                     'discount_percent' => $discount,

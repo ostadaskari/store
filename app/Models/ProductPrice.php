@@ -11,6 +11,7 @@ class ProductPrice extends Model
     protected $fillable = [
         'product_part_number',
         'usd_price',
+        'cny_price',
         'toman_price',
         'discount_percent',
         'special_profit_percent',

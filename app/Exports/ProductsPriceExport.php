@@ -17,7 +17,7 @@ class ProductsPriceExport implements FromCollection, WithHeadings, WithMapping, 
     // دریافت نرخ تبدیل از طریق Constructor
     public function __construct($cnyUsdRate)
     {
-        $cnyUsdRate = is_numeric($cnyUsdRate) && $cnyUsdRate > 0 ? $cnyUsdRate : 7.2;
+        $cnyUsdRate = is_numeric($cnyUsdRate) && $cnyUsdRate > 0 ? $cnyUsdRate : 6.7;
         // تبدیل نقطه اعشار به استاندارد فرمول‌های اکسل (برای جلوگیری از تداخل با تنظیمات لوکال)
         $this->cnyUsdRate = str_replace(',', '.', $cnyUsdRate);
     }
@@ -44,14 +44,14 @@ class ProductsPriceExport implements FromCollection, WithHeadings, WithMapping, 
     {
         static $rowNumber = 2; // شروع از ردیف 2 (ردیف 1 هدر است)
         $currentExcelRow = $rowNumber++;
-
+        $cnyPrice = $product->price->cny_price ?? '';
         $usdPrice = $product->price->usd_price ?? '';
         $rate = $this->cnyUsdRate;
 
         return [
             $product->part_number,                                     // ستون A
             $usdPrice,                                                 // ستون B: Mouser Price (کپی پیش‌فرض قیمت دلار)
-            '',                                                        // ستون C: China Price (CNY) - ورود دستی کاربر
+            $cnyPrice,                                                     // ستون قیمت چین به یوان (اگر قبلاً وارد شده باشد اینجا نمایش داده می‌شود)
            // // استفاده از نرخ وارد شده توسط اپراتور در فرمول اکسل
             '=IF(C' . $currentExcelRow . '="", "", C' . $currentExcelRow . ' / ' . $rate . ')', // ستون D: فرمول تبدیل یوان به دلار (فرض نرخ تبدیل 6.66)
             $usdPrice,                                                 // ستون E: USD Price ($)

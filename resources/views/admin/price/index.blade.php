@@ -518,10 +518,39 @@
                         })
                         .then(data => {
                             if (data.status === 'ok') {
+                                if (data.changed_count === 0) {
+                                    Swal.fire('توجه', 'هیچ تغییری در فایل اکسل نسبت به اطلاعات فعلی دیتابیس یافت نشد.', 'info');
+                                    return;
+                                }
+
+                                // ساخت لیست HTML پارت‌نامبرها برای نمایش داخل اسکرول‌پارت
+                                let listHtml = `<div style="max-height: 200px; overflow-y: auto; text-align: right; border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-top: 10px; background: #f9f9f9;">
+                        <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #ccc; background: #eee;">
+                                    <th style="padding: 5px;">Part Number</th>
+                                    <th style="padding: 5px;">قیمت قبل ($)</th>
+                                    <th style="padding: 5px;">قیمت جدید ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+
+                                data.changed_parts.forEach(item => {
+                                    listHtml += `<tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 5px; font-family: monospace;"><b>${item.part_number}</b></td>
+                            <td style="padding: 5px; color: #666;">${item.old_usd}</td>
+                            <td style="padding: 5px; color: #107c41; font-weight: bold;">${item.new_usd}</td>
+                        </tr>`;
+                                });
+
+                                listHtml += `</tbody></table></div>`;
+
+                                // نمایش پاپ‌آپ همراه با لیست اسکرول‌دار
                                 Swal.fire({
                                     title: 'تایید بروزرسانی قیمت‌ها',
-                                    html: `ستون <strong>قیمت به دلار ($)</strong> و تخفیف‌ها در <b>${data.changed_count}</b> پارت‌نامبر تغییر کرده است.<br>آیا از اعمال این تغییرات و محاسبه مجدد قیمت‌ها اطمینان دارید؟`,
+                                    html: `تعداد <b>${data.changed_count}</b> پارت‌نامبر تغییر قیمت داشته‌اند:<br>${listHtml}<br><span style="font-size: 13px; color: #555;">آیا از اعمال این تغییرات اطمینان دارید؟</span>`,
                                     icon: 'question',
+                                    width: '600px',
                                     showCancelButton: true,
                                     confirmButtonColor: '#107c41',
                                     cancelButtonColor: '#d33',
