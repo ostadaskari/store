@@ -22,6 +22,7 @@ return [
         'api_key' => env('SMSIR_API_KEY'),
         'secret'  => env('SMSIR_SECRET'),
         'base_url'=> env('SMSIR_BASE_URL'), // e.g. https://api.sms.ir
+        'line_number' => env('SMSIR_LINE_NUMBER'),
     ],
     'behpardasht' => [
         'terminal_id' => env('BEHPARDASHT_TERMINAL_ID'),

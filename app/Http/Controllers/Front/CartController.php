@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Jobs\SendOrderNotificationsJob;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -353,6 +354,9 @@ class CartController extends Controller
 
             \Cart::clear();
 
+            // 🚀 دیسپچ کردن جاب نوتیفیکیشن برای پرداخت در محل
+            SendOrderNotificationsJob::dispatch($order);
+
             return redirect('cart')->with('success', "سفارش شما با موفقیت ثبت شد و به صورت پرداخت در محل است.");
         }
 
@@ -495,6 +499,9 @@ class CartController extends Controller
                 }
 
                 \Cart::clear();
+
+                // 🚀 دیسپچ کردن جاب نوتیفیکیشن برای پرداخت آنلاین موفق
+                SendOrderNotificationsJob::dispatch($order);
 
                 return view('front.cart.payment_result', [
                     'status'          => 'success',

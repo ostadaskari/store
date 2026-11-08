@@ -11,6 +11,7 @@ use App\Exports\ProductsPriceExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use App\Jobs\SendOrderNotificationsJob;
 
 class PriceController extends Controller
 {
