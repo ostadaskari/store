@@ -23,7 +23,7 @@
         <p>{{ $isAdmin ? 'مدیر گرامی، یک سفارش جدید ثبت شد:' : 'کاربر گرامی، سفارش شما با موفقیت ثبت و پرداخت گردید.' }}</p>
 
         <div class="box">
-            <p><strong>کد پیگیری سفارش:</strong> <span style="color: #d33; font-size: 16px;">{{ $order->ordre_number }}</span></p>
+            <p><strong>کد پیگیری سفارش:</strong> <span style="color: #d33; font-size: 16px;">{{ $order->order_number }}</span></p>
             <p><strong>مبلغ کل:</strong> {{ number_format($order->total_amount) }} تومان</p>
         </div>
 
@@ -39,7 +39,7 @@
             <tbody>
             @foreach($order->items as $item)
                 <tr>
-                    <td>{{ $item->product_name }}</td>
+                    <td>{{ $item->product->part_number }}</td>
                     <td>{{ $item->quantity }}</td>
                     <td>{{ number_format($item->price) }}</td>
                 </tr>
