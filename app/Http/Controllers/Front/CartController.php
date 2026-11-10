@@ -228,6 +228,15 @@ class CartController extends Controller
         $totalAmount = ($cartTotal + $shippingAmount) - $discountAmount;
         $discountCode = session('cart.discount.code') ?? null;
 
+// 🚀 بررسی حداقل مبلغ سبد خرید (۵۰۰,۰۰۰ تومان)
+        $minOrderAmount = 500000;
+        if ($totalAmount < $minOrderAmount) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'مبلغ کل سبد خرید باید حداقل ۵۰۰,۰۰۰ تومان باشد. (مبلغ فعلی: ' . number_format($totalAmount) . ' تومان)'
+            ]);
+        }
+
         $userEmail = $request->input('email') ?? Auth::user()->email ?? 'no-email@example.com';
 
         try {
@@ -240,7 +249,7 @@ class CartController extends Controller
                 if (!$product || $item->quantity > $product->available_qty) {
                     return response()->json([
                         'status' => false,
-                        'message' => "متأسفانه موجودی محصول «{$item->name}» به پایان رسیده یا کمتر از مقدار درخواستی شماست. (موجودی فعلی: {$product->available_qty} عدد)"
+                        'message' => "متأسفانه موجودی محصول «{$item->product->part_number}» به پایان رسیده یا کمتر از مقدار درخواستی شماست. (موجودی فعلی: {$product->available_qty} عدد)"
                     ]);
                 }
             }
