@@ -234,7 +234,7 @@
                                             @include('front.partials.category_menu', ['categories' => $categoriesTree])
                                         </li>
 
-                                        <!-- جدید: فیلتر و جستجوی پیشرفته -->
+                                        <!-- فیلتر و جستجوی پیشرفته -->
                                         <li class="nav-item">
                                             <a class="nav-link {{ request()->routeIs('filter.search.*') ? 'active' : '' }}" title="جستجوی پیشرفته" href="{{ route('filter.search.index') }}">
                                                 <svg width="18" height="18" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">

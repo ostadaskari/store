@@ -138,8 +138,8 @@
                                 </div>
                                 <div>
                                     <h6 class="fw-bold text-dark mb-1">تلفن تماس</h6>
-                                    <p class="text-contact mb-0" dir="ltr">071 - 8888 1234</p>
-                                    <p class="text-contact mb-0" dir="ltr">071 - 8888 5678</p>
+                                    <p class="text-contact mb-0" dir="ltr">09371426390</p>
+
                                 </div>
                             </div>
 
@@ -154,7 +154,7 @@
                             </div>
                         </div>
 
-                        <div class="border-top pt-5 text-center">
+                        <div class="border-top pt-5 text-center ">
                             <h6 class="fw-bold text-dark mb-3">شبکه‌های اجتماعی</h6>
                             <div class="d-flex gap-3 justify-content-center">
                                 <a href="#" class="social-link"><i class="bi bi-instagram fs-5"></i></a>
