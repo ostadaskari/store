@@ -202,7 +202,10 @@
 
                             @foreach ($product->pdfs as $pdf)
                                 <p class="my-1">
-                                    <a href="{{ asset($pdf->url) }}" download>
+                                    <a href="{{ asset($pdf->url) }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       download>
                                         دانلود دیتاشیت
                                         ({{ $pdf->file_name }})
                                     </a>
