@@ -13,8 +13,10 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        // Fetch reviews with product and user relationships to avoid N+1 queries
+        // فقط نظراتی که متن دارند یا نیازمند بررسی ادمین هستند را در پنل نشان بده
         $reviews = Review::with(['user', 'product', 'order'])
+            ->whereNotNull('comment') // ستاره‌های خالی بدون متن در جدول نظرات ادمین لیست نشوند
+            ->where('comment', '!=', '')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 

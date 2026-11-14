@@ -17,6 +17,8 @@
     <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @yield('style')
+    <!-- 🌟 تزریق سئو از طریق yield -->
+    @yield('seo')
 
 </head>
 <body class="rtl bg-light">

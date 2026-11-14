@@ -6,12 +6,10 @@
 
     <style>
         .mylist-product-single {
-            max-height: 280px;          /* Adjust height to fit your layout */
-            overflow-y: auto;           /* Enable vertical scrollbar */
-            padding-right: 8px;         /* Prevent content clipping */
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 8px;
         }
-
-        /* Modern thin scrollbar styling */
         .mylist-product-single::-webkit-scrollbar {
             width: 6px;
         }
@@ -27,24 +25,39 @@
             background: #999;
         }
     </style>
+
+
 @endsection
 
+{{-- 🌟 قرار دادن اسکیما به صورت پشته‌ای (Push) تا مستقیم برود داخل هد لایوت اصلی --}}
+@section('seo')
+    @php
+        if (isset($product) && $product->rating_count > 0) {
+            $schemaData = [
+                "@context" => "https://schema.org/",
+                "@type" => "Product",
+                "name" => $product->part_number ?? 'Product',
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => $product->rating_avg,
+                    "reviewCount" => $product->rating_count
+                ]
+            ];
+            echo '<script type="application/ld+json">' . json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>';
+        }
+    @endphp
+@endsection
 
 @section('content')
     <!-- start product details -->
-    <!-- ============================
-           BREADCRUMB
-    ============================= -->
     <div class="container mb-2 mt-4 topPadd">
         <div class="row">
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-product-single">
-
                         <li class="breadcrumb-item">
                             <a href="{{ url('/') }}">خانه</a>
                         </li>
-
                         @foreach ($breadcrumbs as $cat)
                             <li class="breadcrumb-item">
                                 <a href="{{ route('category.show', $cat->slug) }}">
@@ -52,24 +65,17 @@
                                 </a>
                             </li>
                         @endforeach
-
                         <li class="breadcrumb-item active" aria-current="page">
                             {{ $product->title ?? $product->part_number }}
                         </li>
-
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 
-    <!-- ============================
-           PRODUCT DETAILS
-    ============================= -->
-
     <div class="container px-0 border-bottom">
         <div class="row">
-
             <!-- ACTION COLUMN -->
             <div class="col-12 col-md-1 col-lg-1 action-column px-0">
                 <div class="actionDiv">
@@ -124,15 +130,11 @@
                             <span class="notify-confirm-msg">شماره شما ثبت شد ✅</span>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <!-- PRODUCT IMAGE -->
-            {{-- 2. IMAGE GALLERY --}}
-            {{-- Note: We only need the primary div for the zoomy plugin to attach to --}}
             <div class="col-12 col-md-6 col-lg-3 d-flex align-items-center flex-column p-3" id="el">
-                {{-- The JS will inject the images here. Using the cover image as a fallback. --}}
                 <img class="img-fluid custom-img-fluid"
                      src="{{ $product->coverImage->url ?? asset('images/300x300.webp') }}"
                      alt="{{ $product->company_cmt }}">
@@ -140,89 +142,63 @@
 
             <!-- PRODUCT FEATURES -->
             <div class="col-12 col-md-6 col-lg-4 d-flex flex-column mt-3 mt-md-0 p-3">
-
                 <p class="partNumber">{{ $product->information->title ?? ($product->part_number ?? '') }}</p>
-
                 <p class="title-mylist-product-single">ویژگی‌ها</p>
                 <ul class="mylist-product-single" dir="ltr">
-                    <li>Manufacturer: {{ $product->mfg ?? '' }}</li>
+                    <li> <strong style="color: sienna">Manufacturer: </strong> {{ $product->mfg ?? '' }}</li>
                     @forelse ($product->featureValues as $fv)
-
                         @php
                             $data = $fv->value;
                             $feature = $fv->feature;
                             $name = $feature->name ?? '---';
-
                             $output = '';
 
                             if (isset($data['value']) && isset($data['unit'])) {
-                                // value + unit
                                 $output = $data['value'] . ' ' . $data['unit'];
                             }
                             elseif (isset($data['value'])) {
-                                // simple or boolean
                                 $output = is_bool($data['value'])
                                     ? ($data['value'] ? 'Yes' : 'No')
                                     : $data['value'];
                             }
                             elseif (isset($data['values'])) {
-                                // multi-select
                                 $output = implode(', ', $data['values']);
                             }
                             elseif (isset($data['min']) || isset($data['max'])) {
-                                // range
                                 $output = ($data['min'] ?? '') . ' - ' . ($data['max'] ?? '');
                                 $output .= isset($data['unit']) ? ' ' . $data['unit'] : '';
                             }
                             else {
-                                // fallback
                                 $output = json_encode($data);
                             }
                         @endphp
-
                         <li>
                             <strong>{{ $name }}:</strong>
                             <span>{{ $output }}</span>
                         </li>
-
                     @empty
-
                         <li>ویژگی ثبت نشده</li>
-
                     @endforelse
-
                 </ul>
 
                 @if ($product->pdfs->count() > 0)
                     <div class="dataSheet">
-
                         <i class="bi bi-filetype-pdf" style="color:red;"></i>
-
                         <div class="px-2">
-
                             @foreach ($product->pdfs as $pdf)
                                 <p class="my-1">
-                                    <a href="{{ asset($pdf->url) }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       download>
-                                        دانلود دیتاشیت
-                                        ({{ $pdf->file_name }})
+                                    <a href="{{ asset($pdf->url) }}" target="_blank" rel="noopener noreferrer" download>
+                                        دانلود دیتاشیت ({{ $pdf->file_name }})
                                     </a>
                                 </p>
                             @endforeach
-
                         </div>
-
                     </div>
                 @endif
-
-
             </div>
 
             <!-- RIGHT COLUMN (PRICE + INFO) -->
             <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-between flex-column mt-5 mt-md-0 bg-leftSideSingle p-3">
-
                 <div class="d-flex align-items-center w-100">
                     <i class="bi bi-shop-window" style="font-size:24px;"></i>
                     <h1 class="h1-product-single m-0">{{ $product->title }}</h1>
@@ -246,22 +222,18 @@
                     {{ $product->available_qty ? 'موجودی : '.$product->available_qty.' عدد' : 'ناموجود' }}
                 </div>
 
-                <!-- PRICE -->
                 @php
                     $display = $product->display_price_toman;
                     $priceModel = $product->price;
-                    // تخفیف فقط زمانی معنی دارد که قیمت اصلی هم ثبت شده و معتبر باشد
                     $hasDiscount = $display && $display > 0 && $priceModel && $priceModel->discount_percent > 0;
                 @endphp
 
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100 my-4">
                     <div class="offer-price-product-single d-flex flex-row justify-content-between w-100 position-relative">
-
                         @if($hasDiscount)
                             <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="right: -10px; top: 0;">
-                    {{ round($priceModel->discount_percent) }}% -
-                </span>
-
+                                {{ round($priceModel->discount_percent) }}% -
+                            </span>
                             @php
                                 $oldPrice = $display / (1 - ($priceModel->discount_percent / 100));
                             @endphp
@@ -273,24 +245,14 @@
                         @else
                             <span class="text-muted fw-bold">قیمت ثبت نشده</span>
                         @endif
-
                     </div>
                 </div>
 
-                {{-- بررسی شرط امکان افزودن به سبد خرید --}}
                 @if($product->available_qty > 0 && $display && $display > 0)
-
                     <form action="{{ route('cart.add', $product) }}" method="POST" class="formAddToCart w-100">
                         @csrf
-
                         <div class="qty-wrapper" style="display: none;">
-                            <input type="number"
-                                   name="qty"
-                                   min="1"
-                                   max="{{ $product->available_qty }}"
-                                   value="{{ $currentCartQty }}"
-                                   autocomplete="off"
-                                   class="product-qty-input-js">
+                            <input type="number" name="qty" min="1" max="{{ $product->available_qty }}" value="{{ $currentCartQty }}" autocomplete="off" class="product-qty-input-js">
                         </div>
 
                         <div class="cart-control d-flex justify-content-center align-items-center gap-2 mx-0">
@@ -315,9 +277,7 @@
                             افزودن به سبد خرید
                         </button>
                     </form>
-
                 @else
-
                     <div class="alert alert-secondary text-center w-100 my-3" role="alert">
                         @if(!$display || $display <= 0)
                             <i class="bi bi-exclamation-circle me-1"></i> امکان سفارش این محصول به علت عدم ثبت قیمت وجود ندارد.
@@ -325,11 +285,8 @@
                             <i class="bi bi-slash-circle me-1"></i> این محصول در حال حاضر ناموجود است.
                         @endif
                     </div>
-
                 @endif
-
             </div>
-
         </div>
     </div>
     <!-- end product details -->
@@ -349,7 +306,6 @@
             </div>
         @endif
     </div>
-    <!-- End Suggest other products -->
 
     <!-- start shipping -->
     <div class="container mt-md-5 border-custom">
@@ -357,7 +313,7 @@
             <div class="col-sm-4 d-flex justify-content-center">
                 <div class="shipping d-flex p-2">
                     <a href="#"><img class="img-fluid pt-2" alt="ارسال به سراسر کشور" src="{{ asset('design/image/shipping00.png') }}"></a>
-                    <p class="pl-2 pt-2">ارسال  به سراسر کشور</p>
+                    <p class="pl-2 pt-2">ارسال به سراسر کشور</p>
                 </div>
             </div>
             <div class="col-sm-4 d-flex justify-content-center">
@@ -372,10 +328,8 @@
                     <p class="pl-2 pt-2">ارسال امن و مطمئن</p>
                 </div>
             </div>
-
         </div>
     </div>
-    <!-- end shipping -->
 
     <!-- start navbar product details -->
     <div class="container mt-5">
@@ -394,7 +348,6 @@
                         <a class="nav-link d-flex" id="Specifications-tab" data-bs-toggle="tab" href="#Specifications" role="tab" aria-controls="Specifications" aria-selected="false">
                             <svg class="mx-2" width="20" height="20" fill="#0099ff" viewBox="0 0 16 16">
                                 <path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1z"/>
-                                <path d="M3.524 6q-.183.111-.452.287-.27.176-.51.428a2.4 2.4 0 0 0-.398.562q-.165.31-.164.692 0 .54.217.873.217.328.72.328.322 0 .504-.211a.7.7 0 0 0 .188-.463q0-.345-.211-.521-.205-.182-.568-.182h-.282q.036-.305.123-.498a1.4 1.4 0 0 1 .252-.37 2 2 0 0 1 .346-.298zm2.168 0q-.183.111-.452.287-.27.176-.51.428a2.4 2.4 0 0 0-.398.562q-.165.31-.164.692 0 .54.217.873.217.328.72.328.322 0 .504-.211a.7.7 0 0 0 .188-.463q0-.345-.211-.521-.205-.182-.568-.182h-.282a1.8 1.8 0 0 1 .118-.492q.087-.194.257-.375a2 2 0 0 1 .346-.3z"/>
                             </svg>
                             مشخصات
                         </a>
@@ -403,7 +356,6 @@
                         <a class="nav-link d-flex" id="opinions-tab" data-bs-toggle="tab" href="#opinions" role="tab" aria-controls="opinions" aria-selected="false">
                             <svg class="mx-2" width="16" height="16" fill="#0099ff" viewBox="0 0 16 16">
                                 <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1z"/>
-                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                             </svg>
                             نظرات
                         </a>
@@ -418,232 +370,217 @@
                                 <div class="card-body">
                                     @if(!empty($product->information->description))
                                         <p>{!! $product->information->description !!}</p>
-                                        @else
-                                    <p class="card-title mb-4">بررسی و نقدی هنوز صورت نگرفته است..</p>
+                                    @else
+                                        <p class="card-title mb-4">بررسی و نقدی هنوز صورت نگرفته است..</p>
                                     @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- end Review -->
 
                     <!-- Specifications -->
                     <div class="tab-pane fade" id="Specifications" role="tabpanel" aria-labelledby="Specifications-tab">
                         <div class="container bg-aliceblue">
                             <div class="row p-3">
-
                                 <p class="title-mylist-product-single">ویژگی‌ها</p>
                                 <ul class="mylist-product-single" dir="ltr">
-
                                     @forelse ($product->featureValues as $fv)
-
                                         @php
-                                            $data = $fv->value;                     // decoded JSON (handled in model)
-                                            $feature = $fv->feature;                // relation to features table
-                                            $name = $feature->name ?? '---';        // feature name
-
+                                            $data = $fv->value;
+                                            $feature = $fv->feature;
+                                            $name = $feature->name ?? '---';
                                             $output = '';
 
                                             if (isset($data['value']) && isset($data['unit'])) {
-                                                // value + unit
                                                 $output = $data['value'] . ' ' . $data['unit'];
                                             }
                                             elseif (isset($data['value'])) {
-                                                // simple or boolean
                                                 $output = is_bool($data['value'])
                                                     ? ($data['value'] ? 'Yes' : 'No')
                                                     : $data['value'];
                                             }
                                             elseif (isset($data['values'])) {
-                                                // multi-select
                                                 $output = implode(', ', $data['values']);
                                             }
                                             elseif (isset($data['min']) || isset($data['max'])) {
-                                                // range
                                                 $output = ($data['min'] ?? '') . ' - ' . ($data['max'] ?? '');
                                                 $output .= isset($data['unit']) ? ' ' . $data['unit'] : '';
                                             }
                                             else {
-                                                // fallback
                                                 $output = json_encode($data);
                                             }
                                         @endphp
-
                                         <li>
                                             <strong>{{ $name }}:</strong>
                                             <span>{{ $output }}</span>
                                         </li>
-
                                     @empty
-
                                         <li>ویژگی ثبت نشده</li>
-
                                     @endforelse
-
                                 </ul>
-
                             </div>
                         </div>
                     </div>
-                    <!-- end Specifications -->
 
                     <!-- User-opinion -->
                     <div class="tab-pane fade" id="opinions" role="tabpanel" aria-labelledby="opinions-tab">
-                        <div class="container px-4 py-2" style="background-color: #ffffff;">
+                        <div class="container px-4 py-3" style="background-color: #ffffff;">
                             <div class="row">
-                                <div class="col-12">
-                                    <section class="container px-0">
-                                        <div class="">
-                                            @forelse($product->approvedReviews as $review)
-                                                <div class="review-item p-3 mb-2 border-bottom">
-                                                    <!-- اطلاعات کاربر و تاریخ -->
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="user-info">
-                                                            <i class="bi bi-person-circle me-1 text-secondary"></i>
-                                                            <strong>{{ $review->user->full_name ?? 'کاربر مهمان' }}</strong>
-                                                        </div>
-                                                        <small class="text-muted">{{ jdate($review->created_at)->format('%d %B %Y') }}</small>
-                                                    </div>
+                                <!-- بخش خلاصه امتیاز و آمار محصول -->
+                                <div class="col-12 mb-4 pb-3 border-bottom">
+                                    <h2 class="title-User-opinion h5 fw-bold">امتیاز و دیدگاه کاربران</h2>
+                                    <div class="bar mb-3"></div>
 
-                                                    <!-- متن نظر کاربر -->
-                                                    <div class="user-comment mt-2">
-                                                        <p class="mb-0 text-dark" style="line-height: 1.8;">{{ $review->comment }}</p>
-                                                    </div>
+                                    <div class="d-flex flex-column">
+                    <span class="Score-User-opinion d-flex align-items-baseline mb-1">
+                        <h4 class="mb-0 ms-1 fw-bold">{{ number_format($product->rating_avg, 1) }}</h4>
+                        <p class="mb-0 text-muted small">از 5</p>
+                    </span>
 
-                                                    <!-- بخش پاسخ مدیر (فقط در صورت وجود نمایش داده می‌شود) -->
-                                                    @if($review->admin_reply)
-                                                        <div class="admin-reply mt-3 p-3 bg-light rounded-3 border-start border-4 border-info">
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <i class="bi bi-reply-all-fill me-2 text-info"></i>
-                                                                <strong class="text-info small">پاسخ مدیریت:</strong>
-                                                            </div>
-                                                            <p class="mb-0 small text-secondary" style="line-height: 1.7;">
-                                                                {{ $review->admin_reply }}
-                                                            </p>
-                                                        </div>
+                                        <div class="d-flex pb-2 align-items-center">
+                                            <div class="star-User-opinion" style="color: #ffc107;">
+                                                @php $avg = $product->rating_avg; @endphp
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= floor($avg))
+                                                        <i class="fa-solid fa-star"></i>
+                                                    @elseif(($i - $avg) < 1 && ($i - $avg) > 0)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @else
+                                                        <i class="fa-regular fa-star"></i>
                                                     @endif
+                                                @endfor
+                                            </div>
+                                            <p class="mb-0 me-2 small text-muted">از مجموع {{ $product->rating_count }} امتیاز</p>
+                                        </div>
+
+                                        <p class="text-User-opinion small text-muted mb-2">شما هم درباره این کالا امتیاز یا دیدگاه ثبت کنید.</p>
+                                    </div>
+                                </div>
+
+                                <!-- بخش فرم ثبت دیدگاه و انتخاب ستاره (آزاد برای همه) -->
+                                <div class="col-12 mb-4">
+                                    <div class="card border-0 bg-light p-3 p-md-4 rounded-3">
+                                        <h5 class="mb-3 fw-bold">امتیاز و دیدگاه شما</h5>
+
+                                        <form id="reviewForm" action="{{ route('product.review.store', $product->id) }}" method="POST">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label class="form-label d-block fw-bold">امتیاز شما به این محصول: <span class="text-danger">*</span></label>
+                                                <div class="star-rating-input d-inline-flex gap-1" style="font-size: 1.8rem; cursor: pointer; color: #ffc107;">
+                                                    <i class="fa-solid fa-star star-select" data-value="1"></i>
+                                                    <i class="fa-solid fa-star star-select" data-value="2"></i>
+                                                    <i class="fa-solid fa-star star-select" data-value="3"></i>
+                                                    <i class="fa-solid fa-star star-select" data-value="4"></i>
+                                                    <i class="fa-solid fa-star star-select" data-value="5"></i>
                                                 </div>
-                                            @empty
-                                                <div class="text-center py-4">
-                                                    <p class="text-muted">هنوز نظری برای این محصول ثبت نشده است.</p>
-                                                    <div class="img-send-messege mt-3">
-                                                        <img class="img-fluid" style="max-width: 150px; opacity: 0.6;" src="{{ asset('design/image/review.svg') }}" alt="بدون نظر">
-                                                    </div>
+                                                <input type="hidden" name="rating" id="ratingValue" value="5">
+                                                <small class="text-muted d-block mt-1" id="ratingText">عالی (۵ از ۵)</small>
+                                            </div>
+
+                                            <!-- متن دیدگاه (اختیاری) -->
+                                            <div class="mb-3">
+                                                <label for="reviewComment" class="form-label fw-bold">متن دیدگاه شما: <span class="text-muted small">(اختیاری - اگر خواستید نظر بنویسید)</span></label>
+                                                <textarea class="form-control" name="comment" id="reviewComment" rows="4" placeholder="تجربه خود را از خرید و استفاده این قطعه بنویسید..."></textarea>
+                                            </div>
+
+                                            <x-captcha key="product_review" />
+
+                                            <button type="submit" id="submitReviewBtn" class="btn btn-success px-4">
+                                                ثبت دیدگاه متنی
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- بخش لیست دیدگاه‌های تایید شده (فقط نظرات دارای متن) -->
+                                <div class="col-12">
+                                    <h5 class="mb-3 fw-bold">دیدگاه‌های کاربران ({{ $approvedReviews->count() }})</h5>
+                                    @forelse($approvedReviews as $review)
+                                        <div class="review-item p-3 mb-3 border rounded-3 bg-white shadow-sm">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="user-info d-flex align-items-center">
+                                                    <i class="bi bi-person-circle ms-2 text-secondary fs-5"></i>
+                                                    <strong>{{ $review->user->full_name ?? $review->user->name ?? 'کاربر مهمان' }}</strong>
                                                 </div>
-                                            @endforelse
-                                            <div class="card-body my-4">
-                                                <form>
-                                                    <div class="d-flex flex-row">
-                                                        <div class="m-3 w-50">
-                                                            <label for="name" class="form-label">نام و نام خانوادگی :<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="name" placeholder="نام خود را وارد کنید">
-                                                        </div>
-                                                        <div class="m-3 w-50">
-                                                            <label for="email" class="form-label">ایمیل :<span class="text-danger">*</span></label>
-                                                            <input type="email" class="form-control input-ltr" id="email" placeholder="ایمیل خود را وارد کنید" required>
-                                                        </div>
+                                                <small class="text-muted">{{ jdate($review->created_at)->format('%d %B %Y') }}</small>
+                                            </div>
+
+                                            <div class="star-rating text-warning mb-2" style="font-size: 0.9rem;">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= $review->rating)
+                                                        <i class="fa-solid fa-star"></i>
+                                                    @else
+                                                        <i class="fa-regular fa-star"></i>
+                                                    @endif
+                                                @endfor
+                                            </div>
+
+                                            <p class="mb-0 text-dark" style="line-height: 1.8;">{{ $review->comment }}</p>
+
+                                            @if($review->admin_reply)
+                                                <div class="admin-reply mt-3 p-3 bg-light rounded-3 border-start border-4 border-info">
+                                                    <div class="d-flex align-items-center mb-1">
+                                                        <i class="bi bi-reply-all-fill ms-2 text-info"></i>
+                                                        <strong class="text-info small">پاسخ مدیریت:</strong>
                                                     </div>
-                                                    <div class="m-3">
-                                                        <label for="content" class="form-label">محتوا :<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" id="content" rows="5" placeholder="پیام خود را بنویسید..." required></textarea>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <button type="submit" class="btn btn-success px-4">ارسال پیام</button>
-                                                    </div>
-                                                </form>
+                                                    <p class="mb-0 small text-secondary" style="line-height: 1.7;">
+                                                        {{ $review->admin_reply }}
+                                                    </p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @empty
+                                        <div class="text-center py-4">
+                                            <p class="text-muted">هنوز دیدگاهی برای این محصول ثبت نشده است. اولین نفر باشید!</p>
+                                            <div class="img-send-messege mt-3">
+                                                <img class="img-fluid" style="max-width: 140px; opacity: 0.6;" src="{{ asset('design/image/review.svg') }}" alt="بدون نظر">
                                             </div>
                                         </div>
-                                    </section>
-                                </div>
-                                <h1 class="title-User-opinion">امتیاز و دیدگاه کاربران</h1>
-                                <div class="bar mb-3 mb-md-4"></div>
-
-                                <div class="col-12 d-flex flex-column">
-                        <span class="Score-User-opinion d-flex p-2">
-                          <h5>4.5</h5>
-                          <p>از 5</p>
-                        </span>
-                                    <div class="d-flex pb-2">
-                                        <div class="star-User-opinion mt-1">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </div>
-                                        <p>از مجموع 2 امتیاز</p>
-                                    </div>
-                                    <p class="text-User-opinion">شما هم درباره این کالا دیدگاه ثبت کنید.</p>
-                                    <button type="button" class="btn border border-text-color w-25">ثبت دیدگاه</button>
-                                    <div class="d-flex">
-                        <span class="material-symbols-outlined pt-3 pr-2 pl-0 text-User-opinion">
-                          adjust
-                          </span>
-                                        <p class="text-User-opinion pt-3">5 امتیاز PK کلاب</p>
-                                    </div>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- end User-opinion -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- end navbar product details -->
 @endsection
-
 
 @section('script')
     <script src="{{ asset('design/js/zoomy.js') }}"></script>
-
-    <script src="{{asset('design/js/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('design/js/owl.carousel.min.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-
-            // 1. اضافه کردن عکس کاور و تصاویر گالری به آرایه urls
-
             var urls = [];
             var seenImages = new Set();
 
-// اضافه کردن عکس کاور در ابتدای گالری
             @if($product->coverImage)
             var coverUrl = @json(asset($product->coverImage->url));
             urls.push(coverUrl);
             seenImages.add(coverUrl);
             @endif
 
-            // اضافه کردن تصاویر گالری، بدون تکرار عکس کاور
             @foreach($product->images as $image)
             var imageUrl = @json(asset($image->url));
-
             if (!seenImages.has(imageUrl)) {
                 urls.push(imageUrl);
                 seenImages.add(imageUrl);
             }
             @endforeach
 
-
-            // اگر فقط یک تصویر وجود دارد، تومنیل‌ها را مخفی کن تا کادر به هم نریزد
             var hasMultipleImages = urls.length > 1;
+            var options = { thumbHide: !hasMultipleImages };
 
-            var options = {
-                thumbHide: !hasMultipleImages, // اگر عکس تک بود تومنیل مخفی شود
-                // width: 300,
-                // height: 500,
-            };
-
-            // Only initialize zoomy if there are images
             if (urls.length > 0) {
                 $('#el').zoomy(urls, options);
             } else {
                 $('#el').html('<p class="text-muted">تصویری موجود نیست.</p>');
             }
-
         });
-        // heart click
-        // share link
+
+        // Share link
         document.addEventListener("DOMContentLoaded", function () {
             const shareBtn = document.querySelector(".share-btn");
             const modal = document.querySelector(".share-modal");
@@ -652,30 +589,25 @@
             const copyBtn = document.querySelector(".share-copy-btn");
             const copyMsg = document.querySelector(".share-copy-msg");
 
-            shareBtn.addEventListener("click", () => {
-                linkInput.value = window.location.href;
-                modal.style.display = "flex";
-                copyMsg.style.display = "none";
-            });
-
-            closeBtn.addEventListener("click", () => {
-                modal.style.display = "none";
-            });
-
-            copyBtn.addEventListener("click", () => {
-                linkInput.select();
-                document.execCommand("copy");
-                copyMsg.style.display = "block";
-            });
-
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
+            if(shareBtn && modal) {
+                shareBtn.addEventListener("click", () => {
+                    linkInput.value = window.location.href;
+                    modal.style.display = "flex";
+                    copyMsg.style.display = "none";
+                });
+                closeBtn.addEventListener("click", () => { modal.style.display = "none"; });
+                copyBtn.addEventListener("click", () => {
+                    linkInput.select();
+                    document.execCommand("copy");
+                    copyMsg.style.display = "block";
+                });
+                window.addEventListener("click", (e) => {
+                    if (e.target === modal) { modal.style.display = "none"; }
+                });
+            }
         });
-        // end share link
-        // notify
+
+        // Notify
         document.addEventListener("DOMContentLoaded", function () {
             const notifyBtn = document.querySelector(".notify-btn");
             const notifyModal = document.querySelector(".notify-modal");
@@ -684,41 +616,32 @@
             const notifySubmitBtn = document.querySelector(".notify-submit-btn");
             const notifyConfirmMsg = document.querySelector(".notify-confirm-msg");
 
-            notifyBtn.addEventListener("click", () => {
-                notifyInput.value = "";
-                notifyConfirmMsg.style.display = "none";
-                notifyModal.style.display = "flex";
-            });
-
-            notifyClose.addEventListener("click", () => {
-                notifyModal.style.display = "none";
-            });
-
-            notifySubmitBtn.addEventListener("click", () => {
-                const mobile = notifyInput.value.trim();
-                if (/^09\d{9}$/.test(mobile)) {
-                    notifyConfirmMsg.textContent = "شماره شما با موفقیت ثبت شد ✅";
-                    notifyConfirmMsg.style.color = "green";
-                    notifyConfirmMsg.style.display = "block";
-                } else {
-                    notifyConfirmMsg.textContent = "شماره موبایل معتبر نیست!";
-                    notifyConfirmMsg.style.color = "red";
-                    notifyConfirmMsg.style.display = "block";
-                }
-            });
-
-            window.addEventListener("click", (e) => {
-                if (e.target === notifyModal) {
-                    notifyModal.style.display = "none";
-                }
-            });
+            if(notifyBtn && notifyModal) {
+                notifyBtn.addEventListener("click", () => {
+                    notifyInput.value = "";
+                    notifyConfirmMsg.style.display = "none";
+                    notifyModal.style.display = "flex";
+                });
+                notifyClose.addEventListener("click", () => { notifyModal.style.display = "none"; });
+                notifySubmitBtn.addEventListener("click", () => {
+                    const mobile = notifyInput.value.trim();
+                    if (/^09\d{9}$/.test(mobile)) {
+                        notifyConfirmMsg.textContent = "شماره شما با موفقیت ثبت شد ✅";
+                        notifyConfirmMsg.style.color = "green";
+                        notifyConfirmMsg.style.display = "block";
+                    } else {
+                        notifyConfirmMsg.textContent = "شماره موبایل معتبر نیست!";
+                        notifyConfirmMsg.style.color = "red";
+                        notifyConfirmMsg.style.display = "block";
+                    }
+                });
+                window.addEventListener("click", (e) => {
+                    if (e.target === notifyModal) { notifyModal.style.display = "none"; }
+                });
+            }
         });
-        // end notify
 
-        // ###### end action-column ######
-
-
-        // ***************** js for input add to cart +/- *****************
+        // Add to cart +/- & Ajax
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('.formAddToCart');
             if (!form) return;
@@ -734,53 +657,48 @@
             const minQty = parseInt(qtyInput.min) || 1;
             const maxQty = parseInt(qtyInput.max) || Infinity;
 
-            // --- UI Update Logic ---
             function updateUI() {
                 const val = parseInt(qtyInput.value);
-                qtyDisplay.textContent = val;
-
-                // Toggle between Trash and Minus icons
+                if(qtyDisplay) qtyDisplay.textContent = val;
                 if (val <= 1) {
-                    iconMinus.style.display = 'none';
-                    iconTrash.style.display = 'block';
+                    if(iconMinus) iconMinus.style.display = 'none';
+                    if(iconTrash) iconTrash.style.display = 'block';
                 } else {
-                    iconMinus.style.display = 'block';
-                    iconTrash.style.display = 'none';
+                    if(iconMinus) iconMinus.style.display = 'block';
+                    if(iconTrash) iconTrash.style.display = 'none';
                 }
             }
 
-            // Initialize UI on load
             updateUI();
 
-            plusBtn.addEventListener('click', function() {
-                let currentQty = parseInt(qtyInput.value);
-                if (currentQty < maxQty) {
-                    qtyInput.value = currentQty + 1;
+            if(plusBtn) {
+                plusBtn.addEventListener('click', function() {
+                    let currentQty = parseInt(qtyInput.value);
+                    if (currentQty < maxQty) {
+                        qtyInput.value = currentQty + 1;
+                        updateUI();
+                    }
+                });
+            }
+
+            if(minusBtn) {
+                minusBtn.addEventListener('click', function() {
+                    let currentQty = parseInt(qtyInput.value);
+                    if (currentQty > 1) {
+                        qtyInput.value = currentQty - 1;
+                    }
                     updateUI();
-                }
-            });
+                });
+            }
 
-            minusBtn.addEventListener('click', function() {
-                let currentQty = parseInt(qtyInput.value);
-                if (currentQty > 1) {
-                    qtyInput.value = currentQty - 1;
-                } else {
-                    // Optional: You could trigger a 'remove' AJAX here if you want
-                    // the minus button to act as a delete when qty is 1
-                    console.log("Already at minimum");
-                }
-                updateUI();
-            });
-
-            // --- AJAX Add/Update Logic ---
             $(form).on('submit', function(e) {
                 e.preventDefault();
 
                 const $form = $(this);
                 const url = $form.attr('action');
                 const formData = $form.serialize();
-
                 const originalBtnHtml = $(submitBtn).html();
+
                 submitBtn.disabled = true;
                 $(submitBtn).html('در حال بروزرسانی...');
 
@@ -791,23 +709,9 @@
                     dataType: 'json',
                     success: function(response) {
                         showCartMessage(response.message, 'success');
-
-                        // 1. Update Global Header Info
                         if (response.count_html) $('#header-cart-count-container').html(response.count_html);
                         if (response.list_html) $('#header-cart-list-container').html(response.list_html);
-
-                        // 2. Change button text to indicate it's updated
                         $(submitBtn).html('<i class="bi bi-check-all"></i> بروزرسانی شد');
-
-                        // 3. Re-init Bootstrap Dropdowns
-                        if (typeof bootstrap !== 'undefined') {
-                            const cartBtn = document.getElementById('cartBtn');
-                            if (cartBtn) {
-                                const existingInstance = bootstrap.Dropdown.getInstance(cartBtn);
-                                if (existingInstance) existingInstance.dispose();
-                                new bootstrap.Dropdown(cartBtn);
-                            }
-                        }
                     },
                     error: function(xhr) {
                         let errorMsg = 'خطایی رخ داد.';
@@ -817,7 +721,6 @@
                     },
                     complete: function() {
                         submitBtn.disabled = false;
-                        // Return to "Update" or "Add" state after a delay
                         setTimeout(() => {
                             $(submitBtn).html(originalBtnHtml);
                         }, 2000);
@@ -832,8 +735,161 @@
                 setTimeout(() => { $('.cart-ajax-alert').fadeOut(500, function() { $(this).remove(); }); }, 3000);
             }
         });
-    // ***************** end js for input add to cart +/- *****************
 
+        // Star Rating & Review AJAX submission
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.star-select');
+            const ratingInput = document.getElementById('ratingValue');
+            const ratingText = document.getElementById('ratingText');
+            const labels = {
+                1: 'خیلی بد (۱ از ۵)',
+                2: 'بد (۲ از ۵)',
+                3: 'معمولی (۳ از ۵)',
+                4: 'خوب (۴ از ۵)',
+                5: 'عالی (۵ از ۵)'
+            };
+
+            function highlightStars(val) {
+                stars.forEach(s => {
+                    const sVal = parseInt(s.getAttribute('data-value'));
+                    if (sVal <= val) {
+                        s.classList.remove('fa-regular');
+                        s.classList.add('fa-solid');
+                    } else {
+                        s.classList.remove('fa-solid');
+                        s.classList.add('fa-regular');
+                    }
+                });
+            }
+
+            if (stars.length > 0 && ratingInput) {
+                stars.forEach(star => {
+                    // هاور کردن روی ستاره‌ها برای تجربه کاربری بهتر
+                    star.addEventListener('mouseenter', function () {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        highlightStars(val);
+                    });
+
+                    star.closest('.star-rating-input')?.addEventListener('mouseleave', function () {
+                        let currentVal = parseInt(ratingInput.value) || 5;
+                        highlightStars(currentVal);
+                    });
+
+                    // 🌟 کلیک روی ستاره = ثبت آنی امتیاز (بدون نیاز به زدن دکمه)
+                    star.addEventListener('click', function () {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        ratingInput.value = val;
+                        if (ratingText) ratingText.textContent = labels[val] || '';
+                        highlightStars(val);
+
+                        // ارسال خودکار امتیاز خالص با AJAX
+                        const formAction = document.getElementById('reviewForm')?.action || window.location.href;
+
+                        $.ajax({
+                            url: formAction,
+                            type: 'POST',
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content') || $('input[name="_token"]').val(),
+                                rating: val,
+                                comment: '' // چون فقط ستاره داده شده، متن خالی است
+                            },
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.success) {
+                                    if (typeof Swal !== 'undefined') {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'موفق',
+                                            text: response.message,
+                                            timer: 1500,
+                                            showConfirmButton: false
+                                        }).then(() => {
+                                            location.reload(); // رفرش صفحه برای آپدیت میانگین ستاره‌ها
+                                        });
+                                    } else {
+                                        alert(response.message);
+                                        location.reload();
+                                    }
+                                }
+                            },
+                            error: function (xhr) {
+                                let msg = 'خطایی در ثبت امتیاز رخ داد.';
+                                if (xhr.responseJSON && xhr.responseJSON.message) {
+                                    msg = xhr.responseJSON.message;
+                                }
+                                if (typeof Swal !== 'undefined') {
+                                    Swal.fire('خطا', msg, 'error');
+                                } else {
+                                    alert(msg);
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+
+            // ارسال فرم دیدگاه متنی (اگر کاربر خواست نظر بنویسد)
+            const reviewForm = document.getElementById('reviewForm');
+            if (reviewForm) {
+                $(reviewForm).on('submit', function (e) {
+                    e.preventDefault();
+
+                    const $form = $(this);
+                    const submitBtn = document.getElementById('submitReviewBtn');
+                    const originalText = submitBtn.innerHTML;
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'در حال ارسال...';
+
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        data: $form.serialize(),
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.success) {
+                                if (typeof Swal !== 'undefined') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'موفق',
+                                        text: response.message,
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    alert(response.message);
+                                }
+
+                                $form[0].reset();
+                                ratingInput.value = 5;
+                                highlightStars(5);
+                                if (ratingText) ratingText.textContent = labels[5];
+                            }
+
+                            // 🌟 رفرش کپچا پس از ثبت موفقیت‌آمیز نظر متنی
+                            $('#reviewForm .refresh-captcha-btn').trigger('click');
+                        },
+                        error: function (xhr) {
+                            let msg = 'خطایی در ثبت دیدگاه رخ داد.';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                msg = xhr.responseJSON.message;
+                            }
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire('خطا', msg, 'error');
+                            } else {
+                                alert(msg);
+                            }
+
+                            // 🌟 رفرش کپچا در صورت بروز خطا (مثلاً اشتباه وارد کردن کد امنیتی)
+                            $('#reviewForm .refresh-captcha-btn').trigger('click');
+                        },
+                        complete: function () {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                        }
+                    });
+                });
+            }
+        });
     </script>
-
 @endsection

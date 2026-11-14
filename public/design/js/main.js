@@ -1137,3 +1137,42 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+// رفرش کپچا با کلیک روی دکمه یا خود تصویر
+
+document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('.refresh-captcha-btn') || e.target.closest('.captcha-image-box');
+
+    if (trigger) {
+        const wrapper = trigger.closest('.custom-captcha-wrapper');
+        if (!wrapper) return;
+
+        const key = wrapper.getAttribute('data-captcha-key') || 'default';
+        const imageBox = wrapper.querySelector('.captcha-image-box');
+        const icon = wrapper.querySelector('.refresh-captcha-btn i');
+        const input = wrapper.querySelector('input[name="captcha"]');
+
+        if (icon) icon.classList.add('fa-spin');
+
+        // استفاده از مسیر مستقیم (بدون نیاز به Blade یا متغیر خارجی)
+        fetch(`/captcha/refresh?key=${encodeURIComponent(key)}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(res => {
+                if (res.svg && imageBox) {
+                    imageBox.innerHTML = res.svg;
+                    if (input) input.value = '';
+                }
+            })
+            .catch(error => {
+                console.error('خطا در رفرش کپچا:', error);
+            })
+            .finally(() => {
+                if (icon) icon.classList.remove('fa-spin');
+            });
+    }
+});

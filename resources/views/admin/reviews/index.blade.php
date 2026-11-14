@@ -24,7 +24,7 @@
                         @foreach($reviews as $review)
                             <tr id="review-row-{{ $review->id }}">
                                 <td class="small">{{ $review->created_at->format('Y/m/d H:i') }}</td>
-                                <td>{{ $review->user->name ?? 'ناشناس' }}</td>
+                                <td>{{ $review->user->full_name ?? $review->user->name ?? 'کاربر مهمان' }}</td>
                                 <td class="small">{{ $review->product->part_number ?? '-' }}</td>
                                 <td class="small">{{ $review->order->order_number ?? '-' }}</td>
                                 <td>
@@ -76,7 +76,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h6 class="modal-title modalTextColor">متن نظر - {{ $review->user->name }}</h6>
+                                            <h6 class="modal-title modalTextColor">متن نظر {{ $review->user->full_name ?? $review->user->name ?? 'کاربر مهمان' }}</h6>
                                             <button type="button" class="btn-close m-0" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body modalTextColor">

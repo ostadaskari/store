@@ -1,5 +1,8 @@
 <?php
 
+use App\Services\CaptchaService;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\InformationController;
@@ -264,3 +267,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->
 
 
 Route::get('product/{category:slug}/{product:slug}', [FrontProductController::class, 'show'])->name('front.product.show');
+Route::post('product/{product}/review', [FrontProductController::class, 'storeReview'])
+    ->name('product.review.store');
+
+
+
+Route::get('/captcha/refresh', function (Request $request) {
+    $key = $request->query('key', 'default');
+    return response()->json([
+        'svg' => CaptchaService::generate($key)
+    ]);
+})->name('captcha.refresh');

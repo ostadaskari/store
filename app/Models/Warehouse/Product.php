@@ -128,4 +128,21 @@ class Product extends Model
         return $this->hasMany(Review::class)->where('status', 'approved');
     }
 
+    // میانگین امتیازهای تایید شده محصول
+
+    public function getRatingAvgAttribute()
+    {
+        return Review::where('product_id', $this->id)
+            ->where('status', 'approved')
+            ->avg('rating') ?? 0;
+    }
+
+    // تعداد کل نظرات تایید شده محصول
+    public function getRatingCountAttribute()
+    {
+        return Review::where('product_id', $this->id)
+            ->where('status', 'approved')
+            ->count();
+    }
+
 }

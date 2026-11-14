@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     protected $connection = 'mysql';
-    protected $fillable = ['user_id', 'product_id', 'order_id', 'comment', 'status','admin_reply'];
+    protected $fillable = ['user_id', 'product_id', 'rating', 'order_id', 'comment', 'status','admin_reply'];
 
     public function product()
     {
