@@ -1,7 +1,7 @@
 
   /* === Parallax Section 2 === */
   .parallax-section2 {
-    background-image: url('../image/parallax-img.jpg');
+    background-image: url('../image/parallax-img.webp');
     min-height:300px;
     background-attachment: fixed;
     background-position: center;
@@ -14,7 +14,7 @@
     color: white;
     text-align: center;
   }
-  
+
   /* === Glow on Hover Effect === */
   .glow-on-hover {
     cursor: pointer;
@@ -22,7 +22,7 @@
     z-index: 0;
     border-radius: 10px;
   }
-  
+
   .glow-on-hover::before {
     content: '';
     position: absolute;
@@ -50,15 +50,15 @@
     animation: glowing 20s linear infinite;
     border-radius: 10px;
   }
-  
+
   .glow-on-hover:hover::before {
     opacity: 1;
   }
-  
+
   .glow-on-hover:active::after {
     background: transparent;
   }
-  
+
   /* === Glow Animation Keyframes === */
   @keyframes glowing {
     0% {
@@ -71,18 +71,18 @@
       background-position: 0 0;
     }
   }
-  
+
   /* === Custom Width Utilities (for Grid Layout) === */
   .custom-height {
     flex: 0 0 26.5% !important;
     max-width: 26.5% !important;
   }
-  
+
   .custom-height-center {
     flex: 0 0 46% !important;
     max-width: 46% !important;
   }
-  
+
   /* === Responsive Custom Width for Mobile === */
   @media (max-width: 768px) {
     .custom-height,
@@ -91,4 +91,3 @@
       max-width: 100% !important;
     }
   }
-  

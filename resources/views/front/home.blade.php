@@ -754,7 +754,7 @@
                         <img src="design/image/barnds/RFPD_logo.webp" class="img-fluid" loading="lazy" alt="Brand 8">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/wurth_electronics_midcom_logo.jpg" class="img-fluid" loading="lazy" alt="Brand 9">
+                        <img src="design/image/barnds/wurth_electronics_midcom_logo.webp" class="img-fluid" loading="lazy" alt="Brand 9">
                     </div>
                     <div class="item">
                         <img src="design/image/barnds/Xilinx.svg.webp" class="img-fluid" loading="lazy" alt="Brand 10">
