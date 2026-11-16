@@ -730,22 +730,22 @@
             <div class="brands-slider-wrapper">
                 <div class="owl-carousel owl-theme w-100">
                     <div class="item">
-                        <img src="design/image/barnds/b70276b18114f7f272e4452b40e15a35.png" class="img-fluid" loading="lazy" alt="Brand 1">
+                        <img src="design/image/barnds/b70276b18114f7f272e4452b40e15a35.webp" class="img-fluid" loading="lazy" alt="Brand 1">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/coilcraft-logo-png_seeklogo-221886-removebg-preview.png" class="img-fluid" loading="lazy" alt="Brand 2">
+                        <img src="design/image/barnds/coilcraft-logo-png_seeklogo-221886-removebg-preview.webp" class="img-fluid" loading="lazy" alt="Brand 2">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/KEMET_Corporation_wordmark_(whitespace).svg.png" class="img-fluid" loading="lazy" alt="Brand 3">
+                        <img src="design/image/barnds/KEMET_Corporation_wordmark_(whitespace).svg.webp" class="img-fluid" loading="lazy" alt="Brand 3">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/Logo_Analog_Devices.svg.png" class="img-fluid" loading="lazy" alt="Brand 4">
+                        <img src="design/image/barnds/Logo_Analog_Devices.svg.webp" class="img-fluid" loading="lazy" alt="Brand 4">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/logo_texasinstruments-1024x512.png" class="img-fluid" loading="lazy" alt="Brand 5">
+                        <img src="design/image/barnds/logo_texasinstruments-1024x512.webp" class="img-fluid" loading="lazy" alt="Brand 5">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/MACOM_logo.svg.png" class="img-fluid" loading="lazy" alt="Brand 6">
+                        <img src="design/image/barnds/MACOM_logo.svg.webp" class="img-fluid" loading="lazy" alt="Brand 6">
                     </div>
                     <div class="item">
                         <img src="design/image/barnds/mouser-reg-logo-trim.webp" class="img-fluid" loading="lazy" alt="Brand 7">
@@ -757,7 +757,7 @@
                         <img src="design/image/barnds/wurth_electronics_midcom_logo.jpg" class="img-fluid" loading="lazy" alt="Brand 9">
                     </div>
                     <div class="item">
-                        <img src="design/image/barnds/Xilinx.svg.png" class="img-fluid" loading="lazy" alt="Brand 10">
+                        <img src="design/image/barnds/Xilinx.svg.webp" class="img-fluid" loading="lazy" alt="Brand 10">
                     </div>
                 </div>
             </div>

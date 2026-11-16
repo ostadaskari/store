@@ -14,7 +14,7 @@
 
     <!-- style -->
     <link rel="stylesheet" href="{{ asset('design/css/style.css') }}">
-    <link rel="icon" href="{{asset('design/image/favicon-3.png')}}" type="image/png">
+    <link rel="icon" href="{{asset('design/image/favicon-3.webp')}}" type="image/webp">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @yield('style')
     <!-- 🌟 تزریق سئو از طریق yield -->
@@ -37,7 +37,7 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="d-flex flex-row align-items-center">
                     <div class="logo">
-                        <img class="img-fluid" src="{{ url('design/image/logo (4).png') }}">
+                        <img class="img-fluid" src="{{ url('design/image/logo (4).webp') }}">
                     </div>
                 </div>
             </div>
