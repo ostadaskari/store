@@ -337,7 +337,7 @@
             <div class="col-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item nav-product">
-                        <a class="nav-link active d-flex" id="Review-tab" data-bs-toggle="tab" href="#Review" role="tab" aria-controls="Review" aria-selected="true">
+                        <a class="nav-link  d-flex" id="Review-tab" data-bs-toggle="tab" href="#Review" role="tab" aria-controls="Review" aria-selected="false">
                             <svg class="mx-2" width="16" height="16" fill="#0099ff" viewBox="0 0 16 16">
                                 <path d="M14 4.5V9h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v7H2V2a2 2 0 0 1 2-2h5.5zM13 12h1v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2h1v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zM.5 10a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1z"/>
                             </svg>
@@ -353,7 +353,7 @@
                         </a>
                     </li>
                     <li class="nav-item nav-product">
-                        <a class="nav-link d-flex" id="opinions-tab" data-bs-toggle="tab" href="#opinions" role="tab" aria-controls="opinions" aria-selected="false">
+                        <a class="nav-link active d-flex" id="opinions-tab" data-bs-toggle="tab" href="#opinions" role="tab" aria-controls="opinions" aria-selected="true">
                             <svg class="mx-2" width="16" height="16" fill="#0099ff" viewBox="0 0 16 16">
                                 <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1z"/>
                             </svg>
@@ -364,7 +364,7 @@
 
                 <div class="tab-content" id="myTabContent">
                     <!-- Review -->
-                    <div class="tab-pane fade show active" id="Review" role="tabpanel" aria-labelledby="Review-tab">
+                    <div class="tab-pane fade " id="Review" role="tabpanel" aria-labelledby="Review-tab">
                         <div class="container p-2 bg-aliceblue">
                             <div class="border-0 p-5">
                                 <div class="card-body">
@@ -423,7 +423,7 @@
                     </div>
 
                     <!-- User-opinion -->
-                    <div class="tab-pane fade" id="opinions" role="tabpanel" aria-labelledby="opinions-tab">
+                    <div class="tab-pane fade show active" id="opinions" role="tabpanel" aria-labelledby="opinions-tab">
                         <div class="container px-4 py-3" style="background-color: #ffffff;">
                             <div class="row">
                                 <!-- بخش خلاصه امتیاز و آمار محصول -->
@@ -432,10 +432,11 @@
                                     <div class="bar mb-3"></div>
 
                                     <div class="d-flex flex-column">
-                    <span class="Score-User-opinion d-flex align-items-baseline mb-1">
-                        <h4 class="mb-0 ms-1 fw-bold">{{ number_format($product->rating_avg, 1) }}</h4>
-                        <p class="mb-0 text-muted small">از 5</p>
-                    </span>
+                                        <span class="Score-User-opinion d-flex align-items-baseline mb-1">
+                                            <!-- 🌟 اضافه کردن کلاس average-rating-number به تگ h4 -->
+                                            <h4 class="mb-0 ms-1 fw-bold average-rating-number">{{ number_format($product->rating_avg, 1) }}</h4>
+                                            <p class="mb-0 text-muted small">از 5</p>
+                                        </span>
 
                                         <div class="d-flex pb-2 align-items-center">
                                             <div class="star-User-opinion" style="color: #ffc107;">
@@ -450,7 +451,8 @@
                                                     @endif
                                                 @endfor
                                             </div>
-                                            <p class="mb-0 me-2 small text-muted">از مجموع {{ $product->rating_count }} امتیاز</p>
+                                            <!-- 🌟 اضافه کردن کلاس reviews-count-number به تگ تعداد امتیازات -->
+                                            <p class="mb-0 me-2 small text-muted">از مجموع <span class="reviews-count-number">{{ $product->rating_count }}</span> امتیاز</p>
                                         </div>
 
                                         <p class="text-User-opinion small text-muted mb-2">شما هم درباره این کالا امتیاز یا دیدگاه ثبت کنید.</p>
@@ -803,12 +805,20 @@
                                             text: response.message,
                                             timer: 1500,
                                             showConfirmButton: false
-                                        }).then(() => {
-                                            location.reload(); // رفرش صفحه برای آپدیت میانگین ستاره‌ها
                                         });
                                     } else {
                                         alert(response.message);
-                                        location.reload();
+                                    }
+
+                                    // آپدیت پویای میانگین ستاره‌ها در صفحه بدون رفرش
+                                    const avgRatingEl = document.querySelector('.average-rating-number');
+                                    if (avgRatingEl) {
+                                        avgRatingEl.textContent = response.average_rating;
+                                    }
+
+                                    const reviewsCountEl = document.querySelector('.reviews-count-number');
+                                    if (reviewsCountEl) {
+                                        reviewsCountEl.textContent = response.reviews_count;
                                     }
                                 }
                             },

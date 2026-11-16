@@ -121,10 +121,16 @@ class ProductController extends Controller
                     'user_id'    => $userId,
                     'ip_address' => $ipAddress,
                 ]);
+                // محاسبه میانگین جدید و تعداد کل نظرات تایید شده
+                $approvedReviews = $product->reviews()->where('status', 'approved')->whereNotNull('rating')->get();
+                $averageRating = round($approvedReviews->avg('rating'), 1);
+                $reviewsCount = $approvedReviews->count();
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'امتیاز شما با موفقیت ثبت شد.'
+                    'message' => 'امتیاز شما با موفقیت ثبت شد.',
+                    'average_rating' => $averageRating,
+                    'reviews_count'  => $reviewsCount
                 ]);
             } else {
                 // 🌟 بررسی کپچا فقط برای ثبت دیدگاه متنی

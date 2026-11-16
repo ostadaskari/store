@@ -45,28 +45,28 @@
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
             <div>
                 <a href="" title="جدیدترین ها" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="design/image/building02.jpg" alt="جدیدترین ها">
+                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building02.webp')}}" alt="جدیدترین ها">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
             <div>
                 <a href="" title="فروش ویژه" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="design/image/building03.jpg" alt="فروش ویژه">
+                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building03.webp')}}" alt="فروش ویژه">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
             <div>
                 <a href="" title="پر فروش ترین ها" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="design/image/building01.jpg" alt="پر فروشترین ها">
+                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building01.webp')}}" alt="پر فروشترین ها">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-lg-0" style="padding: 0 8px;">
             <div>
                 <a href="" title="قطعات RF" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="design/image/building05.jpg" alt="قطعات RF">
+                    <img class="img-fluid w-100" style="object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building05.webp')}}" alt="قطعات RF">
                 </a>
             </div>
         </div>
@@ -80,28 +80,28 @@
         <div class="col-6 col-lg-3 mt-2 mt-md-0" style="padding: 0 4px;">
             <div>
                 <a href="" title="جدیدترین ها" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="design/image/building04MOB.jpg" alt="جدیدترین ها">
+                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building04MOB.webp')}}" alt="جدیدترین ها">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-md-0" style="padding: 0 4px;">
             <div>
                 <a href="" title="فروش ویژه" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="design/image/building03MOB.jpg" alt="فروش ویژه">
+                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building03MOB.webp')}}" alt="فروش ویژه">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-md-0" style="padding: 0 4px;">
             <div>
                 <a href="" title="پر فروش ترین ها" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="design/image/building01MOB.jpg" alt="پر فروشترین ها">
+                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building01MOB.webp')}}" alt="پر فروشترین ها">
                 </a>
             </div>
         </div>
         <div class="col-6 col-lg-3 mt-2 mt-md-0" style="padding: 0 4px;">
             <div>
                 <a href="" title="قطعات RF" class="text-decoration-none d-block">
-                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="design/image/building05MOB.jpg" alt="قطعات RF">
+                    <img class="img-fluid w-100 baners4" style="max-height: 120px; object-fit: cover; border-radius: 16px;" src="{{asset('design/image/building05MOB.webp')}}" alt="قطعات RF">
                 </a>
             </div>
         </div>
@@ -118,7 +118,7 @@
                 <div class="row">
                     <div class="col-sm-12 p-0 position-relative">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5" src="{{ asset('design/image/favicon-3.webp') }}" width="80" height="80" alt="شگفت انگیز" title="" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0">تخفیف روز</h2>
                         </div>
 
@@ -191,7 +191,7 @@
                 <div class="row m-auto">
                     <div class="col-sm-12 p-0 position-relative" style="background-color:rgb(255, 179, 1); border-radius: 15px; overflow: hidden;">
                         <div class="bg-header-owl text-center">
-                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="پرفروش ترین ها" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.webp') }}" width="80" height="80" alt="پرفروش ترین ها" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0">پرفروش ترین ها</h2>
                         </div>
 
@@ -654,7 +654,7 @@
                 <div class="row m-auto">
                     <div class="col-sm-12 p-0 shadow-sm">
                         <div class="bg-header-owl">
-                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.png') }}" width="80" height="80" alt="جدیدترین ها" style="object-fit: contain;">
+                            <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.webp') }}" width="80" height="80" alt="جدیدترین ها" style="object-fit: contain;">
                             <h2 class="title-header-owl pt-2 px-1 m-0 text-dark">جدیدترین ها</h2>
                         </div>
 
@@ -694,7 +694,7 @@
                     <div class="row m-auto">
                         <div class="col-sm-12 p-0 shadow-sm">
                             <div class="bg-header-owl">
-                                <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.png') }}" width="60" height="60" alt="دیگر محصولات" style="object-fit: contain;">
+                                <img class="d-none d-md-block mt-5 mx-auto" src="{{ asset('design/image/favicon-3.webp') }}" width="60" height="60" alt="دیگر محصولات" style="object-fit: contain;">
                                 <h2 class="title-header-owl pt-2 px-1 m-0 text-dark">دیگر محصولات</h2>
                             </div>
 
