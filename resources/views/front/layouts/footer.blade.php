@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-12 col-md-4 title-footer d-flex flex-column justify-content-center mb-4 p-1 ">
                     <h6>ویژه ی مشترکین</h6>
-                    <a class="text-decoration-none">به <span class="text-success"> یک میلیون</span> مشترک ما بپیوندید.و از تخفیفات مشترکین خبرنامه ما بهره مند شوید.</a>
+                    <a class="text-decoration-none">به <span class="text-success">جمع</span> مشترکین ما بپیوندید.و از تخفیفات مشترکین خبرنامه ما بهره مند شوید.</a>
                 </div>
                 <div class="col-sm-12 col-md-5 d-flex align-items-center">
                     <div class="input-group input-group-sm ">

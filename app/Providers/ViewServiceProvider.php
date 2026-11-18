@@ -4,29 +4,55 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Warehouse\Category;
+
 class ViewServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
-        // Share categories tree with all views (header)
-        View::composer('*', function ($view) {
-            $categories = Category::whereNull('parent_id')
-                ->with('childrenRecursive')
-                ->get();
+        View::composer('front.layouts.header', function ($view) {
 
-            $view->with('categoriesTree', $categories);
+            $categoriesTree = Cache::remember(
+                'front.categories_tree.v1',
+                now()->addMinutes(10),
+                function () {
+
+                    // دریافت تمام دسته‌بندی‌ها با یک Query
+                    $categories = Category::query()
+                        ->select(['id', 'name', 'slug', 'parent_id'])
+                        ->get();
+
+                    // گروه‌بندی بر اساس والد
+                    $grouped = $categories->groupBy(
+                        fn ($category) => $category->parent_id ?? 0
+                    );
+
+                    // ساخت درخت دسته‌بندی‌ها در PHP
+                    $buildTree = function ($parentId) use (&$buildTree, $grouped) {
+
+                        return $grouped
+                            ->get($parentId, collect())
+                            ->each(function ($category) use (&$buildTree) {
+
+                                $category->setRelation(
+                                    'childrenRecursive',
+                                    $buildTree($category->id)
+                                );
+
+                            });
+                    };
+
+                    return $buildTree(0);
+                }
+            );
+
+            $view->with('categoriesTree', $categoriesTree);
         });
     }
 }
