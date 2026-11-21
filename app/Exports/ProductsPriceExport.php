@@ -14,100 +14,112 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class ProductsPriceExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithColumnWidths
 {
     protected $cnyUsdRate;
-    // دریافت نرخ تبدیل از طریق Constructor
+
     public function __construct($cnyUsdRate)
     {
         $cnyUsdRate = is_numeric($cnyUsdRate) && $cnyUsdRate > 0 ? $cnyUsdRate : 6.7;
-        // تبدیل نقطه اعشار به استاندارد فرمول‌های اکسل (برای جلوگیری از تداخل با تنظیمات لوکال)
         $this->cnyUsdRate = str_replace(',', '.', $cnyUsdRate);
     }
+
     public function collection(): Collection
     {
-        // تمام محصولات همراه با قیمت‌ها را دریافت می‌کنیم
         return Product::with('price')->orderByDesc('id')->get();
     }
+
     public function headings(): array
     {
         return [
             'Part Number',          // A
-            'Mouser Price',         // B (آبی کم‌رنگ)
-            'China Price (CNY)',    // C
-            'China Price (USD)',    // D (قرمز کم‌رنگ - شامل فرمول)
-            'USD Price ($)',        // E (سبز شفاف)
-            'Discount %',           // F
-            'Special Profit %',     // G
-            'Sell Price (Toman)'    // H
+            'Available QTY Mega',        // B
+            'MFG',                  // C
+            'Mouser Price',         // D
+            'China Price (CNY)',    // E
+            'China Price (USD)',    // F
+            'USD Price ($)',        // G
+            'Discount %',           // H
+            'Special Profit %',     // I
         ];
     }
 
     public function map($product): array
     {
-        static $rowNumber = 2; // شروع از ردیف 2 (ردیف 1 هدر است)
+        static $rowNumber = 2;
         $currentExcelRow = $rowNumber++;
+
         $cnyPrice = $product->price->cny_price ?? '';
         $usdPrice = $product->price->usd_price ?? '';
         $rate = $this->cnyUsdRate;
 
         return [
-            $product->part_number,                                     // ستون A
-            $usdPrice,                                                 // ستون B: Mouser Price (کپی پیش‌فرض قیمت دلار)
-            $cnyPrice,                                                     // ستون قیمت چین به یوان (اگر قبلاً وارد شده باشد اینجا نمایش داده می‌شود)
-           // // استفاده از نرخ وارد شده توسط اپراتور در فرمول اکسل
-            '=IF(C' . $currentExcelRow . '="", "", C' . $currentExcelRow . ' / ' . $rate . ')', // ستون D: فرمول تبدیل یوان به دلار (فرض نرخ تبدیل 6.66)
-            $usdPrice,                                                 // ستون E: USD Price ($)
-            $product->price->discount_percent ?? 0,                    // ستون F
-            $product->price->special_profit_percent ?? 0,              // ستون G
-            $product->price->sell_price_toman ?? 0,                    // ستون H
+            $product->part_number,                                      // A
+            $product->available_qty_mega ?? 0,                          // B
+            $product->mfg ?? '',                                        // C
+            $usdPrice,                                                  // D
+            $cnyPrice,                                                  // E
+            '=IF(E' . $currentExcelRow . '="", "", E' . $currentExcelRow . ' / ' . $rate . ')', // F
+            $usdPrice,                                                  // G
+            $product->price->discount_percent ?? 0,                     // H
+            $product->price->special_profit_percent ?? 0,               // I
         ];
     }
 
-    // تنظیم عرض ستون‌ها متناسب با تیترها
     public function columnWidths(): array
     {
         return [
-            'A' => 20, // Part Number
-            'B' => 18, // Mouser Price
-            'C' => 18, // China Price (CNY)
-            'D' => 18, // China Price (USD)
-            'E' => 16, // USD Price ($)
-            'F' => 14, // Discount %
-            'G' => 16, // Special Profit %
-            'H' => 20, // Sell Price (Toman)
+            'A' => 20,
+            'B' => 16,
+            'C' => 20,
+            'D' => 18,
+            'E' => 18,
+            'F' => 18,
+            'G' => 16,
+            'H' => 14,
+            'I' => 16,
         ];
     }
 
-    // اعمال استایل‌ها، رنگ‌بندی و وسط‌چین کردن
     public function styles(Worksheet $sheet): array|null
     {
-        // راست‌به‌چپ کردن صفحه اکسل
-        $sheet->getStyle('A:H')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A:H')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        // وسط‌چین کردن تمام ستون‌ها
+        $sheet->getStyle('A:I')->getAlignment()->setHorizontal(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+        );
 
-        // استایل هدر (سطر اول)
-        $sheet->getStyle('A1:H1')->applyFromArray([
+        $sheet->getStyle('A:I')->getAlignment()->setVertical(
+            \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+        );
+
+        // استایل هدر
+        $sheet->getStyle('A1:I1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
             ],
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '2C3E50'], // رنگ تیره برای هدر
+                'startColor' => ['rgb' => '2C3E50'],
             ],
         ]);
 
         $highestRow = $sheet->getHighestRow();
 
-        // رنگ ستون Mouser Price (ستون B) -> آبی کم‌رنگ (#D9EAD3 یا آبی روشن‌تر مثل #D0E1FD)
-        $sheet->getStyle('B2:B' . $highestRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('B2:B' . $highestRow)->getFill()->getStartColor()->setARGB('FFD0E1FD');
+        // رنگ ستون Mouser Price (D)
+        $sheet->getStyle('D2:D' . $highestRow)->getFill()->setFillType(
+            \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
+        );
+        $sheet->getStyle('D2:D' . $highestRow)->getFill()->getStartColor()->setARGB('FFD0E1FD');
 
-        // رنگ ستون China Price USD (ستون D) -> قرمز کم‌رنگ (#F4CCCC)
-        $sheet->getStyle('D2:D' . $highestRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('D2:D' . $highestRow)->getFill()->getStartColor()->setARGB('FFF4CCCC');
+        // رنگ ستون China Price USD (F)
+        $sheet->getStyle('F2:F' . $highestRow)->getFill()->setFillType(
+            \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
+        );
+        $sheet->getStyle('F2:F' . $highestRow)->getFill()->getStartColor()->setARGB('FFF4CCCC');
 
-        // رنگ ستون USD Price $ (ستون E) -> سبز شفاف/کم‌رنگ (#D9EAD3)
-        $sheet->getStyle('E2:E' . $highestRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('E2:E' . $highestRow)->getFill()->getStartColor()->setARGB('FFD9EAD3');
+        // رنگ ستون USD Price (G)
+        $sheet->getStyle('G2:G' . $highestRow)->getFill()->setFillType(
+            \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID
+        );
+        $sheet->getStyle('G2:G' . $highestRow)->getFill()->getStartColor()->setARGB('FFD9EAD3');
 
         return [];
     }

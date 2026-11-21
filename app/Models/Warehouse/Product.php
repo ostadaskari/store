@@ -34,6 +34,10 @@ class Product extends Model
     {
         return $this->lots()->where('lock', 0)->sum('qty_available');
     }
+    public function getAvailableQtyMegaAttribute()
+    {
+        return $this->lots()->sum('qty_available');
+    }
     public function images()
     {
         return $this->hasMany(Image::class, 'product_id');
